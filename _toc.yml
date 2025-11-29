@@ -8,3 +8,5 @@ chapters:
   title: Intro to Python & Numpy
 - file: docs/conda_environments.ipynb
   title: Conda Environments
+- file: docs/numpy.ipynb
+  Title: Numpy
