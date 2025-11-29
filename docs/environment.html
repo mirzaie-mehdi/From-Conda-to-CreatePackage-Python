@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>NumPy &#8212; From Conda to Create Package in Python</title>
+    <title>Environment &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -63,10 +63,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/numpy';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/environment';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Environment" href="environment.html" />
+    <link rel="next" title="NumPy" href="numpy.html" />
+    <link rel="prev" title="Example Notebook" href="notebook.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -169,8 +170,8 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Intro to Python &amp; Numpy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">NumPy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
 
 </ul>
@@ -227,7 +228,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/numpy.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/environment.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -275,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/numpy.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/environment.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -305,7 +306,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/docs/numpy.ipynb" target="_blank"
+      <li><a href="../_sources/docs/environment.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -376,9 +377,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -389,22 +388,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>NumPy</h1>
+    <h1>Environment</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NumPy</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-python-list-and-an-empty-list-for-results">Create a Python list and an empty list for results</a></li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -414,43 +402,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="numpy">
-<h1>NumPy<a class="headerlink" href="#numpy" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="environment">
+<h1>Environment<a class="headerlink" href="#environment" title="Permalink to this heading">#</a></h1>
 <p>NumPy is one of the most widely used libraries for scientific computing in Python. Even if you don’t use it directly, many other libraries rely on it behind the scenes. It offers fast multidimensional arrays along with tools to work with them efficiently.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="python-lists-vs-numpy-arrays">
-<h1>Python Lists vs NumPy Arrays<a class="headerlink" href="#python-lists-vs-numpy-arrays" title="Permalink to this heading">#</a></h1>
-<p>Python lists are flexible — they can store different types of data in the same container.
-For example:</p>
-<p>example_list = [1, 2.5, “asdf”, False, [1.5, True]]
-example_list</p>
-<p>This flexibility, however, introduces limitations. If we try applying an operation like “add 1” to every element, we must process each item one by one. Adding 1 works for numbers, but not for strings, booleans, or nested lists.</p>
-<p>In scientific computing we often work with huge collections of numerical values, and we need fast operations on all elements at once. This is where NumPy arrays excel.</p>
-<p>What is a NumPy Array?</p>
-<p>A NumPy array is a grid of values — but unlike lists, all elements share the same data type.
-Arrays are stored efficiently in memory and allow vectorized operations, meaning operations apply to entire groups of values at once.</p>
-<p>A NumPy array has three key attributes:</p>
-<p>Attribute	Description
-dtype	Data type of all elements (arrays are homogeneous).
-shape	Dimensions of the array, e.g. (3,2), (500,), or ().
-data	Raw memory buffer containing the stored values. Efficient and passable to C/Fortran.
-Performance Test: Python vs NumPy</p>
-<p>You can compare performance inside Jupyter by creating two objects:</p>
-<p>one normal Python list</p>
-<p>one NumPy array (later)</p>
-<p>and an empty list to store results</p>
-<p>import numpy as np
-import time</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="create-a-python-list-and-an-empty-list-for-results">
-<h1>Create a Python list and an empty list for results<a class="headerlink" href="#create-a-python-list-and-an-empty-list-for-results" title="Permalink to this heading">#</a></h1>
-<p>size = 10_000_000
-py_list = list(range(size))
-result_list = []</p>
-<p>From here we can benchmark and see how much faster NumPy is for large computations.</p>
-<p>import numpy as np
-x = np.linspace(0, 1, 5)
-x</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -484,13 +438,22 @@ x</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="environment.html"
+       href="notebook.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Environment</p>
+        <p class="prev-next-title">Example Notebook</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="numpy.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">NumPy</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -498,24 +461,6 @@ x</p>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NumPy</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-python-list-and-an-empty-list-for-results">Create a Python list and an empty list for results</a></li>
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>
