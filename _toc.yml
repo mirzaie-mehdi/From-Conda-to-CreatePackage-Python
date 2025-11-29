@@ -6,7 +6,7 @@ root: docs/home
 chapters:
 - file: docs/notebook.ipynb
   title: Intro to Python & Numpy
-- file: docs/conda_environments.ipynb
+- file: docs/environment.ipynb
   title: Conda Environments
 - file: docs/numpy.ipynb
   title: Numpy
