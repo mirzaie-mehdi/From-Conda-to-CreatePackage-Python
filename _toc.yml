@@ -4,5 +4,5 @@
 format: jb-book
 root: docs/home
 chapters:
-- file: docs/notebook
-- file: docs/conda-and-environments
+- file: docs/notebook.ipynb
+- file: docs/conda_environments.ipynb
