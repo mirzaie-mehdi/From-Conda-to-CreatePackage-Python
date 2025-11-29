@@ -9,4 +9,4 @@ chapters:
 - file: docs/conda_environments.ipynb
   title: Conda Environments
 - file: docs/numpy.ipynb
-  Title: Numpy
+  title: Numpy
