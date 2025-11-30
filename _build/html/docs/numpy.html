@@ -172,7 +172,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">NumPy</a></li>
 
-
 </ul>
 
     </div>
@@ -400,8 +399,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NumPy</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-python-list-and-an-empty-list-for-results">Create a Python list and an empty list for results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
+</ul>
+</li>
 </ul>
 
             </nav>
@@ -420,37 +421,83 @@ document.write(`
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="python-lists-vs-numpy-arrays">
 <h1>Python Lists vs NumPy Arrays<a class="headerlink" href="#python-lists-vs-numpy-arrays" title="Permalink to this heading">#</a></h1>
-<p>Python lists are flexible — they can store different types of data in the same container.
+<p>Python lists are flexible, they can store different types of data in the same container.
 For example:</p>
-<p>example_list = [1, 2.5, “asdf”, False, [1.5, True]]
-example_list</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">example_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="kc">True</span><span class="p">]]</span>
+<span class="n">example_list</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2.5, &#39;asdf&#39;, False, [1.5, True]]
+</pre></div>
+</div>
+</div>
+</div>
 <p>This flexibility, however, introduces limitations. If we try applying an operation like “add 1” to every element, we must process each item one by one. Adding 1 works for numbers, but not for strings, booleans, or nested lists.</p>
-<p>In scientific computing we often work with huge collections of numerical values, and we need fast operations on all elements at once. This is where NumPy arrays excel.</p>
-<p>What is a NumPy Array?</p>
-<p>A NumPy array is a grid of values — but unlike lists, all elements share the same data type.
+<p>In scientific computing we often work with huge collections of numerical values, and we need fast operations on all elements at once. This is where <strong>NumPy</strong> arrays excel.
+What is a NumPy Array?</p>
+<p>A NumPy array is a grid of values, but unlike lists, all elements share the same data type.
 Arrays are stored efficiently in memory and allow vectorized operations, meaning operations apply to entire groups of values at once.</p>
-<p>A NumPy array has three key attributes:</p>
-<p>Attribute	Description
-dtype	Data type of all elements (arrays are homogeneous).
-shape	Dimensions of the array, e.g. (3,2), (500,), or ().
-data	Raw memory buffer containing the stored values. Efficient and passable to C/Fortran.
-Performance Test: Python vs NumPy</p>
-<p>You can compare performance inside Jupyter by creating two objects:</p>
-<p>one normal Python list</p>
-<p>one NumPy array (later)</p>
-<p>and an empty list to store results</p>
-<p>import numpy as np
-import time</p>
+<p>A <strong>NumPy</strong> array has three key attributes:</p>
+<ul class="simple">
+<li><p><strong>dtype</strong> — data type. Arrays always contain one type (arrays are homogeneous).</p></li>
+<li><p><strong>shape</strong> — Dimensions of the array, e.g. <code class="docutils literal notranslate"><span class="pre">(3,2)</span></code>, <code class="docutils literal notranslate"><span class="pre">(3,4,500)</span></code>, or <code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><strong>data</strong> — raw data storage in memory. This can be passed to C or Fortran code for efficient calculations.</p></li>
+</ul>
+<section id="performance-test-python-vs-numpy">
+<h2>Performance Test: Python vs NumPy<a class="headerlink" href="#performance-test-python-vs-numpy" title="Permalink to this heading">#</a></h2>
+<p>To compare performance of list in pure python with Jupyter, lets see the follwoing code. At first we make a list of numbers from 0 to 9999.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">0</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">100000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The follwoing cell fill the list b with quare values of a and the magic code timeit calculate the running time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+  <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28.5 ms ± 437 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, lets compare with the Numpy. Create an array and then the queare of each entity.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.54 μs ± 47.6 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that compared to working with numpy arrays, working with traditional python lists is actually slow.</p>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="create-a-python-list-and-an-empty-list-for-results">
-<h1>Create a Python list and an empty list for results<a class="headerlink" href="#create-a-python-list-and-an-empty-list-for-results" title="Permalink to this heading">#</a></h1>
-<p>size = 10_000_000
-py_list = list(range(size))
-result_list = []</p>
-<p>From here we can benchmark and see how much faster NumPy is for large computations.</p>
-<p>import numpy as np
-x = np.linspace(0, 1, 5)
-x</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -509,8 +556,10 @@ x</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">NumPy</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-python-list-and-an-empty-list-for-results">Create a Python list and an empty list for results</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#python-lists-vs-numpy-arrays">Python Lists vs NumPy Arrays</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
+</ul>
+</li>
 </ul>
 
   </nav></div>
