@@ -172,6 +172,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">NumPy</a></li>
 
+
 </ul>
 
     </div>
@@ -403,6 +404,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
 </ul>
 
             </nav>
@@ -469,7 +471,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28.5 ms ± 437 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27 ms ± 63.8 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -491,13 +493,134 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.54 μs ± 47.6 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.39 μs ± 14.3 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <p>We see that compared to working with numpy arrays, working with traditional python lists is actually slow.</p>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="creating-arrays">
+<h1>Creating arrays<a class="headerlink" href="#creating-arrays" title="Permalink to this heading">#</a></h1>
+<p>There are different ways of creating arrays:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.array()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.shape</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.size</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>               <span class="c1"># 1-dimensional array (rank 1)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>     <span class="c1"># 2-dimensional array (rank 2)</span>
+
+<span class="n">b</span><span class="o">.</span><span class="n">shape</span>                             <span class="c1"># the shape (rows,columns)</span>
+<span class="n">b</span><span class="o">.</span><span class="n">size</span>                              <span class="c1"># number of elements</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+</div>
+</div>
+<p>In addition to the above ways of creating arrays, there are many other ways of creating arrays depending on content:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.zeros()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ones()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.full()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.eye()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.arange()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.linspace()</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>             <span class="c1"># 2x3 array with all elements 0</span>
+<span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>               <span class="c1"># 1x2 array with all elements 1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">7</span><span class="p">)</span>             <span class="c1"># 2x2 array with all elements 7</span>
+<span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                    <span class="c1"># 2x2 identity matrix</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                <span class="c1"># Evenly spaced values in an interval</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>          <span class="c1"># same as above, see exercise</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;bool&#39;</span><span class="p">)</span>  <span class="c1"># 3x2 boolean array</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Arrays can also be stored to and loaded from a <code class="docutils literal notranslate"><span class="pre">.npy</span></code> file using:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.save()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.load()</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;x.npy&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>           <span class="c1"># save the array a to a .npy file</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;x.npy&#39;</span><span class="p">)</span>          <span class="c1"># load an array from a .npy file and store it in variable x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In many occasions (especially when something behaves differently than expected),<br />
+it is useful to check and control the data type of an array using:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.dtype</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.astype()</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">dtype</span>                    <span class="c1"># datatype of the array</span>
+<span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>            <span class="c1"># change datatype from boolean to integer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[1, 1],
+       [1, 1],
+       [1, 1]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the last example, using <code class="docutils literal notranslate"><span class="pre">.astype('int')</span></code>, NumPy will make a <strong>copy</strong> of the array<br />
+and <strong>re-allocate</strong> memory — unless the target <code class="docutils literal notranslate"><span class="pre">dtype</span></code> is <strong>identical</strong> to the original.<br />
+Understanding and minimizing copies is one of the most important practices for performance.</p>
+<div style="border:2px solid #2AA198;background:#DFF7E3;
+            padding:15px;border-radius:8px;">
+<h3>🟩 Exercises: NumPy-1</h3>
+<ol class="arabic simple">
+<li><p><strong>Datatypes</strong> — Try <code class="docutils literal notranslate"><span class="pre">np.arange(10)</span></code> and <code class="docutils literal notranslate"><span class="pre">np.linspace(0,9,10)</span></code>.<br />
+What is the difference? Can you make one behave like the other?</p></li>
+<li><p><strong>Datatypes</strong> — Create a 3×2 array of floats (<code class="docutils literal notranslate"><span class="pre">numpy.random.random()</span></code>)<br />
+and convert it to integers using <code class="docutils literal notranslate"><span class="pre">.astype(int)</span></code>. How does it change?</p></li>
+<li><p><strong>Reshape</strong> — Create a 3×2 integer array (range 0–10) and change shape<br />
+using <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code>. Which shapes are not allowed?</p></li>
+<li><p><strong>NumPy I/O</strong> — Save the array using <code class="docutils literal notranslate"><span class="pre">numpy.save()</span></code> and load it back with <code class="docutils literal notranslate"><span class="pre">numpy.load()</span></code>.</p></li>
+</ol>
+</div>
+<br>
+<details>
+<summary><strong>👇 Click to show solutions</strong></summary>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Difference between arange &amp; linspace</span>
+<span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>         <span class="c1"># → integers, step 1</span>
+<span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>   <span class="c1"># → 10 numbers evenly spaced between 0 and 9</span>
+
+<span class="c1"># 2. Create random array &amp; convert type</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">arr_int</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># 3. Reshape example</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">6</span><span class="p">,)</span>   <span class="c1"># works</span>
+<span class="c1"># x.reshape(4,2) # ❌ fails — size mismatch</span>
+
+<span class="c1"># 4. Save &amp; load</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data.npy&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">loaded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.npy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -560,6 +683,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
 </ul>
 
   </nav></div>
