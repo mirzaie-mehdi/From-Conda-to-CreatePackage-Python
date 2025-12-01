@@ -173,6 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">NumPy</a></li>
 
 
+
 </ul>
 
     </div>
@@ -405,6 +406,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
 </ul>
 
             </nav>
@@ -428,21 +430,21 @@ For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="n">example_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="s2">&quot;asdf&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="kc">True</span><span class="p">]]</span>
+<span class="n">example_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;abc&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="kc">True</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">]]]</span>
 <span class="n">example_list</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2.5, &#39;asdf&#39;, False, [1.5, True]]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 1.5, &#39;abc&#39;, False, [1.5, True], [2, &#39;python&#39;], [3, [False, &#39;python&#39;]]]
 </pre></div>
 </div>
 </div>
 </div>
-<p>This flexibility, however, introduces limitations. If we try applying an operation like “add 1” to every element, we must process each item one by one. Adding 1 works for numbers, but not for strings, booleans, or nested lists.</p>
+<p>This flexibility, however, causes limitations. If we try applying an operation like “add 1” to every element, we must process each item one by one. Adding 1 works for numbers, but not for strings, booleans, or nested lists.</p>
 <p>In scientific computing we often work with huge collections of numerical values, and we need fast operations on all elements at once. This is where <strong>NumPy</strong> arrays excel.
 What is a NumPy Array?</p>
-<p>A NumPy array is a grid of values, but unlike lists, all elements share the same data type.
+<p>A NumPy array is a grid of values, but unlike lists, all elements have the same data type.
 Arrays are stored efficiently in memory and allow vectorized operations, meaning operations apply to entire groups of values at once.</p>
 <p>A <strong>NumPy</strong> array has three key attributes:</p>
 <ul class="simple">
@@ -452,7 +454,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </ul>
 <section id="performance-test-python-vs-numpy">
 <h2>Performance Test: Python vs NumPy<a class="headerlink" href="#performance-test-python-vs-numpy" title="Permalink to this heading">#</a></h2>
-<p>To compare performance of list in pure python with Jupyter, lets see the follwoing code. At first we make a list of numbers from 0 to 9999.</p>
+<p>To compare performance of list in pure python with NumPy, lets see the follwoing code. At first we make a list of numbers from 0 to 9999 (a) and a list with zero values (b).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span>
@@ -471,12 +473,12 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27 ms ± 63.8 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27 ms ± 38.1 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
 </div>
-<p>Now, lets compare with the Numpy. Create an array and then the queare of each entity.</p>
+<p>Now, lets compare with the Numpy. Create an array</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -485,6 +487,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 </div>
+<p>and then calculate the queare of each entity.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>it
@@ -493,7 +496,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.39 μs ± 14.3 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.39 μs ± 8.82 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -503,11 +506,23 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="creating-arrays">
 <h1>Creating arrays<a class="headerlink" href="#creating-arrays" title="Permalink to this heading">#</a></h1>
-<p>There are different ways of creating arrays:</p>
+<p>There are different ways to create arrays:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy.array()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.shape</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.size</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.zeros()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ones()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.full()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.arange()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.linspace()</span></code></p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="array-attributes">
+<h1>Array attributes<a class="headerlink" href="#array-attributes" title="Permalink to this heading">#</a></h1>
+<p>Useful attributes and information from an array:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.shape</span></code> → array dimensions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.size</span></code> → total number of elements
+where ndarray is a predefined n-dimensional array.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -525,15 +540,6 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 </div>
-<p>In addition to the above ways of creating arrays, there are many other ways of creating arrays depending on content:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.zeros()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ones()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.full()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.eye()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.arange()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.linspace()</span></code></p></li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>             <span class="c1"># 2x3 array with all elements 0</span>
@@ -563,8 +569,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 </div>
-<p>In many occasions (especially when something behaves differently than expected),<br />
-it is useful to check and control the data type of an array using:</p>
+<p>In many occasions (especially when something behaves differently than expected),  it is useful to check and control the data type of an array using:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.dtype</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.astype()</span></code></p></li>
@@ -572,7 +577,18 @@ it is useful to check and control the data type of an array using:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">dtype</span>                    <span class="c1"># datatype of the array</span>
-<span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>            <span class="c1"># change datatype from boolean to integer</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dtype(&#39;bool&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>            <span class="c1"># change datatype from boolean to integer</span>
 </pre></div>
 </div>
 </div>
@@ -584,8 +600,7 @@ it is useful to check and control the data type of an array using:</p>
 </div>
 </div>
 </div>
-<p>In the last example, using <code class="docutils literal notranslate"><span class="pre">.astype('int')</span></code>, NumPy will make a <strong>copy</strong> of the array<br />
-and <strong>re-allocate</strong> memory — unless the target <code class="docutils literal notranslate"><span class="pre">dtype</span></code> is <strong>identical</strong> to the original.<br />
+<p>In the last example, using <code class="docutils literal notranslate"><span class="pre">.astype('int')</span></code>, NumPy will make a <strong>copy</strong> of the array  and <strong>re-allocate</strong> memory — unless the target <code class="docutils literal notranslate"><span class="pre">dtype</span></code> is <strong>identical</strong> to the original.<br />
 Understanding and minimizing copies is one of the most important practices for performance.</p>
 <div style="border:2px solid #2AA198;background:#DFF7E3;
             padding:15px;border-radius:8px;">
@@ -684,6 +699,7 @@ using <code class="docutils literal notranslate"><span class="pre">.reshape()</s
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
 </ul>
 
   </nav></div>
