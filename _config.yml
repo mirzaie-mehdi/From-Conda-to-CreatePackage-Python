@@ -3,6 +3,8 @@
 
 title: From Conda to Create Package in Python # Change this to your book title.
 author: Mehdi Mirzaie # Change this to your name (or your team/organization name).
+copyright: "2025"
+
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
