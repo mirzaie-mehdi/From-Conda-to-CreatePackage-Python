@@ -174,7 +174,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-
 </ul>
 
     </div>
@@ -406,14 +405,26 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-fundamentals">🧮 NumPy Fundamentals</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-numpy-array">What is a NumPy array?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays-some-common-methods">Creating arrays (some common methods)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-array-attributes-metadata">Key array attributes &amp; metadata</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-in-numpy">🔥 Copying in NumPy</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-new-memory-allocated">1️⃣ Copy — new memory allocated</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-no-new-memory-allocated">2️⃣ View — NO new memory allocated</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#astype-and-copying">3️⃣ <code class="docutils literal notranslate"><span class="pre">astype()</span></code> and Copying</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-same-type-vs-type-conversion">4️⃣ Performance: Same type vs Type conversion</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-when-does-numpy-copy">🧠 Summary: When does NumPy copy?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-and-modifying-data-indexing-and-slicing">Accessing and modifying data (indexing and slicing)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-indexing-1d-and-2d">Basic indexing (1D and 2D)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-masking">Boolean masking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fancy-indexing">Fancy indexing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-arrays-in-place">Modifying arrays in-place</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -482,7 +493,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16.9 ms ± 369 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17.4 ms ± 1.59 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -505,7 +516,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.7 μs ± 8.29 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.76 μs ± 54.4 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -513,38 +524,45 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 <p>We see that compared to working with numpy arrays, working with traditional python lists is actually slow.</p>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="creating-arrays">
-<h1>Creating arrays<a class="headerlink" href="#creating-arrays" title="Permalink to this heading">#</a></h1>
-<p>There are different ways to create arrays:</p>
+<section class="tex2jax_ignore mathjax_ignore" id="numpy-fundamentals">
+<h1>🧮 NumPy Fundamentals<a class="headerlink" href="#numpy-fundamentals" title="Permalink to this heading">#</a></h1>
+<section id="what-is-a-numpy-array">
+<h2>What is a NumPy array?<a class="headerlink" href="#what-is-a-numpy-array" title="Permalink to this heading">#</a></h2>
+<p>A NumPy array (an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>) is an N-dimensional, homogeneous, fixed-type container for data.<br />
+Arrays are stored in <strong>contiguous memory</strong>, which enables <strong>fast vectorized operations</strong>. :contentReference[oaicite:14]{index=14}</p>
+</section>
+<section id="creating-arrays-some-common-methods">
+<h2>Creating arrays (some common methods)<a class="headerlink" href="#creating-arrays-some-common-methods" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.array()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.zeros()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ones()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.full()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.arange()</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.linspace()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.array()</span></code> — from Python lists/tuples</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.zeros(shape)</span></code> — all zeros</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ones(shape)</span></code> — all ones</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.full(shape,</span> <span class="pre">fill_value)</span></code> — filled with a constant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.eye(n)</span></code> — identity matrix (2D)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.arange(start,</span> <span class="pre">stop,</span> <span class="pre">step)</span></code> — range of values (1D)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.linspace(start,</span> <span class="pre">stop,</span> <span class="pre">num)</span></code> — evenly spaced values between start and stop (1D)</p></li>
+<li><p>Many more: <code class="docutils literal notranslate"><span class="pre">random</span></code>, <code class="docutils literal notranslate"><span class="pre">empty</span></code>, <code class="docutils literal notranslate"><span class="pre">arange</span></code>, etc. :contentReference[oaicite:15]{index=15}</p></li>
 </ul>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="array-attributes">
-<h1>Array attributes<a class="headerlink" href="#array-attributes" title="Permalink to this heading">#</a></h1>
-<p>Useful attributes and information from an array:</p>
+<section id="key-array-attributes-metadata">
+<h2>Key array attributes &amp; metadata<a class="headerlink" href="#key-array-attributes-metadata" title="Permalink to this heading">#</a></h2>
+<p>Given an array <code class="docutils literal notranslate"><span class="pre">a</span></code>, you commonly use:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.shape</span></code> → array dimensions</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">numpy.ndarray.size</span></code> → total number of elements
-where ndarray is a predefined n-dimensional array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a.ndim</span></code> — number of dimensions (axes)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a.shape</span></code> — tuple of sizes for each dimension, e.g. <code class="docutils literal notranslate"><span class="pre">(3,4)</span></code> for a 3×4 matrix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a.size</span></code> — total number of elements (product of shape entries)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a.dtype</span></code> — data type of the elements (all elements have same dtype) :contentReference[oaicite:16]{index=16}</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>               <span class="c1"># 1-dimensional array (rank 1)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>     <span class="c1"># 2-dimensional array (rank 2)</span>
-
-<span class="n">b</span><span class="o">.</span><span class="n">shape</span>                             <span class="c1"># the shape (rows,columns)</span>
-<span class="n">b</span><span class="o">.</span><span class="n">size</span>                              <span class="c1"># number of elements</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 (2, 3) 6 int64
 </pre></div>
 </div>
 </div>
@@ -645,6 +663,7 @@ using <code class="docutils literal notranslate"><span class="pre">.reshape()</s
 <span class="n">loaded</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;data.npy&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="copying-in-numpy">
 <h1>🔥 Copying in NumPy<a class="headerlink" href="#copying-in-numpy" title="Permalink to this heading">#</a></h1>
@@ -765,8 +784,8 @@ Changing dtype is slower (copy + new memory).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.01113745803013444
-New dtype  : 0.0191116250352934
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.012832249980419874
+New dtype  : 0.01964212500024587
 </pre></div>
 </div>
 </div>
@@ -803,6 +822,210 @@ New dtype  : 0.0191116250352934
 </table>
 </div>
 <p>Efficient NumPy == avoiding unnecessary copies 🚀</p>
+</section>
+<section id="accessing-and-modifying-data-indexing-and-slicing">
+<h2>Accessing and modifying data (indexing and slicing)<a class="headerlink" href="#accessing-and-modifying-data-indexing-and-slicing" title="Permalink to this heading">#</a></h2>
+<p>Once an array is created, we often need to <strong>read</strong> or <strong>change</strong> parts of it.
+NumPy supports powerful ways to access and modify elements:</p>
+<ul class="simple">
+<li><p><strong>Basic indexing</strong> (single elements, rows, columns)</p></li>
+<li><p><strong>Slicing</strong> (subarrays using <code class="docutils literal notranslate"><span class="pre">start:stop:step</span></code>)</p></li>
+<li><p><strong>Boolean masking</strong> (select elements matching a condition)</p></li>
+<li><p><strong>Fancy indexing</strong> (selecting with index lists or arrays)</p></li>
+<li><p><strong>In-place modification</strong> (changing values without creating a new array)</p></li>
+</ul>
+<section id="basic-indexing-1d-and-2d">
+<h3>Basic indexing (1D and 2D)<a class="headerlink" href="#basic-indexing-1d-and-2d" title="Permalink to this heading">#</a></h3>
+<p>For a 1D array, indexing works like Python lists:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[0]</span></code> — first element</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[-1]</span></code> — last element</p></li>
+</ul>
+<p>For a 2D array (matrix):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[i,</span> <span class="pre">j]</span></code> — element in row <code class="docutils literal notranslate"><span class="pre">i</span></code>, column <code class="docutils literal notranslate"><span class="pre">j</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[i]</span></code> — the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th row</p></li>
+</ul>
+</section>
+<section id="slicing">
+<h3>Slicing<a class="headerlink" href="#slicing" title="Permalink to this heading">#</a></h3>
+<p>Slicing uses the <code class="docutils literal notranslate"><span class="pre">start:stop:step</span></code> syntax:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[1:4]</span></code> — elements with indices 1, 2, 3</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[:3]</span></code> — first three elements</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[::2]</span></code> — every second element</p></li>
+</ul>
+<p>In 2D:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[1:,</span> <span class="pre">:]</span></code> — all rows from index 1, all columns</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[:,</span> <span class="pre">1:3]</span></code> — all rows, columns 1 and 2</p></li>
+</ul>
+<p>Slices in NumPy are usually <strong>views</strong>, not copies:<br />
+they share memory with the original array.</p>
+</section>
+<section id="boolean-masking">
+<h3>Boolean masking<a class="headerlink" href="#boolean-masking" title="Permalink to this heading">#</a></h3>
+<p>We can build an array of booleans based on a condition and use it to filter:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mask</span> <span class="pre">=</span> <span class="pre">(a</span> <span class="pre">&gt;</span> <span class="pre">0)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[mask]</span></code> — elements where the condition is <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+</ul>
+<p>This is very useful for selecting or modifying values that satisfy some condition.</p>
+</section>
+<section id="fancy-indexing">
+<h3>Fancy indexing<a class="headerlink" href="#fancy-indexing" title="Permalink to this heading">#</a></h3>
+<p>Fancy indexing uses integer arrays or lists as indices:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[[0,</span> <span class="pre">2,</span> <span class="pre">4]]</span></code> — elements at positions 0, 2, and 4</p></li>
+<li><p>Can be used along multiple axes in multi-dimensional arrays.</p></li>
+</ul>
+<p>Fancy indexing <strong>returns a copy</strong>, not a view.</p>
+</section>
+<section id="modifying-arrays-in-place">
+<h3>Modifying arrays in-place<a class="headerlink" href="#modifying-arrays-in-place" title="Permalink to this heading">#</a></h3>
+<p>All of these indexing methods can be used on the <strong>left-hand side</strong> of an assignment:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a[0]</span> <span class="pre">=</span> <span class="pre">10</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[1:4]</span> <span class="pre">=</span> <span class="pre">0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a[a</span> <span class="pre">&lt;</span> <span class="pre">0]</span> <span class="pre">=</span> <span class="pre">0</span></code></p></li>
+</ul>
+<p>This changes the original array <em>in-place</em> (no new array is created).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># 1D array</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[0]      =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>      <span class="c1"># first element</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[-1]     =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>     <span class="c1"># last element</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[2:7]    =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">7</span><span class="p">])</span>    <span class="c1"># elements with indices 2..6</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[:5]     =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>     <span class="c1"># first 5 elements</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a[::2]    =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>    <span class="c1"># step of 2 (even indices)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = [0 1 2 3 4 5 6 7 8 9]
+a[0]      = 0
+a[-1]     = 9
+a[2:7]    = [2 3 4 5 6]
+a[:5]     = [0 1 2 3 4]
+a[::2]    = [0 2 4 6 8]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b[0, 0]   =&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>    <span class="c1"># element in first row, first column</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b[1]      =&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>       <span class="c1"># second row</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b[:, 1]   =&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>    <span class="c1"># all rows, second column</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b[1:, 2:] =</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">2</span><span class="p">:])</span>  <span class="c1"># subarray: rows 1..end, cols 2..end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>b =
+ [[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+b[0, 0]   = 0
+b[1]      = [4 5 6 7]
+b[:, 1]   = [1 5 9]
+b[1:, 2:] =
+ [[ 6  7]
+ [10 11]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c =&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mask       =&quot;</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c[mask]    =&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>   <span class="c1"># all positive elements</span>
+
+<span class="c1"># modify in-place: set all negative values to 0</span>
+<span class="n">c</span><span class="p">[</span><span class="n">c</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c after c[c &lt; 0] = 0 →&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c = [ 3 -1  0  7 -5  2]
+mask       = [ True False False  True False  True]
+c[mask]    = [3 7 2]
+c after c[c &lt; 0] = 0 → [3 0 0 7 0 2]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;d =&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+<span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;selected =&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="n">indices</span><span class="p">])</span>    <span class="c1"># elements at indices 0, 2, 4</span>
+
+<span class="c1"># fancy indexing returns a copy, so modifying &#39;sel&#39; won&#39;t change &#39;d&#39;</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+<span class="n">sel</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">999</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sel        =&quot;</span><span class="p">,</span> <span class="n">sel</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;d (unchanged) =&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>d = [0.  0.2 0.4 0.6 0.8 1. ]
+selected = [0.  0.4 0.8]
+sel        = [9.99e+02 4.00e-01 8.00e-01]
+d (unchanged) = [0.  0.2 0.4 0.6 0.8 1. ]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;e =&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># set a slice to a single value</span>
+<span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">99</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;e after e[2:5] = 99 →&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># reset</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># multiply a slice</span>
+<span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">10</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;e after e[1:6] *= 10 →&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># use boolean mask to change only even numbers</span>
+<span class="n">mask_even</span> <span class="o">=</span> <span class="p">(</span><span class="n">e</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">e</span><span class="p">[</span><span class="n">mask_even</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;e after e[mask_even] = -1 →&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>e = [0 1 2 3 4 5 6 7 8 9]
+e after e[2:5] = 99 → [ 0  1 99 99 99  5  6  7  8  9]
+e after e[1:6] *= 10 → [ 0 10 20 30 40 50  6  7  8  9]
+e after e[mask_even] = -1 → [-1 -1 -1 -1 -1 -1 -1  7 -1  9]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -866,14 +1089,26 @@ New dtype  : 0.0191116250352934
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-test-python-vs-numpy">Performance Test: Python vs NumPy</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-fundamentals">🧮 NumPy Fundamentals</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-numpy-array">What is a NumPy array?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays-some-common-methods">Creating arrays (some common methods)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-array-attributes-metadata">Key array attributes &amp; metadata</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-in-numpy">🔥 Copying in NumPy</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-new-memory-allocated">1️⃣ Copy — new memory allocated</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-no-new-memory-allocated">2️⃣ View — NO new memory allocated</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#astype-and-copying">3️⃣ <code class="docutils literal notranslate"><span class="pre">astype()</span></code> and Copying</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-same-type-vs-type-conversion">4️⃣ Performance: Same type vs Type conversion</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-when-does-numpy-copy">🧠 Summary: When does NumPy copy?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-and-modifying-data-indexing-and-slicing">Accessing and modifying data (indexing and slicing)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-indexing-1d-and-2d">Basic indexing (1D and 2D)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-masking">Boolean masking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fancy-indexing">Fancy indexing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-arrays-in-place">Modifying arrays in-place</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
