@@ -174,6 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+
 </ul>
 
     </div>
@@ -407,6 +408,14 @@ document.write(`
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-in-numpy">🔥 Copying in NumPy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-new-memory-allocated">1️⃣ Copy — new memory allocated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-no-new-memory-allocated">2️⃣ View — NO new memory allocated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#astype-and-copying">3️⃣ <code class="docutils literal notranslate"><span class="pre">astype()</span></code> and Copying</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-same-type-vs-type-conversion">4️⃣ Performance: Same type vs Type conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-when-does-numpy-copy">🧠 Summary: When does NumPy copy?</a></li>
+</ul>
+</li>
 </ul>
 
             </nav>
@@ -473,7 +482,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>27 ms ± 38.1 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16.9 ms ± 369 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 </pre></div>
 </div>
 </div>
@@ -496,7 +505,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.39 μs ± 8.82 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.7 μs ± 8.29 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -637,6 +646,165 @@ using <code class="docutils literal notranslate"><span class="pre">.reshape()</s
 </pre></div>
 </div>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="copying-in-numpy">
+<h1>🔥 Copying in NumPy<a class="headerlink" href="#copying-in-numpy" title="Permalink to this heading">#</a></h1>
+<p>Understanding when NumPy <strong>copies data</strong> and when it returns a <strong>view</strong> is crucial for performance.<br />
+A copy duplicates memory (slower, more RAM).<br />
+A view shares memory (faster, no duplication).</p>
+<section id="copy-new-memory-allocated">
+<h2>1️⃣ Copy — new memory allocated<a class="headerlink" href="#copy-new-memory-allocated" title="Permalink to this heading">#</a></h2>
+<p>A <strong>copy</strong> creates an independent array.</p>
+<ul class="simple">
+<li><p>Changing one does NOT affect the other</p></li>
+<li><p>More memory used</p></li>
+<li><p>Slower than a view</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>         <span class="c1"># full copy</span>
+
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">999</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b =&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>      <span class="c1"># different → independent arrays</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = [1 2 3 4]
+b = [999   2   3   4]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="view-no-new-memory-allocated">
+<h2>2️⃣ View — NO new memory allocated<a class="headerlink" href="#view-no-new-memory-allocated" title="Permalink to this heading">#</a></h2>
+<p>A <strong>view</strong> shares memory with the original array.</p>
+<ul class="simple">
+<li><p>Very fast</p></li>
+<li><p>No extra memory</p></li>
+<li><p>⚠ Modifying one changes the other</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">view</span><span class="p">()</span>         <span class="c1"># view — shares memory</span>
+<span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">555</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>      <span class="c1"># changed!</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;c =&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = [555   2   3   4]
+c = [555   2   3   4]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="astype-and-copying">
+<h2>3️⃣ <code class="docutils literal notranslate"><span class="pre">astype()</span></code> and Copying<a class="headerlink" href="#astype-and-copying" title="Permalink to this heading">#</a></h2>
+<p>Converting dtype usually forces a <strong>copy</strong>, because data must be rewritten.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head text-center"><p>Copy?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">astype(int)</span></code> on bool</p></td>
+<td class="text-center"><p>✔ Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">astype(float)</span></code> on int</p></td>
+<td class="text-center"><p>✔ Yes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">astype(same_type)</span></code></p></td>
+<td class="text-center"><p>❗ No Copy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">])</span>
+
+<span class="n">d2</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>     <span class="c1"># bool → int → copy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Original:&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converted:&quot;</span><span class="p">,</span> <span class="n">d2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Same object?&quot;</span><span class="p">,</span> <span class="n">d2</span> <span class="ow">is</span> <span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Original: [ True False  True]
+Converted: [1 0 1]
+Same object? False
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="performance-same-type-vs-type-conversion">
+<h2>4️⃣ Performance: Same type vs Type conversion<a class="headerlink" href="#performance-same-type-vs-type-conversion" title="Permalink to this heading">#</a></h2>
+<p>Converting to the same dtype is fast (no copy).<br />
+Changing dtype is slower (copy + new memory).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5_000_000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float64&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Same dtype :&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;arr.astype(&#39;float64&#39;)&quot;</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;New dtype  :&quot;</span><span class="p">,</span> <span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="s2">&quot;arr.astype(&#39;int64&#39;)&quot;</span><span class="p">,</span>   <span class="nb">globals</span><span class="o">=</span><span class="nb">globals</span><span class="p">(),</span> <span class="n">number</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.01113745803013444
+New dtype  : 0.0191116250352934
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary-when-does-numpy-copy">
+<h2>🧠 Summary: When does NumPy copy?<a class="headerlink" href="#summary-when-does-numpy-copy" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head text-center"><p>View or Copy?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">array.copy()</span></code></p></td>
+<td class="text-center"><p>🔥 Always a copy</p></td>
+</tr>
+<tr class="row-odd"><td><p>Slicing <code class="docutils literal notranslate"><span class="pre">arr[1:5]</span></code></p></td>
+<td class="text-center"><p>🔍 View (no copy)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">astype(new_dtype)</span></code></p></td>
+<td class="text-center"><p>🔥 Copy</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">astype(same_dtype)</span></code></p></td>
+<td class="text-center"><p>⚡ No copy</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.reshape()</span></code></p></td>
+<td class="text-center"><p>Usually view (but sometimes copy)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fancy indexing <code class="docutils literal notranslate"><span class="pre">arr[[1,5,7]]</span></code></p></td>
+<td class="text-center"><p>❗ Copy</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Efficient NumPy == avoiding unnecessary copies 🚀</p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -700,6 +868,14 @@ using <code class="docutils literal notranslate"><span class="pre">.reshape()</s
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-arrays">Creating arrays</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#array-attributes">Array attributes</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-in-numpy">🔥 Copying in NumPy</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#copy-new-memory-allocated">1️⃣ Copy — new memory allocated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-no-new-memory-allocated">2️⃣ View — NO new memory allocated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#astype-and-copying">3️⃣ <code class="docutils literal notranslate"><span class="pre">astype()</span></code> and Copying</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-same-type-vs-type-conversion">4️⃣ Performance: Same type vs Type conversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-when-does-numpy-copy">🧠 Summary: When does NumPy copy?</a></li>
+</ul>
+</li>
 </ul>
 
   </nav></div>
