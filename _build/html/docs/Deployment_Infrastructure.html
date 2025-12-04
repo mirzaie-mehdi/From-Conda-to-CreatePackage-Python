@@ -168,7 +168,6 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Intro to Python &amp; Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
@@ -371,17 +370,17 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">1. What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-remote-computer-you-log-into"><strong>1️⃣ A remote computer you log into</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-controlled-and-reproducible-computing-environment"><strong>2️⃣ A controlled and reproducible computing environment</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
@@ -427,7 +426,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-the-docker-image-to-kubernetes-aks">6.4 Deploying the Docker image to Kubernetes / AKS</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">7. Troubleshooting</a></li>
 </ul>
             </nav>
         </div>
@@ -458,7 +457,7 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="what-is-a-virtual-machine">
-<h2>What is a Virtual Machine?<a class="headerlink" href="#what-is-a-virtual-machine" title="Permalink to this heading">#</a></h2>
+<h2>1. What is a Virtual Machine?<a class="headerlink" href="#what-is-a-virtual-machine" title="Permalink to this heading">#</a></h2>
 <p><a name="vm"></a></p>
 <p>A <strong>Virtual Machine (VM)</strong> is a fully isolated computer environment running inside a physical machine. It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.</p>
 <section id="you-can-think-of-a-vm-as">
@@ -530,10 +529,9 @@ A VM is different: it stays <strong>stable and consistent</strong>.</p>
 </div>
 </section>
 </section>
-</section>
 <hr class="docutils" />
 <section id="why-data-scientists-use-vms">
-<h2>Why Data Scientists Use VMs<a class="headerlink" href="#why-data-scientists-use-vms" title="Permalink to this heading">#</a></h2>
+<h3>Why Data Scientists Use VMs<a class="headerlink" href="#why-data-scientists-use-vms" title="Permalink to this heading">#</a></h3>
 <p><a name="whyvm"></a></p>
 <p>Machine Learning workloads often require:</p>
 <ul class="simple">
@@ -549,9 +547,10 @@ A VM is different: it stays <strong>stable and consistent</strong>.</p>
 <p>Even if you develop code locally, the <em>infrastructure</em> for experiment tracking and deployment often lives on remote VMs.</p>
 </div>
 </section>
+</section>
 <hr class="docutils" />
 <section id="how-to-build-a-virtual-machine-vm">
-<h2>How to Build a Virtual Machine (VM)<a class="headerlink" href="#how-to-build-a-virtual-machine-vm" title="Permalink to this heading">#</a></h2>
+<h2>2. How to Build a Virtual Machine (VM)<a class="headerlink" href="#how-to-build-a-virtual-machine-vm" title="Permalink to this heading">#</a></h2>
 <p>Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains <strong>how to build a VM in a general, cloud-agnostic way</strong>, and also highlights the key parameters you must choose for ML workloads.</p>
 <hr class="docutils" />
 <section id="choose-a-cloud-platform-or-host-environment">
@@ -1184,7 +1183,7 @@ http://&lt;EXTERNAL-IP&gt;/predict
 </section>
 </section>
 <section id="troubleshooting">
-<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">#</a></h2>
+<h2>7. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">#</a></h2>
 <p><a name="ts"></a></p>
 <p><strong>Q1: I cannot access MLflow at</strong> <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:5000</span></code>.</p>
 <ul class="simple">
@@ -1271,17 +1270,17 @@ http://&lt;EXTERNAL-IP&gt;/predict
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">1. What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-remote-computer-you-log-into"><strong>1️⃣ A remote computer you log into</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-controlled-and-reproducible-computing-environment"><strong>2️⃣ A controlled and reproducible computing environment</strong></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
@@ -1327,7 +1326,7 @@ http://&lt;EXTERNAL-IP&gt;/predict
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-the-docker-image-to-kubernetes-aks">6.4 Deploying the Docker image to Kubernetes / AKS</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">7. Troubleshooting</a></li>
 </ul>
   </nav></div>
 

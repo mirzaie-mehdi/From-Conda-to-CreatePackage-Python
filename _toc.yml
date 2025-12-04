@@ -4,8 +4,6 @@
 format: jb-book
 root: docs/home
 chapters:
-- file: docs/notebook.ipynb
-  title: Intro to Python & Numpy
 - file: docs/environment.ipynb
   title: Conda Environments
 - file: docs/numpy.ipynb
