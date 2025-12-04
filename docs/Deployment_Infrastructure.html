@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Jupyter Book Tutorial &#8212; From Conda to Create Package in Python</title>
+    <title>Working with Virtual Machines, SSH and Remote MLflow Infrastructure &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -63,10 +63,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/home';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/Deployment_Infrastructure';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Example Notebook" href="notebook.html" />
+    <link rel="prev" title="NumPy" href="numpy.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -129,8 +129,6 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -149,7 +147,7 @@ const thebe_selector_output = ".output, .cell_output"
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="home.html">
   
   
   
@@ -163,20 +161,20 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
                     Jupyter Book Tutorial
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="notebook.html">Intro to Python &amp; Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Virtual Machine, Deployment and Infrastructure</a></li>
 </ul>
 
     </div>
@@ -248,7 +246,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/home.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/Deployment_Infrastructure.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -278,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/docs/home.md" target="_blank"
+      <li><a href="../_sources/docs/Deployment_Infrastructure.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -362,7 +360,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Jupyter Book Tutorial</h1>
+    <h1>Working with Virtual Machines, SSH and Remote MLflow Infrastructure</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -372,7 +370,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ssh-access">Setting Up SSH Access</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-a-github-account">Register a GitHub account</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-personal-access-token">Create a GitHub personal access token</a></li>
@@ -403,8 +408,68 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="jupyter-book-tutorial">
-<h1>Jupyter Book Tutorial<a class="headerlink" href="#jupyter-book-tutorial" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="working-with-virtual-machines-ssh-and-remote-mlflow-infrastructure">
+<h1>Working with Virtual Machines, SSH and Remote MLflow Infrastructure<a class="headerlink" href="#working-with-virtual-machines-ssh-and-remote-mlflow-infrastructure" title="Permalink to this heading">#</a></h1>
+<p>This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows.<br />
+You will learn what a <strong>Virtual Machine (VM)</strong> is, how to connect to it using <strong>SSH</strong>, how to securely expose remote services using <strong>port forwarding</strong>, and finally how to connect your local ML code to a <strong>remote MLflow server</strong> for experiment tracking.</p>
+<p>This chapter follows the same educational format as the rest of this book.<br />
+For basic Markdown/Jupyter-Book usage, refer to the introductory materials.:contentReference[oaicite:1]{index=1}</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><span class="xref myst">What is a Virtual Machine?</span></p></li>
+<li><p><span class="xref myst">Why Data Scientists Use VMs</span></p></li>
+<li><p><span class="xref myst">Setting Up SSH Access</span></p></li>
+<li><p><span class="xref myst">Using SSH Port Forwarding</span></p></li>
+<li><p><span class="xref myst">Connecting to Remote MLflow</span></p></li>
+<li><p><span class="xref myst">Full Workflow Summary</span></p></li>
+<li><p><span class="xref myst">Troubleshooting</span></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="what-is-a-virtual-machine">
+<h2>What is a Virtual Machine?<a class="headerlink" href="#what-is-a-virtual-machine" title="Permalink to this heading">#</a></h2>
+<p><a name="vm"></a></p>
+<p>A <strong>Virtual Machine (VM)</strong> is a fully isolated computer environment running inside a physical machine.<br />
+It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.</p>
+<section id="you-can-think-of-a-vm-as">
+<h3>You can think of a VM as:<a class="headerlink" href="#you-can-think-of-a-vm-as" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>A remote computer you log into</p></li>
+<li><p>A controlled and reproducible computing environment</p></li>
+<li><p>A place to run ML workloads without relying on your laptop</p></li>
+</ul>
+<p>VMs are used heavily in cloud platforms such as Azure, AWS, and GCP.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="why-data-scientists-use-vms">
+<h2>Why Data Scientists Use VMs<a class="headerlink" href="#why-data-scientists-use-vms" title="Permalink to this heading">#</a></h2>
+<p><a name="whyvm"></a></p>
+<p>Machine Learning workloads often require:</p>
+<ul class="simple">
+<li><p><strong>More compute power</strong> than your laptop can provide</p></li>
+<li><p><strong>Long-running jobs</strong> that must survive reboot or disconnection</p></li>
+<li><p><strong>Shared experiment tracking</strong>, such as MLflow</p></li>
+<li><p><strong>Persistent storage</strong> for datasets and model artifacts</p></li>
+<li><p><strong>Team-wide access</strong> to the same environment</p></li>
+</ul>
+<p>A VM provides all of this in a controlled way.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if you develop code locally, the <em>infrastructure</em> for experiment tracking and deployment often lives on remote VMs.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="setting-up-ssh-access">
+<h2>Setting Up SSH Access<a class="headerlink" href="#setting-up-ssh-access" title="Permalink to this heading">#</a></h2>
+<p><a name="ssh"></a></p>
+<p>SSH (<strong>Secure Shell</strong>) allows you to log into a remote VM and run commands securely.</p>
+<p>Before connecting, you usually generate an SSH key pair on your laptop:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-b<span class="w"> </span><span class="m">4096</span>
+</pre></div>
+</div>
 <p>In this tutorial, we will teach you how to create a Jupyter book and deploy it online.
 This page is written in markdown, which also serves as an example.
 All the content on this website is licensed under a <a class="reference external" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
@@ -414,8 +479,9 @@ All the content on this website is licensed under a <a class="reference external
 For more advanced usage of Jupyter Book (e.g., using this special content block, editing the configuration file <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code>, editing the table of content file <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>, etc.), check <a class="reference external" href="https://jupyterbook.org/en/stable/content/index.html">the Jupyter Book documentation</a> for more information.</p>
 </div>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/EaETjKmXOTo?si=uAeOYk-SXi9tKXkV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-<section id="table-of-contents">
-<h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="id1">
+<h2>Table of contents<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><span class="xref myst">Prerequisites</span></p></li>
 <li><p><span class="xref myst">Step 1: Install conda</span></p></li>
@@ -768,8 +834,6 @@ You may be able to find solutions on Stack Overflow or other people’s blogs.</
 <li><p>Your browser may have an old cache that does not reflect new changes. Search online about how to clear your browser cache. After cleaning the cache, check the website again.</p></li>
 </ul>
 </section>
-<div class="toctree-wrapper compound">
-</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -802,14 +866,14 @@ You may be able to find solutions on Stack Overflow or other people’s blogs.</
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="notebook.html"
-       title="next page">
+    <a class="left-prev"
+       href="numpy.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Example Notebook</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">NumPy</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -827,7 +891,14 @@ You may be able to find solutions on Stack Overflow or other people’s blogs.</
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ssh-access">Setting Up SSH Access</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#register-a-github-account">Register a GitHub account</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-personal-access-token">Create a GitHub personal access token</a></li>
