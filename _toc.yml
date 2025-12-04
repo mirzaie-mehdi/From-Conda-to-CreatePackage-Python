@@ -10,3 +10,5 @@ chapters:
   title: Conda Environments
 - file: docs/numpy.ipynb
   title: Numpy
+- file: docs/Deployment_Infrastructure
+  title: Virtual Machine, Deployment and Infrastructure
