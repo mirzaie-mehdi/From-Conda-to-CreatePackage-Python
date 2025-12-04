@@ -17,7 +17,7 @@ This chapter introduces the practical foundations needed to work with remote com
 
 ---
 
-## What is a Virtual Machine?
+## 1. What is a Virtual Machine?
 <a name="vm"></a>
 
 A **Virtual Machine (VM)** is a fully isolated computer environment running inside a physical machine. It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.
@@ -94,7 +94,7 @@ VMs are fundamental to modern ML engineering and MLOps.
 
 ---
 
-## Why Data Scientists Use VMs
+### Why Data Scientists Use VMs
 <a name="whyvm"></a>
 
 Machine Learning workloads often require:
@@ -114,7 +114,7 @@ Even if you develop code locally, the *infrastructure* for experiment tracking a
 ---
 
 
-## How to Build a Virtual Machine (VM)
+## 2. How to Build a Virtual Machine (VM)
 
 Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains **how to build a VM in a general, cloud-agnostic way**, and also highlights the key parameters you must choose for ML workloads.
 
@@ -789,7 +789,7 @@ In real production setups, you will usually:
 - integrate with secrets managers (for credentials).
 :::
 
-## Troubleshooting
+## 7. Troubleshooting
 <a name="ts"></a>
 
 **Q1: I cannot access MLflow at** `http://127.0.0.1:5000`.
