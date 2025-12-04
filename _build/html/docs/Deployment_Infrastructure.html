@@ -687,18 +687,32 @@ pip<span class="w"> </span>install<span class="w"> </span>mlflow<span class="w">
 <p>This transforms your VM from a plain Linux box into a full ML platform.</p>
 <div class="admonition-summary admonition">
 <p class="admonition-title">⭐ Summary</p>
-<p>To build a VM for ML/MLOps:</p>
+<p>A Virtual Machine (VM) provides a reproducible, stable, and always-on environment for Machine Learning and MLOps.<br />
+To build a practical ML-ready VM:</p>
 <ol class="arabic simple">
-<li><p>Pick a cloud or host platform</p></li>
-<li><p>Choose Ubuntu as the OS</p></li>
-<li><p>Select appropriate compute resources</p></li>
-<li><p>Configure secure SSH access</p></li>
-<li><p>Create and connect to the VM</p></li>
-<li><p>Install Python, MLflow, storage tools, and optional GPUs</p></li>
-<li><p>Configure networking + port forwarding</p></li>
-<li><p>Add Docker/Kubernetes if deploying models</p></li>
+<li><p><strong>Choose a cloud or host platform</strong> (Azure, AWS, GCP, on-premise)</p></li>
+<li><p><strong>Select Ubuntu</strong> as the operating system (20.04 or 22.04 LTS recommended)</p></li>
+<li><p><strong>Allocate compute resources</strong></p>
+<ul class="simple">
+<li><p>CPUs: 2–8</p></li>
+<li><p>RAM: 8–32 GB</p></li>
+<li><p>GPU: optional (NVIDIA)</p></li>
+</ul>
+</li>
+<li><p><strong>Enable secure SSH access</strong> using key-based authentication</p></li>
+<li><p><strong>Create the VM</strong> and connect via <code class="docutils literal notranslate"><span class="pre">ssh</span></code></p></li>
+<li><p><strong>Install essential tools</strong></p>
+<ul class="simple">
+<li><p>Python, pip/conda</p></li>
+<li><p>MLflow</p></li>
+<li><p>Git</p></li>
+<li><p>Storage clients</p></li>
+</ul>
+</li>
+<li><p><strong>Configure networking</strong> and SSH port forwarding for MLflow/MinIO</p></li>
+<li><p><strong>Add Docker &amp; Kubernetes</strong> tooling for production deployments</p></li>
 </ol>
-<p>With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.</p>
+<p>These steps give you a powerful, reusable infrastructure to run ML experiments, track them, store artifacts, and deploy production ML services.</p>
 </div>
 </section>
 </section>

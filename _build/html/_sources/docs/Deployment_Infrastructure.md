@@ -276,27 +276,28 @@ Kubernetes tooling (kubectl + Azure CLI if using AKS)
 This transforms your VM from a plain Linux box into a full ML platform.
 
 ::::{admonition} ⭐ Summary
+A Virtual Machine (VM) provides a reproducible, stable, and always-on environment for Machine Learning and MLOps.  
+To build a practical ML-ready VM:
 
-To build a VM for ML/MLOps:
+1. **Choose a cloud or host platform** (Azure, AWS, GCP, on-premise)
+2. **Select Ubuntu** as the operating system (20.04 or 22.04 LTS recommended)
+3. **Allocate compute resources**  
+   - CPUs: 2–8  
+   - RAM: 8–32 GB  
+   - GPU: optional (NVIDIA)
+4. **Enable secure SSH access** using key-based authentication
+5. **Create the VM** and connect via `ssh`
+6. **Install essential tools**  
+   - Python, pip/conda  
+   - MLflow  
+   - Git  
+   - Storage clients  
+7. **Configure networking** and SSH port forwarding for MLflow/MinIO
+8. **Add Docker & Kubernetes** tooling for production deployments
 
-1. Pick a cloud or host platform
-
-2. Choose Ubuntu as the OS
-
-3. Select appropriate compute resources
-
-4. Configure secure SSH access
-
-5. Create and connect to the VM
-
-6. Install Python, MLflow, storage tools, and optional GPUs
-
-7. Configure networking + port forwarding
-
-8. Add Docker/Kubernetes if deploying models
-
-With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.
+These steps give you a powerful, reusable infrastructure to run ML experiments, track them, store artifacts, and deploy production ML services.
 ::::
+
 
 ---
 
