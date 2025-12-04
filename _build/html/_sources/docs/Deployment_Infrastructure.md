@@ -83,13 +83,14 @@ A VM becomes your **primary compute engine**, while your laptop becomes simply a
 
 ---
 
-:::{⭐Summary}
+::::{admonition} ⭐ Summary
 A Virtual Machine is:
 
 > **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.**
 
 VMs are fundamental to modern ML engineering and MLOps.
-:::
+::::
+
 
 ---
 
@@ -274,7 +275,7 @@ Kubernetes tooling (kubectl + Azure CLI if using AKS)
 
 This transforms your VM from a plain Linux box into a full ML platform.
 
-:::{⭐ Summary}
+::::{admonition} ⭐ Summary
 
 To build a VM for ML/MLOps:
 

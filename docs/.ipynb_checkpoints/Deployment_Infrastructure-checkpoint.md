@@ -83,13 +83,14 @@ A VM becomes your **primary compute engine**, while your laptop becomes simply a
 
 ---
 
-:::{⭐Summary}
+::::{admonition} ⭐ Summary
 A Virtual Machine is:
 
 > **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.**
 
 VMs are fundamental to modern ML engineering and MLOps.
-:::
+::::
+
 
 ---
 
@@ -221,30 +222,42 @@ If you have an SSH config entry:
 ```sh
 ssh mlops-vm
 ```
+---
 
-7️⃣ Install Essential ML Infrastructure Components
+### 7️⃣ Install Essential ML Infrastructure Components
 
 After connecting to the VM, you typically install:
 
 System updates:
+```sh
 sudo apt update && sudo apt upgrade -y
+```
 
 Python tools:
+```sh
 sudo apt install python3-pip python3-venv -y
+```
 
 Git:
+```sh
 sudo apt install git -y
+```
 
 MLflow + libraries (inside a venv):
+
+```sh
 python3 -m venv mlflow_env
 source mlflow_env/bin/activate
 pip install mlflow boto3 psycopg2-binary
+```
 
 Optional — GPUs:
 
 Install NVIDIA drivers + CUDA toolkit depending on cloud platform.
 
-8️⃣ Enable the VM for MLOps Work
+---
+
+### 8️⃣ Enable the VM for MLOps Work
 
 A fully configured ML VM typically includes:
 
@@ -262,7 +275,7 @@ Kubernetes tooling (kubectl + Azure CLI if using AKS)
 
 This transforms your VM from a plain Linux box into a full ML platform.
 
-⭐ Summary
+::::{admonition} ⭐ Summary
 
 To build a VM for ML/MLOps:
 
@@ -283,119 +296,9 @@ Configure networking + port forwarding
 Add Docker/Kubernetes if deploying models
 
 With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.
-
+:::
 
 ---
-
-If you want, I can also add:
-
-✅ diagrams showing the architecture  
-✅ a step-by-step Azure-specific VM creation guide  
-✅ a section explaining GPUs, CUDA, cuDNN, NVIDIA drivers  
-✅ a section explaining VM cost optimization  
-
-Just tell me what you want!
-
-You said:
-this section should be before the Setting Up SSH Access section? or after that
-ChatGPT said:
-
-Great question — and the answer is very clear:
-
-✅ The “How to Build a Virtual Machine” section should come before the “Setting Up SSH Access” section.
-
-Here’s why:
-
-📌 Logical Flow of the Chapter
-
-You cannot configure SSH access until a VM exists.
-
-So the proper order is:
-
-1️⃣ Understanding VMs
-
-(What they are, why we use them)
-
-2️⃣ How to Build a Virtual Machine ← your new section
-
-(Choosing OS, VM size, creating the VM, adding SSH key during creation)
-
-✔ At this stage, the reader creates the VM and now has:
-
-a public IP
-
-a username
-
-an SSH key installed on the VM
-
-These are required for the next step.
-
-3️⃣ Setting Up SSH Access
-
-(Now that the VM exists, configure:
-
-SSH config
-
-port forwarding
-
-secure connection)
-
-4️⃣ Port Forwarding for MLflow/MinIO
-
-(Depends entirely on SSH)
-
-5️⃣ Connecting to MLflow / running ML code
-6️⃣ Deployment (Docker + Kubernetes/AKS)
-🎯 Simple rule:
-
-First build the VM → then configure SSH → then forward ports → then run MLflow.
-
-If you put the VM section after SSH, it becomes confusing because:
-
-The reader would try to SSH into a VM that doesn’t exist yet.
-
-They wouldn’t understand where the VM IP or username comes from.
-
-SSH keys must be added during VM creation, so that part must be explained earlier.
-
-✔ Correct chapter order for your Jupyter Book
-
-Here is exactly how your chapter should look:
-
-Virtual Machines (VMs)
-
-How to Build a Virtual Machine ← place here
-
-Why Data Scientists Use VMs (optional to move before/after)
-
-Setting Up SSH Access
-
-Port Forwarding for MLflow & MinIO
-
-Connecting Python Code to Remote MLflow
-
-Deploying ML Services (Docker + Kubernetes/AKS)
-
-Perfect logical progression. 👍
-
-If you want, I can also:
-
-restructure the entire chapter for clarity
-
-generate a final combined .md file in one piece
-
-prepare a table of contents or add navigation links
-
-Just tell me!
-
-
-
-
-
-
-
-
-
 
 ## Setting Up SSH Access
 <a name="ssh"></a>
