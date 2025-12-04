@@ -372,7 +372,13 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-remote-computer-you-log-into"><strong>1️⃣ A remote computer you log into</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-controlled-and-reproducible-computing-environment"><strong>2️⃣ A controlled and reproducible computing environment</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">⭐ Summary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
@@ -410,10 +416,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="working-with-virtual-machines-ssh-and-remote-mlflow-infrastructure">
 <h1>Working with Virtual Machines, SSH and Remote MLflow Infrastructure<a class="headerlink" href="#working-with-virtual-machines-ssh-and-remote-mlflow-infrastructure" title="Permalink to this heading">#</a></h1>
-<p>This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows.<br />
-You will learn what a <strong>Virtual Machine (VM)</strong> is, how to connect to it using <strong>SSH</strong>, how to securely expose remote services using <strong>port forwarding</strong>, and finally how to connect your local ML code to a <strong>remote MLflow server</strong> for experiment tracking.</p>
-<p>This chapter follows the same educational format as the rest of this book.<br />
-For basic Markdown/Jupyter-Book usage, refer to the introductory materials.:contentReference[oaicite:1]{index=1}</p>
+<p>This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows. You will learn what a <strong>Virtual Machine (VM)</strong> is, how to connect to it using <strong>SSH</strong>, how to securely expose remote services using <strong>port forwarding</strong>, and finally how to connect your local ML code to a <strong>remote MLflow server</strong> for experiment tracking.</p>
 <hr class="docutils" />
 <section id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
@@ -431,16 +434,77 @@ For basic Markdown/Jupyter-Book usage, refer to the introductory materials.:cont
 <section id="what-is-a-virtual-machine">
 <h2>What is a Virtual Machine?<a class="headerlink" href="#what-is-a-virtual-machine" title="Permalink to this heading">#</a></h2>
 <p><a name="vm"></a></p>
-<p>A <strong>Virtual Machine (VM)</strong> is a fully isolated computer environment running inside a physical machine.<br />
-It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.</p>
+<p>A <strong>Virtual Machine (VM)</strong> is a fully isolated computer environment running inside a physical machine. It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.</p>
 <section id="you-can-think-of-a-vm-as">
 <h3>You can think of a VM as:<a class="headerlink" href="#you-can-think-of-a-vm-as" title="Permalink to this heading">#</a></h3>
+<section id="a-remote-computer-you-log-into">
+<h4><strong>1️⃣ A remote computer you log into</strong><a class="headerlink" href="#a-remote-computer-you-log-into" title="Permalink to this heading">#</a></h4>
+<p>A Virtual Machine behaves just like a physical computer, but it exists <em>somewhere else</em>—in a datacenter or in the cloud.<br />
+It has its own:</p>
 <ul class="simple">
-<li><p>A remote computer you log into</p></li>
-<li><p>A controlled and reproducible computing environment</p></li>
-<li><p>A place to run ML workloads without relying on your laptop</p></li>
+<li><p>Operating system (often Ubuntu/Linux)</p></li>
+<li><p>CPU cores</p></li>
+<li><p>RAM</p></li>
+<li><p>Disk storage</p></li>
+<li><p>Network interface</p></li>
 </ul>
-<p>VMs are used heavily in cloud platforms such as Azure, AWS, and GCP.</p>
+<p>You connect to it using <strong>SSH</strong>, which means:</p>
+<ul class="simple">
+<li><p>You can work on the VM from anywhere</p></li>
+<li><p>Your laptop becomes only a “window” into the VM</p></li>
+<li><p>Training jobs continue running even if you close your laptop</p></li>
+</ul>
+<p>A VM is essentially your <strong>remote workstation</strong> for ML.</p>
+</section>
+<hr class="docutils" />
+<section id="a-controlled-and-reproducible-computing-environment">
+<h4><strong>2️⃣ A controlled and reproducible computing environment</strong><a class="headerlink" href="#a-controlled-and-reproducible-computing-environment" title="Permalink to this heading">#</a></h4>
+<p>A laptop changes constantly (OS updates, Python conflicts, limited resources).<br />
+A VM is different: it stays <strong>stable and consistent</strong>.</p>
+<p>A VM provides:</p>
+<ul class="simple">
+<li><p>A fixed Python environment</p></li>
+<li><p>Stable versions of CUDA, drivers, and libraries</p></li>
+<li><p>Shared datasets accessible to multiple users</p></li>
+<li><p>No unexpected system updates</p></li>
+<li><p>An isolated environment that does not depend on your laptop</p></li>
+</ul>
+<p>This makes it ideal for <strong>reproducible experiments</strong>, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow—<br />
+because nothing changes unless <em>you</em> change it.</p>
+</section>
+<hr class="docutils" />
+<section id="a-place-to-run-ml-workloads-without-relying-on-your-laptop">
+<h4><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong><a class="headerlink" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop" title="Permalink to this heading">#</a></h4>
+<p>Laptops have limitations:</p>
+<ul class="simple">
+<li><p>Limited RAM</p></li>
+<li><p>No or limited GPU</p></li>
+<li><p>Limited CPU power</p></li>
+<li><p>Overheating</p></li>
+<li><p>Battery draining</p></li>
+<li><p>Sleep mode interrupts long training runs</p></li>
+</ul>
+<p>A VM solves these problems:</p>
+<ul class="simple">
+<li><p>Can have large amounts of RAM</p></li>
+<li><p>Can include powerful CPUs or multiple GPUs</p></li>
+<li><p>Runs <strong>24/7</strong> without interruption</p></li>
+<li><p>Can handle big datasets and heavy training workloads</p></li>
+<li><p>Supports multiple notebooks/scripts running at once</p></li>
+<li><p>Can host ML services such as MLflow, MinIO, FastAPI, or databases</p></li>
+</ul>
+<p>A VM becomes your <strong>primary compute engine</strong>,<br />
+while your laptop becomes simply a <strong>client</strong>.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="summary">
+<h3>⭐ Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h3>
+<p>A Virtual Machine is:</p>
+<blockquote>
+<div><p><strong>A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.</strong></p>
+</div></blockquote>
+<p>VMs are fundamental to modern ML engineering and MLOps.</p>
 </section>
 </section>
 <hr class="docutils" />
@@ -893,7 +957,13 @@ You may be able to find solutions on Stack Overflow or other people’s blogs.</
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-can-think-of-a-vm-as">You can think of a VM as:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-remote-computer-you-log-into"><strong>1️⃣ A remote computer you log into</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-controlled-and-reproducible-computing-environment"><strong>2️⃣ A controlled and reproducible computing environment</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">⭐ Summary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>

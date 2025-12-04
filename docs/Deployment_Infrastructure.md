@@ -1,11 +1,7 @@
 # Working with Virtual Machines, SSH and Remote MLflow Infrastructure
 
 
-This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows.  
-You will learn what a **Virtual Machine (VM)** is, how to connect to it using **SSH**, how to securely expose remote services using **port forwarding**, and finally how to connect your local ML code to a **remote MLflow server** for experiment tracking.
-
-This chapter follows the same educational format as the rest of this book.  
-For basic Markdown/Jupyter-Book usage, refer to the introductory materials.:contentReference[oaicite:1]{index=1}
+This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows. You will learn what a **Virtual Machine (VM)** is, how to connect to it using **SSH**, how to securely expose remote services using **port forwarding**, and finally how to connect your local ML code to a **remote MLflow server** for experiment tracking.
 
 ---
 
@@ -23,15 +19,82 @@ For basic Markdown/Jupyter-Book usage, refer to the introductory materials.:cont
 ## What is a Virtual Machine?
 <a name="vm"></a>
 
-A **Virtual Machine (VM)** is a fully isolated computer environment running inside a physical machine.  
-It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.
+A **Virtual Machine (VM)** is a fully isolated computer environment running inside a physical machine. It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.
 
 ### You can think of a VM as:
-- A remote computer you log into  
-- A controlled and reproducible computing environment  
-- A place to run ML workloads without relying on your laptop  
 
-VMs are used heavily in cloud platforms such as Azure, AWS, and GCP.
+#### **1️⃣ A remote computer you log into**
+A Virtual Machine behaves just like a physical computer, but it exists *somewhere else*—in a datacenter or in the cloud.  
+It has its own:
+
+- Operating system (often Ubuntu/Linux)
+- CPU cores  
+- RAM  
+- Disk storage  
+- Network interface  
+
+You connect to it using **SSH**, which means:
+
+- You can work on the VM from anywhere  
+- Your laptop becomes only a “window” into the VM  
+- Training jobs continue running even if you close your laptop  
+
+A VM is essentially your **remote workstation** for ML.
+
+---
+
+#### **2️⃣ A controlled and reproducible computing environment**
+A laptop changes constantly (OS updates, Python conflicts, limited resources).  
+A VM is different: it stays **stable and consistent**.
+
+A VM provides:
+
+- A fixed Python environment  
+- Stable versions of CUDA, drivers, and libraries  
+- Shared datasets accessible to multiple users  
+- No unexpected system updates  
+- An isolated environment that does not depend on your laptop  
+
+This makes it ideal for **reproducible experiments**, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow—  
+because nothing changes unless *you* change it.
+
+---
+
+#### **3️⃣ A place to run ML workloads without relying on your laptop**
+Laptops have limitations:
+
+- Limited RAM  
+- No or limited GPU  
+- Limited CPU power  
+- Overheating  
+- Battery draining  
+- Sleep mode interrupts long training runs  
+
+A VM solves these problems:
+
+- Can have large amounts of RAM  
+- Can include powerful CPUs or multiple GPUs  
+- Runs **24/7** without interruption  
+- Can handle big datasets and heavy training workloads  
+- Supports multiple notebooks/scripts running at once  
+- Can host ML services such as MLflow, MinIO, FastAPI, or databases  
+
+A VM becomes your **primary compute engine**,  
+while your laptop becomes simply a **client**.
+
+---
+
+### ⭐ Summary
+A Virtual Machine is:
+
+> **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.**
+
+VMs are fundamental to modern ML engineering and MLOps.
+
+
+
+
+
 
 ---
 
