@@ -378,10 +378,25 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">⭐ Summary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-lightweight-models-e-g-scikit-learn"><strong>For lightweight models (e.g., scikit-learn):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-deep-learning-pytorch-tensorflow"><strong>For deep learning (PyTorch/TensorFlow):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services"><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-networking-access">4️⃣ Configure Networking &amp; Access</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-ssh-key">5️⃣ Add Your SSH Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-vm-and-connect-to-it">6️⃣ Create the VM and Connect to It</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-essential-ml-infrastructure-components">7️⃣ Install Essential ML Infrastructure Components</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-the-vm-for-mlops-work">8️⃣ Enable the VM for MLOps Work</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ssh-access">Setting Up SSH Access</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">
@@ -423,6 +438,7 @@ document.write(`
 <ul class="simple">
 <li><p><span class="xref myst">What is a Virtual Machine?</span></p></li>
 <li><p><span class="xref myst">Why Data Scientists Use VMs</span></p></li>
+<li><p><span class="xref myst">How to Build a Virtual Machine</span></p></li>
 <li><p><span class="xref myst">Setting Up SSH Access</span></p></li>
 <li><p><span class="xref myst">Using SSH Port Forwarding</span></p></li>
 <li><p><span class="xref myst">Connecting to Remote MLflow</span></p></li>
@@ -469,8 +485,7 @@ A VM is different: it stays <strong>stable and consistent</strong>.</p>
 <li><p>No unexpected system updates</p></li>
 <li><p>An isolated environment that does not depend on your laptop</p></li>
 </ul>
-<p>This makes it ideal for <strong>reproducible experiments</strong>, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow—<br />
-because nothing changes unless <em>you</em> change it.</p>
+<p>This makes it ideal for <strong>reproducible experiments</strong>, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow, because nothing changes unless <em>you</em> change it.</p>
 </section>
 <hr class="docutils" />
 <section id="a-place-to-run-ml-workloads-without-relying-on-your-laptop">
@@ -493,18 +508,9 @@ because nothing changes unless <em>you</em> change it.</p>
 <li><p>Supports multiple notebooks/scripts running at once</p></li>
 <li><p>Can host ML services such as MLflow, MinIO, FastAPI, or databases</p></li>
 </ul>
-<p>A VM becomes your <strong>primary compute engine</strong>,<br />
-while your laptop becomes simply a <strong>client</strong>.</p>
-</section>
-</section>
+<p>A VM becomes your <strong>primary compute engine</strong>, while your laptop becomes simply a <strong>client</strong>.</p>
 <hr class="docutils" />
-<section id="summary">
-<h3>⭐ Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h3>
-<p>A Virtual Machine is:</p>
-<blockquote>
-<div><p><strong>A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.</strong></p>
-</div></blockquote>
-<p>VMs are fundamental to modern ML engineering and MLOps.</p>
+</section>
 </section>
 </section>
 <hr class="docutils" />
@@ -524,6 +530,176 @@ while your laptop becomes simply a <strong>client</strong>.</p>
 <p class="admonition-title">Note</p>
 <p>Even if you develop code locally, the <em>infrastructure</em> for experiment tracking and deployment often lives on remote VMs.</p>
 </div>
+</section>
+<hr class="docutils" />
+<section id="how-to-build-a-virtual-machine-vm">
+<h2>How to Build a Virtual Machine (VM)<a class="headerlink" href="#how-to-build-a-virtual-machine-vm" title="Permalink to this heading">#</a></h2>
+<p>Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains <strong>how to build a VM in a general, cloud-agnostic way</strong>, and also highlights the key parameters you must choose for ML workloads.</p>
+<hr class="docutils" />
+<section id="choose-a-cloud-platform-or-host-environment">
+<h3>1️⃣ Choose a Cloud Platform or Host Environment<a class="headerlink" href="#choose-a-cloud-platform-or-host-environment" title="Permalink to this heading">#</a></h3>
+<p>You can create a VM in:</p>
+<ul class="simple">
+<li><p><strong>Azure</strong> (Azure Portal → Virtual Machines)</p></li>
+<li><p><strong>AWS EC2</strong></p></li>
+<li><p><strong>Google Cloud Compute Engine</strong></p></li>
+<li><p><strong>Local virtualization tools</strong> (VirtualBox, VMware)</p></li>
+<li><p><strong>University/enterprise clusters</strong> (custom portals)</p></li>
+<li><p><strong>Bare-metal servers managed via SSH</strong></p></li>
+</ul>
+<p>Regardless of the platform, the VM creation workflow follows the same steps.</p>
+</section>
+<hr class="docutils" />
+<section id="select-the-operating-system-os">
+<h3>2️⃣ Select the Operating System (OS)<a class="headerlink" href="#select-the-operating-system-os" title="Permalink to this heading">#</a></h3>
+<p>For Machine Learning, the recommended OS is:</p>
+<ul class="simple">
+<li><p><strong>Ubuntu 20.04 LTS</strong></p></li>
+<li><p><strong>Ubuntu 22.04 LTS</strong> (very common)</p></li>
+<li><p>(Optional) Ubuntu + NVIDIA GPU drivers (if using GPUs)</p></li>
+</ul>
+<p>Why Ubuntu?</p>
+<ul class="simple">
+<li><p>Compatibility with ML frameworks</p></li>
+<li><p>Easy package management (<code class="docutils literal notranslate"><span class="pre">apt</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>)</p></li>
+<li><p>Good community support</p></li>
+<li><p>Most MLOps tools assume Linux environments</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="choose-vm-size-cpu-ram-gpu">
+<h3>3️⃣ Choose VM Size (CPU, RAM, GPU)<a class="headerlink" href="#choose-vm-size-cpu-ram-gpu" title="Permalink to this heading">#</a></h3>
+<p>Depending on your ML workload:</p>
+<section id="for-lightweight-models-e-g-scikit-learn">
+<h4><strong>For lightweight models (e.g., scikit-learn):</strong><a class="headerlink" href="#for-lightweight-models-e-g-scikit-learn" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>2–4 vCPUs</p></li>
+<li><p>8–16 GB RAM</p></li>
+<li><p>No GPU needed</p></li>
+</ul>
+</section>
+<section id="for-deep-learning-pytorch-tensorflow">
+<h4><strong>For deep learning (PyTorch/TensorFlow):</strong><a class="headerlink" href="#for-deep-learning-pytorch-tensorflow" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>8+ vCPUs</p></li>
+<li><p>32+ GB RAM</p></li>
+<li><p>One or more GPUs (NVIDIA Tesla series)</p></li>
+<li><p>Dedicated disk for datasets</p></li>
+</ul>
+</section>
+<section id="for-mlops-infrastructure-mlflow-minio-fastapi-services">
+<h4><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong><a class="headerlink" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>2–4 vCPUs</p></li>
+<li><p>8 GB RAM</p></li>
+<li><p>Standard SSD storage</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You do <em>not</em> need GPU for MLflow, databases, or MinIO. GPUs are needed only for model training or inference workloads.</p>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="configure-networking-access">
+<h3>4️⃣ Configure Networking &amp; Access<a class="headerlink" href="#configure-networking-access" title="Permalink to this heading">#</a></h3>
+<p>Every VM needs:</p>
+<ul class="simple">
+<li><p>A <strong>public IP address</strong> (for SSH access)</p></li>
+<li><p>A security rule (firewall) allowing <strong>SSH on port 22</strong></p></li>
+<li><p>(Optional) private networking if multiple VMs talk to each other</p></li>
+</ul>
+<p>For security:</p>
+<ul class="simple">
+<li><p>Disable password login</p></li>
+<li><p>Use SSH keys only</p></li>
+<li><p>Do not expose MLflow or MinIO to the internet</p></li>
+<li><p>Use port forwarding instead</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="add-your-ssh-key">
+<h3>5️⃣ Add Your SSH Key<a class="headerlink" href="#add-your-ssh-key" title="Permalink to this heading">#</a></h3>
+<p>During VM creation, the portal will ask for an SSH key. Paste the content of your local public key:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_rsa.pub
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="create-the-vm-and-connect-to-it">
+<h3>6️⃣ Create the VM and Connect to It<a class="headerlink" href="#create-the-vm-and-connect-to-it" title="Permalink to this heading">#</a></h3>
+<p>Once the VM is created, connect from your local machine:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;username&gt;@&lt;VM_PUBLIC_IP&gt;
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>student@20.73.41.122
+</pre></div>
+</div>
+<p>If you have an SSH config entry:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>mlops-vm
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="install-essential-ml-infrastructure-components">
+<h3>7️⃣ Install Essential ML Infrastructure Components<a class="headerlink" href="#install-essential-ml-infrastructure-components" title="Permalink to this heading">#</a></h3>
+<p>After connecting to the VM, you typically install:</p>
+<p>System updates:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>Python tools:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>Git:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>-y
+</pre></div>
+</div>
+<p>MLflow + libraries (inside a venv):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>mlflow_env
+<span class="nb">source</span><span class="w"> </span>mlflow_env/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>mlflow<span class="w"> </span>boto3<span class="w"> </span>psycopg2-binary
+</pre></div>
+</div>
+<p>Optional — GPUs:</p>
+<p>Install NVIDIA drivers + CUDA toolkit depending on cloud platform.</p>
+</section>
+<hr class="docutils" />
+<section id="enable-the-vm-for-mlops-work">
+<h3>8️⃣ Enable the VM for MLOps Work<a class="headerlink" href="#enable-the-vm-for-mlops-work" title="Permalink to this heading">#</a></h3>
+<p>A fully configured ML VM typically includes:</p>
+<p>MLflow tracking server</p>
+<p>Object storage (MinIO or cloud buckets)</p>
+<p>PostgreSQL / MySQL (MLflow metadata)</p>
+<p>SSH port forwarding for UI access</p>
+<p>Docker (for deployment workloads)</p>
+<p>Kubernetes tooling (kubectl + Azure CLI if using AKS)</p>
+<p>This transforms your VM from a plain Linux box into a full ML platform.</p>
+<div class="highlight-{⭐ notranslate"><div class="highlight"><pre><span></span>
+To build a VM for ML/MLOps:
+
+Pick a cloud or host platform
+
+Choose Ubuntu as the OS
+
+Select appropriate compute resources
+
+Configure secure SSH access
+
+Create and connect to the VM
+
+Install Python, MLflow, storage tools, and optional GPUs
+
+Configure networking + port forwarding
+
+Add Docker/Kubernetes if deploying models
+
+With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.
+</pre></div>
+</div>
+</section>
 </section>
 <hr class="docutils" />
 <section id="setting-up-ssh-access">
@@ -963,10 +1139,25 @@ You may be able to find solutions on Stack Overflow or other people’s blogs.</
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#a-place-to-run-ml-workloads-without-relying-on-your-laptop"><strong>3️⃣ A place to run ML workloads without relying on your laptop</strong></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">⭐ Summary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-data-scientists-use-vms">Why Data Scientists Use VMs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-lightweight-models-e-g-scikit-learn"><strong>For lightweight models (e.g., scikit-learn):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-deep-learning-pytorch-tensorflow"><strong>For deep learning (PyTorch/TensorFlow):</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services"><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-networking-access">4️⃣ Configure Networking &amp; Access</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-ssh-key">5️⃣ Add Your SSH Key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-vm-and-connect-to-it">6️⃣ Create the VM and Connect to It</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-essential-ml-infrastructure-components">7️⃣ Install Essential ML Infrastructure Components</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-the-vm-for-mlops-work">8️⃣ Enable the VM for MLOps Work</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ssh-access">Setting Up SSH Access</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a><ul class="nav section-nav flex-column">

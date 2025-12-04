@@ -8,6 +8,7 @@ This chapter introduces the practical foundations needed to work with remote com
 ## Table of Contents
 - [What is a Virtual Machine?](#vm)
 - [Why Data Scientists Use VMs](#whyvm)
+- [How to Build a Virtual Machine](#VM)
 - [Setting Up SSH Access](#ssh)
 - [Using SSH Port Forwarding](#pf)
 - [Connecting to Remote MLflow](#mlflow)
@@ -55,8 +56,7 @@ A VM provides:
 - No unexpected system updates  
 - An isolated environment that does not depend on your laptop  
 
-This makes it ideal for **reproducible experiments**, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow—  
-because nothing changes unless *you* change it.
+This makes it ideal for **reproducible experiments**, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow, because nothing changes unless *you* change it.
 
 ---
 
@@ -79,22 +79,17 @@ A VM solves these problems:
 - Supports multiple notebooks/scripts running at once  
 - Can host ML services such as MLflow, MinIO, FastAPI, or databases  
 
-A VM becomes your **primary compute engine**,  
-while your laptop becomes simply a **client**.
+A VM becomes your **primary compute engine**, while your laptop becomes simply a **client**.
 
 ---
 
-### ⭐ Summary
+:::{⭐Summary}
 A Virtual Machine is:
 
 > **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.**
 
 VMs are fundamental to modern ML engineering and MLOps.
-
-
-
-
-
+:::
 
 ---
 
@@ -113,6 +108,193 @@ A VM provides all of this in a controlled way.
 
 :::{note}
 Even if you develop code locally, the *infrastructure* for experiment tracking and deployment often lives on remote VMs.
+:::
+
+---
+
+
+## How to Build a Virtual Machine (VM)
+
+Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains **how to build a VM in a general, cloud-agnostic way**, and also highlights the key parameters you must choose for ML workloads.
+
+---
+
+### 1️⃣ Choose a Cloud Platform or Host Environment
+You can create a VM in:
+
+- **Azure** (Azure Portal → Virtual Machines)
+- **AWS EC2**
+- **Google Cloud Compute Engine**
+- **Local virtualization tools** (VirtualBox, VMware)
+- **University/enterprise clusters** (custom portals)
+- **Bare-metal servers managed via SSH**
+
+Regardless of the platform, the VM creation workflow follows the same steps.
+
+---
+
+### 2️⃣ Select the Operating System (OS)
+
+For Machine Learning, the recommended OS is:
+
+- **Ubuntu 20.04 LTS**  
+- **Ubuntu 22.04 LTS** (very common)  
+- (Optional) Ubuntu + NVIDIA GPU drivers (if using GPUs)
+
+Why Ubuntu?
+
+- Compatibility with ML frameworks  
+- Easy package management (`apt`, `pip`, `conda`)  
+- Good community support  
+- Most MLOps tools assume Linux environments  
+
+---
+
+### 3️⃣ Choose VM Size (CPU, RAM, GPU)
+
+Depending on your ML workload:
+
+#### **For lightweight models (e.g., scikit-learn):**
+- 2–4 vCPUs  
+- 8–16 GB RAM  
+- No GPU needed  
+
+#### **For deep learning (PyTorch/TensorFlow):**
+- 8+ vCPUs  
+- 32+ GB RAM  
+- One or more GPUs (NVIDIA Tesla series)  
+- Dedicated disk for datasets  
+
+#### **For MLOps infrastructure (MLflow, MinIO, FastAPI services):**
+- 2–4 vCPUs  
+- 8 GB RAM  
+- Standard SSD storage  
+
+:::{note}
+You do *not* need GPU for MLflow, databases, or MinIO. GPUs are needed only for model training or inference workloads.
+:::
+
+---
+
+### 4️⃣ Configure Networking & Access
+
+Every VM needs:
+
+- A **public IP address** (for SSH access)
+- A security rule (firewall) allowing **SSH on port 22**
+- (Optional) private networking if multiple VMs talk to each other
+
+For security:
+
+- Disable password login  
+- Use SSH keys only  
+- Do not expose MLflow or MinIO to the internet  
+- Use port forwarding instead  
+
+---
+
+### 5️⃣ Add Your SSH Key
+
+During VM creation, the portal will ask for an SSH key. Paste the content of your local public key:
+
+```sh
+cat ~/.ssh/id_rsa.pub
+```
+---
+
+### 6️⃣ Create the VM and Connect to It
+
+Once the VM is created, connect from your local machine:
+
+```sh
+ssh <username>@<VM_PUBLIC_IP>
+```
+
+For example:
+
+```sh
+ssh student@20.73.41.122
+```
+
+If you have an SSH config entry:
+
+```sh
+ssh mlops-vm
+```
+---
+
+### 7️⃣ Install Essential ML Infrastructure Components
+
+After connecting to the VM, you typically install:
+
+System updates:
+```sh
+sudo apt update && sudo apt upgrade -y
+```
+
+Python tools:
+```sh
+sudo apt install python3-pip python3-venv -y
+```
+
+Git:
+```sh
+sudo apt install git -y
+```
+
+MLflow + libraries (inside a venv):
+
+```sh
+python3 -m venv mlflow_env
+source mlflow_env/bin/activate
+pip install mlflow boto3 psycopg2-binary
+```
+
+Optional — GPUs:
+
+Install NVIDIA drivers + CUDA toolkit depending on cloud platform.
+
+---
+
+### 8️⃣ Enable the VM for MLOps Work
+
+A fully configured ML VM typically includes:
+
+MLflow tracking server
+
+Object storage (MinIO or cloud buckets)
+
+PostgreSQL / MySQL (MLflow metadata)
+
+SSH port forwarding for UI access
+
+Docker (for deployment workloads)
+
+Kubernetes tooling (kubectl + Azure CLI if using AKS)
+
+This transforms your VM from a plain Linux box into a full ML platform.
+
+:::{⭐ Summary}
+
+To build a VM for ML/MLOps:
+
+Pick a cloud or host platform
+
+Choose Ubuntu as the OS
+
+Select appropriate compute resources
+
+Configure secure SSH access
+
+Create and connect to the VM
+
+Install Python, MLflow, storage tools, and optional GPUs
+
+Configure networking + port forwarding
+
+Add Docker/Kubernetes if deploying models
+
+With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.
 :::
 
 ---
