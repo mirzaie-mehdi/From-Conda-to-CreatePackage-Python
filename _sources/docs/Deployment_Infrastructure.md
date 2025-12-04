@@ -279,24 +279,24 @@ This transforms your VM from a plain Linux box into a full ML platform.
 
 To build a VM for ML/MLOps:
 
-Pick a cloud or host platform
+1. Pick a cloud or host platform
 
-Choose Ubuntu as the OS
+2. Choose Ubuntu as the OS
 
-Select appropriate compute resources
+3. Select appropriate compute resources
 
-Configure secure SSH access
+4. Configure secure SSH access
 
-Create and connect to the VM
+5. Create and connect to the VM
 
-Install Python, MLflow, storage tools, and optional GPUs
+6. Install Python, MLflow, storage tools, and optional GPUs
 
-Configure networking + port forwarding
+7. Configure networking + port forwarding
 
-Add Docker/Kubernetes if deploying models
+8. Add Docker/Kubernetes if deploying models
 
 With these steps, you now have a reusable, stable environment to run ML experiments, store models, and deploy ML services.
-:::
+::::
 
 ---
 
