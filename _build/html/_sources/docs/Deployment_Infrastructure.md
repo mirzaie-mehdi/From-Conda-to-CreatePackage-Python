@@ -25,8 +25,7 @@ A **Virtual Machine (VM)** is a fully isolated computer environment running insi
 ### You can think of a VM as:
 
 #### **1️⃣ A remote computer you log into**
-A Virtual Machine behaves just like a physical computer, but it exists *somewhere else*—in a datacenter or in the cloud.  
-It has its own:
+A Virtual Machine behaves just like a physical computer, but it exists *somewhere else*—in a datacenter or in the cloud. It has its own:
 
 - Operating system (often Ubuntu/Linux)
 - CPU cores  
@@ -34,7 +33,7 @@ It has its own:
 - Disk storage  
 - Network interface  
 
-You connect to it using **SSH**, which means:
+You connect to it using **SSH (Secure Shell)**, which means:
 
 - You can work on the VM from anywhere  
 - Your laptop becomes only a “window” into the VM  
@@ -45,9 +44,7 @@ A VM is essentially your **remote workstation** for ML.
 ---
 
 #### **2️⃣ A controlled and reproducible computing environment**
-A laptop changes constantly (OS updates, Python conflicts, limited resources).  
-A VM is different: it stays **stable and consistent**.
-
+A laptop changes constantly (OS updates, Python conflicts, limited resources). A VM is different: it stays **stable and consistent**.
 A VM provides:
 
 - A fixed Python environment  
@@ -74,7 +71,7 @@ A VM solves these problems:
 
 - Can have large amounts of RAM  
 - Can include powerful CPUs or multiple GPUs  
-- Runs **24/7** without interruption  
+- Runs **24h** without interruption  
 - Can handle big datasets and heavy training workloads  
 - Supports multiple notebooks/scripts running at once  
 - Can host ML services such as MLflow, MinIO, FastAPI, or databases  
@@ -86,7 +83,7 @@ A VM becomes your **primary compute engine**, while your laptop becomes simply a
 ::::{admonition} ⭐ Summary
 A Virtual Machine is:
 
-> **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services—without depending on your laptop’s hardware.**
+> **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services without depending on your laptop’s hardware.**
 
 VMs are fundamental to modern ML engineering and MLOps.
 ::::
