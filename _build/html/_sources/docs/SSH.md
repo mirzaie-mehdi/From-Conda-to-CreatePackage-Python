@@ -103,6 +103,23 @@ A private key (e.g., ~/.ssh/id_rsa) → keep this secret
 A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust
 
 
+
+:::{note
+
+Recommended modern approach: **Ed25519**
+
+```sh
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+You will get:
+- `~/.ssh/id_ed25519` (private key)
+- `~/.ssh/id_ed25519.pub` (public key)
+
+:::
+
+
+
 ###  Why are there two keys?
 
 SSH uses **asymmetric cryptography**, which requires a matched pair of keys:
@@ -175,660 +192,282 @@ Required by most cloud providers (Azure, AWS, GCP)
 
 SSH keys are the foundation of secure access to remote ML environments and production infrastructure.
 
+### Add your public key to a server
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- **More compute power** than your laptop can provide  
-- **Long-running jobs** that must survive reboot or disconnection  
-- **Shared experiment tracking**, such as MLflow  
-- **Persistent storage** for datasets and model artifacts  
-- **Team-wide access** to the same environment  
-
-A VM provides all of this in a controlled way.
-
-:::{note}
-Even if you develop code locally, the *infrastructure* for experiment tracking and deployment often lives on remote VMs.
-:::
-
----
-
-
-## 2. How to Build a Virtual Machine (VM)
-
-Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains **how to build a VM in a general, cloud-agnostic way**, and also highlights the key parameters you must choose for ML workloads.
-
----
-
-### 1️⃣ Choose a Cloud Platform or Host Environment
-You can create a VM in:
-
-- **Azure** (Azure Portal → Virtual Machines)
-- **AWS EC2**
-- **Google Cloud Compute Engine**
-- **Local virtualization tools** (VirtualBox, VMware)
-- **University/enterprise clusters** (custom portals)
-- **Bare-metal servers managed via SSH**
-
-Regardless of the platform, the VM creation workflow follows the same steps.
-
----
-
-### 2️⃣ Select the Operating System (OS)
-
-For Machine Learning, the recommended OS is:
-
-- **Ubuntu 20.04 LTS**  
-- **Ubuntu 22.04 LTS** (very common)  
-- (Optional) Ubuntu + NVIDIA GPU drivers (if using GPUs)
-
-Why Ubuntu?
-
-- Compatibility with ML frameworks  
-- Easy package management (`apt`, `pip`, `conda`)  
-- Good community support  
-- Most MLOps tools assume Linux environments  
-
----
-
-### 3️⃣ Choose VM Size (CPU, RAM, GPU)
-
-Depending on your ML workload:
-
-#### **For lightweight models (e.g., scikit-learn):**
-- 2–4 vCPUs  
-- 8–16 GB RAM  
-- No GPU needed  
-
-#### **For deep learning (PyTorch/TensorFlow):**
-- 8+ vCPUs  
-- 32+ GB RAM  
-- One or more GPUs (NVIDIA Tesla series)  
-- Dedicated disk for datasets  
-
-#### **For MLOps infrastructure (MLflow, MinIO, FastAPI services):**
-- 2–4 vCPUs  
-- 8 GB RAM  
-- Standard SSD storage  
-
-:::{note}
-You do *not* need GPU for MLflow, databases, or MinIO. GPUs are needed only for model training or inference workloads.
-:::
-
----
-
-### 4️⃣ Configure Networking & Access
-
-Every VM needs:
-
-- A **public IP address** (for SSH access)
-- A security rule (firewall) allowing **SSH on port 22**
-- (Optional) private networking if multiple VMs talk to each other
-
-For security:
-
-- Disable password login  
-- Use SSH keys only  
-- Do not expose MLflow or MinIO to the internet  
-- Use port forwarding instead  
-
----
-
-### 5️⃣ Add Your SSH Key
-
-During VM creation, the portal will ask for an SSH key. Paste the content of your local public key:
+- **Option A:** Using `ssh-copy-id` **(Simple)**
 
 ```sh
-cat ~/.ssh/id_rsa.pub
+ssh-copy-id user@server
+
 ```
----
-
-### 6️⃣ Create the VM and Connect to It
-
-Once the VM is created, connect from your local machine:
+-  **Option B:** Manual method
 
 ```sh
-ssh <username>@<VM_PUBLIC_IP>
+cat ~/.ssh/id_ed25519.pub | ssh user@server "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+OR
+cat ~/.ssh/id_rsa.pub | ssh user@server "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+
 ```
 
-For example:
+### Connect to Remote Machines
+
+Basic syntax:
 
 ```sh
-ssh student@20.73.41.122
+ssh user@hostname
+
 ```
 
-If you have an SSH config entry:
+Examples:
+
 
 ```sh
-ssh mlops-vm
+ssh ubuntu@51.120.14.33
+ssh ec2-user@ec2-3-90-1-20.compute-1.amazonaws.com
+ssh myuser@35.199.200.10
+
 ```
----
-
-### 7️⃣ Install Essential ML Infrastructure Components
-
-After connecting to the VM, you typically install:
-
-System updates:
-```sh
-sudo apt update && sudo apt upgrade -y
-```
-
-Python tools:
-```sh
-sudo apt install python3-pip python3-venv -y
-```
-
-Git:
-```sh
-sudo apt install git -y
-```
-
-MLflow + libraries (inside a venv):
+** First connection fingerprint prompt**
 
 ```sh
-python3 -m venv mlflow_env
-source mlflow_env/bin/activate
-pip install mlflow boto3 psycopg2-binary
+The authenticity of host '51.120.14.33' can't be established.
+Are you sure you want to continue connecting (yes/no)?
+
 ```
 
-Optional — GPUs:
-
-Install NVIDIA drivers + CUDA toolkit depending on cloud platform.
-
----
-
-### 8️⃣ Enable the VM for MLOps Work
-
-A fully configured ML VM typically includes:
-
-MLflow tracking server
-
-Object storage (MinIO or cloud buckets)
-
-PostgreSQL / MySQL (MLflow metadata)
-
-SSH port forwarding for UI access
-
-Docker (for deployment workloads)
-
-Kubernetes tooling (kubectl + Azure CLI if using AKS)
-
-This transforms your VM from a plain Linux box into a full ML platform.
-
-::::{admonition} ⭐ Summary
-A Virtual Machine (VM) provides a reproducible, stable, and always-on environment for Machine Learning and MLOps.  
-To build a practical ML-ready VM:
-
-1. **Choose a cloud or host platform** (Azure, AWS, GCP, on-premise)
-2. **Select Ubuntu** as the operating system (20.04 or 22.04 LTS recommended)
-3. **Allocate compute resources**  
-   - CPUs: 2–8  
-   - RAM: 8–32 GB  
-   - GPU: optional (NVIDIA)
-4. **Enable secure SSH access** using key-based authentication
-5. **Create the VM** and connect via `ssh`
-6. **Install essential tools**  
-   - Python, pip/conda  
-   - MLflow  
-   - Git  
-   - Storage clients  
-7. **Configure networking** and SSH port forwarding for MLflow/MinIO
-8. **Add Docker & Kubernetes** tooling for production deployments
-
-These steps give you a powerful, reusable infrastructure to run ML experiments, track them, store artifacts, and deploy production ML services.
-::::
+Type **yes** to store the fingerprint and continue.
 
 
----
+### Configuring `~/.ssh/config`
 
-## 3. SSH Basics
-<a name="ssh"></a>
+Create shortcuts for frequently used servers.
 
-**SSH (Secure Shell)** is a protocol used to securely log in to a remote machine (like a VM) and run commands.
+`~/.ssh/config`: the config file includes:
 
-
-
-### 3.5 Add your public key to the VM
-On the VM (or via your cloud provider’s UI), add the content of your `id_rsa.pub` into:
 
 ```sh
-~/.ssh/authorized_keys
+Host myvm
+    HostName 20.55.130.12
+    User ubuntu
+    IdentityFile ~/.ssh/id_ed25519
+
 ```
-Make sure permissions are correct:
+
+Now connect with:
+
+```sh
+ssh myvm
+
+```
+
+#### **Diagram: SSH config expansion**
+
+```sh
+ssh myvm
+   │
+   ├── expands to
+   │       ssh ubuntu@20.55.130.12 -i ~/.ssh/id_ed25519
+   ▼
+Connected
+
+
+```
+
+### Copying Files via SSH
+
+Using **scp** a simple way to copy (upload) a file to a server:
+
+```sh
+scp file.txt user@host:/path/
+
+```
+You can also **download**:
+
+```sh
+scp user@host:/path/file.txt .
+
+```
+
+Using `rsync` ***(efficient for folders)*
+
+```sh
+rsync -avz -e ssh myfolder/ user@host:/remote/myfolder/
+
+```
+
+
+### SSH Port Forwarding
+
+Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser.
+
+**Local port forwarding**
+
+
+```sh
+Local Machine (localhost:5000) → Remote Server (localhost:5000)
+
+```
+
+Command:
+
+
+```sh
+ssh -L 5000:localhost:5000 user@server
+```
+
+Use case examples:
+
+- Access MLflow UI running on a VM
+- View remote Jupyter Notebook
+- Connect to remote APIs without exposing them online
+
+
+**Remote port forwarding**
+
+```sh
+ssh -R 6000:localhost:6000 user@server
+```
+
+
+### SSH Agent Usage
+
+To avoid repeated passphrase prompts:
+
+
+Start agent:
+
+
+```sh
+eval "$(ssh-agent -s)"
+```
+
+Add your key:
+
+
+```sh
+ssh-add ~/.ssh/id_ed25519
+```
+
+List loaded keys:
+
+
+```sh
+ssh-add -l
+
+```
+
+### Cloud-Specific SSH Examples
+
+This section gives examples for Azure, AWS EC2, and Google Cloud.
+
+#### Azure VM
+
+Public IP example: `20.75.44.12`
+
+##### SSH into Azure VM
+
+```sh
+ssh azureuser@20.75.44.12
+
+```
+##### Using a config entry
+
+```sh
+Host azure-ml-vm
+    HostName 20.75.44.12
+    User azureuser
+    IdentityFile ~/.ssh/id_ed25519
+
+```
+
+#### AWS EC2
+
+AWS often uses the username `ec2-user` and `.pem` keys.
+
+```sh
+ssh -i ~/.ssh/mykey.pem ec2-user@ec2-3-80-155-100.compute-1.amazonaws.com
+
+```
+
+Recommended to convert `.pem` to OpenSSH format:
+
+
+```sh
+ssh-keygen -p -m PEM -f mykey.pem
+
+```
+
+#### GCP Compute Engine
+
+Typical username: your local machine username.
+
+```sh
+ssh myname@34.122.110.10
+
+```
+
+Or use the `gcloud` command (auto-manages keys):
+
+
+```sh
+gcloud compute ssh myvm --zone=us-central1-a
+
+```
+
+### Troubleshooting SSH
+
+#### **Fix permissions (most common issue)**
 
 ```sh
 chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/id_ed25519
+
 ```
 
-### 3.6 Using an SSH config
-Instead of typing long commands, create/edit:
+#### Remove old host fingerprint
+
 
 ```sh
-~/.ssh/config
+ssh-keygen -R IP_or_hostname
+
 ```
 
-Example:
+#### Specify key manually
+
 
 ```sh
-Host mlops-vm
-    HostName <VM_PUBLIC_IP_OR_HOSTNAME>
-    User <your-username>
-    IdentityFile ~/.ssh/id_rsa
-```
-
-Now you can simply connect with:
-
-```sh
-ssh mlops-vm
-```
-
-:::{important}
-If you get a `permissions are too open` warning, run:
-
-```sh
-chmod 600 ~/.ssh/id_rsa
-```
-
-:::
-
----
-
-## 4. Port Forwarding for MLflow and MinIO
-<a name="pf"></a>
-
-Many ML tools run as **web applications** on the VM, for example:
-
-| Service   | Typical Port | Description                           |
-| --------- | ------------ | ------------------------------------- |
-| MLflow    | 5000         | UI and tracking API                   |
-| MinIO     | 9000         | Web UI for artifact storage           |
-| MinIO API | 9001         | S3-compatible API endpoint (optional) |
-
-
-These ports usually **are not reachable directly from your laptop** (for security reasons).
-Instead, we use **SSH port forwarding** (also called tunneling).
-
-### 4.1 Configure port forwarding in SSH config
-Extend your `~/.ssh/config` entry:
-
-```sh
-Host mlops-vm
-    HostName <VM_PUBLIC_IP_OR_HOSTNAME>
-    User <your-username>
-    IdentityFile ~/.ssh/id_rsa
-    LocalForward 5000 127.0.0.1:5000
-    LocalForward 9000 127.0.0.1:9000
-    LocalForward 9001 127.0.0.1:9001
-```
-
-### 4.2 Connect with forwarding
-Now connect:
-
-```sh
-ssh mlops-vm
-```
-
-As long as this SSH session is open, you can open on your laptop:
-
-- MLflow → `http://127.0.0.1:5000`
-
-- MinIO → `http://127.0.0.1:9000`
-
-Even though these services are actually running on the VM.
-
-:::{note}
-This approach is much safer than exposing MLflow and MinIO directly to the internet. The ports stay private to your tunnel.
-:::
-
----
-
-## 5. Connecting Code to a Remote MLflow Server
-<a name="mlflow"></a>
-
-Once port forwarding is set up, you can connect your ML code **(running on your laptop or in the VM)** to the MLflow tracking server.
-
-### 5.1 Basic configuration in Python
-
-```sh
-import mlflow
-
-# Tracking server appears local because of SSH port forwarding
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
-
-# Choose a meaningful experiment name
-mlflow.set_experiment("wine_quality_experiment")
-```
-
-### 5.2 Logging runs, params, metrics, and models
-
-```sh
-import mlflow
-import mlflow.sklearn
-from sklearn.linear_model import ElasticNet
-from sklearn.metrics import mean_squared_error
-import numpy as np
-
-# X_train, X_test, y_train, y_test assumed to be prepared already
-
-with mlflow.start_run(run_name="elasticnet_default"):
-    alpha = 0.5
-    l1_ratio = 0.5
-
-    model = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
-    model.fit(X_train, y_train)
-
-    preds = model.predict(X_test)
-    rmse = np.sqrt(mean_squared_error(y_test, preds))
-
-    mlflow.log_param("alpha", alpha)
-    mlflow.log_param("l1_ratio", l1_ratio)
-    mlflow.log_metric("rmse", float(rmse))
-
-    mlflow.sklearn.log_model(model, artifact_path="model")
-
-print("Run finished, check MLflow UI at http://127.0.0.1:5000")
-```
-
-After running this:
-
-- Navigate to `http://127.0.0.1:5000` in your browser
-
-- Open your experiment
-
-- Inspect runs, parameters, metrics, and artifacts
-
-:::{note}
-When MLflow is configured with an object storage (e.g., MinIO or Azure Blob Storage), your logged models and artifacts are stored there, while metadata goes into the MLflow backend database.
-:::
-
----
-
-## 6. Building Production ML Services (Docker, AKS/Kubernetes)
-<a name="deploy"></a>
-
-So far, we used a VM and MLflow to **track experiments**.
-In real projects, you often want to expose a **trained model as a service** (e.g., REST API) that other applications can call.
-
-A common production stack:
-
-- **MLflow** for model tracking and registry
-
-- **Docker** to package your model and API
-
-- **Kubernetes** (e.g., **Azure Kubernetes Service – AKS**) to run and scale containers
-
-This section gives a high-level overview and a minimal end-to-end example.
-
-### 6.1 High-level architecture
-
-Conceptually:
-
-```sh
-MLflow (on VM or Azure ML)
-   ▲
-   │ (load model by URI or from registry)
-   ▼
-Docker container (FastAPI / Flask serving code)
-   ▲
-   │ (container image)
-   ▼
-Kubernetes / AKS (runs N replicas, exposes a Service)
-```
-
-The steps:
-
-- Train and log model to MLflow
-
-- Write a small **serving app** (e.g., FastAPI) that loads the model
-
-- Create a **Docker image** for that app
-
-- Push the image to a container registry
-
-- Deploy the image on **Kubernetes/AKS** with a Deployment + Service
-
-### 6.2 Example: Simple FastAPI inference service
-
-Assume you have a model registered in MLflow, e.g.:
-
-Registered name: `wine-quality-model`
-
-Stage: `Production`
-
-We will write an API that receives JSON and returns predictions.
-
-```sh
-# src/app.py
-import mlflow.pyfunc
-from fastapi import FastAPI
-import pandas as pd
-
-# MLflow model URI (from registry or direct run artifact)
-MODEL_URI = "models:/wine-quality-model/Production"
-
-app = FastAPI(title="Wine Quality Prediction API")
-
-# Load the model once at startup
-model = mlflow.pyfunc.load_model(MODEL_URI)
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
-
-@app.post("/predict")
-def predict(features: dict):
-    """
-    Example request body:
-    {
-      "fixed acidity": 7.4,
-      "volatile acidity": 0.70,
-      "citric acid": 0.00,
-      "residual sugar": 1.9,
-      "chlorides": 0.076,
-      "free sulfur dioxide": 11.0,
-      "total sulfur dioxide": 34.0,
-      "density": 0.9978,
-      "pH": 3.51,
-      "sulphates": 0.56,
-      "alcohol": 9.4
-    }
-    """
-    df = pd.DataFrame([features])
-    preds = model.predict(df)
-    return {"prediction": float(preds[0])}
+ssh -i ~/.ssh/id_ed25519 user@server
 
 ```
 
-You can test this locally (before Dockerizing) using `uvicorn`:
+#### Connection refused / timeout
 
-```sh
-uvicorn src.app:app --host 0.0.0.0 --port 8000
-```
+Common causes:
 
-Then open: `http://127.0.0.1:8000/docs` to test the API.
+- Firewall blocks port 22
 
-### 6.3 Dockerizing the service
-Create a requirements.txt:
+- VM not running
 
-```sh
-fastapi
-uvicorn[standard]
-mlflow
-pandas
-```
+- Wrong username
 
-Create a `Dockerfile`:
+- Public key not installed on server
 
-```sh
-# Dockerfile
-FROM python:3.10-slim
+### Summary
 
-WORKDIR /app
+SSH is a core tool for cloud computing, MLOps, DevOps, and deployment workflows.
+By mastering SSH:
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+You can access any remote machine safely
 
-COPY src/ ./src/
+- Securely transfer files and datasets
 
-# Environment variables for MLflow tracking / artifacts (adapt for your setup)
-ENV MLFLOW_TRACKING_URI=http://mlflow:5000
+- Run remote services (MLflow, Jupyter, APIs)
 
-EXPOSE 8000
+- Use tunneling to avoid exposing ports to the internet
 
-CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
-```
+- Integrate with Azure, AWS, and GCP environments
 
-Build the Docker image:
-
-```sh
-docker build -t wine-quality-api:latest .
-```
-
-Run locally:
-
-```sh
-docker run -p 8000:8000 wine-quality-api:latest
-```
-
-Check `http://127.0.0.1:8000/docs` again.
-
-:::{warning}
-In a real setup with MinIO, Azure Blob, or S3, you need to configure environment variables or credentials inside the container so that mlflow.pyfunc.load_model can access the model artifacts.
-:::
-
-### 6.4 Deploying the Docker image to Kubernetes / AKS
-On a Kubernetes cluster (e.g., AKS), you:
-
-1. Push the image to a registry (e.g., Azure Container Registry):
-
-```sh
-docker tag wine-quality-api <your-registry>/wine-quality-api:latest
-docker push <your-registry>/wine-quality-api:latest
-```
-
-Create a `Deployment` and `Service manifest`.
-
-Example `deployment-wine-api.yaml`:
-
-```sh
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: wine-quality-api
-  labels:
-    app: wine-quality-api
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: wine-quality-api
-  template:
-    metadata:
-      labels:
-        app: wine-quality-api
-    spec:
-      containers:
-        - name: wine-quality-api
-          image: <your-registry>/wine-quality-api:latest
-          ports:
-            - containerPort: 8000
-          env:
-            - name: MLFLOW_TRACKING_URI
-              value: "http://mlflow:5000"
-            # add any storage credentials here if needed
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: wine-quality-api-service
-spec:
-  type: LoadBalancer
-  selector:
-    app: wine-quality-api
-  ports:
-    - port: 80
-      targetPort: 8000
-```
-
-Apply it:
-
-```sh
-kubectl apply -f deployment-wine-api.yaml
-```
-
-On AKS or another managed Kubernetes:
-
-- The `Service` of type `LoadBalancer` will be given an external IP
-
-- You can then call:
-
-```sh
-http://<EXTERNAL-IP>/health
-http://<EXTERNAL-IP>/predict
-```
-
-from any client that can access the cluster.
-
-:::{note}
-In real production setups, you will usually:
-
-- use HTTPS (TLS),
-
-- add authentication/authorization,
-
-- configure autoscaling and monitoring,
-
-- integrate with secrets managers (for credentials).
-:::
-
-## 7. Troubleshooting
-<a name="ts"></a>
-
-**Q1: I cannot access MLflow at** `http://127.0.0.1:5000`.
-
-- Check that your SSH session is active and uses `LocalForward 5000` `127.0.0.1:5000`.
-
-- Ensure MLflow is actually running on the VM (check with `ps aux | grep mlflow` or `netstat -tulpn`).
-
-**Q2: My Docker container cannot load the MLflow model.**
-
-Confirm that `MLFLOW_TRACKING_URI` inside the container points to a reachable MLflow server.
-
-If using remote artifact storage (MinIO, S3, Azure Blob), ensure the correct environment variables and credentials are configured inside the container.
-
-**Q3: Kubernetes Service has no external IP.**
-
-- On some local clusters (e.g., kind, minikube), `LoadBalancer` is emulated or not supported by default.
-
-- On AKS, wait a bit for the LoadBalancer to be provisioned and check with:
-
-```sh
-
-kubectl get svc wine-quality-api-service
-```
-
-**Q4: My model works locally but not in Kubernetes.**
-
-- Check logs:
-
-```sh
-kubectl logs deployment/wine-quality-api
-```
-
-- Common issues: wrong model URI, missing environment variables, missing Python dependencies.
-
-
-
+- Maintain strong security practices
 
