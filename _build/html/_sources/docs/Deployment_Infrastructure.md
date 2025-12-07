@@ -198,6 +198,9 @@ During VM creation, the portal will ask for an SSH key. Paste the content of you
 ```sh
 cat ~/.ssh/id_rsa.pub
 ```
+
+For a deeper introduction to SSH fundamentals, see the [SSH Basics](SSH.md) chapter.
+
 ---
 
 ### 6️⃣ Create the VM and Connect to It

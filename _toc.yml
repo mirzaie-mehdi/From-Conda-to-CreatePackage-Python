@@ -6,6 +6,8 @@ root: docs/home
 chapters:
 - file: docs/environment.ipynb
   title: Conda Environments
+- file: docs/SSH.md
+  title: SSH Basics
 - file: docs/numpy.ipynb
   title: Numpy
 - file: docs/Deployment_Infrastructure

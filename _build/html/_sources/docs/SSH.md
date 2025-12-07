@@ -1,100 +1,61 @@
-# Working with Virtual Machines, SSH and Remote MLflow Infrastructure
+# SSH Basics
 
 
-This chapter introduces the practical foundations needed to work with remote computing environments commonly used in Machine Learning and MLOps workflows. You will learn what a **Virtual Machine (VM)** is, how to connect to it using **SSH**, how to securely expose remote services using **port forwarding**, and finally how to connect your local ML code to a **remote MLflow server** for experiment tracking.
+Secure Shell (SSH) is a foundational tool for working with remote servers, cloud virtual machines, version control systems, deployment pipelines, and MLOps workflows.
+This chapter provides a clean, practical introduction to SSH that you can reuse across all environments — local, remote, cloud, development, and production..
 
 ---
 
 ## Table of Contents
-- [What is a Virtual Machine?](#vm)
-- [Why Data Scientists Use VMs](#whyvm)
-- [How to Build a Virtual Machine](#VM)
-- [Setting Up SSH Access](#ssh)
-- [Using SSH Port Forwarding](#pf)
-- [Connecting to Remote MLflow](#mlflow)
-- [Full Workflow Summary](#summary)
-- [Troubleshooting](#ts)
 
+- [What Is SSH and Why Do We Use It?](#ssh)
+- [How SSH Authentication Works](#howssh)
+- [Generating SSH Keys](#genssh)
+- [Connecting to Remote Machines](#connssh)
+- [Configuring ~/.ssh/config](#confssh)
+- [Copying Files via SSH](#copssh)
+- [SSH Port Forwarding](#sshport)
+- [SSH Agent Usage](#sshagent)
+- [Cloud-Specific SSH Examples](#sshcloud)
+- [Troubleshooting SSH](#troubssh)
+- [Summary](#summary)
 ---
 
-## 1. What is a Virtual Machine?
-<a name="vm"></a>
+## 1. What Is SSH and Why Do We Use It?
+<a name="ssh"></a>
 
-A **Virtual Machine (VM)** is a fully isolated computer environment running inside a physical machine. It behaves like a real computer—with its own CPU, RAM, storage, operating system, and network interface.
+SSH (Secure Shell) provides:
 
-### You can think of a VM as:
+- 🔐 Secure, encrypted communication
 
-#### **1️⃣ A remote computer you log into**
-A Virtual Machine behaves just like a physical computer, but it exists *somewhere else*—in a datacenter or in the cloud. It has its own:
+- 👤 Strong authentication using key pairs
 
-- Operating system (often Ubuntu/Linux)
-- CPU cores  
-- RAM  
-- Disk storage  
-- Network interface  
+- 💻 Remote command execution
 
-You connect to it using **SSH (Secure Shell)**, which means:
+- 📁 Secure file transfer (scp, rsync)
 
-- You can work on the VM from anywhere  
-- Your laptop becomes only a “window” into the VM  
-- Training jobs continue running even if you close your laptop  
+- 🔌 Port forwarding for tunneling services 
 
-A VM is essentially your **remote workstation** for ML.
+Common use cases:
 
----
-
-#### **2️⃣ A controlled and reproducible computing environment**
-A laptop changes constantly (OS updates, Python conflicts, limited resources). A VM is different: it stays **stable and consistent**.
-A VM provides:
-
-- A fixed Python environment  
-- Stable versions of CUDA, drivers, and libraries  
-- Shared datasets accessible to multiple users  
-- No unexpected system updates  
-- An isolated environment that does not depend on your laptop  
-
-This makes it ideal for **reproducible experiments**, a key MLOps requirement. If your code runs today on the VM, it will run the same way tomorrow, because nothing changes unless *you* change it.
-
----
-
-#### **3️⃣ A place to run ML workloads without relying on your laptop**
-Laptops have limitations:
-
-- Limited RAM  
-- No or limited GPU  
-- Limited CPU power  
-- Overheating  
-- Battery draining  
-- Sleep mode interrupts long training runs  
-
-A VM solves these problems:
-
-- Can have large amounts of RAM  
-- Can include powerful CPUs or multiple GPUs  
-- Runs **24h** without interruption  
-- Can handle big datasets and heavy training workloads  
-- Supports multiple notebooks/scripts running at once  
-- Can host ML services such as MLflow, MinIO, FastAPI, or databases  
-
-A VM becomes your **primary compute engine**, while your laptop becomes simply a **client**.
-
----
-
-::::{admonition} ⭐ Summary
-A Virtual Machine is:
-
-> **A powerful, stable, always-on remote computer used to run machine learning tasks, experiments, and services without depending on your laptop’s hardware.**
-
-VMs are fundamental to modern ML engineering and MLOps.
-::::
+- Connecting to cloud VMs (Azure, AWS, GCP) 
+- Accessing remote Jupyter or MLflow 
+- Managing Linux servers
+- Deploying applications
+- Using Git with SSH keys  
 
 
----
+### How SSH Authentication Works
+<a name="howssh"></a>
 
-### Why Data Scientists Use VMs
-<a name="whyvm"></a>
+SSH relies on a **public/private key pair.**
 
-Machine Learning workloads often require:
+Local Machine                               Remote Server
+--------------                               -------------------------
+[ Private Key ] -- authentication check --> [ Public Key in ~/.ssh/authorized_keys ]
+
+
+
 
 - **More compute power** than your laptop can provide  
 - **Long-running jobs** that must survive reboot or disconnection  
@@ -198,9 +159,6 @@ During VM creation, the portal will ask for an SSH key. Paste the content of you
 ```sh
 cat ~/.ssh/id_rsa.pub
 ```
-
-For a deeper introduction to SSH fundamentals, see the [SSH Basics](SSH.md) chapter.
-
 ---
 
 ### 6️⃣ Create the VM and Connect to It
