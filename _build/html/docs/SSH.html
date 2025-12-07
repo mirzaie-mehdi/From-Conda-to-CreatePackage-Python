@@ -479,9 +479,11 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 <h3>How SSH Authentication Works<a class="headerlink" href="#how-ssh-authentication-works" title="Permalink to this heading">#</a></h3>
 <p><a name="howssh"></a></p>
 <p>SSH relies on a <strong>public/private key pair.</strong></p>
-<p>Local Machine                               Remote Server</p>
-<hr class="docutils" />
-<p>[ Private Key ] – authentication check –&gt; [ Public Key in ~/.ssh/authorized_keys ]</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Local<span class="w"> </span>Machine<span class="w">                               </span>Remote<span class="w"> </span>Server
+--------------<span class="w">                               </span>-------------------------
+<span class="o">[</span><span class="w"> </span>Private<span class="w"> </span>Key<span class="w"> </span><span class="o">]</span><span class="w"> </span>--<span class="w"> </span>authentication<span class="w"> </span>check<span class="w"> </span>--&gt;<span class="w"> </span><span class="o">[</span><span class="w"> </span>Public<span class="w"> </span>Key<span class="w"> </span><span class="k">in</span><span class="w"> </span>~/.ssh/authorized_keys<span class="w"> </span><span class="o">]</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><strong>More compute power</strong> than your laptop can provide</p></li>
 <li><p><strong>Long-running jobs</strong> that must survive reboot or disconnection</p></li>

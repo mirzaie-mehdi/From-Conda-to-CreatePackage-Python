@@ -50,10 +50,12 @@ Common use cases:
 
 SSH relies on a **public/private key pair.**
 
+
+```sh
 Local Machine                               Remote Server
 --------------                               -------------------------
 [ Private Key ] -- authentication check --> [ Public Key in ~/.ssh/authorized_keys ]
-
+```
 
 
 
