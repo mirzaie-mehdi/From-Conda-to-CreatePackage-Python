@@ -374,6 +374,14 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-ssh-and-why-do-we-use-it">1. What Is SSH and Why Do We Use It?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works">How SSH Authentication Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-key-pair-locally">Generate SSH key pair (locally)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-there-two-keys">Why are there two keys?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key-your-secret-identity">🔐 Private Key (your secret identity)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key-safe-to-share">🔓 Public Key (safe to share)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">How SSH authentication works (simple explanation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">Why SSH keys are more secure than passwords</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
@@ -393,14 +401,6 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. SSH Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-key-pair-locally">3.1 Generate SSH key pair (locally)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-there-two-keys">3.2 Why are there two keys?</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key-your-secret-identity">🔐 Private Key (your secret identity)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key-safe-to-share">🔓 Public Key (safe to share)</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">3.3 How SSH authentication works (simple explanation)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">3.4 Why SSH keys are more secure than passwords</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-the-vm">3.5 Add your public key to the VM</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-ssh-config">3.6 Using an SSH config</a></li>
 </ul>
@@ -467,23 +467,141 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 <li><p>📁 Secure file transfer (scp, rsync)</p></li>
 <li><p>🔌 Port forwarding for tunneling services</p></li>
 </ul>
-<p>Common use cases:</p>
+<p>SSH is used in:</p>
 <ul class="simple">
 <li><p>Connecting to cloud VMs (Azure, AWS, GCP)</p></li>
 <li><p>Accessing remote Jupyter or MLflow</p></li>
 <li><p>Managing Linux servers</p></li>
-<li><p>Deploying applications</p></li>
+<li><p>Deploying applications, DevOps workflows, MLOps tracking servers (e.g., MLflow)</p></li>
 <li><p>Using Git with SSH keys</p></li>
 </ul>
 <section id="how-ssh-authentication-works">
 <h3>How SSH Authentication Works<a class="headerlink" href="#how-ssh-authentication-works" title="Permalink to this heading">#</a></h3>
 <p><a name="howssh"></a></p>
 <p>SSH relies on a <strong>public/private key pair.</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Local<span class="w"> </span>Machine<span class="w">                               </span>Remote<span class="w"> </span>Server
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Local<span class="w"> </span>Machine<span class="w">                                     </span>Remote<span class="w"> </span>Server
 --------------<span class="w">                               </span>-------------------------
 <span class="o">[</span><span class="w"> </span>Private<span class="w"> </span>Key<span class="w"> </span><span class="o">]</span><span class="w"> </span>--<span class="w"> </span>authentication<span class="w"> </span>check<span class="w"> </span>--&gt;<span class="w"> </span><span class="o">[</span><span class="w"> </span>Public<span class="w"> </span>Key<span class="w"> </span><span class="k">in</span><span class="w"> </span>~/.ssh/authorized_keys<span class="w"> </span><span class="o">]</span>
 </pre></div>
 </div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="w">              </span>┌─────────────────────┐
+<span class="w">              </span>│<span class="w">     </span>Local<span class="w"> </span>Machine<span class="w">   </span>│
+<span class="w">              </span>│<span class="w">  </span><span class="o">(</span>Your<span class="w"> </span>Laptop/PC<span class="o">)</span><span class="w">   </span>│
+<span class="w">              </span>└──────────┬──────────┘
+<span class="w">                         </span>│
+<span class="w">                         </span>│<span class="w">  </span>Uses<span class="w"> </span>private<span class="w"> </span>key<span class="w"> </span><span class="k">for</span><span class="w"> </span>authentication
+<span class="w">                         </span>│
+<span class="w">                 </span>┌───────▼────────┐
+<span class="w">                 </span>│<span class="w">  </span>Private<span class="w"> </span>Key<span class="w">    </span>│
+<span class="w">                 </span>│<span class="w">  </span>id_ed25519<span class="w">     </span>│
+<span class="w">                 </span>└───────┬────────┘
+<span class="w">                         </span>│
+<span class="w">                         </span>│<span class="w">  </span>SSH<span class="w"> </span>Connection<span class="w"> </span>Request
+<span class="w">                         </span>▼
+<span class="w">        </span><span class="o">=================================================================</span>
+<span class="w">                         </span>▲
+<span class="w">                         </span>│
+<span class="w">                         </span>│<span class="w">  </span>Server<span class="w"> </span>checks<span class="w"> </span><span class="k">if</span><span class="w"> </span>private<span class="w"> </span>key<span class="w"> </span>matches<span class="w"> </span>public<span class="w"> </span>key
+<span class="w">                         </span>│
+<span class="w">                 </span>┌───────┴────────┐
+<span class="w">                 </span>│<span class="w"> </span>Public<span class="w"> </span>Key<span class="w">      </span>│
+<span class="w">                 </span>│<span class="w"> </span>authorized_keys<span class="w"> </span>│
+<span class="w">                 </span>└───────┬────────┘
+<span class="w">                         </span>│
+<span class="w">              </span>┌──────────▼──────────┐
+<span class="w">              </span>│<span class="w">    </span>Remote<span class="w"> </span>Server<span class="w">     </span>│
+<span class="w">              </span>│<span class="w"> </span><span class="o">(</span>Cloud<span class="w"> </span>VM<span class="w"> </span>/<span class="w"> </span>Linux<span class="o">)</span><span class="w">   </span>│
+<span class="w">              </span>└──────────────────────┘
+</pre></div>
+</div>
+</section>
+<section id="generate-ssh-key-pair-locally">
+<h3>Generate SSH key pair (locally)<a class="headerlink" href="#generate-ssh-key-pair-locally" title="Permalink to this heading">#</a></h3>
+<p>On your laptop:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-b<span class="w"> </span><span class="m">4096</span>
+</pre></div>
+</div>
+<p>This creates:</p>
+<p>A private key (e.g., ~/.ssh/id_rsa) → keep this secret</p>
+<p>A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust</p>
+</section>
+<section id="why-are-there-two-keys">
+<h3>Why are there two keys?<a class="headerlink" href="#why-are-there-two-keys" title="Permalink to this heading">#</a></h3>
+<p>SSH uses <strong>asymmetric cryptography</strong>, which requires a matched pair of keys:</p>
+<section id="private-key-your-secret-identity">
+<h4>🔐 Private Key (your secret identity)<a class="headerlink" href="#private-key-your-secret-identity" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Stored only on your laptop</p></li>
+<li><p>Must never be shared</p></li>
+<li><p>Used to prove your identity when connecting</p></li>
+<li><p>If someone obtains this file, they can log in as you</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Think of it <strong>like your passport</strong> it uniquely identifies you.</p>
+</div>
+</section>
+<section id="public-key-safe-to-share">
+<h4>🔓 Public Key (safe to share)<a class="headerlink" href="#public-key-safe-to-share" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>You upload this to the server (VM)</p></li>
+<li><p>It is not sensitive</p></li>
+<li><p>The server uses it to verify that your private key is real</p></li>
+<li><p>Useless without the private key</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Think of it like the <strong>lock to your VM</strong>. Your private key is the only key that can open it.</p>
+</div>
+</section>
+</section>
+<section id="how-ssh-authentication-works-simple-explanation">
+<h3>How SSH authentication works (simple explanation)<a class="headerlink" href="#how-ssh-authentication-works-simple-explanation" title="Permalink to this heading">#</a></h3>
+<p>You run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;user&gt;@&lt;vm-ip&gt;
+</pre></div>
+</div>
+<p>The VM checks whether your public key is in:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>~/.ssh/authorized_keys
+</pre></div>
+</div>
+<p>If found, the server sends a cryptographic challenge. Your laptop solves it using your private key. If the solution matches the public key, access is granted. No passwords are sent over the network. Your private key never leaves your machine.</p>
+</section>
+<section id="why-ssh-keys-are-more-secure-than-passwords">
+<h3>Why SSH keys are more secure than passwords<a class="headerlink" href="#why-ssh-keys-are-more-secure-than-passwords" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Impossible to guess or brute-force (4096-bit RSA is extremely strong)</p></li>
+<li><p>No secrets are transmitted</p></li>
+<li><p>No password typing → avoids keyloggers</p></li>
+<li><p>Works automatically once set up</p></li>
+</ul>
+<p>Required by most cloud providers (Azure, AWS, GCP)</p>
+<div class="admonition-summary admonition">
+<p class="admonition-title">⭐ Summary</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Location</p></th>
+<th class="head"><p>Purpose</p></th>
+<th class="head"><p>Share?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Private Key</strong> (<code class="docutils literal notranslate"><span class="pre">id_rsa</span></code>)</p></td>
+<td><p>Laptop only</p></td>
+<td><p>Proves your identity</p></td>
+<td><p>❌ Never</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Public Key</strong> (<code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code>)</p></td>
+<td><p>Given to VM</p></td>
+<td><p>Verifies your identity</p></td>
+<td><p>✔ Safe</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>SSH keys are the foundation of secure access to remote ML environments and production infrastructure.</p>
 <ul class="simple">
 <li><p><strong>More compute power</strong> than your laptop can provide</p></li>
 <li><p><strong>Long-running jobs</strong> that must survive reboot or disconnection</p></li>
@@ -680,94 +798,6 @@ To build a practical ML-ready VM:</p>
 <h2>3. SSH Basics<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
 <p><a name="ssh"></a></p>
 <p><strong>SSH (Secure Shell)</strong> is a protocol used to securely log in to a remote machine (like a VM) and run commands.</p>
-<section id="generate-ssh-key-pair-locally">
-<h3>3.1 Generate SSH key pair (locally)<a class="headerlink" href="#generate-ssh-key-pair-locally" title="Permalink to this heading">#</a></h3>
-<p>On your laptop:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>rsa<span class="w"> </span>-b<span class="w"> </span><span class="m">4096</span>
-</pre></div>
-</div>
-<p>This creates:</p>
-<p>A private key (e.g., ~/.ssh/id_rsa) → keep this secret</p>
-<p>A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust</p>
-</section>
-<section id="why-are-there-two-keys">
-<h3>3.2 Why are there two keys?<a class="headerlink" href="#why-are-there-two-keys" title="Permalink to this heading">#</a></h3>
-<p>SSH uses <strong>asymmetric cryptography</strong>, which requires a matched pair of keys:</p>
-<section id="private-key-your-secret-identity">
-<h4>🔐 Private Key (your secret identity)<a class="headerlink" href="#private-key-your-secret-identity" title="Permalink to this heading">#</a></h4>
-<ul class="simple">
-<li><p>Stored only on your laptop</p></li>
-<li><p>Must never be shared</p></li>
-<li><p>Used to prove your identity when connecting</p></li>
-<li><p>If someone obtains this file, they can log in as you</p></li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Think of it <strong>like your passport</strong> it uniquely identifies you.</p>
-</div>
-</section>
-<section id="public-key-safe-to-share">
-<h4>🔓 Public Key (safe to share)<a class="headerlink" href="#public-key-safe-to-share" title="Permalink to this heading">#</a></h4>
-<ul class="simple">
-<li><p>You upload this to the server (VM)</p></li>
-<li><p>It is not sensitive</p></li>
-<li><p>The server uses it to verify that your private key is real</p></li>
-<li><p>Useless without the private key</p></li>
-</ul>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Think of it like the <strong>lock to your VM</strong>. Your private key is the only key that can open it.</p>
-</div>
-</section>
-</section>
-<section id="how-ssh-authentication-works-simple-explanation">
-<h3>3.3 How SSH authentication works (simple explanation)<a class="headerlink" href="#how-ssh-authentication-works-simple-explanation" title="Permalink to this heading">#</a></h3>
-<p>You run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;user&gt;@&lt;vm-ip&gt;
-</pre></div>
-</div>
-<p>The VM checks whether your public key is in:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>~/.ssh/authorized_keys
-</pre></div>
-</div>
-<p>If found, the server sends a cryptographic challenge. Your laptop solves it using your private key. If the solution matches the public key, access is granted. No passwords are sent over the network. Your private key never leaves your machine.</p>
-</section>
-<section id="why-ssh-keys-are-more-secure-than-passwords">
-<h3>3.4 Why SSH keys are more secure than passwords<a class="headerlink" href="#why-ssh-keys-are-more-secure-than-passwords" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Impossible to guess or brute-force (4096-bit RSA is extremely strong)</p></li>
-<li><p>No secrets are transmitted</p></li>
-<li><p>No password typing → avoids keyloggers</p></li>
-<li><p>Works automatically once set up</p></li>
-</ul>
-<p>Required by most cloud providers (Azure, AWS, GCP)</p>
-<div class="admonition-summary admonition">
-<p class="admonition-title">⭐ Summary</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>File</p></th>
-<th class="head"><p>Location</p></th>
-<th class="head"><p>Purpose</p></th>
-<th class="head"><p>Share?</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>Private Key</strong> (<code class="docutils literal notranslate"><span class="pre">id_rsa</span></code>)</p></td>
-<td><p>Laptop only</p></td>
-<td><p>Proves your identity</p></td>
-<td><p>❌ Never</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Public Key</strong> (<code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code>)</p></td>
-<td><p>Given to VM</p></td>
-<td><p>Verifies your identity</p></td>
-<td><p>✔ Safe</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>SSH keys are the foundation of secure access to remote ML environments and production infrastructure.</p>
-</section>
 <section id="add-your-public-key-to-the-vm">
 <h3>3.5 Add your public key to the VM<a class="headerlink" href="#add-your-public-key-to-the-vm" title="Permalink to this heading">#</a></h3>
 <p>On the VM (or via your cloud provider’s UI), add the content of your <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code> into:</p>
@@ -1231,6 +1261,14 @@ http://&lt;EXTERNAL-IP&gt;/predict
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-ssh-and-why-do-we-use-it">1. What Is SSH and Why Do We Use It?</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works">How SSH Authentication Works</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-key-pair-locally">Generate SSH key pair (locally)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-there-two-keys">Why are there two keys?</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key-your-secret-identity">🔐 Private Key (your secret identity)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key-safe-to-share">🔓 Public Key (safe to share)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">How SSH authentication works (simple explanation)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">Why SSH keys are more secure than passwords</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
@@ -1250,14 +1288,6 @@ http://&lt;EXTERNAL-IP&gt;/predict
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. SSH Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-key-pair-locally">3.1 Generate SSH key pair (locally)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-are-there-two-keys">3.2 Why are there two keys?</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key-your-secret-identity">🔐 Private Key (your secret identity)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key-safe-to-share">🔓 Public Key (safe to share)</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">3.3 How SSH authentication works (simple explanation)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">3.4 Why SSH keys are more secure than passwords</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-the-vm">3.5 Add your public key to the VM</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-ssh-config">3.6 Using an SSH config</a></li>
 </ul>
