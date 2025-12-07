@@ -36,12 +36,12 @@ SSH (Secure Shell) provides:
 
 - 🔌 Port forwarding for tunneling services 
 
-Common use cases:
+SSH is used in:
 
 - Connecting to cloud VMs (Azure, AWS, GCP) 
 - Accessing remote Jupyter or MLflow 
 - Managing Linux servers
-- Deploying applications
+- Deploying applications, DevOps workflows, MLOps tracking servers (e.g., MLflow)
 - Using Git with SSH keys  
 
 
@@ -52,10 +52,141 @@ SSH relies on a **public/private key pair.**
 
 
 ```sh
-Local Machine                               Remote Server
+Local Machine                                     Remote Server
 --------------                               -------------------------
 [ Private Key ] -- authentication check --> [ Public Key in ~/.ssh/authorized_keys ]
 ```
+
+```sh
+              ┌─────────────────────┐
+              │     Local Machine   │
+              │  (Your Laptop/PC)   │
+              └──────────┬──────────┘
+                         │
+                         │  Uses private key for authentication
+                         │
+                 ┌───────▼────────┐
+                 │  Private Key    │
+                 │  id_ed25519     │
+                 └───────┬────────┘
+                         │
+                         │  SSH Connection Request
+                         ▼
+        =================================================================
+                         ▲
+                         │
+                         │  Server checks if private key matches public key
+                         │
+                 ┌───────┴────────┐
+                 │ Public Key      │
+                 │ authorized_keys │
+                 └───────┬────────┘
+                         │
+              ┌──────────▼──────────┐
+              │    Remote Server     │
+              │ (Cloud VM / Linux)   │
+              └──────────────────────┘
+```
+
+### Generate SSH key pair (locally)
+
+On your laptop:
+
+```sh
+ssh-keygen -t rsa -b 4096
+```
+
+This creates:
+
+A private key (e.g., ~/.ssh/id_rsa) → keep this secret
+
+A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust
+
+
+###  Why are there two keys?
+
+SSH uses **asymmetric cryptography**, which requires a matched pair of keys:
+
+#### 🔐 Private Key (your secret identity)
+
+- Stored only on your laptop
+
+- Must never be shared
+
+- Used to prove your identity when connecting
+
+- If someone obtains this file, they can log in as you
+
+:::{warning}
+
+Think of it **like your passport** it uniquely identifies you.
+:::
+
+#### 🔓 Public Key (safe to share)
+
+- You upload this to the server (VM)
+
+- It is not sensitive
+
+- The server uses it to verify that your private key is real
+
+- Useless without the private key
+
+:::{warning}
+
+Think of it like the **lock to your VM**. Your private key is the only key that can open it.
+:::
+
+###  How SSH authentication works (simple explanation)
+
+You run:
+```sh
+ssh <user>@<vm-ip>
+```
+
+The VM checks whether your public key is in:
+
+```sh
+~/.ssh/authorized_keys
+```
+
+If found, the server sends a cryptographic challenge. Your laptop solves it using your private key. If the solution matches the public key, access is granted. No passwords are sent over the network. Your private key never leaves your machine.
+
+### Why SSH keys are more secure than passwords
+
+- Impossible to guess or brute-force (4096-bit RSA is extremely strong)
+
+- No secrets are transmitted
+
+- No password typing → avoids keyloggers
+
+- Works automatically once set up
+
+Required by most cloud providers (Azure, AWS, GCP)
+
+::::{admonition} ⭐ Summary
+
+| File                          | Location    | Purpose                | Share?  |
+| ----------------------------- | ----------- | ---------------------- | ------- |
+| **Private Key** (`id_rsa`)    | Laptop only | Proves your identity   | ❌ Never |
+| **Public Key** (`id_rsa.pub`) | Given to VM | Verifies your identity | ✔ Safe  |
+
+::::
+
+SSH keys are the foundation of secure access to remote ML environments and production infrastructure.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -265,93 +396,6 @@ These steps give you a powerful, reusable infrastructure to run ML experiments, 
 <a name="ssh"></a>
 
 **SSH (Secure Shell)** is a protocol used to securely log in to a remote machine (like a VM) and run commands.
-
-### 3.1 Generate SSH key pair (locally)
-
-On your laptop:
-
-```sh
-ssh-keygen -t rsa -b 4096
-```
-
-This creates:
-
-A private key (e.g., ~/.ssh/id_rsa) → keep this secret
-
-A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust
-
-
-### 3.2 Why are there two keys?
-
-SSH uses **asymmetric cryptography**, which requires a matched pair of keys:
-
-#### 🔐 Private Key (your secret identity)
-
-- Stored only on your laptop
-
-- Must never be shared
-
-- Used to prove your identity when connecting
-
-- If someone obtains this file, they can log in as you
-
-:::{warning}
-
-Think of it **like your passport** it uniquely identifies you.
-:::
-
-#### 🔓 Public Key (safe to share)
-
-- You upload this to the server (VM)
-
-- It is not sensitive
-
-- The server uses it to verify that your private key is real
-
-- Useless without the private key
-
-:::{warning}
-
-Think of it like the **lock to your VM**. Your private key is the only key that can open it.
-:::
-
-### 3.3 How SSH authentication works (simple explanation)
-
-You run:
-```sh
-ssh <user>@<vm-ip>
-```
-
-The VM checks whether your public key is in:
-
-```sh
-~/.ssh/authorized_keys
-```
-
-If found, the server sends a cryptographic challenge. Your laptop solves it using your private key. If the solution matches the public key, access is granted. No passwords are sent over the network. Your private key never leaves your machine.
-
-### 3.4 Why SSH keys are more secure than passwords
-
-- Impossible to guess or brute-force (4096-bit RSA is extremely strong)
-
-- No secrets are transmitted
-
-- No password typing → avoids keyloggers
-
-- Works automatically once set up
-
-Required by most cloud providers (Azure, AWS, GCP)
-
-::::{admonition} ⭐ Summary
-
-| File                          | Location    | Purpose                | Share?  |
-| ----------------------------- | ----------- | ---------------------- | ------- |
-| **Private Key** (`id_rsa`)    | Laptop only | Proves your identity   | ❌ Never |
-| **Public Key** (`id_rsa.pub`) | Given to VM | Verifies your identity | ✔ Safe  |
-
-::::
-
-SSH keys are the foundation of secure access to remote ML environments and production infrastructure.
 
 
 
