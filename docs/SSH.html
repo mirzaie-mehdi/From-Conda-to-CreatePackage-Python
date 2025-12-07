@@ -382,47 +382,35 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">How SSH authentication works (simple explanation)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">Why SSH keys are more secure than passwords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-a-server">Add your public key to a server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-remote-machines">Connect to Remote Machines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-ssh-config">Configuring <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#diagram-ssh-config-expansion"><strong>Diagram: SSH config expansion</strong></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-lightweight-models-e-g-scikit-learn"><strong>For lightweight models (e.g., scikit-learn):</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-deep-learning-pytorch-tensorflow"><strong>For deep learning (PyTorch/TensorFlow):</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services"><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-files-via-ssh">Copying Files via SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-agent-usage">SSH Agent Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-specific-ssh-examples">Cloud-Specific SSH Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-vm">Azure VM</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-into-azure-vm">SSH into Azure VM</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-config-entry">Using a config entry</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-networking-access">4️⃣ Configure Networking &amp; Access</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-ssh-key">5️⃣ Add Your SSH Key</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-vm-and-connect-to-it">6️⃣ Create the VM and Connect to It</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-essential-ml-infrastructure-components">7️⃣ Install Essential ML Infrastructure Components</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-the-vm-for-mlops-work">8️⃣ Enable the VM for MLOps Work</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-ec2">AWS EC2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gcp-compute-engine">GCP Compute Engine</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. SSH Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-the-vm">3.5 Add your public key to the VM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-ssh-config">3.6 Using an SSH config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-ssh">Troubleshooting SSH</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-permissions-most-common-issue"><strong>Fix permissions (most common issue)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-old-host-fingerprint">Remove old host fingerprint</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-key-manually">Specify key manually</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-refused-timeout">Connection refused / timeout</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-forwarding-for-mlflow-and-minio">4. Port Forwarding for MLflow and MinIO</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-port-forwarding-in-ssh-config">4.1 Configure port forwarding in SSH config</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-with-forwarding">4.2 Connect with forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-code-to-a-remote-mlflow-server">5. Connecting Code to a Remote MLflow Server</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-configuration-in-python">5.1 Basic configuration in Python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-runs-params-metrics-and-models">5.2 Logging runs, params, metrics, and models</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-production-ml-services-docker-aks-kubernetes">6. Building Production ML Services (Docker, AKS/Kubernetes)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-architecture">6.1 High-level architecture</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-simple-fastapi-inference-service">6.2 Example: Simple FastAPI inference service</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerizing-the-service">6.3 Dockerizing the service</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-the-docker-image-to-kubernetes-aks">6.4 Deploying the Docker image to Kubernetes / AKS</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">7. Troubleshooting</a></li>
 </ul>
             </nav>
         </div>
@@ -524,6 +512,19 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 <p>This creates:</p>
 <p>A private key (e.g., ~/.ssh/id_rsa) → keep this secret</p>
 <p>A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust</p>
+<div class="highlight-{note notranslate"><div class="highlight"><pre><span></span>
+Recommended modern approach: **Ed25519**
+
+```sh
+ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;
+```
+
+You will get:
+- `~/.ssh/id_ed25519` (private key)
+- `~/.ssh/id_ed25519.pub` (public key)
+
+</pre></div>
+</div>
 </section>
 <section id="why-are-there-two-keys">
 <h3>Why are there two keys?<a class="headerlink" href="#why-are-there-two-keys" title="Permalink to this heading">#</a></h3>
@@ -602,595 +603,214 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 </div>
 </div>
 <p>SSH keys are the foundation of secure access to remote ML environments and production infrastructure.</p>
+</section>
+<section id="add-your-public-key-to-a-server">
+<h3>Add your public key to a server<a class="headerlink" href="#add-your-public-key-to-a-server" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong>More compute power</strong> than your laptop can provide</p></li>
-<li><p><strong>Long-running jobs</strong> that must survive reboot or disconnection</p></li>
-<li><p><strong>Shared experiment tracking</strong>, such as MLflow</p></li>
-<li><p><strong>Persistent storage</strong> for datasets and model artifacts</p></li>
-<li><p><strong>Team-wide access</strong> to the same environment</p></li>
+<li><p><strong>Option A:</strong> Using <code class="docutils literal notranslate"><span class="pre">ssh-copy-id</span></code> <strong>(Simple)</strong></p></li>
 </ul>
-<p>A VM provides all of this in a controlled way.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Even if you develop code locally, the <em>infrastructure</em> for experiment tracking and deployment often lives on remote VMs.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-copy-id<span class="w"> </span>user@server
+</pre></div>
 </div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="how-to-build-a-virtual-machine-vm">
-<h2>2. How to Build a Virtual Machine (VM)<a class="headerlink" href="#how-to-build-a-virtual-machine-vm" title="Permalink to this heading">#</a></h2>
-<p>Creating a Virtual Machine is one of the first steps toward building a stable and reproducible ML infrastructure. While the exact steps differ slightly between cloud providers (Azure, AWS, GCP), the process is conceptually the same everywhere. This section explains <strong>how to build a VM in a general, cloud-agnostic way</strong>, and also highlights the key parameters you must choose for ML workloads.</p>
-<hr class="docutils" />
-<section id="choose-a-cloud-platform-or-host-environment">
-<h3>1️⃣ Choose a Cloud Platform or Host Environment<a class="headerlink" href="#choose-a-cloud-platform-or-host-environment" title="Permalink to this heading">#</a></h3>
-<p>You can create a VM in:</p>
 <ul class="simple">
-<li><p><strong>Azure</strong> (Azure Portal → Virtual Machines)</p></li>
-<li><p><strong>AWS EC2</strong></p></li>
-<li><p><strong>Google Cloud Compute Engine</strong></p></li>
-<li><p><strong>Local virtualization tools</strong> (VirtualBox, VMware)</p></li>
-<li><p><strong>University/enterprise clusters</strong> (custom portals)</p></li>
-<li><p><strong>Bare-metal servers managed via SSH</strong></p></li>
+<li><p><strong>Option B:</strong> Manual method</p></li>
 </ul>
-<p>Regardless of the platform, the VM creation workflow follows the same steps.</p>
-</section>
-<hr class="docutils" />
-<section id="select-the-operating-system-os">
-<h3>2️⃣ Select the Operating System (OS)<a class="headerlink" href="#select-the-operating-system-os" title="Permalink to this heading">#</a></h3>
-<p>For Machine Learning, the recommended OS is:</p>
-<ul class="simple">
-<li><p><strong>Ubuntu 20.04 LTS</strong></p></li>
-<li><p><strong>Ubuntu 22.04 LTS</strong> (very common)</p></li>
-<li><p>(Optional) Ubuntu + NVIDIA GPU drivers (if using GPUs)</p></li>
-</ul>
-<p>Why Ubuntu?</p>
-<ul class="simple">
-<li><p>Compatibility with ML frameworks</p></li>
-<li><p>Easy package management (<code class="docutils literal notranslate"><span class="pre">apt</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>)</p></li>
-<li><p>Good community support</p></li>
-<li><p>Most MLOps tools assume Linux environments</p></li>
-</ul>
-</section>
-<hr class="docutils" />
-<section id="choose-vm-size-cpu-ram-gpu">
-<h3>3️⃣ Choose VM Size (CPU, RAM, GPU)<a class="headerlink" href="#choose-vm-size-cpu-ram-gpu" title="Permalink to this heading">#</a></h3>
-<p>Depending on your ML workload:</p>
-<section id="for-lightweight-models-e-g-scikit-learn">
-<h4><strong>For lightweight models (e.g., scikit-learn):</strong><a class="headerlink" href="#for-lightweight-models-e-g-scikit-learn" title="Permalink to this heading">#</a></h4>
-<ul class="simple">
-<li><p>2–4 vCPUs</p></li>
-<li><p>8–16 GB RAM</p></li>
-<li><p>No GPU needed</p></li>
-</ul>
-</section>
-<section id="for-deep-learning-pytorch-tensorflow">
-<h4><strong>For deep learning (PyTorch/TensorFlow):</strong><a class="headerlink" href="#for-deep-learning-pytorch-tensorflow" title="Permalink to this heading">#</a></h4>
-<ul class="simple">
-<li><p>8+ vCPUs</p></li>
-<li><p>32+ GB RAM</p></li>
-<li><p>One or more GPUs (NVIDIA Tesla series)</p></li>
-<li><p>Dedicated disk for datasets</p></li>
-</ul>
-</section>
-<section id="for-mlops-infrastructure-mlflow-minio-fastapi-services">
-<h4><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong><a class="headerlink" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services" title="Permalink to this heading">#</a></h4>
-<ul class="simple">
-<li><p>2–4 vCPUs</p></li>
-<li><p>8 GB RAM</p></li>
-<li><p>Standard SSD storage</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You do <em>not</em> need GPU for MLflow, databases, or MinIO. GPUs are needed only for model training or inference workloads.</p>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="configure-networking-access">
-<h3>4️⃣ Configure Networking &amp; Access<a class="headerlink" href="#configure-networking-access" title="Permalink to this heading">#</a></h3>
-<p>Every VM needs:</p>
-<ul class="simple">
-<li><p>A <strong>public IP address</strong> (for SSH access)</p></li>
-<li><p>A security rule (firewall) allowing <strong>SSH on port 22</strong></p></li>
-<li><p>(Optional) private networking if multiple VMs talk to each other</p></li>
-</ul>
-<p>For security:</p>
-<ul class="simple">
-<li><p>Disable password login</p></li>
-<li><p>Use SSH keys only</p></li>
-<li><p>Do not expose MLflow or MinIO to the internet</p></li>
-<li><p>Use port forwarding instead</p></li>
-</ul>
-</section>
-<hr class="docutils" />
-<section id="add-your-ssh-key">
-<h3>5️⃣ Add Your SSH Key<a class="headerlink" href="#add-your-ssh-key" title="Permalink to this heading">#</a></h3>
-<p>During VM creation, the portal will ask for an SSH key. Paste the content of your local public key:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_rsa.pub
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_ed25519.pub<span class="w"> </span><span class="p">|</span><span class="w"> </span>ssh<span class="w"> </span>user@server<span class="w"> </span><span class="s2">&quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;</span>
+
+OR
+cat<span class="w"> </span>~/.ssh/id_rsa.pub<span class="w"> </span><span class="p">|</span><span class="w"> </span>ssh<span class="w"> </span>user@server<span class="w"> </span><span class="s2">&quot;mkdir -p ~/.ssh &amp;&amp; cat &gt;&gt; ~/.ssh/authorized_keys&quot;</span>
 </pre></div>
 </div>
 </section>
-<hr class="docutils" />
-<section id="create-the-vm-and-connect-to-it">
-<h3>6️⃣ Create the VM and Connect to It<a class="headerlink" href="#create-the-vm-and-connect-to-it" title="Permalink to this heading">#</a></h3>
-<p>Once the VM is created, connect from your local machine:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>&lt;username&gt;@&lt;VM_PUBLIC_IP&gt;
+<section id="connect-to-remote-machines">
+<h3>Connect to Remote Machines<a class="headerlink" href="#connect-to-remote-machines" title="Permalink to this heading">#</a></h3>
+<p>Basic syntax:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>user@hostname
 </pre></div>
 </div>
-<p>For example:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>student@20.73.41.122
+<p>Examples:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>ubuntu@51.120.14.33
+ssh<span class="w"> </span>ec2-user@ec2-3-90-1-20.compute-1.amazonaws.com
+ssh<span class="w"> </span>myuser@35.199.200.10
 </pre></div>
 </div>
-<p>If you have an SSH config entry:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>mlops-vm
+<p>** First connection fingerprint prompt**</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>The authenticity of host &#39;51.120.14.33&#39; can&#39;t be established.
+Are you sure you want to continue connecting (yes/no)?
+
+</pre></div>
+</div>
+<p>Type <strong>yes</strong> to store the fingerprint and continue.</p>
+</section>
+<section id="configuring-ssh-config">
+<h3>Configuring <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code><a class="headerlink" href="#configuring-ssh-config" title="Permalink to this heading">#</a></h3>
+<p>Create shortcuts for frequently used servers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code>: the config file includes:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>myvm
+<span class="w">    </span>HostName<span class="w"> </span><span class="m">20</span>.55.130.12
+<span class="w">    </span>User<span class="w"> </span>ubuntu
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/id_ed25519
+</pre></div>
+</div>
+<p>Now connect with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>myvm
+</pre></div>
+</div>
+<section id="diagram-ssh-config-expansion">
+<h4><strong>Diagram: SSH config expansion</strong><a class="headerlink" href="#diagram-ssh-config-expansion" title="Permalink to this heading">#</a></h4>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>myvm
+<span class="w">   </span>│
+<span class="w">   </span>├──<span class="w"> </span>expands<span class="w"> </span>to
+<span class="w">   </span>│<span class="w">       </span>ssh<span class="w"> </span>ubuntu@20.55.130.12<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_ed25519
+<span class="w">   </span>▼
+Connected
 </pre></div>
 </div>
 </section>
-<hr class="docutils" />
-<section id="install-essential-ml-infrastructure-components">
-<h3>7️⃣ Install Essential ML Infrastructure Components<a class="headerlink" href="#install-essential-ml-infrastructure-components" title="Permalink to this heading">#</a></h3>
-<p>After connecting to the VM, you typically install:</p>
-<p>System updates:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade<span class="w"> </span>-y
-</pre></div>
-</div>
-<p>Python tools:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv<span class="w"> </span>-y
-</pre></div>
-</div>
-<p>Git:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>-y
-</pre></div>
-</div>
-<p>MLflow + libraries (inside a venv):</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>mlflow_env
-<span class="nb">source</span><span class="w"> </span>mlflow_env/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>mlflow<span class="w"> </span>boto3<span class="w"> </span>psycopg2-binary
-</pre></div>
-</div>
-<p>Optional — GPUs:</p>
-<p>Install NVIDIA drivers + CUDA toolkit depending on cloud platform.</p>
 </section>
-<hr class="docutils" />
-<section id="enable-the-vm-for-mlops-work">
-<h3>8️⃣ Enable the VM for MLOps Work<a class="headerlink" href="#enable-the-vm-for-mlops-work" title="Permalink to this heading">#</a></h3>
-<p>A fully configured ML VM typically includes:</p>
-<p>MLflow tracking server</p>
-<p>Object storage (MinIO or cloud buckets)</p>
-<p>PostgreSQL / MySQL (MLflow metadata)</p>
-<p>SSH port forwarding for UI access</p>
-<p>Docker (for deployment workloads)</p>
-<p>Kubernetes tooling (kubectl + Azure CLI if using AKS)</p>
-<p>This transforms your VM from a plain Linux box into a full ML platform.</p>
-<div class="admonition-summary admonition">
-<p class="admonition-title">⭐ Summary</p>
-<p>A Virtual Machine (VM) provides a reproducible, stable, and always-on environment for Machine Learning and MLOps.<br />
-To build a practical ML-ready VM:</p>
-<ol class="arabic simple">
-<li><p><strong>Choose a cloud or host platform</strong> (Azure, AWS, GCP, on-premise)</p></li>
-<li><p><strong>Select Ubuntu</strong> as the operating system (20.04 or 22.04 LTS recommended)</p></li>
-<li><p><strong>Allocate compute resources</strong></p>
+<section id="copying-files-via-ssh">
+<h3>Copying Files via SSH<a class="headerlink" href="#copying-files-via-ssh" title="Permalink to this heading">#</a></h3>
+<p>Using <strong>scp</strong> a simple way to copy (upload) a file to a server:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>file.txt<span class="w"> </span>user@host:/path/
+</pre></div>
+</div>
+<p>You can also <strong>download</strong>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>scp<span class="w"> </span>user@host:/path/file.txt<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">rsync</span></code> **<em>(efficient for folders)</em></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>rsync<span class="w"> </span>-avz<span class="w"> </span>-e<span class="w"> </span>ssh<span class="w"> </span>myfolder/<span class="w"> </span>user@host:/remote/myfolder/
+</pre></div>
+</div>
+</section>
+<section id="ssh-port-forwarding">
+<h3>SSH Port Forwarding<a class="headerlink" href="#ssh-port-forwarding" title="Permalink to this heading">#</a></h3>
+<p>Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser.</p>
+<p><strong>Local port forwarding</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Local<span class="w"> </span>Machine<span class="w"> </span><span class="o">(</span>localhost:5000<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>Remote<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>localhost:5000<span class="o">)</span>
+</pre></div>
+</div>
+<p>Command:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">5000</span>:localhost:5000<span class="w"> </span>user@server
+</pre></div>
+</div>
+<p>Use case examples:</p>
 <ul class="simple">
-<li><p>CPUs: 2–8</p></li>
-<li><p>RAM: 8–32 GB</p></li>
-<li><p>GPU: optional (NVIDIA)</p></li>
+<li><p>Access MLflow UI running on a VM</p></li>
+<li><p>View remote Jupyter Notebook</p></li>
+<li><p>Connect to remote APIs without exposing them online</p></li>
 </ul>
-</li>
-<li><p><strong>Enable secure SSH access</strong> using key-based authentication</p></li>
-<li><p><strong>Create the VM</strong> and connect via <code class="docutils literal notranslate"><span class="pre">ssh</span></code></p></li>
-<li><p><strong>Install essential tools</strong></p>
-<ul class="simple">
-<li><p>Python, pip/conda</p></li>
-<li><p>MLflow</p></li>
-<li><p>Git</p></li>
-<li><p>Storage clients</p></li>
-</ul>
-</li>
-<li><p><strong>Configure networking</strong> and SSH port forwarding for MLflow/MinIO</p></li>
-<li><p><strong>Add Docker &amp; Kubernetes</strong> tooling for production deployments</p></li>
-</ol>
-<p>These steps give you a powerful, reusable infrastructure to run ML experiments, track them, store artifacts, and deploy production ML services.</p>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="id1">
-<h2>3. SSH Basics<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
-<p><a name="ssh"></a></p>
-<p><strong>SSH (Secure Shell)</strong> is a protocol used to securely log in to a remote machine (like a VM) and run commands.</p>
-<section id="add-your-public-key-to-the-vm">
-<h3>3.5 Add your public key to the VM<a class="headerlink" href="#add-your-public-key-to-the-vm" title="Permalink to this heading">#</a></h3>
-<p>On the VM (or via your cloud provider’s UI), add the content of your <code class="docutils literal notranslate"><span class="pre">id_rsa.pub</span></code> into:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>~/.ssh/authorized_keys
+<p><strong>Remote port forwarding</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-R<span class="w"> </span><span class="m">6000</span>:localhost:6000<span class="w"> </span>user@server
 </pre></div>
 </div>
-<p>Make sure permissions are correct:</p>
+</section>
+<section id="ssh-agent-usage">
+<h3>SSH Agent Usage<a class="headerlink" href="#ssh-agent-usage" title="Permalink to this heading">#</a></h3>
+<p>To avoid repeated passphrase prompts:</p>
+<p>Start agent:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>ssh-agent<span class="w"> </span>-s<span class="k">)</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>Add your key:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
+</pre></div>
+</div>
+<p>List loaded keys:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>-l
+</pre></div>
+</div>
+</section>
+<section id="cloud-specific-ssh-examples">
+<h3>Cloud-Specific SSH Examples<a class="headerlink" href="#cloud-specific-ssh-examples" title="Permalink to this heading">#</a></h3>
+<p>This section gives examples for Azure, AWS EC2, and Google Cloud.</p>
+<section id="azure-vm">
+<h4>Azure VM<a class="headerlink" href="#azure-vm" title="Permalink to this heading">#</a></h4>
+<p>Public IP example: <code class="docutils literal notranslate"><span class="pre">20.75.44.12</span></code></p>
+<section id="ssh-into-azure-vm">
+<h5>SSH into Azure VM<a class="headerlink" href="#ssh-into-azure-vm" title="Permalink to this heading">#</a></h5>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>azureuser@20.75.44.12
+</pre></div>
+</div>
+</section>
+<section id="using-a-config-entry">
+<h5>Using a config entry<a class="headerlink" href="#using-a-config-entry" title="Permalink to this heading">#</a></h5>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>azure-ml-vm
+<span class="w">    </span>HostName<span class="w"> </span><span class="m">20</span>.75.44.12
+<span class="w">    </span>User<span class="w"> </span>azureuser
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/id_ed25519
+</pre></div>
+</div>
+</section>
+</section>
+<section id="aws-ec2">
+<h4>AWS EC2<a class="headerlink" href="#aws-ec2" title="Permalink to this heading">#</a></h4>
+<p>AWS often uses the username <code class="docutils literal notranslate"><span class="pre">ec2-user</span></code> and <code class="docutils literal notranslate"><span class="pre">.pem</span></code> keys.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/mykey.pem<span class="w"> </span>ec2-user@ec2-3-80-155-100.compute-1.amazonaws.com
+</pre></div>
+</div>
+<p>Recommended to convert <code class="docutils literal notranslate"><span class="pre">.pem</span></code> to OpenSSH format:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-p<span class="w"> </span>-m<span class="w"> </span>PEM<span class="w"> </span>-f<span class="w"> </span>mykey.pem
+</pre></div>
+</div>
+</section>
+<section id="gcp-compute-engine">
+<h4>GCP Compute Engine<a class="headerlink" href="#gcp-compute-engine" title="Permalink to this heading">#</a></h4>
+<p>Typical username: your local machine username.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>myname@34.122.110.10
+</pre></div>
+</div>
+<p>Or use the <code class="docutils literal notranslate"><span class="pre">gcloud</span></code> command (auto-manages keys):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>compute<span class="w"> </span>ssh<span class="w"> </span>myvm<span class="w"> </span>--zone<span class="o">=</span>us-central1-a
+</pre></div>
+</div>
+</section>
+</section>
+<section id="troubleshooting-ssh">
+<h3>Troubleshooting SSH<a class="headerlink" href="#troubleshooting-ssh" title="Permalink to this heading">#</a></h3>
+<section id="fix-permissions-most-common-issue">
+<h4><strong>Fix permissions (most common issue)</strong><a class="headerlink" href="#fix-permissions-most-common-issue" title="Permalink to this heading">#</a></h4>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span><span class="m">700</span><span class="w"> </span>~/.ssh
-chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/authorized_keys
+chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/id_ed25519
 </pre></div>
 </div>
 </section>
-<section id="using-an-ssh-config">
-<h3>3.6 Using an SSH config<a class="headerlink" href="#using-an-ssh-config" title="Permalink to this heading">#</a></h3>
-<p>Instead of typing long commands, create/edit:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>~/.ssh/config
-</pre></div>
-</div>
-<p>Example:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>mlops-vm
-<span class="w">    </span>HostName<span class="w"> </span>&lt;VM_PUBLIC_IP_OR_HOSTNAME&gt;
-<span class="w">    </span>User<span class="w"> </span>&lt;your-username&gt;
-<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/id_rsa
-</pre></div>
-</div>
-<p>Now you can simply connect with:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>mlops-vm
-</pre></div>
-</div>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>If you get a <code class="docutils literal notranslate"><span class="pre">permissions</span> <span class="pre">are</span> <span class="pre">too</span> <span class="pre">open</span></code> warning, run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>~/.ssh/id_rsa
-</pre></div>
-</div>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="port-forwarding-for-mlflow-and-minio">
-<h2>4. Port Forwarding for MLflow and MinIO<a class="headerlink" href="#port-forwarding-for-mlflow-and-minio" title="Permalink to this heading">#</a></h2>
-<p><a name="pf"></a></p>
-<p>Many ML tools run as <strong>web applications</strong> on the VM, for example:</p>
-<div class="pst-scrollable-table-container"><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Service</p></th>
-<th class="head"><p>Typical Port</p></th>
-<th class="head"><p>Description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>MLflow</p></td>
-<td><p>5000</p></td>
-<td><p>UI and tracking API</p></td>
-</tr>
-<tr class="row-odd"><td><p>MinIO</p></td>
-<td><p>9000</p></td>
-<td><p>Web UI for artifact storage</p></td>
-</tr>
-<tr class="row-even"><td><p>MinIO API</p></td>
-<td><p>9001</p></td>
-<td><p>S3-compatible API endpoint (optional)</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>These ports usually <strong>are not reachable directly from your laptop</strong> (for security reasons).
-Instead, we use <strong>SSH port forwarding</strong> (also called tunneling).</p>
-<section id="configure-port-forwarding-in-ssh-config">
-<h3>4.1 Configure port forwarding in SSH config<a class="headerlink" href="#configure-port-forwarding-in-ssh-config" title="Permalink to this heading">#</a></h3>
-<p>Extend your <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code> entry:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Host<span class="w"> </span>mlops-vm
-<span class="w">    </span>HostName<span class="w"> </span>&lt;VM_PUBLIC_IP_OR_HOSTNAME&gt;
-<span class="w">    </span>User<span class="w"> </span>&lt;your-username&gt;
-<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/id_rsa
-<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">5000</span><span class="w"> </span><span class="m">127</span>.0.0.1:5000
-<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">9000</span><span class="w"> </span><span class="m">127</span>.0.0.1:9000
-<span class="w">    </span>LocalForward<span class="w"> </span><span class="m">9001</span><span class="w"> </span><span class="m">127</span>.0.0.1:9001
+<section id="remove-old-host-fingerprint">
+<h4>Remove old host fingerprint<a class="headerlink" href="#remove-old-host-fingerprint" title="Permalink to this heading">#</a></h4>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-R<span class="w"> </span>IP_or_hostname
 </pre></div>
 </div>
 </section>
-<section id="connect-with-forwarding">
-<h3>4.2 Connect with forwarding<a class="headerlink" href="#connect-with-forwarding" title="Permalink to this heading">#</a></h3>
-<p>Now connect:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>mlops-vm
+<section id="specify-key-manually">
+<h4>Specify key manually<a class="headerlink" href="#specify-key-manually" title="Permalink to this heading">#</a></h4>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-i<span class="w"> </span>~/.ssh/id_ed25519<span class="w"> </span>user@server
 </pre></div>
 </div>
-<p>As long as this SSH session is open, you can open on your laptop:</p>
+</section>
+<section id="connection-refused-timeout">
+<h4>Connection refused / timeout<a class="headerlink" href="#connection-refused-timeout" title="Permalink to this heading">#</a></h4>
+<p>Common causes:</p>
 <ul class="simple">
-<li><p>MLflow → <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:5000</span></code></p></li>
-<li><p>MinIO → <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:9000</span></code></p></li>
-</ul>
-<p>Even though these services are actually running on the VM.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This approach is much safer than exposing MLflow and MinIO directly to the internet. The ports stay private to your tunnel.</p>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="connecting-code-to-a-remote-mlflow-server">
-<h2>5. Connecting Code to a Remote MLflow Server<a class="headerlink" href="#connecting-code-to-a-remote-mlflow-server" title="Permalink to this heading">#</a></h2>
-<p><a name="mlflow"></a></p>
-<p>Once port forwarding is set up, you can connect your ML code <strong>(running on your laptop or in the VM)</strong> to the MLflow tracking server.</p>
-<section id="basic-configuration-in-python">
-<h3>5.1 Basic configuration in Python<a class="headerlink" href="#basic-configuration-in-python" title="Permalink to this heading">#</a></h3>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>import<span class="w"> </span>mlflow
-
-<span class="c1"># Tracking server appears local because of SSH port forwarding</span>
-mlflow.set_tracking_uri<span class="o">(</span><span class="s2">&quot;http://127.0.0.1:5000&quot;</span><span class="o">)</span>
-
-<span class="c1"># Choose a meaningful experiment name</span>
-mlflow.set_experiment<span class="o">(</span><span class="s2">&quot;wine_quality_experiment&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-</section>
-<section id="logging-runs-params-metrics-and-models">
-<h3>5.2 Logging runs, params, metrics, and models<a class="headerlink" href="#logging-runs-params-metrics-and-models" title="Permalink to this heading">#</a></h3>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>import<span class="w"> </span>mlflow
-import<span class="w"> </span>mlflow.sklearn
-from<span class="w"> </span>sklearn.linear_model<span class="w"> </span>import<span class="w"> </span>ElasticNet
-from<span class="w"> </span>sklearn.metrics<span class="w"> </span>import<span class="w"> </span>mean_squared_error
-import<span class="w"> </span>numpy<span class="w"> </span>as<span class="w"> </span>np
-
-<span class="c1"># X_train, X_test, y_train, y_test assumed to be prepared already</span>
-
-with<span class="w"> </span>mlflow.start_run<span class="o">(</span><span class="nv">run_name</span><span class="o">=</span><span class="s2">&quot;elasticnet_default&quot;</span><span class="o">)</span>:
-<span class="w">    </span><span class="nv">alpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.5
-<span class="w">    </span><span class="nv">l1_ratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.5
-
-<span class="w">    </span><span class="nv">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ElasticNet<span class="o">(</span><span class="nv">alpha</span><span class="o">=</span>alpha,<span class="w"> </span><span class="nv">l1_ratio</span><span class="o">=</span>l1_ratio,<span class="w"> </span><span class="nv">random_state</span><span class="o">=</span><span class="m">42</span><span class="o">)</span>
-<span class="w">    </span>model.fit<span class="o">(</span>X_train,<span class="w"> </span>y_train<span class="o">)</span>
-
-<span class="w">    </span><span class="nv">preds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>model.predict<span class="o">(</span>X_test<span class="o">)</span>
-<span class="w">    </span><span class="nv">rmse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>np.sqrt<span class="o">(</span>mean_squared_error<span class="o">(</span>y_test,<span class="w"> </span>preds<span class="o">))</span>
-
-<span class="w">    </span>mlflow.log_param<span class="o">(</span><span class="s2">&quot;alpha&quot;</span>,<span class="w"> </span>alpha<span class="o">)</span>
-<span class="w">    </span>mlflow.log_param<span class="o">(</span><span class="s2">&quot;l1_ratio&quot;</span>,<span class="w"> </span>l1_ratio<span class="o">)</span>
-<span class="w">    </span>mlflow.log_metric<span class="o">(</span><span class="s2">&quot;rmse&quot;</span>,<span class="w"> </span>float<span class="o">(</span>rmse<span class="o">))</span>
-
-<span class="w">    </span>mlflow.sklearn.log_model<span class="o">(</span>model,<span class="w"> </span><span class="nv">artifact_path</span><span class="o">=</span><span class="s2">&quot;model&quot;</span><span class="o">)</span>
-
-print<span class="o">(</span><span class="s2">&quot;Run finished, check MLflow UI at http://127.0.0.1:5000&quot;</span><span class="o">)</span>
-</pre></div>
-</div>
-<p>After running this:</p>
-<ul class="simple">
-<li><p>Navigate to <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:5000</span></code> in your browser</p></li>
-<li><p>Open your experiment</p></li>
-<li><p>Inspect runs, parameters, metrics, and artifacts</p></li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When MLflow is configured with an object storage (e.g., MinIO or Azure Blob Storage), your logged models and artifacts are stored there, while metadata goes into the MLflow backend database.</p>
-</div>
-</section>
-</section>
-<hr class="docutils" />
-<section id="building-production-ml-services-docker-aks-kubernetes">
-<h2>6. Building Production ML Services (Docker, AKS/Kubernetes)<a class="headerlink" href="#building-production-ml-services-docker-aks-kubernetes" title="Permalink to this heading">#</a></h2>
-<p><a name="deploy"></a></p>
-<p>So far, we used a VM and MLflow to <strong>track experiments</strong>.
-In real projects, you often want to expose a <strong>trained model as a service</strong> (e.g., REST API) that other applications can call.</p>
-<p>A common production stack:</p>
-<ul class="simple">
-<li><p><strong>MLflow</strong> for model tracking and registry</p></li>
-<li><p><strong>Docker</strong> to package your model and API</p></li>
-<li><p><strong>Kubernetes</strong> (e.g., <strong>Azure Kubernetes Service – AKS</strong>) to run and scale containers</p></li>
-</ul>
-<p>This section gives a high-level overview and a minimal end-to-end example.</p>
-<section id="high-level-architecture">
-<h3>6.1 High-level architecture<a class="headerlink" href="#high-level-architecture" title="Permalink to this heading">#</a></h3>
-<p>Conceptually:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>MLflow<span class="w"> </span><span class="o">(</span>on<span class="w"> </span>VM<span class="w"> </span>or<span class="w"> </span>Azure<span class="w"> </span>ML<span class="o">)</span>
-<span class="w">   </span>▲
-<span class="w">   </span>│<span class="w"> </span><span class="o">(</span>load<span class="w"> </span>model<span class="w"> </span>by<span class="w"> </span>URI<span class="w"> </span>or<span class="w"> </span>from<span class="w"> </span>registry<span class="o">)</span>
-<span class="w">   </span>▼
-Docker<span class="w"> </span>container<span class="w"> </span><span class="o">(</span>FastAPI<span class="w"> </span>/<span class="w"> </span>Flask<span class="w"> </span>serving<span class="w"> </span>code<span class="o">)</span>
-<span class="w">   </span>▲
-<span class="w">   </span>│<span class="w"> </span><span class="o">(</span>container<span class="w"> </span>image<span class="o">)</span>
-<span class="w">   </span>▼
-Kubernetes<span class="w"> </span>/<span class="w"> </span>AKS<span class="w"> </span><span class="o">(</span>runs<span class="w"> </span>N<span class="w"> </span>replicas,<span class="w"> </span>exposes<span class="w"> </span>a<span class="w"> </span>Service<span class="o">)</span>
-</pre></div>
-</div>
-<p>The steps:</p>
-<ul class="simple">
-<li><p>Train and log model to MLflow</p></li>
-<li><p>Write a small <strong>serving app</strong> (e.g., FastAPI) that loads the model</p></li>
-<li><p>Create a <strong>Docker image</strong> for that app</p></li>
-<li><p>Push the image to a container registry</p></li>
-<li><p>Deploy the image on <strong>Kubernetes/AKS</strong> with a Deployment + Service</p></li>
+<li><p>Firewall blocks port 22</p></li>
+<li><p>VM not running</p></li>
+<li><p>Wrong username</p></li>
+<li><p>Public key not installed on server</p></li>
 </ul>
 </section>
-<section id="example-simple-fastapi-inference-service">
-<h3>6.2 Example: Simple FastAPI inference service<a class="headerlink" href="#example-simple-fastapi-inference-service" title="Permalink to this heading">#</a></h3>
-<p>Assume you have a model registered in MLflow, e.g.:</p>
-<p>Registered name: <code class="docutils literal notranslate"><span class="pre">wine-quality-model</span></code></p>
-<p>Stage: <code class="docutils literal notranslate"><span class="pre">Production</span></code></p>
-<p>We will write an API that receives JSON and returns predictions.</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># src/app.py</span>
-import<span class="w"> </span>mlflow.pyfunc
-from<span class="w"> </span>fastapi<span class="w"> </span>import<span class="w"> </span>FastAPI
-import<span class="w"> </span>pandas<span class="w"> </span>as<span class="w"> </span>pd
-
-<span class="c1"># MLflow model URI (from registry or direct run artifact)</span>
-<span class="nv">MODEL_URI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;models:/wine-quality-model/Production&quot;</span>
-
-<span class="nv">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>FastAPI<span class="o">(</span><span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Wine Quality Prediction API&quot;</span><span class="o">)</span>
-
-<span class="c1"># Load the model once at startup</span>
-<span class="nv">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>mlflow.pyfunc.load_model<span class="o">(</span>MODEL_URI<span class="o">)</span>
-
-@app.get<span class="o">(</span><span class="s2">&quot;/health&quot;</span><span class="o">)</span>
-def<span class="w"> </span>health<span class="o">()</span>:
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;status&quot;</span>:<span class="w"> </span><span class="s2">&quot;ok&quot;</span><span class="o">}</span>
-
-@app.post<span class="o">(</span><span class="s2">&quot;/predict&quot;</span><span class="o">)</span>
-def<span class="w"> </span>predict<span class="o">(</span>features:<span class="w"> </span>dict<span class="o">)</span>:
-<span class="w">    </span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    Example request body:</span>
-<span class="s2">    {</span>
-<span class="s2">      &quot;</span>fixed<span class="w"> </span>acidity<span class="s2">&quot;: 7.4,</span>
-<span class="s2">      &quot;</span>volatile<span class="w"> </span>acidity<span class="s2">&quot;: 0.70,</span>
-<span class="s2">      &quot;</span>citric<span class="w"> </span>acid<span class="s2">&quot;: 0.00,</span>
-<span class="s2">      &quot;</span>residual<span class="w"> </span>sugar<span class="s2">&quot;: 1.9,</span>
-<span class="s2">      &quot;</span>chlorides<span class="s2">&quot;: 0.076,</span>
-<span class="s2">      &quot;</span>free<span class="w"> </span>sulfur<span class="w"> </span>dioxide<span class="s2">&quot;: 11.0,</span>
-<span class="s2">      &quot;</span>total<span class="w"> </span>sulfur<span class="w"> </span>dioxide<span class="s2">&quot;: 34.0,</span>
-<span class="s2">      &quot;</span>density<span class="s2">&quot;: 0.9978,</span>
-<span class="s2">      &quot;</span>pH<span class="s2">&quot;: 3.51,</span>
-<span class="s2">      &quot;</span>sulphates<span class="s2">&quot;: 0.56,</span>
-<span class="s2">      &quot;</span>alcohol<span class="s2">&quot;: 9.4</span>
-<span class="s2">    }</span>
-<span class="s2">    &quot;&quot;&quot;</span>
-<span class="w">    </span><span class="nv">df</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>pd.DataFrame<span class="o">([</span>features<span class="o">])</span>
-<span class="w">    </span><span class="nv">preds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>model.predict<span class="o">(</span>df<span class="o">)</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">{</span><span class="s2">&quot;prediction&quot;</span>:<span class="w"> </span>float<span class="o">(</span>preds<span class="o">[</span><span class="m">0</span><span class="o">])}</span>
-</pre></div>
-</div>
-<p>You can test this locally (before Dockerizing) using <code class="docutils literal notranslate"><span class="pre">uvicorn</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>uvicorn<span class="w"> </span>src.app:app<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
-</pre></div>
-</div>
-<p>Then open: <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/docs</span></code> to test the API.</p>
 </section>
-<section id="dockerizing-the-service">
-<h3>6.3 Dockerizing the service<a class="headerlink" href="#dockerizing-the-service" title="Permalink to this heading">#</a></h3>
-<p>Create a requirements.txt:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>fastapi
-uvicorn<span class="o">[</span>standard<span class="o">]</span>
-mlflow
-pandas
-</pre></div>
-</div>
-<p>Create a <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dockerfile</span>
-FROM<span class="w"> </span>python:3.10-slim
-
-WORKDIR<span class="w"> </span>/app
-
-COPY<span class="w"> </span>requirements.txt<span class="w"> </span>.
-RUN<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-cache-dir<span class="w"> </span>-r<span class="w"> </span>requirements.txt
-
-COPY<span class="w"> </span>src/<span class="w"> </span>./src/
-
-<span class="c1"># Environment variables for MLflow tracking / artifacts (adapt for your setup)</span>
-ENV<span class="w"> </span><span class="nv">MLFLOW_TRACKING_URI</span><span class="o">=</span>http://mlflow:5000
-
-EXPOSE<span class="w"> </span><span class="m">8000</span>
-
-CMD<span class="w"> </span><span class="o">[</span><span class="s2">&quot;uvicorn&quot;</span>,<span class="w"> </span><span class="s2">&quot;src.app:app&quot;</span>,<span class="w"> </span><span class="s2">&quot;--host&quot;</span>,<span class="w"> </span><span class="s2">&quot;0.0.0.0&quot;</span>,<span class="w"> </span><span class="s2">&quot;--port&quot;</span>,<span class="w"> </span><span class="s2">&quot;8000&quot;</span><span class="o">]</span>
-</pre></div>
-</div>
-<p>Build the Docker image:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>wine-quality-api:latest<span class="w"> </span>.
-</pre></div>
-</div>
-<p>Run locally:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>wine-quality-api:latest
-</pre></div>
-</div>
-<p>Check <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8000/docs</span></code> again.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>In a real setup with MinIO, Azure Blob, or S3, you need to configure environment variables or credentials inside the container so that mlflow.pyfunc.load_model can access the model artifacts.</p>
-</div>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h3>
+<p>SSH is a core tool for cloud computing, MLOps, DevOps, and deployment workflows.
+By mastering SSH:</p>
+<p>You can access any remote machine safely</p>
+<ul class="simple">
+<li><p>Securely transfer files and datasets</p></li>
+<li><p>Run remote services (MLflow, Jupyter, APIs)</p></li>
+<li><p>Use tunneling to avoid exposing ports to the internet</p></li>
+<li><p>Integrate with Azure, AWS, and GCP environments</p></li>
+<li><p>Maintain strong security practices</p></li>
+</ul>
 </section>
-<section id="deploying-the-docker-image-to-kubernetes-aks">
-<h3>6.4 Deploying the Docker image to Kubernetes / AKS<a class="headerlink" href="#deploying-the-docker-image-to-kubernetes-aks" title="Permalink to this heading">#</a></h3>
-<p>On a Kubernetes cluster (e.g., AKS), you:</p>
-<ol class="arabic simple">
-<li><p>Push the image to a registry (e.g., Azure Container Registry):</p></li>
-</ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>tag<span class="w"> </span>wine-quality-api<span class="w"> </span>&lt;your-registry&gt;/wine-quality-api:latest
-docker<span class="w"> </span>push<span class="w"> </span>&lt;your-registry&gt;/wine-quality-api:latest
-</pre></div>
-</div>
-<p>Create a <code class="docutils literal notranslate"><span class="pre">Deployment</span></code> and <code class="docutils literal notranslate"><span class="pre">Service</span> <span class="pre">manifest</span></code>.</p>
-<p>Example <code class="docutils literal notranslate"><span class="pre">deployment-wine-api.yaml</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>apiVersion:<span class="w"> </span>apps/v1
-kind:<span class="w"> </span>Deployment
-metadata:
-<span class="w">  </span>name:<span class="w"> </span>wine-quality-api
-<span class="w">  </span>labels:
-<span class="w">    </span>app:<span class="w"> </span>wine-quality-api
-spec:
-<span class="w">  </span>replicas:<span class="w"> </span><span class="m">2</span>
-<span class="w">  </span>selector:
-<span class="w">    </span>matchLabels:
-<span class="w">      </span>app:<span class="w"> </span>wine-quality-api
-<span class="w">  </span>template:
-<span class="w">    </span>metadata:
-<span class="w">      </span>labels:
-<span class="w">        </span>app:<span class="w"> </span>wine-quality-api
-<span class="w">    </span>spec:
-<span class="w">      </span>containers:
-<span class="w">        </span>-<span class="w"> </span>name:<span class="w"> </span>wine-quality-api
-<span class="w">          </span>image:<span class="w"> </span>&lt;your-registry&gt;/wine-quality-api:latest
-<span class="w">          </span>ports:
-<span class="w">            </span>-<span class="w"> </span>containerPort:<span class="w"> </span><span class="m">8000</span>
-<span class="w">          </span>env:
-<span class="w">            </span>-<span class="w"> </span>name:<span class="w"> </span>MLFLOW_TRACKING_URI
-<span class="w">              </span>value:<span class="w"> </span><span class="s2">&quot;http://mlflow:5000&quot;</span>
-<span class="w">            </span><span class="c1"># add any storage credentials here if needed</span>
----
-apiVersion:<span class="w"> </span>v1
-kind:<span class="w"> </span>Service
-metadata:
-<span class="w">  </span>name:<span class="w"> </span>wine-quality-api-service
-spec:
-<span class="w">  </span>type:<span class="w"> </span>LoadBalancer
-<span class="w">  </span>selector:
-<span class="w">    </span>app:<span class="w"> </span>wine-quality-api
-<span class="w">  </span>ports:
-<span class="w">    </span>-<span class="w"> </span>port:<span class="w"> </span><span class="m">80</span>
-<span class="w">      </span>targetPort:<span class="w"> </span><span class="m">8000</span>
-</pre></div>
-</div>
-<p>Apply it:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deployment-wine-api.yaml
-</pre></div>
-</div>
-<p>On AKS or another managed Kubernetes:</p>
-<ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">Service</span></code> of type <code class="docutils literal notranslate"><span class="pre">LoadBalancer</span></code> will be given an external IP</p></li>
-<li><p>You can then call:</p></li>
-</ul>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>http://&lt;EXTERNAL-IP&gt;/health
-http://&lt;EXTERNAL-IP&gt;/predict
-</pre></div>
-</div>
-<p>from any client that can access the cluster.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In real production setups, you will usually:</p>
-<ul class="simple">
-<li><p>use HTTPS (TLS),</p></li>
-<li><p>add authentication/authorization,</p></li>
-<li><p>configure autoscaling and monitoring,</p></li>
-<li><p>integrate with secrets managers (for credentials).</p></li>
-</ul>
-</div>
-</section>
-</section>
-<section id="troubleshooting">
-<h2>7. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">#</a></h2>
-<p><a name="ts"></a></p>
-<p><strong>Q1: I cannot access MLflow at</strong> <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:5000</span></code>.</p>
-<ul class="simple">
-<li><p>Check that your SSH session is active and uses <code class="docutils literal notranslate"><span class="pre">LocalForward</span> <span class="pre">5000</span></code> <code class="docutils literal notranslate"><span class="pre">127.0.0.1:5000</span></code>.</p></li>
-<li><p>Ensure MLflow is actually running on the VM (check with <code class="docutils literal notranslate"><span class="pre">ps</span> <span class="pre">aux</span> <span class="pre">|</span> <span class="pre">grep</span> <span class="pre">mlflow</span></code> or <code class="docutils literal notranslate"><span class="pre">netstat</span> <span class="pre">-tulpn</span></code>).</p></li>
-</ul>
-<p><strong>Q2: My Docker container cannot load the MLflow model.</strong></p>
-<p>Confirm that <code class="docutils literal notranslate"><span class="pre">MLFLOW_TRACKING_URI</span></code> inside the container points to a reachable MLflow server.</p>
-<p>If using remote artifact storage (MinIO, S3, Azure Blob), ensure the correct environment variables and credentials are configured inside the container.</p>
-<p><strong>Q3: Kubernetes Service has no external IP.</strong></p>
-<ul class="simple">
-<li><p>On some local clusters (e.g., kind, minikube), <code class="docutils literal notranslate"><span class="pre">LoadBalancer</span></code> is emulated or not supported by default.</p></li>
-<li><p>On AKS, wait a bit for the LoadBalancer to be provisioned and check with:</p></li>
-</ul>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>wine-quality-api-service
-</pre></div>
-</div>
-<p><strong>Q4: My model works locally but not in Kubernetes.</strong></p>
-<ul class="simple">
-<li><p>Check logs:</p></li>
-</ul>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>logs<span class="w"> </span>deployment/wine-quality-api
-</pre></div>
-</div>
-<ul class="simple">
-<li><p>Common issues: wrong model URI, missing environment variables, missing Python dependencies.</p></li>
-</ul>
 </section>
 </section>
 
@@ -1269,47 +889,35 @@ http://&lt;EXTERNAL-IP&gt;/predict
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-ssh-authentication-works-simple-explanation">How SSH authentication works (simple explanation)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-keys-are-more-secure-than-passwords">Why SSH keys are more secure than passwords</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-a-server">Add your public key to a server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-remote-machines">Connect to Remote Machines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-ssh-config">Configuring <code class="docutils literal notranslate"><span class="pre">~/.ssh/config</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#diagram-ssh-config-expansion"><strong>Diagram: SSH config expansion</strong></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-build-a-virtual-machine-vm">2. How to Build a Virtual Machine (VM)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-a-cloud-platform-or-host-environment">1️⃣ Choose a Cloud Platform or Host Environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#select-the-operating-system-os">2️⃣ Select the Operating System (OS)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-vm-size-cpu-ram-gpu">3️⃣ Choose VM Size (CPU, RAM, GPU)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-lightweight-models-e-g-scikit-learn"><strong>For lightweight models (e.g., scikit-learn):</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-deep-learning-pytorch-tensorflow"><strong>For deep learning (PyTorch/TensorFlow):</strong></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#for-mlops-infrastructure-mlflow-minio-fastapi-services"><strong>For MLOps infrastructure (MLflow, MinIO, FastAPI services):</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-files-via-ssh">Copying Files via SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-agent-usage">SSH Agent Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-specific-ssh-examples">Cloud-Specific SSH Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-vm">Azure VM</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-into-azure-vm">SSH into Azure VM</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-config-entry">Using a config entry</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-networking-access">4️⃣ Configure Networking &amp; Access</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-ssh-key">5️⃣ Add Your SSH Key</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-vm-and-connect-to-it">6️⃣ Create the VM and Connect to It</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-essential-ml-infrastructure-components">7️⃣ Install Essential ML Infrastructure Components</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-the-vm-for-mlops-work">8️⃣ Enable the VM for MLOps Work</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#aws-ec2">AWS EC2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gcp-compute-engine">GCP Compute Engine</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. SSH Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-your-public-key-to-the-vm">3.5 Add your public key to the VM</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-an-ssh-config">3.6 Using an SSH config</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-ssh">Troubleshooting SSH</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-permissions-most-common-issue"><strong>Fix permissions (most common issue)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-old-host-fingerprint">Remove old host fingerprint</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-key-manually">Specify key manually</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-refused-timeout">Connection refused / timeout</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-forwarding-for-mlflow-and-minio">4. Port Forwarding for MLflow and MinIO</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-port-forwarding-in-ssh-config">4.1 Configure port forwarding in SSH config</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-with-forwarding">4.2 Connect with forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-code-to-a-remote-mlflow-server">5. Connecting Code to a Remote MLflow Server</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-configuration-in-python">5.1 Basic configuration in Python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#logging-runs-params-metrics-and-models">5.2 Logging runs, params, metrics, and models</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-production-ml-services-docker-aks-kubernetes">6. Building Production ML Services (Docker, AKS/Kubernetes)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-architecture">6.1 High-level architecture</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-simple-fastapi-inference-service">6.2 Example: Simple FastAPI inference service</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dockerizing-the-service">6.3 Dockerizing the service</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deploying-the-docker-image-to-kubernetes-aks">6.4 Deploying the Docker image to Kubernetes / AKS</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">7. Troubleshooting</a></li>
 </ul>
   </nav></div>
 
