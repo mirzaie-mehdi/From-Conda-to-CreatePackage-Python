@@ -389,7 +389,11 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-files-via-ssh">Copying Files via SSH</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-local-port-forwarding">SSH Local Port Forwarding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-remote-port-forwarding">SSH Remote port forwarding</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-agent-usage">SSH Agent Usage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-specific-ssh-examples">Cloud-Specific SSH Examples</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-vm">Azure VM</a><ul class="nav section-nav flex-column">
@@ -425,7 +429,7 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="ssh-basics">
 <h1>SSH Basics<a class="headerlink" href="#ssh-basics" title="Permalink to this heading">#</a></h1>
 <p>Secure Shell (SSH) is a foundational tool for working with remote servers, cloud virtual machines, version control systems, deployment pipelines, and MLOps workflows.
-This chapter provides a clean, practical introduction to SSH that you can reuse across all environments — local, remote, cloud, development, and production..</p>
+This chapter provides a practical introduction to SSH that you can reuse across all environments: local, remote, cloud, development, and production.</p>
 <hr class="docutils" />
 <section id="table-of-contents">
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
@@ -462,6 +466,7 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 <li><p>Managing Linux servers</p></li>
 <li><p>Deploying applications, DevOps workflows, MLOps tracking servers (e.g., MLflow)</p></li>
 <li><p>Using Git with SSH keys</p></li>
+<li><p>Transfer files onto the server</p></li>
 </ul>
 <section id="how-ssh-authentication-works">
 <h3>How SSH Authentication Works<a class="headerlink" href="#how-ssh-authentication-works" title="Permalink to this heading">#</a></h3>
@@ -512,18 +517,17 @@ This chapter provides a clean, practical introduction to SSH that you can reuse 
 <p>This creates:</p>
 <p>A private key (e.g., ~/.ssh/id_rsa) → keep this secret</p>
 <p>A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust</p>
-<div class="highlight-{note notranslate"><div class="highlight"><pre><span></span>
-Recommended modern approach: **Ed25519**
-
-```sh
-ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;
-```
-
-You will get:
-- `~/.ssh/id_ed25519` (private key)
-- `~/.ssh/id_ed25519.pub` (public key)
-
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recommended modern approach: <strong>Ed25519</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
 </pre></div>
+</div>
+<p>You will get:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519</span></code> (private key)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519.pub</span></code> (public key)</p></li>
+</ul>
 </div>
 </section>
 <section id="why-are-there-two-keys">
@@ -634,7 +638,7 @@ ssh<span class="w"> </span>ec2-user@ec2-3-90-1-20.compute-1.amazonaws.com
 ssh<span class="w"> </span>myuser@35.199.200.10
 </pre></div>
 </div>
-<p>** First connection fingerprint prompt**</p>
+<p><strong>First connection fingerprint prompt</strong></p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>The authenticity of host &#39;51.120.14.33&#39; can&#39;t be established.
 Are you sure you want to continue connecting (yes/no)?
 
@@ -685,25 +689,76 @@ Connected
 </section>
 <section id="ssh-port-forwarding">
 <h3>SSH Port Forwarding<a class="headerlink" href="#ssh-port-forwarding" title="Permalink to this heading">#</a></h3>
-<p>Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser.</p>
-<p><strong>Local port forwarding</strong></p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Local<span class="w"> </span>Machine<span class="w"> </span><span class="o">(</span>localhost:5000<span class="o">)</span><span class="w"> </span>→<span class="w"> </span>Remote<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>localhost:5000<span class="o">)</span>
+<p>Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser. In the other word, SSH port forwarding allows you to securely “tunnel” a network port from one machine to another. This is very common in MLOps work because many tools expose <strong>web interfaces</strong> on ports:</p>
+<ul class="simple">
+<li><p>MLflow → 5000</p></li>
+<li><p>Jupyter Notebook → 8888</p></li>
+<li><p>FastAPI → 8000</p></li>
+<li><p>TensorBoard → 6006</p></li>
+</ul>
+<p>These services run on a <strong>remote VM</strong>, but you want to open them in <strong>your local browser</strong>.
+SSH forwarding makes this possible <strong>without exposing the service to the internet</strong>.</p>
+<section id="ssh-local-port-forwarding">
+<h4>SSH Local Port Forwarding<a class="headerlink" href="#ssh-local-port-forwarding" title="Permalink to this heading">#</a></h4>
+<p>Local port forwarding maps:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Your<span class="w"> </span>Laptop<span class="w"> </span><span class="o">(</span>localhost:PORT_A<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5000</span><span class="o">)</span>
+<span class="w">        </span>↓
+Remote<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>localhost:PORT_B<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5000</span><span class="o">)</span>
 </pre></div>
 </div>
-<p>Command:</p>
+<p>It makes a remote service appear as if it is running on your laptop.</p>
+<p><strong>Command</strong></p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="m">5000</span>:localhost:5000<span class="w"> </span>user@server
+</pre></div>
+</div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>┌──────────────────┐<span class="w">         </span>SSH<span class="w"> </span>Tunnel<span class="w">        </span>┌────────────────────┐
+│<span class="w">  </span>Your<span class="w"> </span>Laptop<span class="w">      </span>│<span class="w">  </span><span class="m">5000</span><span class="w"> </span>→<span class="w"> </span>localhost:5000<span class="w">  </span>│<span class="w">   </span>Remote<span class="w"> </span>Server<span class="w">     </span>│
+│<span class="w"> </span>http://localhost:5000<span class="w">  </span>───────────────────▶<span class="w"> </span>│<span class="w"> </span>MLflow<span class="w"> </span>at<span class="w"> </span><span class="m">5000</span><span class="w">      </span>│
+└──────────────────┘<span class="w">                          </span>└────────────────────┘
 </pre></div>
 </div>
 <p>Use case examples:</p>
 <ul class="simple">
-<li><p>Access MLflow UI running on a VM</p></li>
-<li><p>View remote Jupyter Notebook</p></li>
+<li><p>Access <strong>MLflow UI</strong> running on a VM on port 5000</p></li>
+<li><p>View and access remote <strong>Jupyter Notebook</strong> running on a VM</p></li>
+<li><p>Use <strong>FastAPI</strong> backend running remotely</p></li>
 <li><p>Connect to remote APIs without exposing them online</p></li>
 </ul>
-<p><strong>Remote port forwarding</strong></p>
+<p><strong>Practical example</strong></p>
+<p>If a workshop server runs MLflow at:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="m">127</span>.0.0.1:5000
+</pre></div>
+</div>
+<p>You can open your browser locally at:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>You<span class="w"> </span>can<span class="w"> </span>open<span class="w"> </span>your<span class="w"> </span>browser<span class="w"> </span>locally<span class="w"> </span>at:
+</pre></div>
+</div>
+<p>and it shows the MLflow UI from the server.</p>
+</section>
+<section id="ssh-remote-port-forwarding">
+<h4>SSH Remote port forwarding<a class="headerlink" href="#ssh-remote-port-forwarding" title="Permalink to this heading">#</a></h4>
+<p>Remote port forwarding is the opposite of local port forwarding:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Remote<span class="w"> </span>Server<span class="w"> </span><span class="o">(</span>localhost:PORT_A<span class="o">)</span>
+<span class="w">        </span>↓
+Your<span class="w"> </span>Laptop<span class="w"> </span><span class="o">(</span>localhost:PORT_B<span class="o">)</span>
+</pre></div>
+</div>
+<p>It allows the <strong>remote machine</strong> to access a service running on <strong>your laptop</strong>.</p>
+<p><strong>Command</strong></p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-R<span class="w"> </span><span class="m">6000</span>:localhost:6000<span class="w"> </span>user@server
 </pre></div>
 </div>
+<p><strong>Use Cases</strong></p>
+<p>Remote port forwarding is useful when you want the <strong>remote server</strong> to access:</p>
+<ul class="simple">
+<li><p>a local development server</p></li>
+<li><p>a Jupyter instance running on your laptop</p></li>
+<li><p>a FastAPI app you are debugging locally</p></li>
+</ul>
+<p>Example:</p>
+<p>A training machine needs access to a local app you are developing.
+Remote forwarding lets the server reach your laptop.</p>
+</section>
 </section>
 <section id="ssh-agent-usage">
 <h3>SSH Agent Usage<a class="headerlink" href="#ssh-agent-usage" title="Permalink to this heading">#</a></h3>
@@ -896,7 +951,11 @@ By mastering SSH:</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#copying-files-via-ssh">Copying Files via SSH</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-port-forwarding">SSH Port Forwarding</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-local-port-forwarding">SSH Local Port Forwarding</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-remote-port-forwarding">SSH Remote port forwarding</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh-agent-usage">SSH Agent Usage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-specific-ssh-examples">Cloud-Specific SSH Examples</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#azure-vm">Azure VM</a><ul class="nav section-nav flex-column">

@@ -2,7 +2,7 @@
 
 
 Secure Shell (SSH) is a foundational tool for working with remote servers, cloud virtual machines, version control systems, deployment pipelines, and MLOps workflows.
-This chapter provides a clean, practical introduction to SSH that you can reuse across all environments — local, remote, cloud, development, and production..
+This chapter provides a practical introduction to SSH that you can reuse across all environments: local, remote, cloud, development, and production.
 
 ---
 
@@ -42,7 +42,8 @@ SSH is used in:
 - Accessing remote Jupyter or MLflow 
 - Managing Linux servers
 - Deploying applications, DevOps workflows, MLOps tracking servers (e.g., MLflow)
-- Using Git with SSH keys  
+- Using Git with SSH keys 
+- Transfer files onto the server 
 
 
 ### How SSH Authentication Works
@@ -104,7 +105,7 @@ A public key (e.g., ~/.ssh/id_rsa.pub) → you share this with servers you trust
 
 
 
-:::{note
+:::{note}
 
 Recommended modern approach: **Ed25519**
 
@@ -229,7 +230,7 @@ ssh ec2-user@ec2-3-90-1-20.compute-1.amazonaws.com
 ssh myuser@35.199.200.10
 
 ```
-** First connection fingerprint prompt**
+**First connection fingerprint prompt**
 
 ```sh
 The authenticity of host '51.120.14.33' can't be established.
@@ -297,38 +298,111 @@ rsync -avz -e ssh myfolder/ user@host:/remote/myfolder/
 
 ```
 
-
 ### SSH Port Forwarding
 
-Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser.
+Port forwarding allows you to securely access remote services (MLflow, Jupyter, FastAPI) through your local browser. In the other word, SSH port forwarding allows you to securely “tunnel” a network port from one machine to another. This is very common in MLOps work because many tools expose **web interfaces** on ports:
 
-**Local port forwarding**
+- MLflow → 5000
 
+- Jupyter Notebook → 8888
+
+- FastAPI → 8000
+
+- TensorBoard → 6006
+
+These services run on a **remote VM**, but you want to open them in **your local browser**.
+SSH forwarding makes this possible **without exposing the service to the internet**.
+
+#### SSH Local Port Forwarding
+
+Local port forwarding maps:
 
 ```sh
-Local Machine (localhost:5000) → Remote Server (localhost:5000)
+Your Laptop (localhost:PORT_A = 5000)
+        ↓
+Remote Server (localhost:PORT_B = 5000)
 
 ```
 
-Command:
+It makes a remote service appear as if it is running on your laptop.
+
+
+**Command**
 
 
 ```sh
 ssh -L 5000:localhost:5000 user@server
 ```
 
+
+```sh
+┌──────────────────┐         SSH Tunnel        ┌────────────────────┐
+│  Your Laptop      │  5000 → localhost:5000  │   Remote Server     │
+│ http://localhost:5000  ───────────────────▶ │ MLflow at 5000      │
+└──────────────────┘                          └────────────────────┘
+
+```
+
+
 Use case examples:
 
-- Access MLflow UI running on a VM
-- View remote Jupyter Notebook
+- Access **MLflow UI** running on a VM on port 5000
+- View and access remote **Jupyter Notebook** running on a VM
+- Use **FastAPI** backend running remotely
 - Connect to remote APIs without exposing them online
 
+**Practical example**
 
-**Remote port forwarding**
+If a workshop server runs MLflow at:
+
+```sh
+127.0.0.1:5000
+
+```
+You can open your browser locally at:
+
+```sh
+You can open your browser locally at:
+
+```
+
+and it shows the MLflow UI from the server.
+
+
+#### SSH Remote port forwarding
+
+Remote port forwarding is the opposite of local port forwarding:
+
+```sh
+Remote Server (localhost:PORT_A)
+        ↓
+Your Laptop (localhost:PORT_B)
+
+```
+
+It allows the **remote machine** to access a service running on **your laptop**.
+
+**Command**
+
 
 ```sh
 ssh -R 6000:localhost:6000 user@server
 ```
+
+**Use Cases**
+
+Remote port forwarding is useful when you want the **remote server** to access:
+
+- a local development server
+
+- a Jupyter instance running on your laptop
+
+- a FastAPI app you are debugging locally
+
+Example:
+
+A training machine needs access to a local app you are developing.
+Remote forwarding lets the server reach your laptop.
 
 
 ### SSH Agent Usage
