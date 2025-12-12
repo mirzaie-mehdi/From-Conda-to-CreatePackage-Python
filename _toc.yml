@@ -12,3 +12,5 @@ chapters:
   title: Numpy
 - file: docs/Deployment_Infrastructure
   title: Virtual Machine, Deployment and Infrastructure
+- file: docs/jupyter_book_tut
+  title: Jupyter Book Tutorial
