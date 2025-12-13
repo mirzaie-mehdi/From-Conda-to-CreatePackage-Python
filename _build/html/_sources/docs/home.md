@@ -1,12 +1,12 @@
-# Python installation and Implementation 
+# Python Installation and Implementation 
 
 
 Writing Python code is only a small part of making a Python program work in practice. In real-world workflows, whether in research, data science, engineering, or software development, Python code does not run in isolation. Every script, notebook, or application depends on a runtime context that determines which libraries are available, which versions are used, and which computational resources are accessible.
 
 At its core, running Python code successfully depends on two fundamental factors:
-- **Where the code is executed** (local machine, server, supercomputer, or cloud)
+**1. Where the code is executed** (local machine, server, supercomputer, or cloud)
 
-- **How the execution environment is defined** (installed packages, versions, and system-level dependencies)
+**2. How the execution environment is defined** (installed packages, versions, and system-level dependencies)
 
 This chapter is about understanding, controlling, and ultimately mastering these two factors.
 
@@ -18,38 +18,30 @@ This chapter is about understanding, controlling, and ultimately mastering these
 - [What Is a Python Environment, Really?](#env)
 
 
-## Execution Environment vs. Execution Platform
+##  Execution Platform vs. Execution Environment
 <a name="exe"></a>
 
 A common misconception among beginners is that Python code that runs once will always run again without modification. In reality, Python programs are highly sensitive to their environments. A small change in a package version, a missing dependency, or a different operating system can break otherwise correct code.
 
-The **execution platform** refers to the physical or virtual system where the code runs:
+- The **execution platform** refers to the physical or virtual system where the code runs:
 
-- A personal laptop or desktop
+  - A personal laptop or desktop
 
-- A shared server
+  - A shared server
 
-- A high-performance computing (HPC) cluster
+  - A high-performance computing (HPC) cluster
 
-- A cloud-based service such as Google Colab
+  - A cloud-based service such as Google Colab
 
-The **execution environment** refers to the software context:
+- The **execution environment** refers to the software context:
 
-- **The Python interpreter version** 
-  
-The specific release of the Python runtime that executes the code, determining available language features and standard library behavior.
+  - **The Python interpreter version**: The specific release of the Python runtime that executes the code, determining available language features and standard library behavior.
 
-- **Installed third-party packages**
+  - **Installed third-party packages**: Libraries developed and maintained by the community or organizations that are not part of the Python standard library and must be installed separately.
 
-Libraries developed and maintained by the community or organizations that are not part of the Python standard library and must be installed separately.
+  - **Package versions and dependency trees**: The exact versions of installed packages and the full hierarchy of direct and indirect dependencies required by a project.
 
-- **Package versions and dependency trees**
-
-The exact versions of installed packages and the full hierarchy of direct and indirect dependencies required by a project.
-
-- System libraries required by Python packages
-
-Non-Python, operating-system–level libraries (e.g., BLAS, OpenSSL, CUDA) that certain Python packages depend on to install or run correctly.
+  - **System libraries required by Python packages**: Non-Python, operating-system–level libraries (e.g., BLAS, OpenSSL, CUDA) that certain Python packages depend on to install or run correctly.
 
 Confusing these two concepts often leads to fragile workflows. This chapter treats them separately but shows how they interact.
 
@@ -60,16 +52,15 @@ Most Python projects begin on a personal computer. While this environment appear
 
 On personal machines, Python code is typically executed through:
 
-- Interactive tools such as Jupyter Notebooks
+- **Interactive tools** such as Jupyter Notebooks
 
-- Scripts run from the terminal or an integrated development environment (IDE)
+- **Scripts** run from the terminal or an integrated development environment (IDE)
 
 Without explicit environment management, projects on the same machine can easily interfere with one another, leading to broken code after package upgrades or system changes.
 
 ### Running Python Code on Servers and Supercomputers
 
 As projects scale, Python code is often moved from personal machines to shared computational resources. At this stage, environment management shifts from being a convenience to a necessity.
-
 
 #### Jupyter on Servers
 
@@ -157,37 +148,37 @@ This choice determines how much control you have over software installation and 
 Python does not require a specific editor. Choose one based on your workflow.
 
 
-**Common Options**
+**Common Options are as follows:**
 
-#### **Jupyter Notebook / JupyterLab**
+**1. Jupyter Notebook / JupyterLab**
 
-- Best for beginners and learning
+   - Best for beginners and learning
 
-- Interactive, cell-based execution
+   - Interactive, cell-based execution
 
-- Ideal for data exploration and visualization
+   - Ideal for data exploration and visualization
 
-- Requires installation if used locally (often included with Conda)
+   - Requires installation if used locally (often included with Conda)
 
-- Not required if using cloud notebooks (e.g., Colab)
+   - Not required if using cloud notebooks (e.g., Colab)
 
-#### **Code Editors (VS Code, PyCharm, etc.)**
+**2. Code Editors (VS Code, PyCharm, etc.)**
 
-- Best for scripts and structured projects
+   - Best for scripts and structured projects
 
-- File-based ('.py') workflows
+   - File-based ('.py') workflows
 
-- Better for long-term development
+   - Better for long-term development
 
-- Jupyter is optional, not required
+   - Jupyter is optional, not required
 
-#### **Terminal + Text Editor**
+**3. Terminal + Text Editor**
 
-- Common on servers and HPC systems
+   - Common on servers and HPC systems
 
-- Encourages understanding of how Python runs
+   - Encourages understanding of how Python runs
 
-- No Jupyter required
+   - No Jupyter required
 
 Jupyter is a tool, not a requirement for Python programming.
 
@@ -227,7 +218,7 @@ You should start thinking about creating an environment when **any of the follow
 
 - You move from notebooks to scripts
 
--Your code runs on servers or clusters
+- Your code runs on servers or clusters
 
 This is the point where unmanaged installations become fragile.
 
@@ -249,9 +240,7 @@ Its goal is to simplify installation and dependency management.
 
 **Is Anaconda Required?**
 
-No. Python can be used without Anaconda.
-
-However, Anaconda (or Miniconda) is strongly recommended for:
+**No.** Python can be used without Anaconda. However, Anaconda (or Miniconda) is strongly recommended for:
 
 - Beginners
 
@@ -336,9 +325,6 @@ When code is reused or shared widely, **Python packaging** becomes the next step
 **Introduce complexity only when your project requires it.**
 
 
-
-
-
 ## What Is a Python Environment, Really?
 <a name="env"></a>
 
@@ -367,18 +353,18 @@ conda create -n myenv python=3.10
 
 you are **not just setting a configuration flag**. Conda performs several concrete actions:
 
-1. **A new directory is created on your system**: 
+**1. A new directory is created on your system**: 
      - This directory represents the environment and
 
      - It contains everything related to that environment
 
-2. **A Python interpreter is installed inside that directory**: 
+**2. A Python interpreter is installed inside that directory**: 
 
      - This interpreter is separate from
 	-  **System Python**, and 
         - **Other Conda environments**
 
-3. Supporting folders are created: 
+**3. Supporting folders are created**: 
     - Executables (`python`, `pip`, `jupyter`)
     - Libraries (`site-packages`)
     - Metadata and configuration files
@@ -410,7 +396,7 @@ C:\Users\<username>\miniconda3\envs\myenv\
 
 ```
 
-You usually do **not88 need to open or modify these folders manually. Conda manages them for you.
+You usually do **not** need to open or modify these folders manually. Conda manages them for you.
 
 ### What Does “Activating” an Environment Mean?
 
@@ -556,6 +542,23 @@ The printed path should point to the environment directory (e.g., `.../envs/myen
 
 If it does not, the notebook is connected to the wrong environment.
 
+### How to Get the list of created conda environment from terminal
+
+To list Conda environments from the terminal, use one of the following commands.
+
+```sh
+conda env list
+
+```
+
+OR
+
+```sh
+conda info --envs
+
+```
+
+
 ### **Environments vs. Jupyter Kernels (Key Distinction)**
 
 - **Environment**
@@ -579,6 +582,8 @@ Environments allow you to:
  - Transition from notebooks to scripts and packages smoothly
 
 Most Python problems encountered by students are **environment problems**, not coding errors.
+
+
 
 ## Key Takeaways
 
