@@ -525,12 +525,14 @@ The correct workflow is always:
 
 ```sh
 conda activate myenv
-```sh
+
+```
 
 **2. Launch Jupyter**
 
 ```sh
 jupyter notebook
+
 ```
 
 or
@@ -557,11 +559,9 @@ If it does not, the notebook is connected to the wrong environment.
 ### **Environments vs. Jupyter Kernels (Key Distinction)**
 
 - **Environment**
-
 A folder containing Python and packages.
 
 - **Jupyter kernel**
-
 A connection between Jupyter and a specific environment.
 
 When Jupyter is installed inside an environment, Conda usually registers the correct kernel automatically. Beginners rarely need to manage kernels manually, but understanding the distinction helps diagnose issues.

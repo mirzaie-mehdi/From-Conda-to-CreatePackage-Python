@@ -837,12 +837,10 @@ conda<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"
 <p>The correct workflow is always:</p>
 <p><strong>1. Activate the environment</strong></p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>myenv
-<span class="sb">```</span>sh
-
-**2.<span class="w"> </span>Launch<span class="w"> </span>Jupyter**
-
-<span class="sb">```</span>sh
-jupyter<span class="w"> </span>notebook
+</pre></div>
+</div>
+<p><strong>2. Launch Jupyter</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>notebook
 </pre></div>
 </div>
 <p>or</p>
@@ -864,13 +862,11 @@ print<span class="o">(</span>sys.executable<span class="o">)</span>
 <section id="environments-vs-jupyter-kernels-key-distinction">
 <h3><strong>Environments vs. Jupyter Kernels (Key Distinction)</strong><a class="headerlink" href="#environments-vs-jupyter-kernels-key-distinction" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong>Environment</strong></p></li>
+<li><p><strong>Environment</strong>
+A folder containing Python and packages.</p></li>
+<li><p><strong>Jupyter kernel</strong>
+A connection between Jupyter and a specific environment.</p></li>
 </ul>
-<p>A folder containing Python and packages.</p>
-<ul class="simple">
-<li><p><strong>Jupyter kernel</strong></p></li>
-</ul>
-<p>A connection between Jupyter and a specific environment.</p>
 <p>When Jupyter is installed inside an environment, Conda usually registers the correct kernel automatically. Beginners rarely need to manage kernels manually, but understanding the distinction helps diagnose issues.</p>
 </section>
 <section id="why-environments-matter-so-much">
