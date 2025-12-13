@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Python installation and implementation &#8212; From Conda to Create Package in Python</title>
+    <title>Python installation and Implementation &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -165,7 +165,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Python installation and implementation
+                    Python installation and Implementation
                 </a>
             </li>
         </ul>
@@ -363,7 +363,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Python installation and implementation</h1>
+    <h1>Python installation and Implementation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -375,15 +375,46 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-environment-vs-execution-platform">Execution Environment vs. Execution Platform</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-a-personal-computer">Running Python Code on a Personal Computer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-a-personal-computer">Running Python Code on a Personal Computer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-servers-and-supercomputers">Running Python Code on Servers and Supercomputers</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-on-servers">Jupyter on Servers</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-nodes-and-batch-systems">Compute Nodes and Batch Systems</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-based-platforms">Cloud-Based Platforms</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-environments-to-packages">From Environments to Packages</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-environments-to-packages">From Environments to Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-python-a-student-oriented-pipeline">Getting Started with Python: A Student-Oriented Pipeline</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-decide-where-your-code-will-run"><strong>Step 1: Decide Where Your Code Will Run</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-choose-an-editor-how-you-write-code"><strong>Step 2: Choose an Editor (How You Write Code)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-jupyterlab"><strong>Jupyter Notebook / JupyterLab</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#code-editors-vs-code-pycharm-etc"><strong>Code Editors (VS Code, PyCharm, etc.)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#terminal-text-editor"><strong>Terminal + Text Editor</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-start-simple-no-environment-management-yet"><strong>Step 3: Start Simple (No Environment Management Yet)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-recognize-when-you-need-an-environment"><strong>Step 4: Recognize When You Need an Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-understand-anaconda-and-conda"><strong>Step 5: Understand Anaconda and Conda</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-create-and-use-environments"><strong>Step 6: Create and Use Environments</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-work-inside-the-environment"><strong>Step 7: Work Inside the Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-move-toward-reproducibility-and-packaging"><strong>Step 8: Move Toward Reproducibility and Packaging</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-python-environment-really">What Is a Python Environment, Really?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-actually-happens-when-you-create-an-environment"><strong>What Actually Happens When You Create an Environment?</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-environment-stored">Where Is the Environment Stored?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-activating-an-environment-mean">What Does “Activating” an Environment Mean?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages-inside-an-environment">Installing Packages Inside an Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-jupyter-fits-into-python-environments"><strong>How Jupyter Fits into Python Environments</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-jupyter-in-an-environment"><strong>Installing Jupyter in an Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-jupyter-correctly">Launching Jupyter Correctly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-verify-jupyter-is-using-the-right-environment">How to Verify Jupyter Is Using the Right Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environments-vs-jupyter-kernels-key-distinction"><strong>Environments vs. Jupyter Kernels (Key Distinction)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-environments-matter-so-much"><strong>Why Environments Matter So Much</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
             </nav>
         </div>
@@ -396,18 +427,21 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="python-installation-and-implementation">
-<h1>Python installation and implementation<a class="headerlink" href="#python-installation-and-implementation" title="Permalink to this heading">#</a></h1>
+<h1>Python installation and Implementation<a class="headerlink" href="#python-installation-and-implementation" title="Permalink to this heading">#</a></h1>
 <p>Writing Python code is only a small part of making a Python program work in practice. In real-world workflows, whether in research, data science, engineering, or software development, Python code does not run in isolation. Every script, notebook, or application depends on a runtime context that determines which libraries are available, which versions are used, and which computational resources are accessible.</p>
 <p>At its core, running Python code successfully depends on two fundamental factors:</p>
 <ul class="simple">
 <li><p><strong>Where the code is executed</strong> (local machine, server, supercomputer, or cloud)</p></li>
 <li><p><strong>How the execution environment is defined</strong> (installed packages, versions, and system-level dependencies)</p></li>
 </ul>
-<p>This book is about understanding, controlling, and ultimately mastering these two factors.</p>
+<p>This chapter is about understanding, controlling, and ultimately mastering these two factors.</p>
 <section id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><span class="xref myst">Execution Environment vs. Execution Platform</span></p></li>
+<li><p><span class="xref myst">From Environments to Packages</span></p></li>
+<li><p><span class="xref myst">Getting Started with Python: A Student-Oriented Pipeline</span></p></li>
+<li><p><span class="xref myst">What Is a Python Environment, Really?</span></p></li>
 </ul>
 </section>
 <section id="execution-environment-vs-execution-platform">
@@ -423,24 +457,44 @@ document.write(`
 </ul>
 <p>The <strong>execution environment</strong> refers to the software context:</p>
 <ul class="simple">
-<li><p>The Python interpreter version</p></li>
-<li><p>Installed third-party packages</p></li>
-<li><p>Package versions and dependency trees</p></li>
+<li><p><strong>The Python interpreter version</strong></p></li>
+</ul>
+<p>The specific release of the Python runtime that executes the code, determining available language features and standard library behavior.</p>
+<ul class="simple">
+<li><p><strong>Installed third-party packages</strong></p></li>
+</ul>
+<p>Libraries developed and maintained by the community or organizations that are not part of the Python standard library and must be installed separately.</p>
+<ul class="simple">
+<li><p><strong>Package versions and dependency trees</strong></p></li>
+</ul>
+<p>The exact versions of installed packages and the full hierarchy of direct and indirect dependencies required by a project.</p>
+<ul class="simple">
 <li><p>System libraries required by Python packages</p></li>
 </ul>
-<p>Confusing these two concepts often leads to fragile workflows. This book treats them separately but shows how they interact.</p>
+<p>Non-Python, operating-system–level libraries (e.g., BLAS, OpenSSL, CUDA) that certain Python packages depend on to install or run correctly.</p>
+<p>Confusing these two concepts often leads to fragile workflows. This chapter treats them separately but shows how they interact.</p>
 <section id="running-python-code-on-a-personal-computer">
 <h3>Running Python Code on a Personal Computer<a class="headerlink" href="#running-python-code-on-a-personal-computer" title="Permalink to this heading">#</a></h3>
-<p>As projects scale, Python code is frequently moved from personal machines to shared computational resources. At this stage, environment management shifts from being a convenience to being a necessity.</p>
+<p>Most Python projects begin on a personal computer. While this environment appears simple, it is also where many long-term reproducibility and dependency issues originate.</p>
+<p>On personal machines, Python code is typically executed through:</p>
+<ul class="simple">
+<li><p>Interactive tools such as Jupyter Notebooks</p></li>
+<li><p>Scripts run from the terminal or an integrated development environment (IDE)</p></li>
+</ul>
+<p>Without explicit environment management, projects on the same machine can easily interfere with one another, leading to broken code after package upgrades or system changes.</p>
+</section>
+<section id="running-python-code-on-servers-and-supercomputers">
+<h3>Running Python Code on Servers and Supercomputers<a class="headerlink" href="#running-python-code-on-servers-and-supercomputers" title="Permalink to this heading">#</a></h3>
+<p>As projects scale, Python code is often moved from personal machines to shared computational resources. At this stage, environment management shifts from being a convenience to a necessity.</p>
 <section id="jupyter-on-servers">
 <h4>Jupyter on Servers<a class="headerlink" href="#jupyter-on-servers" title="Permalink to this heading">#</a></h4>
 <p>Many institutions provide Jupyter access on servers or computation nodes. While this resembles the local Jupyter experience, there are important differences:</p>
 <ul class="simple">
-<li><p>Users may not have administrative privileges</p></li>
-<li><p>Software stacks are often shared</p></li>
-<li><p>Preinstalled packages may conflict with user-installed ones</p></li>
+<li><p>Users often lack administrative privileges</p></li>
+<li><p>Software stacks are shared among multiple users</p></li>
+<li><p>Preinstalled packages may conflict with user-installed environments</p></li>
 </ul>
-<p>In these environments, explicitly defining and activating environments is critical to maintaining stability and avoiding conflicts with system software.</p>
+<p>In these settings, explicitly creating, activating, and isolating environments is essential to maintain stability and avoid conflicts with system software.</p>
 </section>
 <section id="compute-nodes-and-batch-systems">
 <h4>Compute Nodes and Batch Systems<a class="headerlink" href="#compute-nodes-and-batch-systems" title="Permalink to this heading">#</a></h4>
@@ -460,9 +514,9 @@ document.write(`
 <li><p>Immediate access to compute resources</p></li>
 <li><p>Minimal setup overhead</p></li>
 </ul>
-<p>For education and rapid experimentation, this convenience is invaluable. However, it comes with important limitations:</p>
+<p>For learning, teaching and rapid experimentation, this convenience is invaluable. However, it comes with important limitations:</p>
 <ul class="simple">
-<li><p>Environments are ephemeral</p></li>
+<li><p>Environments are ephemeral and reset frequently</p></li>
 <li><p>Package versions may change without notice</p></li>
 <li><p>Long-term reproducibility is difficult</p></li>
 <li><p>Custom system configurations are restricted</p></li>
@@ -470,8 +524,10 @@ document.write(`
 <p>These platforms remove environment management from the user’s responsibility, but they do not remove the underlying problem—only the visibility of it.</p>
 </section>
 </section>
+</section>
 <section id="from-environments-to-packages">
-<h3>From Environments to Packages<a class="headerlink" href="#from-environments-to-packages" title="Permalink to this heading">#</a></h3>
+<h2>From Environments to Packages<a class="headerlink" href="#from-environments-to-packages" title="Permalink to this heading">#</a></h2>
+<p><a name="pack"></a></p>
 <p>Environment management solves the problem of running code consistently, but it does not fully address the problem of sharing code effectively.</p>
 <p>As projects mature, new questions emerge:</p>
 <ul class="simple">
@@ -480,14 +536,374 @@ document.write(`
 <li><p>How can dependencies be declared in a standard, automated way?</p></li>
 </ul>
 <p>The answer is Python packaging.</p>
-<p>This book bridges the gap between:</p>
-<ul class="simple">
-<li><p>Using Conda to manage environments</p></li>
-<li><p>Understanding dependency resolution</p></li>
-<li><p>Creating structured, installable Python packages</p></li>
-</ul>
-<p>Rather than treating packaging as an advanced or optional topic, this book presents it as a natural extension of responsible environment management.</p>
 </section>
+<section id="getting-started-with-python-a-student-oriented-pipeline">
+<h2>Getting Started with Python: A Student-Oriented Pipeline<a class="headerlink" href="#getting-started-with-python-a-student-oriented-pipeline" title="Permalink to this heading">#</a></h2>
+<p><a name="stu"></a></p>
+<p>When starting Python coding, it is important to know what to install, how to write code, and when to think about environments. Not all projects require the same setup, and complexity should be introduced gradually.</p>
+<section id="step-1-decide-where-your-code-will-run">
+<h3><strong>Step 1: Decide Where Your Code Will Run</strong><a class="headerlink" href="#step-1-decide-where-your-code-will-run" title="Permalink to this heading">#</a></h3>
+<p>The first question is <strong>where the code will be executed</strong>:</p>
+<ul class="simple">
+<li><p>Your personal computer (laptop or desktop)</p></li>
+<li><p>A shared server or HPC system</p></li>
+<li><p>A cloud platform (e.g., Google Colab)</p></li>
+</ul>
+<p>This choice determines how much control you have over software installation and environment configuration.</p>
+</section>
+<section id="step-2-choose-an-editor-how-you-write-code">
+<h3><strong>Step 2: Choose an Editor (How You Write Code)</strong><a class="headerlink" href="#step-2-choose-an-editor-how-you-write-code" title="Permalink to this heading">#</a></h3>
+<p>Python does not require a specific editor. Choose one based on your workflow.</p>
+<p><strong>Common Options</strong></p>
+<section id="jupyter-notebook-jupyterlab">
+<h4><strong>Jupyter Notebook / JupyterLab</strong><a class="headerlink" href="#jupyter-notebook-jupyterlab" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Best for beginners and learning</p></li>
+<li><p>Interactive, cell-based execution</p></li>
+<li><p>Ideal for data exploration and visualization</p></li>
+<li><p>Requires installation if used locally (often included with Conda)</p></li>
+<li><p>Not required if using cloud notebooks (e.g., Colab)</p></li>
+</ul>
+</section>
+<section id="code-editors-vs-code-pycharm-etc">
+<h4><strong>Code Editors (VS Code, PyCharm, etc.)</strong><a class="headerlink" href="#code-editors-vs-code-pycharm-etc" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Best for scripts and structured projects</p></li>
+<li><p>File-based (‘.py’) workflows</p></li>
+<li><p>Better for long-term development</p></li>
+<li><p>Jupyter is optional, not required</p></li>
+</ul>
+</section>
+<section id="terminal-text-editor">
+<h4><strong>Terminal + Text Editor</strong><a class="headerlink" href="#terminal-text-editor" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Common on servers and HPC systems</p></li>
+<li><p>Encourages understanding of how Python runs</p></li>
+<li><p>No Jupyter required</p></li>
+</ul>
+<p>Jupyter is a tool, not a requirement for Python programming.</p>
+</section>
+</section>
+<section id="step-3-start-simple-no-environment-management-yet">
+<h3><strong>Step 3: Start Simple (No Environment Management Yet)</strong><a class="headerlink" href="#step-3-start-simple-no-environment-management-yet" title="Permalink to this heading">#</a></h3>
+<p>At the very beginning, environment management is not mandatory.</p>
+<p>You can start coding using:</p>
+<ul class="simple">
+<li><p>Google Colab (no installation required)</p></li>
+<li><p>Local Python with Jupyter</p></li>
+<li><p>Local Python with a code editor</p></li>
+</ul>
+<p>At this stage:</p>
+<ul class="simple">
+<li><p>Focus on learning Python syntax and concepts</p></li>
+<li><p>Do not worry about reproducibility</p></li>
+<li><p>Expect setups to be temporary</p></li>
+</ul>
+</section>
+<section id="step-4-recognize-when-you-need-an-environment">
+<h3><strong>Step 4: Recognize When You Need an Environment</strong><a class="headerlink" href="#step-4-recognize-when-you-need-an-environment" title="Permalink to this heading">#</a></h3>
+<p>You should start thinking about creating an environment when <strong>any of the following occur</strong>:</p>
+<ul class="simple">
+<li><p>You install multiple third-party packages</p></li>
+<li><p>You work on more than one project</p></li>
+<li><p>You need specific package versions</p></li>
+<li><p>Your code must run again in the future</p></li>
+<li><p>You plan to share your code</p></li>
+<li><p>You move from notebooks to scripts</p></li>
+</ul>
+<p>-Your code runs on servers or clusters</p>
+<p>This is the point where unmanaged installations become fragile.</p>
+</section>
+<section id="step-5-understand-anaconda-and-conda">
+<h3><strong>Step 5: Understand Anaconda and Conda</strong><a class="headerlink" href="#step-5-understand-anaconda-and-conda" title="Permalink to this heading">#</a></h3>
+<p><strong>What Is Anaconda?</strong></p>
+<p>Anaconda is a Python distribution that includes:</p>
+<ul class="simple">
+<li><p>Python</p></li>
+<li><p>Conda (package and environment manager)</p></li>
+<li><p>Many commonly used scientific packages</p></li>
+<li><p>Optional tools such as Jupyter</p></li>
+</ul>
+<p>Its goal is to simplify installation and dependency management.</p>
+<p><strong>Is Anaconda Required?</strong></p>
+<p>No. Python can be used without Anaconda.</p>
+<p>However, Anaconda (or Miniconda) is strongly recommended for:</p>
+<ul class="simple">
+<li><p>Beginners</p></li>
+<li><p>Scientific and data-driven projects</p></li>
+<li><p>Users working on servers or HPC systems</p></li>
+</ul>
+<p><strong>Anaconda vs. Miniconda</strong></p>
+<ul class="simple">
+<li><p>Anaconda: large, many packages preinstalled</p></li>
+<li><p>Miniconda: minimal, install only what you need (recommended)</p></li>
+</ul>
+</section>
+<section id="step-6-create-and-use-environments">
+<h3><strong>Step 6: Create and Use Environments</strong><a class="headerlink" href="#step-6-create-and-use-environments" title="Permalink to this heading">#</a></h3>
+<p>Once environments are needed, always:</p>
+<ul class="simple">
+<li><p>Create one environment per project</p></li>
+<li><p>Fix the Python version</p></li>
+<li><p>Install only required packages</p></li>
+</ul>
+<p>Example workflow:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>myenv
+conda<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib
+</pre></div>
+</div>
+<p>An environment isolates:</p>
+<ul class="simple">
+<li><p>Python interpreter version</p></li>
+<li><p>Installed third-party packages</p></li>
+<li><p>Package versions and dependency trees</p></li>
+<li><p>Many required system libraries</p></li>
+</ul>
+</section>
+<section id="step-7-work-inside-the-environment">
+<h3><strong>Step 7: Work Inside the Environment</strong><a class="headerlink" href="#step-7-work-inside-the-environment" title="Permalink to this heading">#</a></h3>
+<p>After activating an environment:</p>
+<ul class="simple">
+<li><p>Run scripts from the terminal</p></li>
+<li><p>Configure your editor to use that environment</p></li>
+<li><p>Launch Jupyter from within the environment if needed</p></li>
+</ul>
+<p>This ensures consistency and prevents conflicts.</p>
+</section>
+<section id="step-8-move-toward-reproducibility-and-packaging">
+<h3><strong>Step 8: Move Toward Reproducibility and Packaging</strong><a class="headerlink" href="#step-8-move-toward-reproducibility-and-packaging" title="Permalink to this heading">#</a></h3>
+<p>As projects grow:</p>
+<ul class="simple">
+<li><p>Record dependencies (<code class="docutils literal notranslate"><span class="pre">environment.yml</span></code>, <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>)</p></li>
+<li><p>Test code in a clean environment</p></li>
+<li><p>Prepare for collaboration</p></li>
+</ul>
+<p>When code is reused or shared widely, <strong>Python packaging</strong> becomes the next step.</p>
+<p><strong>Key Takeaways for Students</strong></p>
+<ul class="simple">
+<li><p>Start coding immediately; do not overconfigure early</p></li>
+<li><p>Use Jupyter for learning, editors for structured work</p></li>
+<li><p>Create environments once projects become non-trivial</p></li>
+<li><p>Anaconda/Miniconda simplifies environment management</p></li>
+<li><p>One environment per project is a best practice</p></li>
+<li><p>Packaging is the final step, not the first</p></li>
+</ul>
+<p><strong>Introduce complexity only when your project requires it.</strong></p>
+</section>
+</section>
+<section id="what-is-a-python-environment-really">
+<h2>What Is a Python Environment, Really?<a class="headerlink" href="#what-is-a-python-environment-really" title="Permalink to this heading">#</a></h2>
+<p><a name="env"></a></p>
+<p>A <strong>Python environment</strong> is an <strong>isolated workspace</strong> that contains:</p>
+<ul class="simple">
+<li><p>A specific Python interpreter version</p></li>
+<li><p>Installed third-party packages</p></li>
+<li><p>Package versions and dependency trees</p></li>
+<li><p>Required system libraries (when managed by tools such as Conda)</p></li>
+</ul>
+<p>Each environment is independent of others. Code running in one environment does not “see” packages installed in another.</p>
+<section id="what-actually-happens-when-you-create-an-environment">
+<h3><strong>What Actually Happens When You Create an Environment?</strong><a class="headerlink" href="#what-actually-happens-when-you-create-an-environment" title="Permalink to this heading">#</a></h3>
+<p>When you run a command such as:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+</pre></div>
+</div>
+<p>you are <strong>not just setting a configuration flag</strong>. Conda performs several concrete actions:</p>
+<ol class="arabic simple">
+<li><p><strong>A new directory is created on your system</strong>:</p>
+<ul class="simple">
+<li><p>This directory represents the environment and</p></li>
+<li><p>It contains everything related to that environment</p></li>
+</ul>
+</li>
+<li><p><strong>A Python interpreter is installed inside that directory</strong>:</p>
+<ul class="simple">
+<li><p>This interpreter is separate from</p></li>
+<li><p><strong>System Python</strong>, and</p>
+<ul>
+<li><p><strong>Other Conda environments</strong></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Supporting folders are created:</p>
+<ul class="simple">
+<li><p>Executables (<code class="docutils literal notranslate"><span class="pre">python</span></code>, <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">jupyter</span></code>)</p></li>
+<li><p>Libraries (<code class="docutils literal notranslate"><span class="pre">site-packages</span></code>)</p></li>
+<li><p>Metadata and configuration files</p></li>
+</ul>
+</li>
+</ol>
+<p>In simple terms:</p>
+<p>Creating an environment means creating a self-contained Python installation inside its own folder.</p>
+</section>
+<section id="where-is-the-environment-stored">
+<h3>Where Is the Environment Stored?<a class="headerlink" href="#where-is-the-environment-stored" title="Permalink to this heading">#</a></h3>
+<p>By default, Conda stores environments inside its main installation directory.</p>
+<p>Typical locations:</p>
+<ul class="simple">
+<li><p><strong>Linux / macOS</strong></p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>~/miniconda3/envs/myenv/
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Windows</strong></p></li>
+</ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>C:<span class="se">\U</span>sers<span class="se">\&lt;</span>username&gt;<span class="se">\m</span>iniconda3<span class="se">\e</span>nvs<span class="se">\m</span>yenv<span class="se">\</span>
+</pre></div>
+</div>
+<p>You usually do **not88 need to open or modify these folders manually. Conda manages them for you.</p>
+</section>
+<section id="what-does-activating-an-environment-mean">
+<h3>What Does “Activating” an Environment Mean?<a class="headerlink" href="#what-does-activating-an-environment-mean" title="Permalink to this heading">#</a></h3>
+<p>When you activate an environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>myenv
+</pre></div>
+</div>
+<p>nothing is copied or moved. Instead, Conda:</p>
+<ul class="simple">
+<li><p>Updates environment variables</p></li>
+<li><p>Modifies the <code class="docutils literal notranslate"><span class="pre">PATH</span></code></p></li>
+<li><p>Ensures that commands such as:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jupyter</span></code></p></li>
+</ul>
+</li>
+</ul>
+<p>now point to the executables inside the environment folder.</p>
+<p>That is why the terminal prompt changes to something like:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>myenv<span class="o">)</span>
+</pre></div>
+</div>
+<p>Activation tells your system <strong>which Python installation to use</strong>, not “turning on” Python itself.</p>
+</section>
+<section id="installing-packages-inside-an-environment">
+<h3>Installing Packages Inside an Environment<a class="headerlink" href="#installing-packages-inside-an-environment" title="Permalink to this heading">#</a></h3>
+<p>When an environment is active and you install a package:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>numpy
+</pre></div>
+</div>
+<p>the package is installed <strong>only inside that environment’s directory</strong>.</p>
+<p>Other environments and your system Python remain unchanged.</p>
+<p>This isolation is what:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Prevents version conflicts
+
+- Allows multiple projects to coexist
+
+- Enables reproducibility
+</pre></div>
+</div>
+</section>
+<section id="how-jupyter-fits-into-python-environments">
+<h3><strong>How Jupyter Fits into Python Environments</strong><a class="headerlink" href="#how-jupyter-fits-into-python-environments" title="Permalink to this heading">#</a></h3>
+<p><strong>Is Jupyter Automatically Installed?</strong></p>
+<p>It depends on how Python was installed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- **Anaconda**: Jupyter is usually installed by default
+
+- **Miniconda**: Jupyter is not installed unless you install it
+
+- **Cloud platforms (e.g., Colab)**: Jupyter is managed externally
+</pre></div>
+</div>
+<p>To check whether Jupyter is installed in the active environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>list<span class="w"> </span>jupyter
+</pre></div>
+</div>
+<p>If Jupyter is not installed, the command will fail or return nothing.</p>
+</section>
+<section id="installing-jupyter-in-an-environment">
+<h3><strong>Installing Jupyter in an Environment</strong><a class="headerlink" href="#installing-jupyter-in-an-environment" title="Permalink to this heading">#</a></h3>
+<p>Jupyter should be installed <strong>inside the environment where you want to use it:</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyter
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>jupyterlab
+</pre></div>
+</div>
+<p>This ensures that:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> - Jupyter uses the correct Python interpreter
+
+ - Notebooks can access packages installed in that environment
+</pre></div>
+</div>
+<p>Installing Jupyter globally while using a different environment is a common beginner mistake.</p>
+</section>
+<section id="launching-jupyter-correctly">
+<h3>Launching Jupyter Correctly<a class="headerlink" href="#launching-jupyter-correctly" title="Permalink to this heading">#</a></h3>
+<p>The correct workflow is always:</p>
+<p><strong>1. Activate the environment</strong></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>myenv
+<span class="sb">```</span>sh
+
+**2.<span class="w"> </span>Launch<span class="w"> </span>Jupyter**
+
+<span class="sb">```</span>sh
+jupyter<span class="w"> </span>notebook
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>lab
+</pre></div>
+</div>
+<p>Jupyter will now run using the Python interpreter from <code class="docutils literal notranslate"><span class="pre">myenv</span></code>.</p>
+</section>
+<section id="how-to-verify-jupyter-is-using-the-right-environment">
+<h3>How to Verify Jupyter Is Using the Right Environment<a class="headerlink" href="#how-to-verify-jupyter-is-using-the-right-environment" title="Permalink to this heading">#</a></h3>
+<p>Inside a Jupyter notebook, run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>import<span class="w"> </span>sys
+print<span class="o">(</span>sys.executable<span class="o">)</span>
+</pre></div>
+</div>
+<p>The printed path should point to the environment directory (e.g., <code class="docutils literal notranslate"><span class="pre">.../envs/myenv/bin/python</span></code>).</p>
+<p>If it does not, the notebook is connected to the wrong environment.</p>
+</section>
+<section id="environments-vs-jupyter-kernels-key-distinction">
+<h3><strong>Environments vs. Jupyter Kernels (Key Distinction)</strong><a class="headerlink" href="#environments-vs-jupyter-kernels-key-distinction" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Environment</strong></p></li>
+</ul>
+<p>A folder containing Python and packages.</p>
+<ul class="simple">
+<li><p><strong>Jupyter kernel</strong></p></li>
+</ul>
+<p>A connection between Jupyter and a specific environment.</p>
+<p>When Jupyter is installed inside an environment, Conda usually registers the correct kernel automatically. Beginners rarely need to manage kernels manually, but understanding the distinction helps diagnose issues.</p>
+</section>
+<section id="why-environments-matter-so-much">
+<h3><strong>Why Environments Matter So Much</strong><a class="headerlink" href="#why-environments-matter-so-much" title="Permalink to this heading">#</a></h3>
+<p>Environments allow you to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Use different Python versions on the same machine
+
+- Avoid breaking old projects when installing new packages
+
+- Run the same code on different machines reliably
+
+- Transition from notebooks to scripts and packages smoothly
+</pre></div>
+</div>
+<p>Most Python problems encountered by students are <strong>environment problems</strong>, not coding errors.</p>
+</section>
+</section>
+<section id="key-takeaways">
+<h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>A Python environment is a <strong>real directory</strong>, not an abstract concept</p></li>
+<li><p>Creating an environment creates a separate Python installation</p></li>
+<li><p>Activating an environment selects which Python your system uses</p></li>
+<li><p>Packages are installed per environment</p></li>
+<li><p>Jupyter must be installed inside the environment to work correctly</p></li>
+<li><p>Always activate the environment before launching Jupyter</p></li>
+</ul>
+<p>If you understand environments, most Python setup problems disappear.</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -550,15 +966,46 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of contents</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#execution-environment-vs-execution-platform">Execution Environment vs. Execution Platform</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-a-personal-computer">Running Python Code on a Personal Computer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-a-personal-computer">Running Python Code on a Personal Computer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-python-code-on-servers-and-supercomputers">Running Python Code on Servers and Supercomputers</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-on-servers">Jupyter on Servers</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-nodes-and-batch-systems">Compute Nodes and Batch Systems</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud-based-platforms">Cloud-Based Platforms</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-environments-to-packages">From Environments to Packages</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-environments-to-packages">From Environments to Packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started-with-python-a-student-oriented-pipeline">Getting Started with Python: A Student-Oriented Pipeline</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-decide-where-your-code-will-run"><strong>Step 1: Decide Where Your Code Will Run</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-choose-an-editor-how-you-write-code"><strong>Step 2: Choose an Editor (How You Write Code)</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-notebook-jupyterlab"><strong>Jupyter Notebook / JupyterLab</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#code-editors-vs-code-pycharm-etc"><strong>Code Editors (VS Code, PyCharm, etc.)</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#terminal-text-editor"><strong>Terminal + Text Editor</strong></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-start-simple-no-environment-management-yet"><strong>Step 3: Start Simple (No Environment Management Yet)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-recognize-when-you-need-an-environment"><strong>Step 4: Recognize When You Need an Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-understand-anaconda-and-conda"><strong>Step 5: Understand Anaconda and Conda</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-create-and-use-environments"><strong>Step 6: Create and Use Environments</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-work-inside-the-environment"><strong>Step 7: Work Inside the Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-move-toward-reproducibility-and-packaging"><strong>Step 8: Move Toward Reproducibility and Packaging</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-python-environment-really">What Is a Python Environment, Really?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-actually-happens-when-you-create-an-environment"><strong>What Actually Happens When You Create an Environment?</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-environment-stored">Where Is the Environment Stored?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-activating-an-environment-mean">What Does “Activating” an Environment Mean?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages-inside-an-environment">Installing Packages Inside an Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-jupyter-fits-into-python-environments"><strong>How Jupyter Fits into Python Environments</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-jupyter-in-an-environment"><strong>Installing Jupyter in an Environment</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-jupyter-correctly">Launching Jupyter Correctly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-verify-jupyter-is-using-the-right-environment">How to Verify Jupyter Is Using the Right Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environments-vs-jupyter-kernels-key-distinction"><strong>Environments vs. Jupyter Kernels (Key Distinction)</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-environments-matter-so-much"><strong>Why Environments Matter So Much</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
   </nav></div>
 
