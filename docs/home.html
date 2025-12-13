@@ -790,25 +790,21 @@ conda<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"
 <p>the package is installed <strong>only inside that environment’s directory</strong>.</p>
 <p>Other environments and your system Python remain unchanged.</p>
 <p>This isolation is what:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Prevents version conflicts
-
-- Allows multiple projects to coexist
-
-- Enables reproducibility
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>Prevents version conflicts</p></li>
+<li><p>Allows multiple projects to coexist</p></li>
+<li><p>Enables reproducibility</p></li>
+</ul>
 </section>
 <section id="how-jupyter-fits-into-python-environments">
 <h3><strong>How Jupyter Fits into Python Environments</strong><a class="headerlink" href="#how-jupyter-fits-into-python-environments" title="Permalink to this heading">#</a></h3>
 <p><strong>Is Jupyter Automatically Installed?</strong></p>
 <p>It depends on how Python was installed:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- **Anaconda**: Jupyter is usually installed by default
-
-- **Miniconda**: Jupyter is not installed unless you install it
-
-- **Cloud platforms (e.g., Colab)**: Jupyter is managed externally
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><strong>Anaconda</strong>: Jupyter is usually installed by default</p></li>
+<li><p><strong>Miniconda</strong>: Jupyter is not installed unless you install it</p></li>
+<li><p><strong>Cloud platforms (e.g., Colab)</strong>: Jupyter is managed externally</p></li>
+</ul>
 <p>To check whether Jupyter is installed in the active environment:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>jupyter<span class="w"> </span>--version
 </pre></div>
@@ -830,11 +826,10 @@ conda<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"
 </pre></div>
 </div>
 <p>This ensures that:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> - Jupyter uses the correct Python interpreter
-
- - Notebooks can access packages installed in that environment
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>Jupyter uses the correct Python interpreter</p></li>
+<li><p>Notebooks can access packages installed in that environment</p></li>
+</ul>
 <p>Installing Jupyter globally while using a different environment is a common beginner mistake.</p>
 </section>
 <section id="launching-jupyter-correctly">
@@ -881,15 +876,12 @@ print<span class="o">(</span>sys.executable<span class="o">)</span>
 <section id="why-environments-matter-so-much">
 <h3><strong>Why Environments Matter So Much</strong><a class="headerlink" href="#why-environments-matter-so-much" title="Permalink to this heading">#</a></h3>
 <p>Environments allow you to:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Use different Python versions on the same machine
-
-- Avoid breaking old projects when installing new packages
-
-- Run the same code on different machines reliably
-
-- Transition from notebooks to scripts and packages smoothly
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>Use different Python versions on the same machine</p></li>
+<li><p>Avoid breaking old projects when installing new packages</p></li>
+<li><p>Run the same code on different machines reliably</p></li>
+<li><p>Transition from notebooks to scripts and packages smoothly</p></li>
+</ul>
 <p>Most Python problems encountered by students are <strong>environment problems</strong>, not coding errors.</p>
 </section>
 </section>
