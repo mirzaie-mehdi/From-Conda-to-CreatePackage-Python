@@ -461,11 +461,11 @@ Other environments and your system Python remain unchanged.
 
 This isolation is what:
 
-	- Prevents version conflicts
+ - Prevents version conflicts
 
-	- Allows multiple projects to coexist
+ - Allows multiple projects to coexist
 
-	- Enables reproducibility
+ - Enables reproducibility
 
 ### **How Jupyter Fits into Python Environments**
 
@@ -473,11 +473,11 @@ This isolation is what:
 
 It depends on how Python was installed:
 
-	- **Anaconda**: Jupyter is usually installed by default
+ - **Anaconda**: Jupyter is usually installed by default
 
-	- **Miniconda**: Jupyter is not installed unless you install it
+ - **Miniconda**: Jupyter is not installed unless you install it
 
-	- **Cloud platforms (e.g., Colab)**: Jupyter is managed externally
+ - **Cloud platforms (e.g., Colab)**: Jupyter is managed externally
 
 To check whether Jupyter is installed in the active environment:
 
@@ -511,9 +511,9 @@ conda install jupyterlab
 
 This ensures that:
 
-	 - Jupyter uses the correct Python interpreter
+ - Jupyter uses the correct Python interpreter
 
-	 - Notebooks can access packages installed in that environment
+ - Notebooks can access packages installed in that environment
 
 Installing Jupyter globally while using a different environment is a common beginner mistake.
 
@@ -570,13 +570,13 @@ When Jupyter is installed inside an environment, Conda usually registers the cor
 
 Environments allow you to:
 
-	- Use different Python versions on the same machine
+ - Use different Python versions on the same machine
 
-	- Avoid breaking old projects when installing new packages
+ - Avoid breaking old projects when installing new packages
 
-	- Run the same code on different machines reliably
+ - Run the same code on different machines reliably
 
-	- Transition from notebooks to scripts and packages smoothly
+ - Transition from notebooks to scripts and packages smoothly
 
 Most Python problems encountered by students are **environment problems**, not coding errors.
 
