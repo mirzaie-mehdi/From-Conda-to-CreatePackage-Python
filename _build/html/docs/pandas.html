@@ -175,7 +175,9 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pandas</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pandas: Working with Structured Data in Python</a></li>
+
+
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
 </ul>
@@ -404,11 +406,34 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pandas: Working with Structured Data in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-pandas">Why Pandas?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-pandas">Installing Pandas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pandas">1. Import Pandas</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#core-pandas-data-structures">Core Pandas Data Structures</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series">2. Series</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe">3. DataFrame</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-a-dataframe">4. Inspecting a DataFrame</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data-from-files-csv">5. Reading Data from Files (CSV)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#how-pandas-thinks-about-a-dataframe-objects-attributes-and-methods">How Pandas Thinks About a DataFrame (Objects, Attributes, and Methods)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframes-are-python-objects">DataFrames Are Python Objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe-attributes-no-parentheses">DataFrame Attributes (No Parentheses)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe-methods-with-parentheses">DataFrame Methods (With Parentheses)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-parentheses-matter">Why Parentheses Matter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-read-csv-fits-this-model">How read_csv Fits This Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-pandas-does-automatically-when-reading-files">What Pandas Does Automatically When Reading Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-this-in-practice">Seeing This in Practice</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model-to-remember">Mental Model to Remember</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-columns">6. Selecting Columns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-rows">7. Selecting Rows</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-rows-by-conditions">8. Filtering Rows by Conditions</a></li>
@@ -416,8 +441,13 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-missing-data">10. Handling Missing Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-data">11. Modifying Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-tip-verify-which-python-executable-runs-this-notebook">12. Jupyter Tip: Verify Which Python Executable Runs This Notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-and-environment-management">Pandas and Environment Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-beginner-mistakes">Common Beginner Mistakes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -430,15 +460,765 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="pandas-working-with-structured-data-in-python">
 <h1>Pandas: Working with Structured Data in Python<a class="headerlink" href="#pandas-working-with-structured-data-in-python" title="Permalink to this heading">#</a></h1>
-<p>This notebook accompanies the Pandas section (placed after NumPy). It introduces the core Pandas data structures and the most common operations with runnable examples.</p>
-<p><strong>Conventions:</strong></p>
+<p>After NumPy, the next natural step in scientific Python workflows is <strong>Pandas</strong>. While NumPy focuses on numerical arrays and mathematical operations, many real-world datasets are <strong>tabular</strong>, <strong>labeled</strong>, and <strong>heterogeneous</strong>. Pandas is designed specifically to work with such data.</p>
+<p>Pandas is one of the most widely used third-party Python libraries in scientific computing, data science, and engineering, and it is often the first library that makes environment management unavoidable.</p>
+<section id="why-pandas">
+<h2>Why Pandas?<a class="headerlink" href="#why-pandas" title="Permalink to this heading">#</a></h2>
+<p>Basic Python data structures such as lists and dictionaries are sufficient for small tasks. However, they become impractical when working with:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd</span></code></p></li>
-<li><p>A <code class="docutils literal notranslate"><span class="pre">Series</span></code> is a 1D labeled array</p></li>
-<li><p>A <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> is a 2D labeled table</p></li>
+<li><p>Large datasets</p></li>
+<li><p>Tabular data (rows and columns)</p></li>
+<li><p>Missing values</p></li>
+<li><p>Mixed data types</p></li>
+<li><p>Labeled data that must be filtered or aggregated</p></li>
 </ul>
+<p>Pandas provides high-level abstractions that make these tasks simpler, safer, and more expressive.</p>
+</section>
+<section id="installing-pandas">
+<h2>Installing Pandas<a class="headerlink" href="#installing-pandas" title="Permalink to this heading">#</a></h2>
+<p>Pandas is a third-party package and must be installed in the active environment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">install</span> <span class="n">pandas</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Retrieving notices: - 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>done
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Channels:
+ - defaults
+ - conda-forge
+Platform: osx-arm64
+Collecting package metadata (repodata.json): / 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>- 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>\ 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>| 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>^C
+/ - 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<p>As discussed in earlier chapters, this installs Pandas only in the currently active environment.</p>
+</section>
 <section id="import-pandas">
 <h2>1. Import Pandas<a class="headerlink" href="#import-pandas" title="Permalink to this heading">#</a></h2>
+<p>By convention, Pandas is imported as <code class="docutils literal notranslate"><span class="pre">pd</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -447,6 +1227,10 @@ document.write(`
 </div>
 </div>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="core-pandas-data-structures">
+<h1>Core Pandas Data Structures<a class="headerlink" href="#core-pandas-data-structures" title="Permalink to this heading">#</a></h1>
+<p>Pandas introduces two fundamental data structures: <strong>Series</strong> and <strong>DataFrame</strong>.</p>
 <section id="series">
 <h2>2. Series<a class="headerlink" href="#series" title="Permalink to this heading">#</a></h2>
 <p>A <strong>Series</strong> is a one-dimensional array with an associated index.</p>
@@ -457,16 +1241,8 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    10
-1    20
-2    30
-3    40
-dtype: int64
-</pre></div>
 </div>
-</div>
-</div>
+<p>You can explicitly define the index:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">s2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">])</span>
@@ -474,19 +1250,13 @@ dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a    10
-b    20
-c    30
-dtype: int64
-</pre></div>
 </div>
-</div>
-</div>
+<p>A Series behaves similarly to a labeled NumPy array.</p>
 </section>
 <section id="dataframe">
 <h2>3. DataFrame<a class="headerlink" href="#dataframe" title="Permalink to this heading">#</a></h2>
-<p>A <strong>DataFrame</strong> is a two-dimensional table consisting of rows and columns.</p>
+<p>A <strong>DataFrame</strong> is a two-dimensional table consisting of rows and columns. Each column is a Series.</p>
+<p><strong>Creating a DataFrame from a dictionary</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -500,109 +1270,17 @@ dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="inspecting-a-dataframe">
 <h2>4. Inspecting a DataFrame<a class="headerlink" href="#inspecting-a-dataframe" title="Permalink to this heading">#</a></h2>
-<p>Before doing analysis, inspect the structure and data types.</p>
+<p>Before doing analysis, inspect the structure and data types. These operations help you understand the structure of the dataset.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -610,61 +1288,10 @@ dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Index([&#39;name&#39;, &#39;age&#39;, &#39;score&#39;], dtype=&#39;object&#39;)
 </pre></div>
 </div>
 </div>
@@ -675,23 +1302,10 @@ dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 3)
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>name     object
-age       int64
-score     int64
-dtype: object
 </pre></div>
 </div>
 </div>
@@ -710,20 +1324,156 @@ dtype: object
 </div>
 </div>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="how-pandas-thinks-about-a-dataframe-objects-attributes-and-methods">
+<h1>How Pandas Thinks About a DataFrame (Objects, Attributes, and Methods)<a class="headerlink" href="#how-pandas-thinks-about-a-dataframe-objects-attributes-and-methods" title="Permalink to this heading">#</a></h1>
+<p>When data is loaded using Pandas, the result is not just a table of values.
+It is a Python object with its own attributes and methods.</p>
+<p>For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">df</span></code> now refers to a DataFrame object.</p>
+<section id="dataframes-are-python-objects">
+<h2>DataFrames Are Python Objects<a class="headerlink" href="#dataframes-are-python-objects" title="Permalink to this heading">#</a></h2>
+<p>In Python, objects have:</p>
+<ul class="simple">
+<li><p><strong>Attributes</strong> → information stored in the object</p></li>
+<li><p><strong>Methods</strong> → functions that act on the object</p></li>
+</ul>
+<p>Pandas follows this object-oriented design strictly.</p>
+<p>You interact with a DataFrame using dot notation <code class="docutils literal notranslate"><span class="pre">(.)</span></code>.</p>
+<section id="dataframe-attributes-no-parentheses">
+<h3>DataFrame Attributes (No Parentheses)<a class="headerlink" href="#dataframe-attributes-no-parentheses" title="Permalink to this heading">#</a></h3>
+<p><strong>Attributes</strong> describe properties of the DataFrame.
+They are accessed <strong>without parentheses.</strong></p>
+<p>Examples:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>These return information such as:</p>
+<ul class="simple">
+<li><p>Column names</p></li>
+<li><p>Number of rows and columns</p></li>
+<li><p>Data types of each column</p></li>
+<li><p>Row labels</p></li>
+</ul>
+<p><strong>Rule of thumb:</strong></p>
+<p>If you are asking for information, it is usually an attribute.</p>
+</section>
+<section id="dataframe-methods-with-parentheses">
+<h3>DataFrame Methods (With Parentheses)<a class="headerlink" href="#dataframe-methods-with-parentheses" title="Permalink to this heading">#</a></h3>
+<p><strong>Methods</strong> are functions attached to the DataFrame object.
+They are called <strong>with parentheses.</strong></p>
+<p>Examples:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>These perform actions such as:</p>
+<ul class="simple">
+<li><p>Displaying part of the data</p></li>
+<li><p>Computing statistics</p></li>
+<li><p>Transforming or cleaning data</p></li>
+</ul>
+<p><strong>Rule of thumb:</strong></p>
+<p>If something does work or changes data, it is usually a method.</p>
+</section>
+<section id="why-parentheses-matter">
+<h3>Why Parentheses Matter<a class="headerlink" href="#why-parentheses-matter" title="Permalink to this heading">#</a></h3>
+<p>This is a very common beginner mistake:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">()</span>   <span class="c1"># ❌ incorrect</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>     <span class="c1"># ✅ correct</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Explanation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df.shape</span></code> is an attribute (stored information)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df.head()</span></code> is a method (a function call)</p></li>
+</ul>
+<p>Forgetting or adding parentheses incorrectly will cause errors.</p>
+</section>
+</section>
+<section id="how-read-csv-fits-this-model">
+<h2>How read_csv Fits This Model<a class="headerlink" href="#how-read-csv-fits-this-model" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> is not a DataFrame method.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.read_csv()</span></code> is a <strong>function</strong> provided by the Pandas module</p></li>
+<li><p>It <strong>creates</strong> a new DataFrame object</p></li>
+<li><p>After this, all interaction happens through <code class="docutils literal notranslate"><span class="pre">df</span></code></p></li>
+</ul>
+<section id="what-pandas-does-automatically-when-reading-files">
+<h3>What Pandas Does Automatically When Reading Files<a class="headerlink" href="#what-pandas-does-automatically-when-reading-files" title="Permalink to this heading">#</a></h3>
+<p>When you load data from a CSV file, Pandas automatically:</p>
+<ul class="simple">
+<li><p>Parses column names from the header</p></li>
+<li><p>Infers data types for each column</p></li>
+<li><p>Assigns a default index</p></li>
+<li><p>Represents missing values using <code class="docutils literal notranslate"><span class="pre">NaN</span></code></p></li>
+</ul>
+<p>All of this information becomes part of the DataFrame object and is accessible through its attributes and methods.</p>
+<section id="seeing-this-in-practice">
+<h4>Seeing This in Practice<a class="headerlink" href="#seeing-this-in-practice" title="Permalink to this heading">#</a></h4>
+<p>You can inspect the DataFrame immediately after loading:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This should always be your <strong>first step</strong> after reading a file.</p>
+</section>
+<section id="mental-model-to-remember">
+<h4>Mental Model to Remember<a class="headerlink" href="#mental-model-to-remember" title="Permalink to this heading">#</a></h4>
+<p>A Pandas DataFrame is not just data. it is a Python object that knows about its structure and provides methods to work with it.</p>
+<p>Once students understand this model:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.loc</span></code>, <code class="docutils literal notranslate"><span class="pre">.iloc</span></code>, <code class="docutils literal notranslate"><span class="pre">.mean()</span></code>, <code class="docutils literal notranslate"><span class="pre">.dropna()</span></code> make sense</p></li>
+<li><p>Errors become easier to debug</p></li>
+<li><p>Pandas feels consistent rather than magical</p></li>
+</ul>
+</section>
+</section>
+</section>
 <section id="selecting-columns">
 <h2>6. Selecting Columns<a class="headerlink" href="#selecting-columns" title="Permalink to this heading">#</a></h2>
 <p>Select one column (returns a Series) or multiple columns (returns a DataFrame).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    25
-1    30
-2    35
-Name: age, dtype: int64
 </pre></div>
 </div>
 </div>
@@ -734,48 +1484,6 @@ Name: age, dtype: int64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>85</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="selecting-rows">
@@ -783,77 +1491,21 @@ Name: age, dtype: int64
 <p>Use <code class="docutils literal notranslate"><span class="pre">.iloc</span></code> for position-based selection and <code class="docutils literal notranslate"><span class="pre">.loc</span></code> for label-based selection.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>name     Alice
-age         25
-score       85
-Name: 0, dtype: object
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>      <span class="c1"># Select By position</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span>     <span class="c1"># Select By position</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>name     Alice
-age         25
-score       85
-Name: 0, dtype: object
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="c1"># Select By label</span>
 </pre></div>
 </div>
 </div>
@@ -864,105 +1516,25 @@ Name: 0, dtype: object
 <p>Filtering is one of the most useful Pandas features.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">30</span><span class="p">]</span>     <span class="c1"># Filter by one condition</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">)]</span>      <span class="c1">#Filter by multiple condition</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="basic-statistics-and-descriptive-analysis">
 <h2>9. Basic Statistics and Descriptive Analysis<a class="headerlink" href="#basic-statistics-and-descriptive-analysis" title="Permalink to this heading">#</a></h2>
+<p>Pandas provides built-in methods for quick exploration.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>age      30.0
-score    90.0
-dtype: float64
 </pre></div>
 </div>
 </div>
@@ -973,82 +1545,10 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>3.0</td>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>30.0</td>
-      <td>90.0</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>5.0</td>
-      <td>5.0</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>25.0</td>
-      <td>85.0</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>27.5</td>
-      <td>87.5</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>30.0</td>
-      <td>90.0</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>32.5</td>
-      <td>92.5</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>35.0</td>
-      <td>95.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(90.0), np.int64(95))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>    <span class="c1"># Individual columns</span>
 </pre></div>
 </div>
 </div>
@@ -1057,7 +1557,7 @@ dtype: float64
 <section id="handling-missing-data">
 <h2>10. Handling Missing Data<a class="headerlink" href="#handling-missing-data" title="Permalink to this heading">#</a></h2>
 <p>Missing values are common in real datasets. Pandas represents missing values as <code class="docutils literal notranslate"><span class="pre">NaN</span></code> in many cases.</p>
-<p>Here we create a small example with missing values and demonstrate typical operations.</p>
+<p>Here we create a small example with missing values and demonstrate typical operations. Understanding how missing data is handled is critical for correct analysis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_missing</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1066,52 +1566,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1119,52 +1573,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>False</td>
-      <td>False</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>False</td>
-      <td>False</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>False</td>
-      <td>False</td>
-      <td>False</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1172,46 +1580,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1219,52 +1587,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="modifying-data">
@@ -1278,57 +1600,8 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-      <th>passed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
+<p>You can update existing values:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df2</span><span class="p">[</span><span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;passed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1336,56 +1609,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>age</th>
-      <th>score</th>
-      <th>passed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Alice</td>
-      <td>25</td>
-      <td>85</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Bob</td>
-      <td>30</td>
-      <td>90</td>
-      <td>True</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Charlie</td>
-      <td>35</td>
-      <td>95</td>
-      <td>True</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="jupyter-tip-verify-which-python-executable-runs-this-notebook">
@@ -1398,12 +1621,29 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/Users/mehdimir/miniforge3/envs/jupyterbook/bin/python&#39;
-</pre></div>
 </div>
-</div>
-</div>
+</section>
+<section id="pandas-and-environment-management">
+<h2>Pandas and Environment Management<a class="headerlink" href="#pandas-and-environment-management" title="Permalink to this heading">#</a></h2>
+<p>Pandas depends on NumPy and system-level libraries. This means:</p>
+<ul class="simple">
+<li><p>Version mismatches can cause installation issues</p></li>
+<li><p>Different projects may require different Pandas versions</p></li>
+<li><p>Isolated environments are strongly recommended</p></li>
+</ul>
+<p>Pandas is often the first library that exposes students to real dependency management challenges.</p>
+</section>
+<section id="common-beginner-mistakes">
+<h2>Common Beginner Mistakes<a class="headerlink" href="#common-beginner-mistakes" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p>Installing Pandas in one environment and running code in another</p></li>
+<li><p>Treating DataFrames like Python lists</p></li>
+<li><p>Forgetting that column selection returns a Series</p></li>
+<li><p>Ignoring missing values</p></li>
+<li><p>Modifying data unintentionally due to chained indexing</p>
+<p>Most Pandas errors are conceptual rather than syntactic.</p>
+</li>
+</ul>
 </section>
 <section id="summary">
 <h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
@@ -1427,16 +1667,16 @@ dtype: float64
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: ""
         },
         kernelOptions: {
-            name: "python3",
+            name: "",
             path: "./docs"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = ''</script>
 
                 </article>
               
@@ -1482,11 +1722,34 @@ dtype: float64
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pandas: Working with Structured Data in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-pandas">Why Pandas?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-pandas">Installing Pandas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-pandas">1. Import Pandas</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#core-pandas-data-structures">Core Pandas Data Structures</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series">2. Series</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe">3. DataFrame</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-a-dataframe">4. Inspecting a DataFrame</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-data-from-files-csv">5. Reading Data from Files (CSV)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#how-pandas-thinks-about-a-dataframe-objects-attributes-and-methods">How Pandas Thinks About a DataFrame (Objects, Attributes, and Methods)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframes-are-python-objects">DataFrames Are Python Objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe-attributes-no-parentheses">DataFrame Attributes (No Parentheses)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataframe-methods-with-parentheses">DataFrame Methods (With Parentheses)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-parentheses-matter">Why Parentheses Matter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-read-csv-fits-this-model">How read_csv Fits This Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-pandas-does-automatically-when-reading-files">What Pandas Does Automatically When Reading Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-this-in-practice">Seeing This in Practice</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model-to-remember">Mental Model to Remember</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-columns">6. Selecting Columns</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-rows">7. Selecting Rows</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-rows-by-conditions">8. Filtering Rows by Conditions</a></li>
@@ -1494,8 +1757,13 @@ dtype: float64
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-missing-data">10. Handling Missing Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-data">11. Modifying Data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-tip-verify-which-python-executable-runs-this-notebook">12. Jupyter Tip: Verify Which Python Executable Runs This Notebook</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-and-environment-management">Pandas and Environment Management</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-beginner-mistakes">Common Beginner Mistakes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
