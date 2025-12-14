@@ -10,6 +10,8 @@ chapters:
   title: SSH Basics
 - file: docs/numpy.ipynb
   title: Numpy
+- file: docs/pandas.ipynb
+  title: Pandas
 - file: docs/Deployment_Infrastructure
   title: Virtual Machine, Deployment and Infrastructure
 - file: docs/jupyter_book_tut
