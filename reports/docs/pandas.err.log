@@ -125,5 +125,5 @@ File [0;32m~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pandas/co
 [1;32m   1687[0m [38;5;28;01mtry[39;00m:
 [1;32m   1688[0m     x [38;5;241m=[39m x[38;5;241m.[39mastype(np[38;5;241m.[39mcomplex128)
 
-[0;31mTypeError[0m: Could not convert ['AliceBobCharlie'] to numeric
+[0;31mTypeError[0m: Could not convert ['AliceBobCharlieDiana'] to numeric
 
