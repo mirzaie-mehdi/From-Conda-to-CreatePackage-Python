@@ -760,11 +760,63 @@ dtype: object
 <p>Uncomment and update the path to use this in your project.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_from_csv = pd.read_csv(&quot;data.csv&quot;)</span>
-<span class="c1"># df_from_csv.head()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_from_csv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">)</span>
+<span class="n">df_from_csv</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>name</th>
+      <th>age</th>
+      <th>score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alice</td>
+      <td>25</td>
+      <td>85.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bob</td>
+      <td>30</td>
+      <td>90.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Charlie</td>
+      <td>35</td>
+      <td>95.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Diana</td>
+      <td>28</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 </section>
@@ -775,7 +827,7 @@ It is a Python object with its own attributes and methods.</p>
 <p>For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#df = pd.read_csv(&quot;data.csv&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -805,7 +857,7 @@ They are accessed <strong>without parentheses.</strong></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RangeIndex(start=0, stop=3, step=1)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RangeIndex(start=0, stop=4, step=1)
 </pre></div>
 </div>
 </div>
@@ -930,7 +982,7 @@ They are called <strong>with parentheses.</strong></p>
 <span class="g g-Whitespace">   </span><span class="mi">1687</span> <span class="k">try</span><span class="p">:</span>
 <span class="g g-Whitespace">   </span><span class="mi">1688</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
 
-<span class="ne">TypeError</span>: Could not convert [&#39;AliceBobCharlie&#39;] to numeric
+<span class="ne">TypeError</span>: Could not convert [&#39;AliceBobCharlieDiana&#39;] to numeric
 </pre></div>
 </div>
 </div>
