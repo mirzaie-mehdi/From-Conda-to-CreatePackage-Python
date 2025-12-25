@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Neural Networks from Scratch &#8212; From Conda to Create Package in Python</title>
+    <title>Neural Networks &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -173,6 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
 
@@ -180,7 +181,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural Networks from Scratch</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural Networks</a></li>
+
 
 
 
@@ -404,7 +406,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Neural Networks from Scratch</h1>
+    <h1>Neural Networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -414,7 +416,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>
@@ -455,13 +461,65 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks-from-scratch">
-<h1>Neural Networks from Scratch<a class="headerlink" href="#neural-networks-from-scratch" title="Permalink to this heading">#</a></h1>
-<p>In this section, we build and train a neural network from first principles using the NumPy library. The objective is to understand the core mechanics of neural networks—forward propagation, loss computation, and parameter updates—without relying on high-level frameworks. By implementing each component manually, we gain insight into how neural networks operate under the hood.</p>
-<p>In the following section, we transition to the PyTorch framework and reimplement the same neural network using its abstractions. This comparison highlights both the underlying similarities and the practical advantages of modern deep learning libraries.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
+<h1>Neural Networks<a class="headerlink" href="#neural-networks" title="Permalink to this heading">#</a></h1>
+<p>In this section, we develop the fundamental components of a feedforward neural network from first principles. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
+<p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="base-layer-abstraction">
+<h1>Base Layer Abstraction<a class="headerlink" href="#base-layer-abstraction" title="Permalink to this heading">#</a></h1>
+<p>All neural network layers share a common structure:</p>
+<ul class="simple">
+<li><p>a <strong>forward pass</strong>, which computes the output of the layer,</p></li>
+<li><p>a <strong>backward pass</strong>, which computes gradients using the chain rule,</p></li>
+<li><p>and, for parameterized layers, a <strong>parameter update step</strong>.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">Layer</span></code> class serves as a conceptual base class that defines this interface.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title setup and imports</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>         <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="nn">Cell In[1], line 6,</span> in <span class="ni">Layer</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<span class="ne">NameError</span>: name &#39;np&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each concrete layer implements its own forward and backward computations. During training, layers are executed sequentially in the forward direction and in reverse order during backpropagation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports required packages</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
@@ -475,12 +533,17 @@ document.write(`
 </div>
 </div>
 </div>
+<section id="helper-functions">
+<h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading">#</a></h2>
+<p>The following helper functions provide supporting utilities for visualization, data preparation, and evaluation. They are intentionally separated from the neural network implementation to keep the core learning algorithms clear and focused.</p>
+<p>These functions rely on standard scientific Python libraries—primarily NumPy, Matplotlib, and selected utilities from scikit-learn—for tasks such as dataset loading, plotting training curves, and computing confusion matrices. While these tools simplify experimentation and analysis, they are not used to implement the neural network itself, which is built entirely from first principles.</p>
+<p>Readers may treat these helpers as interchangeable infrastructure: they can be modified, replaced, or omitted without affecting the underlying learning algorithm. The emphasis of this chapter remains on understanding neural network mechanics rather than visualization or data-handling boilerpl</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title helper functions</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helper functions</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_training</span><span class="p">(</span><span class="n">losses</span><span class="p">):</span>
-    <span class="c1"># Plot the loss</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot training loss over epochs.&quot;&quot;&quot;</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
@@ -488,83 +551,128 @@ document.write(`
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">):</span>
-    <span class="n">dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot a (optionally normalized) confusion matrix for selected classes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y_true, y_pred : array-like</span>
+<span class="sd">        Ground-truth and predicted labels (integer-encoded).</span>
+<span class="sd">    class_names : list[str]</span>
+<span class="sd">        Names for the original dataset classes (e.g., Fashion-MNIST label names).</span>
+<span class="sd">    kept_classes : list[int]</span>
+<span class="sd">        Which original classes are present in this experiment.</span>
+<span class="sd">    normalize : bool</span>
+<span class="sd">        If True, normalize each row to sum to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">class_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">kept_classes</span><span class="p">]</span>
-    <span class="c1"># Plot the confusion matrix</span>
     <span class="n">conf_mat</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-    <span class="n">norm_conf_mat</span> <span class="o">=</span> <span class="n">conf_mat</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">conf_mat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="c1"># plot the matrix</span>
+
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">row_sums</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">row_sums</span><span class="p">[</span><span class="n">row_sums</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># avoid division by zero</span>
+        <span class="n">disp_mat</span> <span class="o">=</span> <span class="n">conf_mat</span> <span class="o">/</span> <span class="n">row_sums</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">disp_mat</span> <span class="o">=</span> <span class="n">conf_mat</span>
+
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">norm_conf_mat</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predictions&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Labels&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">labels</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-    <span class="c1"># Put number of each cell in plot</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
-            <span class="n">c</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
-            <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">500</span> <span class="k">else</span> <span class="s1">&#39;white&#39;</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">disp_mat</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; (normalized)&quot;</span> <span class="k">if</span> <span class="n">normalize</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Predictions&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Labels&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+    <span class="c1"># Annotate with raw counts (more interpretable than normalized values)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">conf_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">conf_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">conf_mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">filter_classes</span><span class="p">):</span>
-    <span class="n">fashion_mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="c1"># Remove classes</span>
-    <span class="n">filtered_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">filter_classes</span><span class="p">)</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">filtered_indices</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">y</span><span class="p">[</span><span class="n">filtered_indices</span><span class="p">]</span>
-    <span class="c1"># Normalize the pixels to be in [-1, +1] range</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">/</span> <span class="mf">255.</span><span class="p">)</span> <span class="o">-</span> <span class="mf">.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
-    <span class="n">removed_class_count</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>  <span class="c1"># Fix the labels</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">filter_classes</span> <span class="ow">and</span> <span class="n">removed_class_count</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">y</span><span class="p">[</span><span class="n">y</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">removed_class_count</span>
-        <span class="k">elif</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">filter_classes</span><span class="p">:</span>
-            <span class="n">removed_class_count</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="c1"># Do the train-test split</span>
-    <span class="k">return</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">10_000</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load Fashion-MNIST from OpenML, filter to a subset of classes,</span>
+<span class="sd">    normalize pixels to [-1, 1], and relabel classes to 0..(C-1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fashion_mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+
+    <span class="c1"># Filter classes</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="c1"># Normalize pixels to [-1, 1]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span>
+
+    <span class="c1"># Relabel to 0..C-1 (stable mapping based on kept_classes order)</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="bp">cls</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)}</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mapping</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">y</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">onehot_encoder</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">):</span>
-    <span class="n">one_hot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert integer labels to one-hot encoding.&quot;&quot;&quot;</span>
+    <span class="n">one_hot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">one_hot</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">one_hot</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_batch_size</span><span class="p">(</span><span class="n">vanila</span><span class="p">,</span> <span class="n">stochastic</span><span class="p">,</span> <span class="n">mini_batch</span><span class="p">):</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="c1"># Plot the loss</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanila</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stochastic Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mini-Batch Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="c1"># Plot the accuracy</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanila</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stochastic Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mini-Batch Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Test Accuracy&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="c1"># Plot SGD batch loss</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Stochastic Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Batch&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Stochastic Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="c1"># Plot MBGD batch loss</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mini-Batch Gradient Descent&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Batch&#39;</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Mini-Batch Gradient Descent&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_batch_size</span><span class="p">(</span><span class="n">vanilla</span><span class="p">,</span> <span class="n">stochastic</span><span class="p">,</span> <span class="n">mini_batch</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compare training loss and test accuracy for different batch-size regimes.</span>
 
-    <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="sd">    Expected inputs:</span>
+<span class="sd">      vanilla   = (epoch_losses, batch_losses, test_accuracies)</span>
+<span class="sd">      stochastic= (epoch_losses, batch_losses, test_accuracies)</span>
+<span class="sd">      mini_batch= (epoch_losses, batch_losses, test_accuracies)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+
+    <span class="c1"># Training loss (per epoch)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanilla</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Stochastic Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mini-Batch Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Training Loss&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Test accuracy (per epoch)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanilla</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Stochastic Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mini-Batch Gradient Descent&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Test Accuracy&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="c1"># Batch loss traces</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Batch&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;SGD Batch Loss&quot;</span><span class="p">)</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Batch&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mini-Batch GD Batch Loss&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="layers">
 <h1>Layers<a class="headerlink" href="#layers" title="Permalink to this heading">#</a></h1>
@@ -969,180 +1077,6 @@ $<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">kept_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>  <span class="c1"># T-shirt/top, Trouser, Sneaker</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Download the dataset and split it into training and testing sets</span>
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="c1"># One-hot encode the target labels of the training set</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">onehot_encoder</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">))</span>
-
-<span class="nn">Cell In[2], line 37,</span> in <span class="ni">get_data</span><span class="nt">(filter_classes)</span>
-<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">filter_classes</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">37</span>     <span class="n">fashion_mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">38</span>     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="c1"># Remove classes</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/utils/_param_validation.py:218,</span> in <span class="ni">validate_params.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">212</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">213</span>     <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">214</span>         <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">215</span>             <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
-<span class="g g-Whitespace">    </span><span class="mi">216</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">217</span>     <span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">218</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">219</span> <span class="k">except</span> <span class="n">InvalidParameterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">220</span>     <span class="c1"># When the function is just a wrapper around an estimator, we allow</span>
-<span class="g g-Whitespace">    </span><span class="mi">221</span>     <span class="c1"># the function to delegate validation to the estimator, but we replace</span>
-<span class="g g-Whitespace">    </span><span class="mi">222</span>     <span class="c1"># the name of the estimator by the name of the function in the error</span>
-<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="c1"># message to avoid confusion.</span>
-<span class="g g-Whitespace">    </span><span class="mi">224</span>     <span class="n">msg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">225</span>         <span class="sa">r</span><span class="s2">&quot;parameter of \w+ must be&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">226</span>         <span class="sa">f</span><span class="s2">&quot;parameter of </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> must be&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">227</span>         <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">228</span>     <span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:1135,</span> in <span class="ni">fetch_openml</span><span class="nt">(name, version, data_id, data_home, target_column, cache, return_X_y, as_frame, n_retries, delay, parser, read_csv_kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1133</span> <span class="c1"># obtain the data</span>
-<span class="g g-Whitespace">   </span><span class="mi">1134</span> <span class="n">url</span> <span class="o">=</span> <span class="n">data_description</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
-<span class="ne">-&gt; </span><span class="mi">1135</span> <span class="n">bunch</span> <span class="o">=</span> <span class="n">_download_data_to_bunch</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1136</span>     <span class="n">url</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1137</span>     <span class="n">return_sparse</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1138</span>     <span class="n">data_home</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1139</span>     <span class="n">as_frame</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">as_frame</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1140</span>     <span class="n">openml_columns_info</span><span class="o">=</span><span class="n">features_list</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1141</span>     <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1142</span>     <span class="n">target_columns</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1143</span>     <span class="n">data_columns</span><span class="o">=</span><span class="n">data_columns</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1144</span>     <span class="n">md5_checksum</span><span class="o">=</span><span class="n">data_description</span><span class="p">[</span><span class="s2">&quot;md5_checksum&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1146</span>     <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1147</span>     <span class="n">parser</span><span class="o">=</span><span class="n">parser_</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1148</span>     <span class="n">read_csv_kwargs</span><span class="o">=</span><span class="n">read_csv_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1149</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1151</span> <span class="k">if</span> <span class="n">return_X_y</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1152</span>     <span class="k">return</span> <span class="n">bunch</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">bunch</span><span class="o">.</span><span class="n">target</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:689,</span> in <span class="ni">_download_data_to_bunch</span><span class="nt">(url, sparse, data_home, as_frame, openml_columns_info, data_columns, target_columns, shape, md5_checksum, n_retries, delay, parser, read_csv_kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">685</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pandas.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParserError</span>
-<span class="g g-Whitespace">    </span><span class="mi">687</span>     <span class="n">no_retry_exception</span> <span class="o">=</span> <span class="n">ParserError</span>
-<span class="ne">--&gt; </span><span class="mi">689</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">_retry_with_clean_cache</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">690</span>     <span class="n">url</span><span class="p">,</span> <span class="n">data_home</span><span class="p">,</span> <span class="n">no_retry_exception</span>
-<span class="g g-Whitespace">    </span><span class="mi">691</span> <span class="p">)(</span><span class="n">_load_arff_response</span><span class="p">)(</span>
-<span class="g g-Whitespace">    </span><span class="mi">692</span>     <span class="n">url</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">693</span>     <span class="n">data_home</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">694</span>     <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="n">output_type</span><span class="o">=</span><span class="n">output_type</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">696</span>     <span class="n">openml_columns_info</span><span class="o">=</span><span class="n">features_dict</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="n">feature_names_to_select</span><span class="o">=</span><span class="n">data_columns</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">698</span>     <span class="n">target_names_to_select</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">700</span>     <span class="n">md5_checksum</span><span class="o">=</span><span class="n">md5_checksum</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">701</span>     <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">702</span>     <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="n">read_csv_kwargs</span><span class="o">=</span><span class="n">read_csv_kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">704</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">706</span> <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">707</span>     <span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">708</span>     <span class="n">target</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">712</span>     <span class="n">target_names</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">713</span> <span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:66,</span> in <span class="ni">_retry_with_clean_cache.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kw)</span>
-<span class="g g-Whitespace">     </span><span class="mi">64</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">66</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="k">except</span> <span class="n">URLError</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span>     <span class="k">raise</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:524,</span> in <span class="ni">_load_arff_response</span><span class="nt">(url, data_home, parser, output_type, openml_columns_info, feature_names_to_select, target_names_to_select, shape, md5_checksum, n_retries, delay, read_csv_kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">441</span> <span class="k">def</span><span class="w"> </span><span class="nf">_load_arff_response</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">442</span>     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">443</span>     <span class="n">data_home</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">453</span>     <span class="n">read_csv_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">454</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">455</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Load the ARFF data associated with the OpenML URL.</span>
-<span class="g g-Whitespace">    </span><span class="mi">456</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">457</span><span class="sd">     In addition of loading the data, this function will also check the</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">522</span><span class="sd">         `output_array_type == &quot;pandas&quot;`.</span>
-<span class="g g-Whitespace">    </span><span class="mi">523</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">524</span>     <span class="n">gzip_file</span> <span class="o">=</span> <span class="n">_open_openml_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data_home</span><span class="p">,</span> <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">525</span>     <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">gzip_file</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">526</span>         <span class="n">md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:188,</span> in <span class="ni">_open_openml_url</span><span class="nt">(url, data_home, n_retries, delay)</span>
-<span class="g g-Whitespace">    </span><span class="mi">186</span>                 <span class="n">opener</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span>
-<span class="g g-Whitespace">    </span><span class="mi">187</span>             <span class="k">with</span> <span class="n">opener</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdst</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">188</span>                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">fsrc</span><span class="p">,</span> <span class="n">fdst</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">189</span>         <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">fdst</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">190</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/shutil.py:195,</span> in <span class="ni">copyfileobj</span><span class="nt">(fsrc, fdst, length)</span>
-<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="n">fdst_write</span> <span class="o">=</span> <span class="n">fdst</span><span class="o">.</span><span class="n">write</span>
-<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">195</span>     <span class="n">buf</span> <span class="o">=</span> <span class="n">fsrc_read</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">buf</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">197</span>         <span class="k">break</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:460,</span> in <span class="ni">HTTPResponse.read</span><span class="nt">(self, amt)</span>
-<span class="g g-Whitespace">    </span><span class="mi">457</span>     <span class="k">return</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">459</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunked</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">460</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_chunked</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">462</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">463</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">amt</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">464</span>         <span class="c1"># clip the read to the &quot;end of response&quot;</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:592,</span> in <span class="ni">HTTPResponse._read_chunked</span><span class="nt">(self, amt)</span>
-<span class="g g-Whitespace">    </span><span class="mi">589</span>     <span class="bp">self</span><span class="o">.</span><span class="n">chunk_left</span> <span class="o">=</span> <span class="n">chunk_left</span> <span class="o">-</span> <span class="n">amt</span>
-<span class="g g-Whitespace">    </span><span class="mi">590</span>     <span class="k">break</span>
-<span class="ne">--&gt; </span><span class="mi">592</span> <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_safe_read</span><span class="p">(</span><span class="n">chunk_left</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">593</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">594</span>     <span class="n">amt</span> <span class="o">-=</span> <span class="n">chunk_left</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:631,</span> in <span class="ni">HTTPResponse._safe_read</span><span class="nt">(self, amt)</span>
-<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">def</span><span class="w"> </span><span class="nf">_safe_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amt</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">625</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Read the number of bytes requested.</span>
-<span class="g g-Whitespace">    </span><span class="mi">626</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">627</span><span class="sd">     This function should be used when &lt;amt&gt; bytes &quot;should&quot; be present for</span>
-<span class="g g-Whitespace">    </span><span class="mi">628</span><span class="sd">     reading. If the bytes are truly not available (due to EOF), then the</span>
-<span class="g g-Whitespace">    </span><span class="mi">629</span><span class="sd">     IncompleteRead exception can be used to detect the problem.</span>
-<span class="g g-Whitespace">    </span><span class="mi">630</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">631</span>     <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">632</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">amt</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">633</span>         <span class="k">raise</span> <span class="n">IncompleteRead</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">amt</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/socket.py:717,</span> in <span class="ni">SocketIO.readinto</span><span class="nt">(self, b)</span>
-<span class="g g-Whitespace">    </span><span class="mi">715</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">716</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">717</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">718</span>     <span class="k">except</span> <span class="n">timeout</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">719</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_occurred</span> <span class="o">=</span> <span class="kc">True</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/ssl.py:1307,</span> in <span class="ni">SSLSocket.recv_into</span><span class="nt">(self, buffer, nbytes, flags)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1303</span>     <span class="k">if</span> <span class="n">flags</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1304</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1305</span>           <span class="s2">&quot;non-zero flags not allowed in calls to recv_into() on </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
-<span class="g g-Whitespace">   </span><span class="mi">1306</span>           <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1307</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nbytes</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1308</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1309</span>     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/ssl.py:1163,</span> in <span class="ni">SSLSocket.read</span><span class="nt">(self, len, buffer)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1161</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1162</span>     <span class="k">if</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1163</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1164</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1165</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="training-the-network">
@@ -1382,7 +1316,11 @@ We will slightly modify the <code class="docutils literal notranslate"><span cla
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>
