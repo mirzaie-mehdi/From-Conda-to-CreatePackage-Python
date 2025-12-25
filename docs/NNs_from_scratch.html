@@ -474,20 +474,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
-<span class="ne">----&gt; </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">trange</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;tqdm&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -980,6 +966,180 @@ $<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{
 
 <span class="c1"># One-hot encode the target labels of the training set</span>
 <span class="n">y_train</span> <span class="o">=</span> <span class="n">onehot_encoder</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">kept_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>  <span class="c1"># T-shirt/top, Trouser, Sneaker</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># Download the dataset and split it into training and testing sets</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="c1"># One-hot encode the target labels of the training set</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">onehot_encoder</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">))</span>
+
+<span class="nn">Cell In[2], line 37,</span> in <span class="ni">get_data</span><span class="nt">(filter_classes)</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">filter_classes</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">37</span>     <span class="n">fashion_mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="c1"># Remove classes</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/utils/_param_validation.py:218,</span> in <span class="ni">validate_params.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">212</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">213</span>     <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span>         <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>             <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>     <span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">218</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">219</span> <span class="k">except</span> <span class="n">InvalidParameterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>     <span class="c1"># When the function is just a wrapper around an estimator, we allow</span>
+<span class="g g-Whitespace">    </span><span class="mi">221</span>     <span class="c1"># the function to delegate validation to the estimator, but we replace</span>
+<span class="g g-Whitespace">    </span><span class="mi">222</span>     <span class="c1"># the name of the estimator by the name of the function in the error</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="c1"># message to avoid confusion.</span>
+<span class="g g-Whitespace">    </span><span class="mi">224</span>     <span class="n">msg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">225</span>         <span class="sa">r</span><span class="s2">&quot;parameter of \w+ must be&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">226</span>         <span class="sa">f</span><span class="s2">&quot;parameter of </span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s2"> must be&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">227</span>         <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">228</span>     <span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:1135,</span> in <span class="ni">fetch_openml</span><span class="nt">(name, version, data_id, data_home, target_column, cache, return_X_y, as_frame, n_retries, delay, parser, read_csv_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1133</span> <span class="c1"># obtain the data</span>
+<span class="g g-Whitespace">   </span><span class="mi">1134</span> <span class="n">url</span> <span class="o">=</span> <span class="n">data_description</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
+<span class="ne">-&gt; </span><span class="mi">1135</span> <span class="n">bunch</span> <span class="o">=</span> <span class="n">_download_data_to_bunch</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1136</span>     <span class="n">url</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1137</span>     <span class="n">return_sparse</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1138</span>     <span class="n">data_home</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1139</span>     <span class="n">as_frame</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">as_frame</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">1140</span>     <span class="n">openml_columns_info</span><span class="o">=</span><span class="n">features_list</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1141</span>     <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1142</span>     <span class="n">target_columns</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1143</span>     <span class="n">data_columns</span><span class="o">=</span><span class="n">data_columns</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1144</span>     <span class="n">md5_checksum</span><span class="o">=</span><span class="n">data_description</span><span class="p">[</span><span class="s2">&quot;md5_checksum&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1146</span>     <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1147</span>     <span class="n">parser</span><span class="o">=</span><span class="n">parser_</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1148</span>     <span class="n">read_csv_kwargs</span><span class="o">=</span><span class="n">read_csv_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1149</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1151</span> <span class="k">if</span> <span class="n">return_X_y</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1152</span>     <span class="k">return</span> <span class="n">bunch</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">bunch</span><span class="o">.</span><span class="n">target</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:689,</span> in <span class="ni">_download_data_to_bunch</span><span class="nt">(url, sparse, data_home, as_frame, openml_columns_info, data_columns, target_columns, shape, md5_checksum, n_retries, delay, parser, read_csv_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">685</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pandas.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParserError</span>
+<span class="g g-Whitespace">    </span><span class="mi">687</span>     <span class="n">no_retry_exception</span> <span class="o">=</span> <span class="n">ParserError</span>
+<span class="ne">--&gt; </span><span class="mi">689</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">categories</span> <span class="o">=</span> <span class="n">_retry_with_clean_cache</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">690</span>     <span class="n">url</span><span class="p">,</span> <span class="n">data_home</span><span class="p">,</span> <span class="n">no_retry_exception</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span> <span class="p">)(</span><span class="n">_load_arff_response</span><span class="p">)(</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>     <span class="n">url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">693</span>     <span class="n">data_home</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">694</span>     <span class="n">parser</span><span class="o">=</span><span class="n">parser</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">695</span>     <span class="n">output_type</span><span class="o">=</span><span class="n">output_type</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">696</span>     <span class="n">openml_columns_info</span><span class="o">=</span><span class="n">features_dict</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">697</span>     <span class="n">feature_names_to_select</span><span class="o">=</span><span class="n">data_columns</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span>     <span class="n">target_names_to_select</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span>     <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">700</span>     <span class="n">md5_checksum</span><span class="o">=</span><span class="n">md5_checksum</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">701</span>     <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span>     <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="n">read_csv_kwargs</span><span class="o">=</span><span class="n">read_csv_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">704</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span> <span class="k">return</span> <span class="n">Bunch</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">707</span>     <span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span>     <span class="n">target</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">712</span>     <span class="n">target_names</span><span class="o">=</span><span class="n">target_columns</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">713</span> <span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:66,</span> in <span class="ni">_retry_with_clean_cache.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kw)</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">66</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="k">except</span> <span class="n">URLError</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span>     <span class="k">raise</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:524,</span> in <span class="ni">_load_arff_response</span><span class="nt">(url, data_home, parser, output_type, openml_columns_info, feature_names_to_select, target_names_to_select, shape, md5_checksum, n_retries, delay, read_csv_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">441</span> <span class="k">def</span><span class="w"> </span><span class="nf">_load_arff_response</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">442</span>     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">443</span>     <span class="n">data_home</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">453</span>     <span class="n">read_csv_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">454</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Load the ARFF data associated with the OpenML URL.</span>
+<span class="g g-Whitespace">    </span><span class="mi">456</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">457</span><span class="sd">     In addition of loading the data, this function will also check the</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">522</span><span class="sd">         `output_array_type == &quot;pandas&quot;`.</span>
+<span class="g g-Whitespace">    </span><span class="mi">523</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">524</span>     <span class="n">gzip_file</span> <span class="o">=</span> <span class="n">_open_openml_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data_home</span><span class="p">,</span> <span class="n">n_retries</span><span class="o">=</span><span class="n">n_retries</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="n">delay</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">525</span>     <span class="k">with</span> <span class="n">closing</span><span class="p">(</span><span class="n">gzip_file</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">526</span>         <span class="n">md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sklearn/datasets/_openml.py:188,</span> in <span class="ni">_open_openml_url</span><span class="nt">(url, data_home, n_retries, delay)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span>                 <span class="n">opener</span> <span class="o">=</span> <span class="n">gzip</span><span class="o">.</span><span class="n">GzipFile</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>             <span class="k">with</span> <span class="n">opener</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdst</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">188</span>                 <span class="n">shutil</span><span class="o">.</span><span class="n">copyfileobj</span><span class="p">(</span><span class="n">fsrc</span><span class="p">,</span> <span class="n">fdst</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>         <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">fdst</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">local_path</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/shutil.py:195,</span> in <span class="ni">copyfileobj</span><span class="nt">(fsrc, fdst, length)</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="n">fdst_write</span> <span class="o">=</span> <span class="n">fdst</span><span class="o">.</span><span class="n">write</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">195</span>     <span class="n">buf</span> <span class="o">=</span> <span class="n">fsrc_read</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">buf</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">197</span>         <span class="k">break</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:460,</span> in <span class="ni">HTTPResponse.read</span><span class="nt">(self, amt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">457</span>     <span class="k">return</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chunked</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">460</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_chunked</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">463</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">amt</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">464</span>         <span class="c1"># clip the read to the &quot;end of response&quot;</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:592,</span> in <span class="ni">HTTPResponse._read_chunked</span><span class="nt">(self, amt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">589</span>     <span class="bp">self</span><span class="o">.</span><span class="n">chunk_left</span> <span class="o">=</span> <span class="n">chunk_left</span> <span class="o">-</span> <span class="n">amt</span>
+<span class="g g-Whitespace">    </span><span class="mi">590</span>     <span class="k">break</span>
+<span class="ne">--&gt; </span><span class="mi">592</span> <span class="n">value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_safe_read</span><span class="p">(</span><span class="n">chunk_left</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">593</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">594</span>     <span class="n">amt</span> <span class="o">-=</span> <span class="n">chunk_left</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/http/client.py:631,</span> in <span class="ni">HTTPResponse._safe_read</span><span class="nt">(self, amt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">624</span> <span class="k">def</span><span class="w"> </span><span class="nf">_safe_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amt</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">625</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Read the number of bytes requested.</span>
+<span class="g g-Whitespace">    </span><span class="mi">626</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">627</span><span class="sd">     This function should be used when &lt;amt&gt; bytes &quot;should&quot; be present for</span>
+<span class="g g-Whitespace">    </span><span class="mi">628</span><span class="sd">     reading. If the bytes are truly not available (due to EOF), then the</span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span><span class="sd">     IncompleteRead exception can be used to detect the problem.</span>
+<span class="g g-Whitespace">    </span><span class="mi">630</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">631</span>     <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">632</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">amt</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">633</span>         <span class="k">raise</span> <span class="n">IncompleteRead</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">amt</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/socket.py:717,</span> in <span class="ni">SocketIO.readinto</span><span class="nt">(self, b)</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">717</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">718</span>     <span class="k">except</span> <span class="n">timeout</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">719</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_occurred</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/ssl.py:1307,</span> in <span class="ni">SSLSocket.recv_into</span><span class="nt">(self, buffer, nbytes, flags)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1303</span>     <span class="k">if</span> <span class="n">flags</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1304</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1305</span>           <span class="s2">&quot;non-zero flags not allowed in calls to recv_into() on </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+<span class="g g-Whitespace">   </span><span class="mi">1306</span>           <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1307</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nbytes</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1308</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1309</span>     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/ssl.py:1163,</span> in <span class="ni">SSLSocket.read</span><span class="nt">(self, len, buffer)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1161</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1162</span>     <span class="k">if</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1163</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1164</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1165</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
