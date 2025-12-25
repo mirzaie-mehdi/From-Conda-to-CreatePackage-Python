@@ -414,10 +414,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-objectives">Notebook Objectives</a></li>
-</ul>
-</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>
@@ -460,15 +457,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="neural-networks-from-scratch">
 <h1>Neural Networks from Scratch<a class="headerlink" href="#neural-networks-from-scratch" title="Permalink to this heading">#</a></h1>
-<p><strong><a class="reference external" href="https://www.sharifml.ir/">CE477: Machine Learning</a></strong></p>
-<p><strong>Course Instructor</strong>: Dr. Sharifi-Zarchi</p>
-<p><strong>Notebook Author</strong>: Ramtin Moslemi</p>
-<p><a class="reference external" href="https://colab.research.google.com/github/SharifiZarchi/Introduction_to_Machine_Learning/blob/main/Jupyter_Notebooks/Chapter_03_Neural_Networks/NNs_from_scratch.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
-<a class="reference external" href="https://kaggle.com/kernels/welcome?src=https://raw.githubusercontent.com/SharifiZarchi/Introduction_to_Machine_Learning/main/Jupyter_Notebooks/Chapter_03_Neural_Networks/NNs_from_scratch.ipynb"><img alt="Open In kaggle" src="https://kaggle.com/static/images/open-in-kaggle.svg" /></a></p>
-<hr class="docutils" />
-<section id="notebook-objectives">
-<h2>Notebook Objectives<a class="headerlink" href="#notebook-objectives" title="Permalink to this heading">#</a></h2>
-<p>In this notebook we are going to implement and train a neural network from scratch using only numpy!</p>
+<p>In this section, we build and train a neural network from first principles using the NumPy library. The objective is to understand the core mechanics of neural networks—forward propagation, loss computation, and parameter updates—without relying on high-level frameworks. By implementing each component manually, we gain insight into how neural networks operate under the hood.</p>
+<p>In the following section, we transition to the PyTorch framework and reimplement the same neural network using its abstractions. This comparison highlights both the underlying similarities and the practical advantages of modern deep learning libraries.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title setup and imports</span>
@@ -589,7 +579,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="layers">
 <h1>Layers<a class="headerlink" href="#layers" title="Permalink to this heading">#</a></h1>
@@ -1233,10 +1222,7 @@ We will slightly modify the <code class="docutils literal notranslate"><span cla
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notebook-objectives">Notebook Objectives</a></li>
-</ul>
-</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks from Scratch</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>

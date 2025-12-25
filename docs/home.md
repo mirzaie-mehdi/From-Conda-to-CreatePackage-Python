@@ -583,6 +583,48 @@ Environments allow you to:
 
 Most Python problems encountered by students are **environment problems**, not coding errors.
 
+## Inspecting Installed Packages in an Environment
+
+When working with isolated Python environments, it is often necessary to inspect which packages are already installed. This is particularly useful for debugging import errors, verifying dependencies, or documenting reproducible setups.
+
+The most common way to list installed packages is through the package manager associated with the environment.
+
+For environments managed with `pip`, the following command displays all installed packages and their versions:
+
+```sh
+
+pip list
+```
+
+To obtain a complete, version-pinned snapshot of the environment—often used for reproducibility—the following command can be used:
+
+```sh
+
+pip install
+```
+This produces an output suitable for saving to a `requirements.txt` file.
+
+For Conda-managed environments, the equivalent command is:
+
+
+
+```sh
+conda list
+
+```
+This includes additional information such as build numbers and package channels.
+
+Installed packages can also be verified directly from Python by attempting an import and checking the package version:
+
+```sh
+import sklearn
+print(sklearn.__version__)
+```
+
+If the import succeeds, the package is available in the active environment. If it fails, the environment may be missing the dependency or the incorrect interpreter may be in use.
+
+Ensuring awareness of installed packages helps prevent common environment-related errors and promotes reproducibility across systems.
+
 
 
 ## Key Takeaways

@@ -419,6 +419,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-environments-matter-so-much"><strong>Why Environments Matter So Much</strong></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-installed-packages-in-an-environment">Inspecting Installed Packages in an Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
             </nav>
@@ -872,6 +873,32 @@ A connection between Jupyter and a specific environment.</p></li>
 <p>Most Python problems encountered by students are <strong>environment problems</strong>, not coding errors.</p>
 </section>
 </section>
+<section id="inspecting-installed-packages-in-an-environment">
+<h2>Inspecting Installed Packages in an Environment<a class="headerlink" href="#inspecting-installed-packages-in-an-environment" title="Permalink to this heading">#</a></h2>
+<p>When working with isolated Python environments, it is often necessary to inspect which packages are already installed. This is particularly useful for debugging import errors, verifying dependencies, or documenting reproducible setups.</p>
+<p>The most common way to list installed packages is through the package manager associated with the environment.</p>
+<p>For environments managed with <code class="docutils literal notranslate"><span class="pre">pip</span></code>, the following command displays all installed packages and their versions:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>list
+</pre></div>
+</div>
+<p>To obtain a complete, version-pinned snapshot of the environment—often used for reproducibility—the following command can be used:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install
+</pre></div>
+</div>
+<p>This produces an output suitable for saving to a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file.</p>
+<p>For Conda-managed environments, the equivalent command is:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>list
+</pre></div>
+</div>
+<p>This includes additional information such as build numbers and package channels.</p>
+<p>Installed packages can also be verified directly from Python by attempting an import and checking the package version:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>import<span class="w"> </span>sklearn
+print<span class="o">(</span>sklearn.__version__<span class="o">)</span>
+</pre></div>
+</div>
+<p>If the import succeeds, the package is available in the active environment. If it fails, the environment may be missing the dependency or the incorrect interpreter may be in use.</p>
+<p>Ensuring awareness of installed packages helps prevent common environment-related errors and promotes reproducibility across systems.</p>
+</section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -980,6 +1007,7 @@ A connection between Jupyter and a specific environment.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-environments-matter-so-much"><strong>Why Environments Matter So Much</strong></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-installed-packages-in-an-environment">Inspecting Installed Packages in an Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
   </nav></div>
