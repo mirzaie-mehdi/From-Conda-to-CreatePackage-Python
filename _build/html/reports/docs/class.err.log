@@ -22,39 +22,17 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-class Layer:
-    def __init__(self):
-        self.inp = None
-        self.out = None
-
-    def __call__(self, inp: np.ndarray) -> np.ndarray:
-        return self.forward(inp)
-
-    def forward(self, inp: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-
-    def backward(self, up_grad: np.ndarray) -> np.ndarray:
-        raise NotImplementedError
-
-    def step(self, lr: float) -> None:
-        pass
+r1.introduce_self()  # My name is Tom.
+r2.introduce_self()  # My name is Jerry.
 
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[1], line 1[0m
-[0;32m----> 1[0m [38;5;28;01mclass[39;00m[38;5;250m [39m[38;5;21;01mLayer[39;00m:
-[1;32m      2[0m     [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21m__init__[39m([38;5;28mself[39m):
-[1;32m      3[0m         [38;5;28mself[39m[38;5;241m.[39minp [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [0;32mIn[5], line 1[0m
+[0;32m----> 1[0m [43mr1[49m[38;5;241;43m.[39;49m[43mintroduce_self[49m()  [38;5;66;03m# My name is Tom.[39;00m
+[1;32m      2[0m r2[38;5;241m.[39mintroduce_self()  [38;5;66;03m# My name is Jerry.[39;00m
 
-Cell [0;32mIn[1], line 6[0m, in [0;36mLayer[0;34m()[0m
-[1;32m      3[0m     [38;5;28mself[39m[38;5;241m.[39minp [38;5;241m=[39m [38;5;28;01mNone[39;00m
-[1;32m      4[0m     [38;5;28mself[39m[38;5;241m.[39mout [38;5;241m=[39m [38;5;28;01mNone[39;00m
-[0;32m----> 6[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21m__call__[39m([38;5;28mself[39m, inp: [43mnp[49m[38;5;241m.[39mndarray) [38;5;241m-[39m[38;5;241m>[39m np[38;5;241m.[39mndarray:
-[1;32m      7[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39mforward(inp)
-[1;32m      9[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mforward[39m([38;5;28mself[39m, inp: np[38;5;241m.[39mndarray) [38;5;241m-[39m[38;5;241m>[39m np[38;5;241m.[39mndarray:
-
-[0;31mNameError[0m: name 'np' is not defined
+[0;31mAttributeError[0m: 'Robot' object has no attribute 'introduce_self'
 

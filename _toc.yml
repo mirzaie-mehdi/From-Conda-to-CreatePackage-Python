@@ -8,6 +8,8 @@ chapters:
   title: Conda Environments
 - file: docs/SSH.md
   title: SSH Basics
+- file: docs/class.ipynb
+  title: Class
 - file: docs/numpy.ipynb
   title: Numpy
 - file: docs/pandas.ipynb
