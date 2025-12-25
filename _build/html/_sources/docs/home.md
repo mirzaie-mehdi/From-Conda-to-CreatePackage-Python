@@ -625,6 +625,40 @@ If the import succeeds, the package is available in the active environment. If i
 
 Ensuring awareness of installed packages helps prevent common environment-related errors and promotes reproducibility across systems.
 
+## Installing Dependencies from `requirements.txt`
+
+A `requirements.txt` file specifies the external Python packages that a project depends on. It allows all required libraries to be installed consistently across different systems and environments.
+
+To install the packages listed in `requirements.txt`, first ensure that the correct Python environment is active. Then run the following command from the project’s root directory:
+
+```sh
+pip install -r requirements.txt
+
+```
+
+This command instructs `pip` to read the file and install each listed dependency into the active environment. If a package is missing, it will be downloaded and installed automatically.
+
+After installation, the environment will contain all libraries needed to run the project code.
+
+### Why `requirements.txt Is Important
+
+Maintaining a `requirements.txt` file serves several critical purposes:
+
+- **Reproducibility**
+It ensures that the project can be run with the same dependencies on different machines.
+
+- **Environment setup**
+New users or collaborators can configure their environment with a single command.
+
+- **Deployment and automation**
+Many deployment tools and continuous integration systems rely on `requirements.txt` to install dependencies automatically.
+
+- **Documentation**
+The file acts as an explicit record of the project’s external dependencies.
+
+Without a `requirements.txt` file, dependency management becomes error-prone and difficult to reproduce, especially as projects grow in complexity.
+
+
 
 
 ## Key Takeaways
