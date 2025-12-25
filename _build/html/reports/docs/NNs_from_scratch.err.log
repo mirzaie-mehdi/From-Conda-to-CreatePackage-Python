@@ -25,7 +25,6 @@ nbclient.exceptions.CellExecutionError: An error occurred while executing the fo
 # @title setup and imports
 
 import numpy as np
-import scikit-learn as sklearn
 from matplotlib import pyplot as plt
 from sklearn.datasets import fetch_openml
 from sklearn.model_selection import train_test_split
@@ -36,9 +35,14 @@ from IPython.display import display
 ------------------
 
 
-[0;36m  Cell [0;32mIn[1], line 4[0;36m[0m
-[0;31m    import scikit-learn as sklearn[0m
-[0m                 ^[0m
-[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[1], line 8[0m
+[1;32m      6[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmodel_selection[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m train_test_split
+[1;32m      7[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmetrics[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m confusion_matrix
+[0;32m----> 8[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mtqdm[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m trange
+[1;32m      9[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mipywidgets[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mwidgets[39;00m
+[1;32m     10[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mIPython[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdisplay[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m display
 
+[0;31mModuleNotFoundError[0m: No module named 'tqdm'
 
