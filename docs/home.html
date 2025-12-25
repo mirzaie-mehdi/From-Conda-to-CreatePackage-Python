@@ -420,6 +420,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-installed-packages-in-an-environment">Inspecting Installed Packages in an Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies-from-requirements-txt">Installing Dependencies from <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-requirements-txt-is-important">Why `requirements.txt Is Important</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
             </nav>
@@ -899,6 +903,31 @@ print<span class="o">(</span>sklearn.__version__<span class="o">)</span>
 <p>If the import succeeds, the package is available in the active environment. If it fails, the environment may be missing the dependency or the incorrect interpreter may be in use.</p>
 <p>Ensuring awareness of installed packages helps prevent common environment-related errors and promotes reproducibility across systems.</p>
 </section>
+<section id="installing-dependencies-from-requirements-txt">
+<h2>Installing Dependencies from <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code><a class="headerlink" href="#installing-dependencies-from-requirements-txt" title="Permalink to this heading">#</a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file specifies the external Python packages that a project depends on. It allows all required libraries to be installed consistently across different systems and environments.</p>
+<p>To install the packages listed in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>, first ensure that the correct Python environment is active. Then run the following command from the project’s root directory:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>This command instructs <code class="docutils literal notranslate"><span class="pre">pip</span></code> to read the file and install each listed dependency into the active environment. If a package is missing, it will be downloaded and installed automatically.</p>
+<p>After installation, the environment will contain all libraries needed to run the project code.</p>
+<section id="why-requirements-txt-is-important">
+<h3>Why `requirements.txt Is Important<a class="headerlink" href="#why-requirements-txt-is-important" title="Permalink to this heading">#</a></h3>
+<p>Maintaining a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file serves several critical purposes:</p>
+<ul class="simple">
+<li><p><strong>Reproducibility</strong>
+It ensures that the project can be run with the same dependencies on different machines.</p></li>
+<li><p><strong>Environment setup</strong>
+New users or collaborators can configure their environment with a single command.</p></li>
+<li><p><strong>Deployment and automation</strong>
+Many deployment tools and continuous integration systems rely on <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> to install dependencies automatically.</p></li>
+<li><p><strong>Documentation</strong>
+The file acts as an explicit record of the project’s external dependencies.</p></li>
+</ul>
+<p>Without a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file, dependency management becomes error-prone and difficult to reproduce, especially as projects grow in complexity.</p>
+</section>
+</section>
 <section id="key-takeaways">
 <h2>Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -1008,6 +1037,10 @@ print<span class="o">(</span>sklearn.__version__<span class="o">)</span>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspecting-installed-packages-in-an-environment">Inspecting Installed Packages in an Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-dependencies-from-requirements-txt">Installing Dependencies from <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-requirements-txt-is-important">Why `requirements.txt Is Important</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaways">Key Takeaways</a></li>
 </ul>
   </nav></div>
