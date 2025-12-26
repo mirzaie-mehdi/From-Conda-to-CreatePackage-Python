@@ -171,7 +171,8 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Class</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Classed and Objects in Python</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
 
@@ -414,6 +415,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Classed and Objects in Python</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects-bundling-data-and-behavior">Objects: Bundling Data and Behavior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-class-in-python">Defining a Class in Python</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-convention">Naming Convention</a></li>
@@ -449,6 +451,27 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#with-call">With <strong>call</strong>:</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance-extending-classes">Inheritance: Extending Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-robot">Base Class: Robot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-child-class">Creating a Child Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-inherited-behavior">Using the Inherited Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-new-behavior-in-the-child-class">Adding New Behavior in the Child Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overriding-a-method">Overriding a Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance-and-constructors-super">Inheritance and Constructors (<code class="docutils literal notranslate"><span class="pre">super()</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isinstance-with-inheritance"><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> with Inheritance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-inheritance-with-call">Combining Inheritance with <code class="docutils literal notranslate"><span class="pre">__call__</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-inheritance-matters-robot-example">Why Inheritance Matters (Robot Example)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-and-overriding-behavior">Adding and Overriding Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructors-and-super">Constructors and <code class="docutils literal notranslate"><span class="pre">super()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isinstance-and-type-relationships"><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> and Type Relationships</a></li>
+</ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -1100,17 +1123,12 @@ My name is Jerry.
 <p>Without <code class="docutils literal notranslate"><span class="pre">__call__</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">29</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">robot</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
-
-<span class="ne">NameError</span>: name &#39;robot&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My name is Tom.
 </pre></div>
 </div>
 </div>
@@ -1120,12 +1138,327 @@ My name is Jerry.
 <h2>With <strong>call</strong>:<a class="headerlink" href="#with-call" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robot</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r1</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My name is Tom.
 </pre></div>
 </div>
 </div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method lets a Python object be used like a function, so calling <code class="docutils literal notranslate"><span class="pre">robot()</span></code> automatically runs <code class="docutils literal notranslate"><span class="pre">robot.__call__()</span></code>.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="inheritance-extending-classes">
+<h1>Inheritance: Extending Classes<a class="headerlink" href="#inheritance-extending-classes" title="Permalink to this heading">#</a></h1>
+<p>Inheritance allows one class to <strong>reuse and extend</strong> another class.
+In the previous section, we defined a Robot class and created multiple robot objects from it. In practice, however, not all robots are the same. Some robots may be service robots, others may be military robots, and others may be medical robots.</p>
+<p>Rather than rewriting similar code for each type of robot, Python allows us to <strong>extend existing classes</strong> using <strong>inheritance</strong>.</p>
+<section id="base-class-robot">
+<h2>Base Class: Robot<a class="headerlink" href="#base-class-robot" title="Permalink to this heading">#</a></h2>
+<p>We start with the base class that represents a general robot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Robot</span><span class="p">:</span>
+    <span class="n">species</span> <span class="o">=</span> <span class="s2">&quot;Machine&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This class defines:</p>
+<ul class="simple">
+<li><p>common attributes (<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">weight</span></code>)</p></li>
+<li><p>common behavior (<code class="docutils literal notranslate"><span class="pre">introduce_self</span></code>)</p></li>
+</ul>
+<p>This is our <strong>base class</strong>.</p>
+</section>
+<section id="creating-a-child-class">
+<h2>Creating a Child Class<a class="headerlink" href="#creating-a-child-class" title="Permalink to this heading">#</a></h2>
+<p>Now let’s define a more specific type of robot: a service robot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Syntax:</p>
+<p>class ChildClass(ParentClass):
+…</p>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> <strong>inherits from</strong> Robot</p></li>
+<li><p>It automatically has access to all attributes and methods of <code class="docutils literal notranslate"><span class="pre">Robot</span></code></p></li>
+</ul>
+</section>
+<section id="using-the-inherited-behavior">
+<h2>Using the Inherited Behavior<a class="headerlink" href="#using-the-inherited-behavior" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">sr</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My name is HelperBot.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Even though <code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> has no code of its own yet, it can still call <code class="docutils literal notranslate"><span class="pre">introduce_self()</span></code> because it inherits it from <code class="docutils literal notranslate"><span class="pre">Robot</span></code>.</p>
+<p>This demonstrates the <strong>“is-a” relationship</strong>:</p>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> <strong>is a</strong> <code class="docutils literal notranslate"><span class="pre">Robot</span></code>.</p></li>
+</ul>
+</section>
+<section id="adding-new-behavior-in-the-child-class">
+<h2>Adding New Behavior in the Child Class<a class="headerlink" href="#adding-new-behavior-in-the-child-class" title="Permalink to this heading">#</a></h2>
+<p>A child class can define <strong>new methods</strong> that do not exist in the base class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is cleaning.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Usage:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sr</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+
+<span class="ne">AttributeError</span>: &#39;ServiceRobot&#39; object has no attribute &#39;clean&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The base <code class="docutils literal notranslate"><span class="pre">Robot</span></code> class remains unchanged, but the child class gains extra functionality.</p>
+</section>
+<section id="overriding-a-method">
+<h2>Overriding a Method<a class="headerlink" href="#overriding-a-method" title="Permalink to this heading">#</a></h2>
+<p>A child class can also <strong>override</strong> a method from the base class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;I am service robot </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My name is HelperBot.
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is an example of <strong>polymorphism</strong>: the same method name behaves differently depending on the object type.</p>
+</section>
+<section id="inheritance-and-constructors-super">
+<h2>Inheritance and Constructors (<code class="docutils literal notranslate"><span class="pre">super()</span></code>)<a class="headerlink" href="#inheritance-and-constructors-super" title="Permalink to this heading">#</a></h2>
+<p>If the child class defines its own constructor, the base class constructor is <strong>not called automatically</strong>.</p>
+<p>Incorrect (duplicated logic):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">area</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">area</span> <span class="o">=</span> <span class="n">area</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Correct (using <code class="docutils literal notranslate"><span class="pre">super()</span></code>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">area</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">area</span> <span class="o">=</span> <span class="n">area</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Why this matters:</p>
+<ul class="simple">
+<li><p>avoids duplicated code</p></li>
+<li><p>keeps base-class logic centralized</p></li>
+<li><p>supports future changes safely</p></li>
+</ul>
+</section>
+<section id="isinstance-with-inheritance">
+<h2><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> with Inheritance<a class="headerlink" href="#isinstance-with-inheritance" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Hospital&quot;</span><span class="p">)</span>
+
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">ServiceRobot</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">Robot</span><span class="p">)</span>         <span class="c1"># True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This confirms that a child class object is also considered an instance of the base class.</p>
+</section>
+<section id="combining-inheritance-with-call">
+<h2>Combining Inheritance with <code class="docutils literal notranslate"><span class="pre">__call__</span></code><a class="headerlink" href="#combining-inheritance-with-call" title="Permalink to this heading">#</a></h2>
+<p>We can even allow robots to behave like functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Robot</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Now</span> <span class="nb">all</span> <span class="n">subclasses</span> <span class="n">inherit</span> <span class="n">this</span> <span class="n">behavior</span> <span class="n">automatically</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Calls <code class="docutils literal notranslate"><span class="pre">__call__</span></code>, which calls <code class="docutils literal notranslate"><span class="pre">introduce_self</span></code>.</p>
+</section>
+<section id="why-inheritance-matters-robot-example">
+<h2>Why Inheritance Matters (Robot Example)<a class="headerlink" href="#why-inheritance-matters-robot-example" title="Permalink to this heading">#</a></h2>
+<p>Inheritance allows us to:</p>
+<ul class="simple">
+<li><p>define shared behavior once</p></li>
+<li><p>create specialized robots easily</p></li>
+<li><p>write polymorphic code</p></li>
+</ul>
+<p>Example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">robots</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Robot</span><span class="p">(</span><span class="s2">&quot;BasicBot&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+    <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;CleanerBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Office&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">robots</span><span class="p">:</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Each robot behaves correctly without conditional logic.</p>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Inheritance allows one class to extend another</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Robot</span></code> is the base class</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> is a derived class</p></li>
+<li><p>Child classes inherit attributes and methods</p></li>
+<li><p>Methods can be overridden</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">super()</span></code> ensures proper initialization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> respects inheritance</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__call__</span></code> behavior is inherited automatically</p></li>
+</ul>
+<p>This completes a smooth transition from <strong>classes → inheritance → polymorphism</strong>,</p>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Robot</span></code> is the <strong>base (parent) class</strong></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> is the <strong>derived (child) class</strong></p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">ServiceRobot</span></code> is a <code class="docutils literal notranslate"><span class="pre">Robot</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="adding-and-overriding-behavior">
+<h2>Adding and Overriding Behavior<a class="headerlink" href="#adding-and-overriding-behavior" title="Permalink to this heading">#</a></h2>
+<p>A child class can add new methods:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is cleaning.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It can also override existing methods:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;I am service robot </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This allows different objects to respond differently to the same method call.</p>
+</section>
+<section id="constructors-and-super">
+<h2>Constructors and <code class="docutils literal notranslate"><span class="pre">super()</span></code><a class="headerlink" href="#constructors-and-super" title="Permalink to this heading">#</a></h2>
+<p>If a child class defines its own constructor, the base class constructor is <strong>not called automatically</strong>.</p>
+<p>Correct usage:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">area</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">area</span> <span class="o">=</span> <span class="n">area</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">super()</span></code> ensures that base-class initialization logic is reused correctly.</p>
+</section>
+<section id="isinstance-and-type-relationships">
+<h2><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> and Type Relationships<a class="headerlink" href="#isinstance-and-type-relationships" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> function checks whether an object is an instance of a class or its subclasses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">isinstance</span><span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">Robot</span><span class="p">)</span>         <span class="c1"># True</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">ServiceRobot</span><span class="p">)</span>  <span class="c1"># True</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">Robot</span><span class="p">)</span>         <span class="c1"># True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This reflects the inheritance hierarchy.</p>
 </section>
 </section>
 
@@ -1193,6 +1526,7 @@ My name is Jerry.
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Classed and Objects in Python</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects-bundling-data-and-behavior">Objects: Bundling Data and Behavior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-class-in-python">Defining a Class in Python</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-convention">Naming Convention</a></li>
@@ -1228,6 +1562,27 @@ My name is Jerry.
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">Comparison</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#with-call">With <strong>call</strong>:</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance-extending-classes">Inheritance: Extending Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-class-robot">Base Class: Robot</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-child-class">Creating a Child Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-inherited-behavior">Using the Inherited Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-new-behavior-in-the-child-class">Adding New Behavior in the Child Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overriding-a-method">Overriding a Method</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance-and-constructors-super">Inheritance and Constructors (<code class="docutils literal notranslate"><span class="pre">super()</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isinstance-with-inheritance"><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> with Inheritance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-inheritance-with-call">Combining Inheritance with <code class="docutils literal notranslate"><span class="pre">__call__</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-inheritance-matters-robot-example">Why Inheritance Matters (Robot Example)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-and-overriding-behavior">Adding and Overriding Behavior</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#constructors-and-super">Constructors and <code class="docutils literal notranslate"><span class="pre">super()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isinstance-and-type-relationships"><code class="docutils literal notranslate"><span class="pre">isinstance</span></code> and Type Relationships</a></li>
+</ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
