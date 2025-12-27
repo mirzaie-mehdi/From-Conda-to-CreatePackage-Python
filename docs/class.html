@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Class and Objects in Python &#8212; From Conda to Create Package in Python</title>
+    <title>Class and Objects &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -171,7 +171,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Class and Objects in Python</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Class and Objects</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
 
@@ -405,7 +405,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Class and Objects in Python</h1>
+    <h1>Class and Objects</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -415,7 +415,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Class and Objects in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Class and Objects</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects-bundling-data-and-behavior">Objects: Bundling Data and Behavior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-class-in-python">Defining a Class in Python</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-convention">Naming Convention</a></li>
@@ -482,8 +482,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="class-and-objects-in-python">
-<h1>Class and Objects in Python<a class="headerlink" href="#class-and-objects-in-python" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="class-and-objects">
+<h1>Class and Objects<a class="headerlink" href="#class-and-objects" title="Permalink to this heading">#</a></h1>
 <p>Classes are one of the most important concepts in Python. They allow us to model real-world entities by combining <strong>data</strong> and <strong>behavior</strong> into a single structure. When writing programs, we often want to model real-world things: robots, users, bank accounts, layers in a neural network, and so on. Each of these “things” has two important aspects:</p>
 <ol class="arabic simple">
 <li><p><strong>Data</strong>: information that describes the thing</p></li>
@@ -806,6 +806,19 @@ Instance r2
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">Robot</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r3</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">()</span>
+<span class="n">r3</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;__main__.Robot at 0x107a1f3a0&gt;
 </pre></div>
 </div>
 </div>
@@ -1237,17 +1250,14 @@ In the previous section, we defined a Robot class and created multiple robot obj
 <p>Usage:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="n">sr</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">35</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sr</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
-
-<span class="ne">AttributeError</span>: &#39;ServiceRobot&#39; object has no attribute &#39;clean&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HelperBot is cleaning.
 </pre></div>
 </div>
 </div>
@@ -1269,12 +1279,41 @@ In the previous section, we defined a Robot class and created multiple robot obj
 <p>Now:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="n">sr</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I am service robot HelperBot.
+</pre></div>
+</div>
+</div>
+</div>
+<p>The original <code class="docutils literal notranslate"><span class="pre">Robot.introduce_self</span></code> method <strong>is not called</strong> at all.</p>
+<p>If you want to extend the parent behavior instead of fully replacing it, use <code class="docutils literal notranslate"><span class="pre">super()</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am designed to assist with services.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="n">sr</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My name is HelperBot.
+I am designed to assist with services.
 </pre></div>
 </div>
 </div>
@@ -1325,6 +1364,11 @@ In the previous section, we defined a Robot class and created multiple robot obj
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
 </div>
 <p>This confirms that a child class object is also considered an instance of the base class.</p>
 </section>
@@ -1342,6 +1386,11 @@ In the previous section, we defined a Robot class and created multiple robot obj
 
     <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;My name is </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ServiceRobot</span><span class="p">(</span><span class="n">Robot</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">introduce_self</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;I am service robot </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1352,10 +1401,24 @@ In the previous section, we defined a Robot class and created multiple robot obj
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">45</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">Now</span> <span class="nb">all</span> <span class="n">subclasses</span> <span class="n">inherit</span> <span class="n">this</span> <span class="n">behavior</span> <span class="n">automatically</span><span class="o">.</span>
+        <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sr</span> <span class="o">=</span> <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;HelperBot&quot;</span><span class="p">)</span>
+<span class="n">sr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>I am service robot HelperBot.
 </pre></div>
 </div>
 </div>
@@ -1380,6 +1443,21 @@ In the previous section, we defined a Robot class and created multiple robot obj
 
 <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">robots</span><span class="p">:</span>
     <span class="n">r</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">95</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">robots</span> <span class="o">=</span> <span class="p">[</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="n">Robot</span><span class="p">(</span><span class="s2">&quot;BasicBot&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">ServiceRobot</span><span class="p">(</span><span class="s2">&quot;CleanerBot&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;Office&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">robots</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">r</span><span class="o">.</span><span class="n">introduce_self</span><span class="p">()</span>
+
+<span class="ne">TypeError</span>: Robot.__init__() takes 2 positional arguments but 3 were given
 </pre></div>
 </div>
 </div>
@@ -1526,7 +1604,7 @@ In the previous section, we defined a Robot class and created multiple robot obj
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Class and Objects in Python</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Class and Objects</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objects-bundling-data-and-behavior">Objects: Bundling Data and Behavior</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-a-class-in-python">Defining a Class in Python</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#naming-convention">Naming Convention</a></li>
