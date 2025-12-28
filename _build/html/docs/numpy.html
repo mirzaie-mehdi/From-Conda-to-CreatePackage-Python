@@ -509,7 +509,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>31.2 ms ± 3.76 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>28.6 ms ± 102 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -532,7 +532,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.82 μs ± 561 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.43 μs ± 18 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -800,10 +800,8 @@ Changing dtype is slower (copy + new memory).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.020383541996125132
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>New dtype  : 0.03184229199541733
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.016814875009004027
+New dtype  : 0.029669500014279038
 </pre></div>
 </div>
 </div>
