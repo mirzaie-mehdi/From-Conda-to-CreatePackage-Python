@@ -14,7 +14,7 @@ chapters:
   title: Numpy
 - file: docs/pandas.ipynb
   title: Pandas
-- file: docs/NNs_from_scratch.ipynb
+- file: docs/Multilayer_Perceptron_from_scratch.ipynb
   title: Neural Networks, An introduction 
 - file: docs/Deployment_Infrastructure
   title: Virtual Machine, Deployment and Infrastructure
