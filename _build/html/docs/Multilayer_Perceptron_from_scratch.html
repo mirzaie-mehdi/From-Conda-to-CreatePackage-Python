@@ -797,6 +797,31 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Assumes you already have:</span>
+<span class="c1"># X: shape (N, 2)</span>
+<span class="c1"># y: shape (N,) with values 0 or 1</span>
+
+<span class="n">X_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_plot</span><span class="p">)</span>  <span class="c1"># colors by class label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Toy dataset colored by class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/95b70f299c395e640f9d352abb07032c9a0d9fff7bf094822af66f4cd924f180.png" src="../_images/95b70f299c395e640f9d352abb07032c9a0d9fff7bf094822af66f4cd924f180.png" />
+</div>
+</div>
 </section>
 <section id="build-and-train-the-mlp">
 <h2>8. Build and Train the MLP<a class="headerlink" href="#build-and-train-the-mlp" title="Permalink to this heading">#</a></h2>
@@ -848,10 +873,10 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch= 50  loss=0.6870  acc=0.655
 epoch=100  loss=0.6803  acc=0.685
 epoch=150  loss=0.6734  acc=0.685
-epoch=200  loss=0.6651  acc=0.698
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch=250  loss=0.6565  acc=0.710
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch=200  loss=0.6651  acc=0.698
+epoch=250  loss=0.6565  acc=0.710
 epoch=300  loss=0.6478  acc=0.720
 </pre></div>
 </div>
