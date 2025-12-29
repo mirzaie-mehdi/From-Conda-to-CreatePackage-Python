@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Neural Networks &#8212; From Conda to Create Package in Python</title>
+    <title>Multilayer Perceptron (MLP) From Scratch (NumPy) &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -65,6 +65,9 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="application/vnd.jupyter.widget-state+json">{"state": {"923f3f7934e7450ab2759ca6f406ea52": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "200px"}}, "e3cd486498db452abaebe90f91bc4583": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "description_width": ""}}, "9251d9c809a440ef98adbb7514921aef": {"model_name": "DropdownModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "DropdownModel", "_options_labels": ["16", "32", "64", "128", "256"], "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "DropdownView", "description": "Batch Size:", "description_allow_html": false, "disabled": false, "index": 0, "layout": "IPY_MODEL_923f3f7934e7450ab2759ca6f406ea52", "style": "IPY_MODEL_e3cd486498db452abaebe90f91bc4583", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/NNs_from_scratch';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -183,7 +186,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Neural Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a></li>
 
 
 
@@ -408,7 +411,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Neural Networks</h1>
+    <h1>Multilayer Perceptron (MLP) From Scratch (NumPy)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -418,14 +421,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-fully-connected-layers">Linear (Fully Connected) Layers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">Sigmoid</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit)</a></li>
@@ -463,10 +469,22 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="neural-networks">
-<h1>Neural Networks<a class="headerlink" href="#neural-networks" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-from-scratch-numpy">
+<h1>Multilayer Perceptron (MLP) From Scratch (NumPy)<a class="headerlink" href="#multilayer-perceptron-mlp-from-scratch-numpy" title="Permalink to this heading">#</a></h1>
 <p>In this section, we develop the fundamental components of a feedforward neural network from first principles. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
-<p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation</p>
+<p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation.</p>
+<section id="mathematical-equations-computational-graphs-and-backpropagation">
+<h2>Mathematical Equations, Computational Graphs, and Backpropagation<a class="headerlink" href="#mathematical-equations-computational-graphs-and-backpropagation" title="Permalink to this heading">#</a></h2>
+<p>This notebook builds an MLP by defining <strong>Layer</strong> objects (Dense, ReLU, etc.) and composing them.</p>
+<p>We cover:</p>
+<ul class="simple">
+<li><p>Forward equations</p></li>
+<li><p>Backward gradient equations</p></li>
+<li><p>Computational graph intuition</p></li>
+<li><p>Softmax + cross-entropy loss</p></li>
+<li><p>A minimal training loop</p></li>
+</ul>
+</section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="base-layer-abstraction">
 <h1>Base Layer Abstraction<a class="headerlink" href="#base-layer-abstraction" title="Permalink to this heading">#</a></h1>
@@ -479,7 +497,8 @@ document.write(`
 <p>The <code class="docutils literal notranslate"><span class="pre">Layer</span></code> class serves as a conceptual base class that defines this interface.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
@@ -498,27 +517,71 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>         <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="nn">Cell In[1], line 6,</span> in <span class="ni">Layer</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-
-<span class="ne">NameError</span>: name &#39;np&#39; is not defined
-</pre></div>
-</div>
-</div>
 </div>
 <p>Each concrete layer implements its own forward and backward computations. During training, layers are executed sequentially in the forward direction and in reverse order during backpropagation.</p>
+<section id="linear-fully-connected-layers">
+<h2>Linear (Fully Connected) Layers<a class="headerlink" href="#linear-fully-connected-layers" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">Linear</span></code> class implements the fully connected (or dense) layer of a neural network, which performs a linear transformation on the input:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{y} = \mathbf{x} \cdot \mathbf{W} + \mathbf{b}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x \in \mathbb{R}^{N \times d_{\text{in}}}\)</span> is the input batch,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W \in \mathbb{R}^{d_{\text{in}} \times d_{\text{out}}}\)</span> is the weight matrix,</p></li>
+<li><p><span class="math notranslate nohighlight">\(b \in \mathbb{R}^{1 \times d_{\text{out}}}\)</span> is the bias vector.</p></li>
+</ul>
+<p><strong>Initialization</strong></p>
+<p>Weights are initialized using <strong>He initialization</strong>, which scales the variance to stabilize gradients in deep networks:</p>
+<div class="math notranslate nohighlight">
+\[W_{ij} \sim \mathcal{N}\!\left(0, \frac{2}{d_{\text{in}}}\right)\]</div>
+<p>Biases are initialized to zero.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Represents the weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code>, initialized using small random values.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias vector of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code>, initialized to zeros.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.dw</span></code> and <code class="docutils literal notranslate"><span class="pre">self.db</span></code>: These store the computed gradients of weights and biases during backpropagation.</p></li>
+</ul>
+<p><strong>Forward Pass</strong></p>
+<ul class="simple">
+<li><p>Given an input batch <code class="docutils literal notranslate"><span class="pre">inp</span></code>, the forward pass computes:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\mathbf{out} = \mathbf{inp} \cdot \mathbf{W} + \mathbf{b}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inp</span></code>: Input matrix of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">in_dim)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias matrix of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code></p></li>
+<li><p>The result is a matrix out of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">out_dim)</span></code>.</p></li>
+</ul>
+<p><strong>Backward Pass</strong></p>
+<ul class="simple">
+<li><p>The backward pass computes gradients needed for updating the weights and biases. Given the upstream gradient <code class="docutils literal notranslate"><span class="pre">up_grad</span></code> (from the loss with respect to the output of this layer), we calculate:</p></li>
+</ul>
+<p>Given the upstream gradient <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \text{out}}\)</span>,
+the gradients are:</p>
+<ul class="simple">
+<li><p><strong>Weights</strong> <span class="math notranslate nohighlight">\(\frac{\partial \mathbf{L}}{\partial W}= x^{\top} \frac{\partial L}{\partial \text{out}}\)</span>.</p></li>
+<li><p><strong>Biases</strong> <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial b}
+= \sum_{i=1}^{N} \frac{\partial L}{\partial \text{out}_i}.\)</span></p></li>
+<li><p><strong>Input (for propagation to the previous layer)</strong> <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial x}
+= \frac{\partial L}{\partial \text{out}} W^{\top}.\)</span></p>
+<ul>
+<li><p>Gradient w.r.t. weights (<code class="docutils literal notranslate"><span class="pre">self.dw</span></code>):
+$<span class="math notranslate nohighlight">\( \frac{\partial L}{\partial W} = \mathbf{inp}^T \cdot \text{up_grad} \)</span>$</p></li>
+<li><p>Gradient w.r.t. biases (<code class="docutils literal notranslate"><span class="pre">self.db</span></code>):
+$<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial b} = \sum \text{up_grad} \text{ (summed across batch)}\)</span>$</p></li>
+<li><p>Gradient to propagate to the previous layer (<code class="docutils literal notranslate"><span class="pre">down_grad</span></code>):
+$<span class="math notranslate nohighlight">\(\text{down_grad} = \text{up_grad} \cdot W^T\)</span>$</p></li>
+</ul>
+</li>
+<li><p>This allows the gradient to flow backward to earlier layers.</p></li>
+</ul>
+<p><strong>Step Method</strong></p>
+<ul class="simple">
+<li><p>Updates the weights and biases using the computed gradients and learning rate (<code class="docutils literal notranslate"><span class="pre">lr</span></code>):
+$<span class="math notranslate nohighlight">\(W = W - lr \cdot \frac{\partial L}{\partial W}\)</span><span class="math notranslate nohighlight">\(
+  \)</span><span class="math notranslate nohighlight">\(b = b - lr \cdot \frac{\partial L}{\partial b}\)</span>$</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports required packages</span>
@@ -535,6 +598,7 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 <section id="helper-functions">
 <h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading">#</a></h2>
 <p>The following helper functions provide supporting utilities for visualization, data preparation, and evaluation. They are intentionally separated from the neural network implementation to keep the core learning algorithms clear and focused.</p>
@@ -708,51 +772,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
-<section id="linear-layers">
-<h2>Linear Layers<a class="headerlink" href="#linear-layers" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Linear</span></code> class implements the fully connected (or dense) layer of a neural network, which performs a linear transformation on the input:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{y} = \mathbf{x} \cdot \mathbf{W} + \mathbf{b}\]</div>
-<p><strong>Initialization</strong></p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Represents the weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code>, initialized using small random values.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias vector of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code>, initialized to zeros.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.dw</span></code> and <code class="docutils literal notranslate"><span class="pre">self.db</span></code>: These store the computed gradients of weights and biases during backpropagation.</p></li>
-</ul>
-<p><strong>Forward Pass</strong></p>
-<ul class="simple">
-<li><p>The forward pass computes:
-$<span class="math notranslate nohighlight">\(\mathbf{out} = \mathbf{inp} \cdot \mathbf{W} + \mathbf{b}\)</span>$
-where:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">inp</span></code>: Input matrix of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">in_dim)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias matrix of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code></p></li>
-</ul>
-</li>
-<li><p>The result is a matrix out of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">out_dim)</span></code>.</p></li>
-</ul>
-<p><strong>Backward Pass</strong></p>
-<ul class="simple">
-<li><p>The backward pass computes gradients needed for updating the weights and biases. Given the upstream gradient <code class="docutils literal notranslate"><span class="pre">up_grad</span></code> (from the loss with respect to the output of this layer), we calculate:</p>
-<ul>
-<li><p>Gradient w.r.t. weights (<code class="docutils literal notranslate"><span class="pre">self.dw</span></code>):
-$<span class="math notranslate nohighlight">\( \frac{\partial L}{\partial W} = \mathbf{inp}^T \cdot \text{up_grad} \)</span>$</p></li>
-<li><p>Gradient w.r.t. biases (<code class="docutils literal notranslate"><span class="pre">self.db</span></code>):
-$<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial b} = \sum \text{up_grad} \text{ (summed across batch)}\)</span>$</p></li>
-<li><p>Gradient to propagate to the previous layer (<code class="docutils literal notranslate"><span class="pre">down_grad</span></code>):
-$<span class="math notranslate nohighlight">\(\text{down_grad} = \text{up_grad} \cdot W^T\)</span>$</p></li>
-</ul>
-</li>
-<li><p>This allows the gradient to flow backward to earlier layers.</p></li>
-</ul>
-<p><strong>Step Method</strong></p>
-<ul class="simple">
-<li><p>Updates the weights and biases using the computed gradients and learning rate (<code class="docutils literal notranslate"><span class="pre">lr</span></code>):
-$<span class="math notranslate nohighlight">\(W = W - lr \cdot \frac{\partial L}{\partial W}\)</span><span class="math notranslate nohighlight">\(
-  \)</span><span class="math notranslate nohighlight">\(b = b - lr \cdot \frac{\partial L}{\partial b}\)</span>$</p></li>
-</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Linear</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
@@ -1105,6 +1124,198 @@ $<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                 | 0/30 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.984:   0%|                                                                                    | 0/30 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.984:   3%|██▌                                                                         | 1/30 [00:00&lt;00:07,  3.83it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.506:   3%|██▌                                                                         | 1/30 [00:00&lt;00:07,  3.83it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.506:   7%|█████                                                                       | 2/30 [00:00&lt;00:08,  3.46it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.301:   7%|█████                                                                       | 2/30 [00:00&lt;00:08,  3.46it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.301:  10%|███████▌                                                                    | 3/30 [00:00&lt;00:09,  2.89it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.210:  10%|███████▌                                                                    | 3/30 [00:01&lt;00:09,  2.89it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.210:  13%|██████████▏                                                                 | 4/30 [00:01&lt;00:10,  2.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.165:  13%|██████████▏                                                                 | 4/30 [00:01&lt;00:10,  2.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.165:  17%|████████████▋                                                               | 5/30 [00:01&lt;00:10,  2.40it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.139:  17%|████████████▋                                                               | 5/30 [00:02&lt;00:10,  2.40it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.139:  20%|███████████████▏                                                            | 6/30 [00:02&lt;00:10,  2.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.123:  20%|███████████████▏                                                            | 6/30 [00:02&lt;00:10,  2.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.123:  23%|█████████████████▋                                                          | 7/30 [00:02&lt;00:09,  2.39it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.111:  23%|█████████████████▋                                                          | 7/30 [00:03&lt;00:09,  2.39it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.111:  27%|████████████████████▎                                                       | 8/30 [00:03&lt;00:09,  2.25it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.102:  27%|████████████████████▎                                                       | 8/30 [00:03&lt;00:09,  2.25it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.102:  30%|██████████████████████▊                                                     | 9/30 [00:03&lt;00:09,  2.22it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.094:  30%|██████████████████████▊                                                     | 9/30 [00:04&lt;00:09,  2.22it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.094:  33%|█████████████████████████                                                  | 10/30 [00:04&lt;00:08,  2.24it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.088:  33%|█████████████████████████                                                  | 10/30 [00:05&lt;00:08,  2.24it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.088:  37%|███████████████████████████▍                                               | 11/30 [00:05&lt;00:12,  1.54it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.084:  37%|███████████████████████████▍                                               | 11/30 [00:05&lt;00:12,  1.54it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.084:  40%|██████████████████████████████                                             | 12/30 [00:05&lt;00:11,  1.51it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.079:  40%|██████████████████████████████                                             | 12/30 [00:06&lt;00:11,  1.51it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.079:  43%|████████████████████████████████▌                                          | 13/30 [00:06&lt;00:11,  1.48it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.076:  43%|████████████████████████████████▌                                          | 13/30 [00:07&lt;00:11,  1.48it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.076:  47%|███████████████████████████████████                                        | 14/30 [00:07&lt;00:10,  1.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.072:  47%|███████████████████████████████████                                        | 14/30 [00:08&lt;00:10,  1.53it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.072:  50%|█████████████████████████████████████▌                                     | 15/30 [00:08&lt;00:10,  1.45it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.069:  50%|█████████████████████████████████████▌                                     | 15/30 [00:08&lt;00:10,  1.45it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.069:  53%|████████████████████████████████████████                                   | 16/30 [00:08&lt;00:10,  1.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.067:  53%|████████████████████████████████████████                                   | 16/30 [00:09&lt;00:10,  1.38it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.067:  57%|██████████████████████████████████████████▌                                | 17/30 [00:09&lt;00:09,  1.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.065:  57%|██████████████████████████████████████████▌                                | 17/30 [00:10&lt;00:09,  1.37it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.065:  60%|█████████████████████████████████████████████                              | 18/30 [00:10&lt;00:08,  1.46it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.062:  60%|█████████████████████████████████████████████                              | 18/30 [00:10&lt;00:08,  1.46it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.062:  63%|███████████████████████████████████████████████▌                           | 19/30 [00:10&lt;00:07,  1.55it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.061:  63%|███████████████████████████████████████████████▌                           | 19/30 [00:11&lt;00:07,  1.55it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.061:  67%|██████████████████████████████████████████████████                         | 20/30 [00:11&lt;00:05,  1.70it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.059:  67%|██████████████████████████████████████████████████                         | 20/30 [00:11&lt;00:05,  1.70it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.059:  70%|████████████████████████████████████████████████████▌                      | 21/30 [00:11&lt;00:05,  1.75it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.057:  70%|████████████████████████████████████████████████████▌                      | 21/30 [00:12&lt;00:05,  1.75it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.057:  73%|██████████████████████████████████████████████████████▉                    | 22/30 [00:12&lt;00:04,  1.85it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.056:  73%|██████████████████████████████████████████████████████▉                    | 22/30 [00:12&lt;00:04,  1.85it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.056:  77%|█████████████████████████████████████████████████████████▌                 | 23/30 [00:12&lt;00:03,  1.91it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.054:  77%|█████████████████████████████████████████████████████████▌                 | 23/30 [00:13&lt;00:03,  1.91it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.054:  80%|████████████████████████████████████████████████████████████               | 24/30 [00:13&lt;00:02,  2.01it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.053:  80%|████████████████████████████████████████████████████████████               | 24/30 [00:13&lt;00:02,  2.01it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.053:  83%|██████████████████████████████████████████████████████████████▌            | 25/30 [00:13&lt;00:02,  2.10it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.052:  83%|██████████████████████████████████████████████████████████████▌            | 25/30 [00:14&lt;00:02,  2.10it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.052:  87%|█████████████████████████████████████████████████████████████████          | 26/30 [00:14&lt;00:01,  2.07it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.051:  87%|█████████████████████████████████████████████████████████████████          | 26/30 [00:14&lt;00:01,  2.07it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.051:  90%|███████████████████████████████████████████████████████████████████▌       | 27/30 [00:14&lt;00:01,  2.13it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.050:  90%|███████████████████████████████████████████████████████████████████▌       | 27/30 [00:14&lt;00:01,  2.13it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.050:  93%|██████████████████████████████████████████████████████████████████████     | 28/30 [00:14&lt;00:00,  2.14it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.049:  93%|██████████████████████████████████████████████████████████████████████     | 28/30 [00:15&lt;00:00,  2.14it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.049:  97%|████████████████████████████████████████████████████████████████████████▌  | 29/30 [00:15&lt;00:00,  2.11it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048:  97%|████████████████████████████████████████████████████████████████████████▌  | 29/30 [00:15&lt;00:00,  2.11it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048: 100%|███████████████████████████████████████████████████████████████████████████| 30/30 [00:15&lt;00:00,  2.02it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048: 100%|███████████████████████████████████████████████████████████████████████████| 30/30 [00:15&lt;00:00,  1.88it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<img alt="../_images/c774c16280d5309fc27c3cf62d73ddf3f6a248cacb32d7ae58564bd454e8a66f.png" src="../_images/c774c16280d5309fc27c3cf62d73ddf3f6a248cacb32d7ae58564bd454e8a66f.png" />
+</div>
 </div>
 </section>
 <section id="evaluation">
@@ -1119,6 +1330,11 @@ $<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy with 11000 training examples on 10000 test samples is 98.05%
+</pre></div>
+</div>
+</div>
 </div>
 <p>The confusion matrix can also be observed:</p>
 <div class="cell docutils container">
@@ -1127,6 +1343,9 @@ $<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{
 <span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_prediction</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/748b3413da2acad7238d2f1f8add1f68187bb3dbfdb409445c78cf8565f7842a.png" src="../_images/748b3413da2acad7238d2f1f8add1f68187bb3dbfdb409445c78cf8565f7842a.png" />
 </div>
 </div>
 </section>
@@ -1249,6 +1468,8 @@ We will slightly modify the <code class="docutils literal notranslate"><span cla
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9251d9c809a440ef98adbb7514921aef"}</script></div>
 </div>
 <p>As you can see, increasing the batch size improves the speed of our algorithm, while reducing the batch size allows us to achieve higher accuracies.</p>
 </section>
@@ -1318,14 +1539,17 @@ We will slightly modify the <code class="docutils literal notranslate"><span cla
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Neural Networks</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
+</ul>
+</li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-fully-connected-layers">Linear (Fully Connected) Layers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-layers">Linear Layers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">Sigmoid</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit)</a></li>
