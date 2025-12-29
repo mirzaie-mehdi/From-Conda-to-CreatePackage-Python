@@ -65,9 +65,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script type="application/vnd.jupyter.widget-state+json">{"state": {"085ecd6a6b8f4888a5f631ea8399b9f6": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": "200px"}}, "f0c80b8299724bfb8faaeb3726c51be6": {"model_name": "DescriptionStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "DescriptionStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "description_width": ""}}, "ae9c656d233746feb114818a3cd868ac": {"model_name": "DropdownModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "DropdownModel", "_options_labels": ["16", "32", "64", "128", "256"], "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "DropdownView", "description": "Batch Size:", "description_allow_html": false, "disabled": false, "index": 0, "layout": "IPY_MODEL_085ecd6a6b8f4888a5f631ea8399b9f6", "style": "IPY_MODEL_f0c80b8299724bfb8faaeb3726c51be6", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/Multilayer_Perceptron_from_scratch';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -187,11 +184,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a></li>
-
-
-
-
-
 
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
@@ -427,40 +419,29 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward">Backward</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-fully-connected-layers">Linear (Fully Connected) Layers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#frac-partial-l-partial-x">$
+\frac{\partial L}{\partial x}</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-an-mlp-by-composing-layers-sequential">4. Building an MLP by Composing Layers (Sequential)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-cross-entropy-loss">5. Softmax + Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-probabilities">Softmax (probabilities)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-integer-class-labels">Cross-entropy (integer class labels)</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">Sigmoid</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax">Softmax</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-loss-class">Abstract Loss Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-loss">Cross-Entropy Loss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-squared-error-mse-loss">Mean Squared Error (MSE) Loss</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">Neural Network</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-fashion-mnist-dataset">Loading the Fashion-MNIST Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">Training the Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size">Batch Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-sgd">6. Parameter Update (SGD)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-dataset-for-demonstration">7. Toy Dataset (for demonstration)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-train-the-mlp">8. Build and Train the MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-checklist-understanding-backprop">9. Student Checklist (Understanding Backprop)</a></li>
 </ul>
 </li>
 </ul>
@@ -533,14 +514,15 @@ document.write(`
 <li><p><span class="math notranslate nohighlight">\(\mathbf{y} \in \mathbb{R}^{N \times d_{out}}\)</span></p></li>
 </ul>
 </section>
+<hr class="docutils" />
 <section id="computational-graph-dense">
 <h3>Computational graph (Dense)<a class="headerlink" href="#computational-graph-dense" title="Permalink to this heading">#</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>x ──┐
     |
 ├── MatMul ── z ── Add ── y
-    |         ▲
-W ──┘         │
-              b
+    |               ▲
+W ──┘               │
+                    b
 </pre></div>
 </div>
 <p>Mathematically:</p>
@@ -549,374 +531,124 @@ W ──┘         │
 <div class="math notranslate nohighlight">
 \[ y = z + b \]</div>
 </section>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="base-layer-abstraction">
-<h1>Base Layer Abstraction<a class="headerlink" href="#base-layer-abstraction" title="Permalink to this heading">#</a></h1>
-<p>All neural network layers share a common structure:</p>
-<ul class="simple">
-<li><p>a <strong>forward pass</strong>, which computes the output of the layer,</p></li>
-<li><p>a <strong>backward pass</strong>, which computes gradients using the chain rule,</p></li>
-<li><p>and, for parameterized layers, a <strong>parameter update step</strong>.</p></li>
-</ul>
-<p>The <code class="docutils literal notranslate"><span class="pre">Layer</span></code> class serves as a conceptual base class that defines this interface.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Each concrete layer implements its own forward and backward computations. During training, layers are executed sequentially in the forward direction and in reverse order during backpropagation.</p>
-<section id="linear-fully-connected-layers">
-<h2>Linear (Fully Connected) Layers<a class="headerlink" href="#linear-fully-connected-layers" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Linear</span></code> class implements the fully connected (or dense) layer of a neural network, which performs a linear transformation on the input:</p>
-<div class="math notranslate nohighlight">
-\[\mathbf{y} = \mathbf{x} \cdot \mathbf{W} + \mathbf{b}\]</div>
-<p>where:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(x \in \mathbb{R}^{N \times d_{\text{in}}}\)</span> is the input batch,</p></li>
-<li><p><span class="math notranslate nohighlight">\(W \in \mathbb{R}^{d_{\text{in}} \times d_{\text{out}}}\)</span> is the weight matrix,</p></li>
-<li><p><span class="math notranslate nohighlight">\(b \in \mathbb{R}^{1 \times d_{\text{out}}}\)</span> is the bias vector.</p></li>
-</ul>
-<p><strong>Initialization</strong></p>
-<p>Weights are initialized using <strong>He initialization</strong>, which scales the variance to stabilize gradients in deep networks:</p>
-<div class="math notranslate nohighlight">
-\[W_{ij} \sim \mathcal{N}\!\left(0, \frac{2}{d_{\text{in}}}\right)\]</div>
-<p>Biases are initialized to zero.</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Represents the weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code>, initialized using small random values.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias vector of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code>, initialized to zeros.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.dw</span></code> and <code class="docutils literal notranslate"><span class="pre">self.db</span></code>: These store the computed gradients of weights and biases during backpropagation.</p></li>
-</ul>
-<p><strong>Forward Pass</strong></p>
-<ul class="simple">
-<li><p>Given an input batch <code class="docutils literal notranslate"><span class="pre">inp</span></code>, the forward pass computes:</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[\mathbf{out} = \mathbf{inp} \cdot \mathbf{W} + \mathbf{b}\]</div>
-<p>where:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">inp</span></code>: Input matrix of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">in_dim)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.w</span></code>: Weight matrix of shape <code class="docutils literal notranslate"><span class="pre">(in_dim,</span> <span class="pre">out_dim)</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">self.b</span></code>: Bias matrix of shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">out_dim)</span></code></p></li>
-<li><p>The result is a matrix out of shape <code class="docutils literal notranslate"><span class="pre">(batch_size,</span> <span class="pre">out_dim)</span></code>.</p></li>
-</ul>
-<p><strong>Backward Pass</strong></p>
-<ul class="simple">
-<li><p>The backward pass computes gradients needed for updating the weights and biases. Given the upstream gradient <code class="docutils literal notranslate"><span class="pre">up_grad</span></code> (from the loss with respect to the output of this layer), we calculate:</p></li>
-</ul>
-<p>Given the upstream gradient <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \text{out}}\)</span>,
-the gradients are:</p>
-<ul class="simple">
-<li><p><strong>Weights</strong> <span class="math notranslate nohighlight">\(\frac{\partial \mathbf{L}}{\partial W}= x^{\top} \frac{\partial L}{\partial \text{out}}\)</span>.</p></li>
-<li><p><strong>Biases</strong> <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial b}
-= \sum_{i=1}^{N} \frac{\partial L}{\partial \text{out}_i}.\)</span></p></li>
-<li><p><strong>Input (for propagation to the previous layer)</strong> <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial x}
-= \frac{\partial L}{\partial \text{out}} W^{\top}.\)</span></p>
-<ul>
-<li><p>Gradient w.r.t. weights (<code class="docutils literal notranslate"><span class="pre">self.dw</span></code>):
-$<span class="math notranslate nohighlight">\( \frac{\partial L}{\partial W} = \mathbf{inp}^T \cdot \text{up_grad} \)</span>$</p></li>
-<li><p>Gradient w.r.t. biases (<code class="docutils literal notranslate"><span class="pre">self.db</span></code>):
-$<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial b} = \sum \text{up_grad} \text{ (summed across batch)}\)</span>$</p></li>
-<li><p>Gradient to propagate to the previous layer (<code class="docutils literal notranslate"><span class="pre">down_grad</span></code>):
-$<span class="math notranslate nohighlight">\(\text{down_grad} = \text{up_grad} \cdot W^T\)</span>$</p></li>
-</ul>
-</li>
-<li><p>This allows the gradient to flow backward to earlier layers.</p></li>
-</ul>
-<p><strong>Step Method</strong></p>
-<ul class="simple">
-<li><p>Updates the weights and biases using the computed gradients and learning rate (<code class="docutils literal notranslate"><span class="pre">lr</span></code>):
-$<span class="math notranslate nohighlight">\(W = W - lr \cdot \frac{\partial L}{\partial W}\)</span><span class="math notranslate nohighlight">\(
-  \)</span><span class="math notranslate nohighlight">\(b = b - lr \cdot \frac{\partial L}{\partial b}\)</span>$</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># imports required packages</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_openml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">trange</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">ipywidgets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">widgets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="helper-functions">
-<h2>Helper Functions<a class="headerlink" href="#helper-functions" title="Permalink to this heading">#</a></h2>
-<p>The following helper functions provide supporting utilities for visualization, data preparation, and evaluation. They are intentionally separated from the neural network implementation to keep the core learning algorithms clear and focused.</p>
-<p>These functions rely on standard scientific Python libraries—primarily NumPy, Matplotlib, and selected utilities from scikit-learn—for tasks such as dataset loading, plotting training curves, and computing confusion matrices. While these tools simplify experimentation and analysis, they are not used to implement the neural network itself, which is built entirely from first principles.</p>
-<p>Readers may treat these helpers as interchangeable infrastructure: they can be modified, replaced, or omitted without affecting the underlying learning algorithm. The emphasis of this chapter remains on understanding neural network mechanics rather than visualization or data-handling boilerpl</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helper functions</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_training</span><span class="p">(</span><span class="n">losses</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot training loss over epochs.&quot;&quot;&quot;</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training loss&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Plot a (optionally normalized) confusion matrix for selected classes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    y_true, y_pred : array-like</span>
-<span class="sd">        Ground-truth and predicted labels (integer-encoded).</span>
-<span class="sd">    class_names : list[str]</span>
-<span class="sd">        Names for the original dataset classes (e.g., Fashion-MNIST label names).</span>
-<span class="sd">    kept_classes : list[int]</span>
-<span class="sd">        Which original classes are present in this experiment.</span>
-<span class="sd">    normalize : bool</span>
-<span class="sd">        If True, normalize each row to sum to 1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">class_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">kept_classes</span><span class="p">]</span>
-    <span class="n">conf_mat</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
-        <span class="n">row_sums</span> <span class="o">=</span> <span class="n">conf_mat</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">row_sums</span><span class="p">[</span><span class="n">row_sums</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># avoid division by zero</span>
-        <span class="n">disp_mat</span> <span class="o">=</span> <span class="n">conf_mat</span> <span class="o">/</span> <span class="n">row_sums</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">disp_mat</span> <span class="o">=</span> <span class="n">conf_mat</span>
-
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">disp_mat</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; (normalized)&quot;</span> <span class="k">if</span> <span class="n">normalize</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Predictions&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Labels&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)))</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-
-    <span class="c1"># Annotate with raw counts (more interpretable than normalized values)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">conf_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">conf_mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">conf_mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load Fashion-MNIST from OpenML, filter to a subset of classes,</span>
-<span class="sd">    normalize pixels to [-1, 1], and relabel classes to 0..(C-1).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fashion_mnist</span> <span class="o">=</span> <span class="n">fetch_openml</span><span class="p">(</span><span class="s2">&quot;Fashion-MNIST&quot;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">fashion_mnist</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-
-    <span class="c1"># Filter classes</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">)</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
-
-    <span class="c1"># Normalize pixels to [-1, 1]</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span>
-
-    <span class="c1"># Relabel to 0..C-1 (stable mapping based on kept_classes order)</span>
-    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="bp">cls</span><span class="p">:</span> <span class="n">idx</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)}</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">mapping</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">y</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">onehot_encoder</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert integer labels to one-hot encoding.&quot;&quot;&quot;</span>
-    <span class="n">one_hot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">num_labels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">one_hot</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">one_hot</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_batch_size</span><span class="p">(</span><span class="n">vanilla</span><span class="p">,</span> <span class="n">stochastic</span><span class="p">,</span> <span class="n">mini_batch</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compare training loss and test accuracy for different batch-size regimes.</span>
-
-<span class="sd">    Expected inputs:</span>
-<span class="sd">      vanilla   = (epoch_losses, batch_losses, test_accuracies)</span>
-<span class="sd">      stochastic= (epoch_losses, batch_losses, test_accuracies)</span>
-<span class="sd">      mini_batch= (epoch_losses, batch_losses, test_accuracies)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
-
-    <span class="c1"># Training loss (per epoch)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanilla</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Stochastic Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mini-Batch Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Training Loss&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-    <span class="c1"># Test accuracy (per epoch)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vanilla</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Stochastic Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mini-Batch Gradient Descent&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Test Accuracy&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-
-    <span class="c1"># Batch loss traces</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">stochastic</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Batch&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;SGD Batch Loss&quot;</span><span class="p">)</span>
-
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mini_batch</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Batch&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
-    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Mini-Batch GD Batch Loss&quot;</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="layers">
-<h1>Layers<a class="headerlink" href="#layers" title="Permalink to this heading">#</a></h1>
-<section id="abstract-layer-class">
-<h2>Abstract Layer Class<a class="headerlink" href="#abstract-layer-class" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Layer</span></code> class serves as an abstract base class for all layers in the network. It includes placeholder methods:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">forward</span></code>: The forward pass computes the output of the layer given an input.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">backward</span></code>: The backward pass computes the gradients with respect to the input and parameters.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">step</span></code>: Updates the layer parameters (weights and biases).</p></li>
-</ul>
+<hr class="docutils" />
+<section id="backward-gradients">
+<h3>Backward (gradients)<a class="headerlink" href="#backward-gradients" title="Permalink to this heading">#</a></h3>
+<p>Assume upstream gradient:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{y}} = \mathbf{G}\)</span></p>
+<p>Then:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{W}} = \mathbf{x}^T \mathbf{G}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{b}} = \sum_{n=1}^{N} \mathbf{G}_n\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{x}} = \mathbf{G}\mathbf{W}^T\)</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Linear</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># He initialization: better scaling for deep networks</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">in_dim</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Dense</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">weight_scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out_features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># cache</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the linear transformation: output = inp * W + b&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backpropagate the gradients through this layer.&quot;&quot;&quot;</span>
-        <span class="c1"># Compute gradients for weights and biases</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inp</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">)</span>  <span class="c1"># Gradient wrt weights</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">up_grad</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Gradient wrt biases</span>
-        <span class="c1"># Compute gradient to propagate back (downstream)</span>
-        <span class="n">down_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">up_grad</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">down_grad</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="c1"># grad_out = dL/dy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">grad_out</span>           <span class="c1"># dL/dW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">grad_out</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>          <span class="c1"># dL/db</span>
+        <span class="n">grad_x</span> <span class="o">=</span> <span class="n">grad_out</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">T</span>            <span class="c1"># dL/dx</span>
+        <span class="k">return</span> <span class="n">grad_x</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the weights and biases using the gradients.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">dw</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">-=</span> <span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dW</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="activation-functions">
-<h2>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this heading">#</a></h2>
-<p>We can implement activation functions as layers. This will simplify the training process</p>
-<section id="sigmoid">
-<h3>Sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>The Sigmoid function is defined as follows:</p></li>
-</ul>
-<div class="math notranslate nohighlight">
-\[f(x) = \frac{1}{1 + e^{-x}}\]</div>
-<ul class="simple">
-<li><p>Sigmoid squashes the input into the range [0, 1], making it useful for binary classification tasks.</p></li>
-<li><p>It converts any real-valued number into a probability-like output.</p></li>
-<li><p>However, in deeper networks, it may cause vanishing gradients due to its flat slope for extreme values.</p></li>
-<li><p>The derivative of Sigmoid is convenient to compute using its output  <span class="math notranslate nohighlight">\(f(x)\)</span>:
-$<span class="math notranslate nohighlight">\(f'(x) = \frac{-e^{-x}}{(1 + e^{-x})^2} = \frac{1}{1 + e^{-x}} \cdot \frac{e^{-x}}{1 + e^{-x}} = f(x) \cdot (1-f(x))\)</span>$</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Sigmoid</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sigmoid Activation: f(x) = 1 / (1 + exp(-x))&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">inp</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backward pass for Sigmoid: f&#39;(x) = f(x) * (1 - f(x))&quot;&quot;&quot;</span>
-        <span class="n">down_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">)</span> <span class="o">*</span> <span class="n">up_grad</span>
-        <span class="k">return</span> <span class="n">down_grad</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
-<section id="relu-rectified-linear-unit">
-<h3>ReLU (Rectified Linear Unit)<a class="headerlink" href="#relu-rectified-linear-unit" title="Permalink to this heading">#</a></h3>
+<section id="relu-rectified-linear-unit-activation">
+<h2>3. ReLU(Rectified Linear Unit) Activation<a class="headerlink" href="#relu-rectified-linear-unit-activation" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>Forward<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>The ReLU function outputs 0 if the input is less than zero, otherwise it will return the input itself:
-$<span class="math notranslate nohighlight">\(f(x) = \max(0,x) \)</span>$</p></li>
+$<span class="math notranslate nohighlight">\(f(x) = \text{ReLU}(x) = \max(0,x) \)</span>$</p></li>
 <li><p>ReLU helps introduce non-linearity into the model, which is essential for learning complex patterns.</p></li>
 <li><p>It also helps avoid the vanishing gradient problem common in deep networks with the Sigmoid activation.</p></li>
 <li><p>During backpropagation, only the gradients for inputs greater than 0 pass through:</p></li>
 </ul>
 <div class="math notranslate nohighlight">
 \[\begin{split} f'(x) = \begin{cases} 1 &amp; \text{if } x &gt; 0 \\ 0 &amp; \text{otherwise} \end{cases}\end{split}\]</div>
+</section>
+<section id="id2">
+<h3>Computational graph (Dense)<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>x ── ReLU ── y
+    
+</pre></div>
+</div>
+</section>
+<section id="backward">
+<h3>Backward<a class="headerlink" href="#backward" title="Permalink to this heading">#</a></h3>
+<p>The derivative is:</p>
+<p><span class="math notranslate nohighlight">\(\frac{d}{dx}\text{ReLU}(x) =
+\begin{cases}
+1 &amp; x &gt; 0 \\
+0 &amp; x \le 0
+\end{cases}
+\)</span></p>
+<p>So:</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="frac-partial-l-partial-x">
+<h1>$
+\frac{\partial L}{\partial x}<a class="headerlink" href="#frac-partial-l-partial-x" title="Permalink to this heading">#</a></h1>
+<p>\frac{\partial L}{\partial y}
+\odot \mathbb{1}_{x&gt;0}
+$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ReLU</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ReLU</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
@@ -934,609 +666,231 @@ $<span class="math notranslate nohighlight">\(f(x) = \max(0,x) \)</span>$</p></l
 </div>
 </div>
 </div>
-</section>
-<section id="softmax">
-<h3>Softmax<a class="headerlink" href="#softmax" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>The Softmax function is defined as follows:
-$<span class="math notranslate nohighlight">\(f(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}\)</span>$</p></li>
-<li><p>Softmax normalizes the input values into probabilities that sum to 1.</p></li>
-<li><p>It’s typically used in the final layer of a neural network for multi-class classification.</p></li>
-<li><p>It converts raw scores into probabilities, where each class has a non-negative probability between 0 and 1.</p></li>
-<li><p>Subtracting the maximum input value (<code class="docutils literal notranslate"><span class="pre">np.max(inp)</span></code>) from all inputs before applying <code class="docutils literal notranslate"><span class="pre">np.exp</span></code> helps prevent overflow errors.</p></li>
-</ul>
+<section id="building-an-mlp-by-composing-layers-sequential">
+<h2>4. Building an MLP by Composing Layers (Sequential)<a class="headerlink" href="#building-an-mlp-by-composing-layers-sequential" title="Permalink to this heading">#</a></h2>
+<p>If we build:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{x} \rightarrow \text{Dense}_1 \rightarrow \text{ReLU} \rightarrow \text{Dense}_2 \rightarrow \text{ReLU} \rightarrow \text{Dense}_3 \rightarrow \mathbf{z}\)</span></p>
+<p>Then the computational graph is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Softmax</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Softmax Activation: f(x) = exp(x) / sum(exp(x))&quot;&quot;&quot;</span>
-        <span class="c1"># Subtract max for numerical stability</span>
-        <span class="n">exp_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">inp</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">exp_values</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exp_values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Sequential</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">layers</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Backward pass for Softmax using the Jacobian matrix.&quot;&quot;&quot;</span>
-        <span class="n">down_grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">up_grad</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">up_grad</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">single_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">jacobian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diagflat</span><span class="p">(</span><span class="n">single_output</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">single_output</span><span class="p">,</span> <span class="n">single_output</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-            <span class="n">down_grad</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">jacobian</span><span class="p">,</span> <span class="n">up_grad</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">down_grad</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="loss-functions">
-<h1>Loss Functions<a class="headerlink" href="#loss-functions" title="Permalink to this heading">#</a></h1>
-<section id="abstract-loss-class">
-<h2>Abstract Loss Class<a class="headerlink" href="#abstract-loss-class" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">Loss</span></code> class serves as an abstract base class for all layers in the network. It includes placeholder methods:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">forward</span></code>: To compute the loss given predictions and targets.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">backward</span></code>: To compute the loss given predictions and targets.</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Loss</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prediction</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="cross-entropy-loss">
-<h2>Cross-Entropy Loss<a class="headerlink" href="#cross-entropy-loss" title="Permalink to this heading">#</a></h2>
-<p>Cross-entropy loss is typically used in classification tasks since it measures the dissimilarity between the true distribution (target) and the predicted probability distribution (prediction):</p>
-<div class="math notranslate nohighlight">
-\[L = - \frac{1}{N} \sum_{i} \sum_{c} y_{ic} \log(p_{ic})\]</div>
-<p>where <span class="math notranslate nohighlight">\(y_{ic}\)</span> is the one-hot encoded true label (target), <span class="math notranslate nohighlight">\(p_{ic}\)</span> is the predicted probability (output from Softmax) and <span class="math notranslate nohighlight">\(N\)</span> is the batch size.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CrossEntropy</span><span class="p">(</span><span class="n">Loss</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cross-Entropy Loss for classification.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prediction</span> <span class="o">=</span> <span class="n">prediction</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="c1"># Clip predictions to avoid log(0)</span>
-        <span class="n">clipped_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-        <span class="c1"># Compute and return the loss</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">target</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">clipped_pred</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gradient of Cross-Entropy Loss.&quot;&quot;&quot;</span>
-        <span class="c1"># Gradient wrt prediction (assuming softmax and one-hot targets)</span>
-        <span class="n">grad</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">prediction</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">grad</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="mean-squared-error-mse-loss">
-<h2>Mean Squared Error (MSE) Loss<a class="headerlink" href="#mean-squared-error-mse-loss" title="Permalink to this heading">#</a></h2>
-<p>MSE is used primarily for regression tasks, where you need to measure the distance between the predicted continuous values and the true values:</p>
-<div class="math notranslate nohighlight">
-\[L = \frac{1}{N} \sum_{i} (p_i - y_i)^2\]</div>
-<p>where <span class="math notranslate nohighlight">\(p_i\)</span> is the predicted value, <span class="math notranslate nohighlight">\(y_i\)</span> is the true value (target) and <span class="math notranslate nohighlight">\(N\)</span> is the batch size.</p>
-<p>The gradient measures the difference between the prediction and the target, scaled by the batch size:</p>
-<div class="math notranslate nohighlight">
-\[\frac{\partial L}{\partial p_i} = \frac{2}{N} (p_i - y_i)\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MSE</span><span class="p">(</span><span class="n">Loss</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mean Squared Error Loss for regression.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">prediction</span> <span class="o">=</span> <span class="n">prediction</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
-        <span class="c1"># Compute and return the loss</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gradient of MSE Loss.&quot;&quot;&quot;</span>
-        <span class="n">grad</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prediction</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">return</span> <span class="n">grad</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="neural-network">
-<h1>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this heading">#</a></h1>
-<p>Now we can combine everything we’ve done earlier to build a neural network class called <code class="docutils literal notranslate"><span class="pre">MLP</span></code> with the following methods:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">forward</span></code>: Sequentially passes input through each layer in the network to compute the output.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">loss</span></code>: Computes the loss between the predicted output and the true target using the specified loss function.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">backward</span></code>: Propagates the gradient from the loss function through each layer, updating the gradients of the parameters in each layer.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code>: Updates each layer’s parameters (e.g., weights and biases) using the gradients computed during backpropagation.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">train</span></code>: Executes the training loop for a specified number of epochs, iterating over the dataset in mini-batches, performing the forward pass, computing the loss, backpropagating the gradients, and updating the parameters.</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MLP</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Layer</span><span class="p">],</span> <span class="n">loss_fn</span><span class="p">:</span> <span class="n">Loss</span><span class="p">,</span> <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Multi-Layer Perceptron (MLP) class.</span>
-<span class="sd">        Arguments:</span>
-<span class="sd">        - layers: List of layers (e.g., Linear, ReLU, etc.).</span>
-<span class="sd">        - loss_fn: Loss function object (e.g., CrossEntropy, MSE).</span>
-<span class="sd">        - lr: Learning rate.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">layers</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">loss_fn</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Makes the model callable, equivalent to forward pass.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass input through each layer sequentially.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-            <span class="n">inp</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">inp</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the loss.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform backpropagation by propagating the gradient backwards through the layers.&quot;&quot;&quot;</span>
-        <span class="n">up_grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
-            <span class="n">up_grad</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">up_grad</span><span class="p">)</span>
+            <span class="n">grad_out</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">grad_out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_out</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the parameters of each layer using the gradients and the learning rate.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-            <span class="n">layer</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lr</span><span class="p">)</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">params</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">ps</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Train the MLP over the given dataset for a number of epochs.&quot;&quot;&quot;</span>
-        <span class="n">losses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pbar</span> <span class="o">:=</span> <span class="n">trange</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
-            <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
-                <span class="n">x_batch</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
-                <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">gs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">gs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">grads</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">gs</span>
 
-                <span class="c1"># Forward pass</span>
-                <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_batch</span><span class="p">)</span>
-
-                <span class="c1"># Compute loss</span>
-                <span class="n">running_loss</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch_size</span>
-
-                <span class="c1"># Backward pass</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-
-                <span class="c1"># Update parameters</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-
-            <span class="c1"># Normalize running loss by total number of samples</span>
-            <span class="n">running_loss</span> <span class="o">/=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
-            <span class="n">pbar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loss: </span><span class="si">{</span><span class="n">running_loss</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">losses</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="n">running_loss</span>
-
-        <span class="k">return</span> <span class="n">losses</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="training">
-<h1>Training<a class="headerlink" href="#training" title="Permalink to this heading">#</a></h1>
-<section id="loading-the-fashion-mnist-dataset">
-<h2>Loading the Fashion-MNIST Dataset<a class="headerlink" href="#loading-the-fashion-mnist-dataset" title="Permalink to this heading">#</a></h2>
-<p>For simplicity you can use <code class="docutils literal notranslate"><span class="pre">get_data</span></code> to load the Fashion-MNIST dataset. Since we aren’t using GPUs, in order to save time and get better results, we are only going to include 3 classes in our training. However you can easily modify this cell to include different classes.</p>
+<section id="softmax-cross-entropy-loss">
+<h2>5. Softmax + Cross-Entropy Loss<a class="headerlink" href="#softmax-cross-entropy-loss" title="Permalink to this heading">#</a></h2>
+<section id="softmax-probabilities">
+<h3>Softmax (probabilities)<a class="headerlink" href="#softmax-probabilities" title="Permalink to this heading">#</a></h3>
+<p>Given logits
+<span class="math notranslate nohighlight">\(\mathbf{z} \in \mathbb{R}^{N \times C}\)</span>:
+$<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_{j=1}^{C} e^{z_{n,j}}}\)</span>$</p>
+</section>
+<section id="cross-entropy-integer-class-labels">
+<h3>Cross-entropy (integer class labels)<a class="headerlink" href="#cross-entropy-integer-class-labels" title="Permalink to this heading">#</a></h3>
+<p>If the true class for sample (n) is (y_n):
+$<span class="math notranslate nohighlight">\(L = \frac{1}{N}\sum_{n=1}^{N} -\log(p_{n,y_n})\)</span>$</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">class_names</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;T-shirt/top&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Trouser&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Pullover&#39;</span><span class="p">,</span>
-               <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;Dress&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;Coat&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span>  <span class="s1">&#39;Sandal&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;Shirt&#39;</span><span class="p">,</span>
-               <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;Sneaker&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;Bag&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;Ankle boot&#39;</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    logits: (N, C)</span>
+<span class="sd">    y: (N,) integer labels</span>
+<span class="sd">    returns: (loss, dlogits)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">shape</span>
 
-<span class="c1"># Include all the classes you want to see in training</span>
-<span class="n">kept_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>  <span class="c1"># T-shirt/top, Trouser, Sneaker</span>
+    <span class="c1"># stable softmax</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exp_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">exp_z</span> <span class="o">/</span> <span class="n">exp_z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># Download the dataset and split it into training and testing sets</span>
-<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)</span>
+    <span class="c1"># loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
-<span class="c1"># One-hot encode the target labels of the training set</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">onehot_encoder</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">))</span>
+    <span class="c1"># gradient: (p - y_onehot)/N</span>
+    <span class="n">dlogits</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dlogits</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0</span>
+    <span class="n">dlogits</span> <span class="o">/=</span> <span class="n">N</span>
+
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">accuracy_from_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="training-the-network">
-<h2>Training the Network<a class="headerlink" href="#training-the-network" title="Permalink to this heading">#</a></h2>
-<p>Now we can define the network and train it on the dataset.</p>
+</section>
+<section id="parameter-update-sgd">
+<h2>6. Parameter Update (SGD)<a class="headerlink" href="#parameter-update-sgd" title="Permalink to this heading">#</a></h2>
+<p>Gradient descent update:</p>
+<div class="math notranslate nohighlight">
+\[\theta \leftarrow \theta - \eta \frac{\partial L}{\partial \theta}\]</div>
+<p>We apply this to each parameter tensor in the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the layers of the neural network</span>
-<span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
-          <span class="n">ReLU</span><span class="p">(),</span>
-          <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
-          <span class="n">ReLU</span><span class="p">(),</span>
-          <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)),</span>
-          <span class="n">Softmax</span><span class="p">()]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SGD</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">=</span> <span class="n">weight_decay</span>
 
-<span class="c1"># Create the model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">CrossEntropy</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">()</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">grads</span><span class="p">()</span>
 
-<span class="c1"># Train the model</span>
-<span class="n">losses</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
-
-<span class="c1"># Plot the training loss curve</span>
-<span class="n">plot_training</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">g</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">*</span> <span class="n">p</span>
+            <span class="n">p</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">g</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                 | 0/30 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.870:   0%|                                                                                    | 0/30 [00:00&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.870:   3%|██▌                                                                         | 1/30 [00:00&lt;00:08,  3.46it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.509:   3%|██▌                                                                         | 1/30 [00:00&lt;00:08,  3.46it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.509:   7%|█████                                                                       | 2/30 [00:00&lt;00:11,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.322:   7%|█████                                                                       | 2/30 [00:01&lt;00:11,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.322:  10%|███████▌                                                                    | 3/30 [00:01&lt;00:10,  2.67it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.224:  10%|███████▌                                                                    | 3/30 [00:01&lt;00:10,  2.67it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.224:  13%|██████████▏                                                                 | 4/30 [00:01&lt;00:10,  2.44it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.171:  13%|██████████▏                                                                 | 4/30 [00:01&lt;00:10,  2.44it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.171:  17%|████████████▋                                                               | 5/30 [00:01&lt;00:10,  2.50it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.139:  17%|████████████▋                                                               | 5/30 [00:02&lt;00:10,  2.50it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.139:  20%|███████████████▏                                                            | 6/30 [00:02&lt;00:09,  2.41it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.119:  20%|███████████████▏                                                            | 6/30 [00:02&lt;00:09,  2.41it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.119:  23%|█████████████████▋                                                          | 7/30 [00:02&lt;00:09,  2.44it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.105:  23%|█████████████████▋                                                          | 7/30 [00:03&lt;00:09,  2.44it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.105:  27%|████████████████████▎                                                       | 8/30 [00:03&lt;00:08,  2.45it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.095:  27%|████████████████████▎                                                       | 8/30 [00:03&lt;00:08,  2.45it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.095:  30%|██████████████████████▊                                                     | 9/30 [00:03&lt;00:08,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.088:  30%|██████████████████████▊                                                     | 9/30 [00:04&lt;00:08,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.088:  33%|█████████████████████████                                                  | 10/30 [00:04&lt;00:08,  2.40it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.082:  33%|█████████████████████████                                                  | 10/30 [00:04&lt;00:08,  2.40it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.082:  37%|███████████████████████████▍                                               | 11/30 [00:04&lt;00:08,  2.33it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.077:  37%|███████████████████████████▍                                               | 11/30 [00:04&lt;00:08,  2.33it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.077:  40%|██████████████████████████████                                             | 12/30 [00:04&lt;00:07,  2.45it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.073:  40%|██████████████████████████████                                             | 12/30 [00:05&lt;00:07,  2.45it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.073:  43%|████████████████████████████████▌                                          | 13/30 [00:05&lt;00:06,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.070:  43%|████████████████████████████████▌                                          | 13/30 [00:05&lt;00:06,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.070:  47%|███████████████████████████████████                                        | 14/30 [00:05&lt;00:06,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.067:  47%|███████████████████████████████████                                        | 14/30 [00:06&lt;00:06,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.067:  50%|█████████████████████████████████████▌                                     | 15/30 [00:06&lt;00:06,  2.38it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.064:  50%|█████████████████████████████████████▌                                     | 15/30 [00:06&lt;00:06,  2.38it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.064:  53%|████████████████████████████████████████                                   | 16/30 [00:06&lt;00:05,  2.40it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.062:  53%|████████████████████████████████████████                                   | 16/30 [00:06&lt;00:05,  2.40it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.062:  57%|██████████████████████████████████████████▌                                | 17/30 [00:06&lt;00:05,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.060:  57%|██████████████████████████████████████████▌                                | 17/30 [00:07&lt;00:05,  2.42it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.060:  60%|█████████████████████████████████████████████                              | 18/30 [00:07&lt;00:04,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.058:  60%|█████████████████████████████████████████████                              | 18/30 [00:07&lt;00:04,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.058:  63%|███████████████████████████████████████████████▌                           | 19/30 [00:07&lt;00:04,  2.47it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.057:  63%|███████████████████████████████████████████████▌                           | 19/30 [00:08&lt;00:04,  2.47it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.057:  67%|██████████████████████████████████████████████████                         | 20/30 [00:08&lt;00:04,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.055:  67%|██████████████████████████████████████████████████                         | 20/30 [00:08&lt;00:04,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.055:  70%|████████████████████████████████████████████████████▌                      | 21/30 [00:08&lt;00:03,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.054:  70%|████████████████████████████████████████████████████▌                      | 21/30 [00:08&lt;00:03,  2.49it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.054:  73%|██████████████████████████████████████████████████████▉                    | 22/30 [00:08&lt;00:03,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.053:  73%|██████████████████████████████████████████████████████▉                    | 22/30 [00:09&lt;00:03,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.053:  77%|█████████████████████████████████████████████████████████▌                 | 23/30 [00:09&lt;00:02,  2.52it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.052:  77%|█████████████████████████████████████████████████████████▌                 | 23/30 [00:09&lt;00:02,  2.52it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.052:  80%|████████████████████████████████████████████████████████████               | 24/30 [00:09&lt;00:02,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.051:  80%|████████████████████████████████████████████████████████████               | 24/30 [00:10&lt;00:02,  2.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.051:  83%|██████████████████████████████████████████████████████████████▌            | 25/30 [00:10&lt;00:02,  2.27it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.050:  83%|██████████████████████████████████████████████████████████████▌            | 25/30 [00:10&lt;00:02,  2.27it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.050:  87%|█████████████████████████████████████████████████████████████████          | 26/30 [00:10&lt;00:01,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.049:  87%|█████████████████████████████████████████████████████████████████          | 26/30 [00:11&lt;00:01,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.049:  90%|███████████████████████████████████████████████████████████████████▌       | 27/30 [00:11&lt;00:01,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048:  90%|███████████████████████████████████████████████████████████████████▌       | 27/30 [00:11&lt;00:01,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048:  93%|██████████████████████████████████████████████████████████████████████     | 28/30 [00:11&lt;00:00,  2.30it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048:  93%|██████████████████████████████████████████████████████████████████████     | 28/30 [00:12&lt;00:00,  2.30it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.048:  97%|████████████████████████████████████████████████████████████████████████▌  | 29/30 [00:12&lt;00:00,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.047:  97%|████████████████████████████████████████████████████████████████████████▌  | 29/30 [00:12&lt;00:00,  2.26it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.047: 100%|███████████████████████████████████████████████████████████████████████████| 30/30 [00:12&lt;00:00,  2.28it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loss: 0.047: 100%|███████████████████████████████████████████████████████████████████████████| 30/30 [00:12&lt;00:00,  2.41it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<img alt="../_images/a33b5f2e83a846ab0dfcd7cb4d026e05a58dd1fd43b1fc108c8c62e8f835d4bf.png" src="../_images/a33b5f2e83a846ab0dfcd7cb4d026e05a58dd1fd43b1fc108c8c62e8f835d4bf.png" />
 </div>
 </div>
 </section>
-<section id="evaluation">
-<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this heading">#</a></h2>
-<p>We can measure the models accuracy on the test dataset.</p>
+<section id="toy-dataset-for-demonstration">
+<h2>7. Toy Dataset (for demonstration)<a class="headerlink" href="#toy-dataset-for-demonstration" title="Permalink to this heading">#</a></h2>
+<p>We’ll generate a simple 2D classification dataset.</p>
+<p>This is not about dataset quality—just to verify:</p>
+<ul class="simple">
+<li><p>forward works</p></li>
+<li><p>backward gradients propagate</p></li>
+<li><p>loss decreases during training</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Test the model</span>
-<span class="n">y_prediction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">x_test</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">acc</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_prediction</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Test accuracy with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="si">}</span><span class="s1"> training examples on </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="si">}</span><span class="s1"> test samples is </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># non-linear target (quadrant-based)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># 0 or 1</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test accuracy with 11000 training examples on 10000 test samples is 98.32%
-</pre></div>
-</div>
-</div>
-</div>
-<p>The confusion matrix can also be observed:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the confusion matrix</span>
-<span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_prediction</span><span class="p">,</span> <span class="n">class_names</span><span class="p">,</span> <span class="n">kept_classes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/5d057fbd20f22cc834119f114b1e89b5466b6bc5f7c8902333c841ed3bd53aa9.png" src="../_images/5d057fbd20f22cc834119f114b1e89b5466b6bc5f7c8902333c841ed3bd53aa9.png" />
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="experiments">
-<h1>Experiments<a class="headerlink" href="#experiments" title="Permalink to this heading">#</a></h1>
-<p>In this section we are going to run some experiments to better understand the different hyperparameters of our neural network.
-We will slightly modify the <code class="docutils literal notranslate"><span class="pre">MLP</span></code> class we wrote before to access different metrics during training.</p>
+<section id="build-and-train-the-mlp">
+<h2>8. Build and Train the MLP<a class="headerlink" href="#build-and-train-the-mlp" title="Permalink to this heading">#</a></h2>
+<p>Model:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x} \rightarrow \text{Dense}(2, 64) \rightarrow \text{ReLU} \rightarrow \text{Dense}(64, 64) \rightarrow \text{ReLU} \rightarrow \text{Dense}(64, 2)\]</div>
+<p>Training loop:</p>
+<ol class="arabic simple">
+<li><p>Forward: logits</p></li>
+<li><p>Loss + gradient: <span class="math notranslate nohighlight">\(L, \frac{\partial L}{\partial \mathbf{z}}\)</span></p></li>
+<li><p>Backward through model</p></li>
+<li><p>SGD update</p></li>
+</ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @title Modified MLP</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">NN</span><span class="p">(</span><span class="n">MLP</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the test accuracy and return it.&quot;&quot;&quot;</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_test</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_pred</span> <span class="o">==</span> <span class="n">y_test</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-              <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Train the MLP over the given dataset for a number of epochs.&quot;&quot;&quot;</span>
-        <span class="n">losses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
-        <span class="n">batch_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span>
-        <span class="n">batch_losses</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">epochs</span> <span class="o">*</span> <span class="n">batch_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">accuracies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">epochs</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pbar</span> <span class="o">:=</span> <span class="n">trange</span><span class="p">(</span><span class="n">epochs</span><span class="p">)):</span>
-            <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
-                <span class="n">x_batch</span> <span class="o">=</span> <span class="n">x_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
-                <span class="n">y_batch</span> <span class="o">=</span> <span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
-                <span class="c1"># Forward pass</span>
-                <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x_batch</span><span class="p">)</span>
-                <span class="c1"># Compute loss</span>
-                <span class="n">batch_losses</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="n">epoch</span> <span class="o">*</span> <span class="n">batch_count</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
-                <span class="n">losses</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">+=</span> <span class="n">batch_losses</span><span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="n">epoch</span> <span class="o">*</span> <span class="n">batch_count</span><span class="p">]</span>
-                <span class="c1"># Backward pass</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-                <span class="c1"># Update parameters</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-
-            <span class="c1"># Display and update the metrics</span>
-            <span class="n">losses</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">/=</span> <span class="n">batch_count</span>
-            <span class="n">accuracies</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-            <span class="n">pbar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train Loss = </span><span class="si">{</span><span class="n">losses</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> | Test Accuracy = </span><span class="si">{</span><span class="n">accuracies</span><span class="p">[</span><span class="n">epoch</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">% &quot;</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">losses</span><span class="p">,</span> <span class="n">batch_losses</span><span class="p">,</span> <span class="n">accuracies</span>
-</pre></div>
-</div>
-</div>
-</div>
-<section id="batch-size">
-<h2>Batch Size<a class="headerlink" href="#batch-size" title="Permalink to this heading">#</a></h2>
-<p>Here we will take a look at different batch sizes and how they effect training and convergence. Run the widget bellow to train the model for different batch sizes!</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># @markdown Batch Size Experimentation Widget</span>
-
-<span class="n">class_names</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;T-shirt/top&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Trouser&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Pullover&#39;</span><span class="p">,</span>
-               <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;Dress&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;Coat&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span>  <span class="s1">&#39;Sandal&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;Shirt&#39;</span><span class="p">,</span>
-               <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;Sneaker&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;Bag&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;Ankle boot&#39;</span><span class="p">}</span>
-
-<span class="c1"># Include all the classes you want to see in training</span>
-<span class="n">kept_classes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>  <span class="c1"># T-shirt/top, Trouser, Sneaker</span>
-
-<span class="c1"># Download the dataset and split it into training and testing sets</span>
-<span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)</span>
-
-<span class="c1"># One-hot encode the target labels of the training set</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="n">onehot_encoder</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">num_labels</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">))</span>
-
-<span class="c1"># Create a list of values</span>
-<span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">256</span><span class="p">]</span>
-
-<span class="c1"># Create a dropdown widget with custom layout</span>
-<span class="n">dropdown</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
-    <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Batch Size:&#39;</span><span class="p">,</span>
-    <span class="n">layout</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;200px&#39;</span><span class="p">},</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
 <span class="p">)</span>
 
-<span class="c1"># Define a function to run based on selected value</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">on_value_change</span><span class="p">(</span><span class="n">change</span><span class="p">):</span>
-    <span class="n">mini_batch_size</span> <span class="o">=</span> <span class="n">change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-    <span class="k">global</span> <span class="n">first_run</span><span class="p">,</span> <span class="n">gd</span><span class="p">,</span> <span class="n">sgd</span><span class="p">,</span> <span class="n">mbgd</span>
-    <span class="k">if</span> <span class="n">first_run</span><span class="p">:</span>
-        <span class="c1"># Gradient Descent</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)),</span> <span class="n">Softmax</span><span class="p">()]</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">NN</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">CrossEntropy</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gradient Descent:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">gd</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">),</span> <span class="n">x_test</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span>
-        <span class="c1"># Mini-Batch Gradient Descent</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)),</span> <span class="n">Softmax</span><span class="p">()]</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">NN</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">CrossEntropy</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stochastic Gradient Descent:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">sgd</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_test</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span>
-        <span class="n">first_run</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="c1"># Stochastic Gradient Descent</span>
-    <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">kept_classes</span><span class="p">)),</span> <span class="n">Softmax</span><span class="p">()]</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">NN</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span> <span class="n">CrossEntropy</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Mini-Batch Gradient Descent:&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n\t</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">mbgd</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">mini_batch_size</span><span class="p">,</span> <span class="n">x_test</span><span class="o">=</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="o">=</span><span class="n">y_test</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
-    <span class="n">plot_batch_size</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="n">sgd</span><span class="p">,</span> <span class="n">mbgd</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
 
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">301</span><span class="p">):</span>
+    <span class="c1"># forward</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+    <span class="c1"># loss + initial gradient</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span> <span class="o">=</span> <span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-<span class="c1"># Observe changes in the dropdown value</span>
-<span class="n">dropdown</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">on_value_change</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="c1"># backward</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dlogits</span><span class="p">)</span>
 
-<span class="c1"># Run Vanila Gradient Descent and Stochastic Gradient Descent once</span>
-<span class="n">first_run</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># update</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-<span class="n">gd</span><span class="p">,</span> <span class="n">sgd</span><span class="p">,</span> <span class="n">mbgd</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
-
-<span class="c1"># Display the widget</span>
-<span class="n">display</span><span class="p">(</span><span class="n">dropdown</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_from_logits</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch=</span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">  loss=</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  acc=</span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "ae9c656d233746feb114818a3cd868ac"}</script></div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">15</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">opt</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">301</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="c1"># forward</span>
+<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="c1"># loss + initial gradient</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span> <span class="o">=</span> <span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="nn">Cell In[5], line 7,</span> in <span class="ni">Sequential.forward</span><span class="nt">(self, x, training)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">7</span>         <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="k">return</span> <span class="n">x</span>
+
+<span class="ne">TypeError</span>: ReLU.forward() got an unexpected keyword argument &#39;training&#39;
+</pre></div>
 </div>
-<p>As you can see, increasing the batch size improves the speed of our algorithm, while reducing the batch size allows us to achieve higher accuracies.</p>
+</div>
+</div>
+</section>
+<section id="student-checklist-understanding-backprop">
+<h2>9. Student Checklist (Understanding Backprop)<a class="headerlink" href="#student-checklist-understanding-backprop" title="Permalink to this heading">#</a></h2>
+<p>Students should be able to explain:</p>
+<ol class="arabic">
+<li><p>Why Dense backward gives:
+$<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{W}} = \mathbf{x}^T \frac{\partial L}{\partial \mathbf{y}}\)</span>$</p></li>
+<li><p>Why ReLU backward uses a mask:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y}\odot \mathbb{1}_{x&gt;0}\]</div>
+</li>
+<li><p>Why softmax + cross-entropy gradient simplifies to:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{z}} = \frac{1}{N}(\mathbf{p}-\mathbf{Y})\]</div>
+</li>
+<li><p>How the computational graph explains the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial u} = \sum_{v} \frac{\partial L}{\partial v}\frac{\partial v}{\partial u}\]</div>
+</li>
+</ol>
 </section>
 </section>
 
@@ -1610,40 +964,29 @@ We will slightly modify the <code class="docutils literal notranslate"><span cla
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward">Backward</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#base-layer-abstraction">Base Layer Abstraction</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-fully-connected-layers">Linear (Fully Connected) Layers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#helper-functions">Helper Functions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#frac-partial-l-partial-x">$
+\frac{\partial L}{\partial x}</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-an-mlp-by-composing-layers-sequential">4. Building an MLP by Composing Layers (Sequential)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-cross-entropy-loss">5. Softmax + Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-probabilities">Softmax (probabilities)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-integer-class-labels">Cross-entropy (integer class labels)</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#layers">Layers</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-layer-class">Abstract Layer Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-functions">Activation Functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">Sigmoid</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit">ReLU (Rectified Linear Unit)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax">Softmax</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-functions">Loss Functions</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-loss-class">Abstract Loss Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-loss">Cross-Entropy Loss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-squared-error-mse-loss">Mean Squared Error (MSE) Loss</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#neural-network">Neural Network</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-fashion-mnist-dataset">Loading the Fashion-MNIST Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-network">Training the Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation">Evaluation</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#experiments">Experiments</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size">Batch Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-sgd">6. Parameter Update (SGD)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-dataset-for-demonstration">7. Toy Dataset (for demonstration)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-train-the-mlp">8. Build and Train the MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-checklist-understanding-backprop">9. Student Checklist (Understanding Backprop)</a></li>
 </ul>
 </li>
 </ul>
