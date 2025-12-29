@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Multilayer Perceptron (MLP) From Scratch (NumPy) &#8212; From Conda to Create Package in Python</title>
+    <title>Multilayer Perceptron (MLP) From Scratch &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -183,7 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) From Scratch</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
@@ -403,7 +403,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Multilayer Perceptron (MLP) From Scratch (NumPy)</h1>
+    <h1>Multilayer Perceptron (MLP) From Scratch</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -413,7 +413,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-setup">1. Notation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
@@ -456,8 +456,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-from-scratch-numpy">
-<h1>Multilayer Perceptron (MLP) From Scratch (NumPy)<a class="headerlink" href="#multilayer-perceptron-mlp-from-scratch-numpy" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-from-scratch">
+<h1>Multilayer Perceptron (MLP) From Scratch<a class="headerlink" href="#multilayer-perceptron-mlp-from-scratch" title="Permalink to this heading">#</a></h1>
 <p>In this section, we develop the fundamental components of a feedforward neural network from first principles. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
 <p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation.</p>
 <section id="mathematical-equations-computational-graphs-and-backpropagation">
@@ -700,8 +700,9 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 </section>
 <section id="cross-entropy-integer-class-labels">
 <h3>Cross-entropy (integer class labels)<a class="headerlink" href="#cross-entropy-integer-class-labels" title="Permalink to this heading">#</a></h3>
-<p>If the true class for sample (n) is (y_n):
-$<span class="math notranslate nohighlight">\(L = \frac{1}{N}\sum_{n=1}^{N} -\log(p_{n,y_n})\)</span>$</p>
+<p>If the true class for sample (n) is (y_n):</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{1}{N}\sum_{n=1}^{N} -\log(p_{n,y_n})\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
@@ -932,7 +933,7 @@ $<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch (NumPy)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-setup">1. Notation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
