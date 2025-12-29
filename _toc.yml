@@ -15,7 +15,7 @@ chapters:
 - file: docs/pandas.ipynb
   title: Pandas
 - file: docs/Multilayer_Perceptron_from_scratch.ipynb
-  title: Neural Networks, An introduction 
+  title: Multilayer Perceptron (MLP) From Scratch 
 - file: docs/Deployment_Infrastructure
   title: Virtual Machine, Deployment and Infrastructure
 - file: docs/jupyter_book_tut
