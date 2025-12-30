@@ -875,7 +875,7 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 </section>
 <section id="cross-entropy-integer-class-labels">
 <h3>Cross-entropy (integer class labels)<a class="headerlink" href="#cross-entropy-integer-class-labels" title="Permalink to this heading">#</a></h3>
-<p>If the true class for sample (n) is (y_n):</p>
+<p>If the true class for sample <span class="math notranslate nohighlight">\(n\)</span> is <span class="math notranslate nohighlight">\(y_n\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[L = \frac{1}{N}\sum_{n=1}^{N} -\log(p_{n,y_n})\]</div>
 <div class="cell docutils container">
@@ -1052,6 +1052,61 @@ epoch=150  loss=0.6734  acc=0.685
 epoch=200  loss=0.6651  acc=0.698
 epoch=250  loss=0.6565  acc=0.710
 epoch=300  loss=0.6478  acc=0.720
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># shuffle indices each epoch</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">X_shuf</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">y_shuf</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">epoch_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">batch_size</span>
+        <span class="n">Xb</span> <span class="o">=</span> <span class="n">X_shuf</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+        <span class="n">yb</span> <span class="o">=</span> <span class="n">y_shuf</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+        <span class="c1"># forward</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># loss + initial gradient (scaled by batch size internally)</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span> <span class="o">=</span> <span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+
+        <span class="c1"># backward + update</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dlogits</span><span class="p">)</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="c1"># bookkeeping</span>
+        <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+        <span class="n">epoch_acc</span> <span class="o">+=</span> <span class="n">accuracy_from_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+        <span class="n">num_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch=</span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">  loss=</span><span class="si">{</span><span class="n">epoch_loss</span><span class="o">/</span><span class="n">num_batches</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  acc=</span><span class="si">{</span><span class="n">epoch_acc</span><span class="o">/</span><span class="n">num_batches</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch= 50  loss=0.5670  acc=0.770
+epoch=100  loss=0.4515  acc=0.868
+epoch=150  loss=0.3135  acc=0.922
+epoch=200  loss=0.2291  acc=0.949
+epoch=250  loss=0.1729  acc=0.973
+epoch=300  loss=0.1395  acc=0.984
 </pre></div>
 </div>
 </div>
