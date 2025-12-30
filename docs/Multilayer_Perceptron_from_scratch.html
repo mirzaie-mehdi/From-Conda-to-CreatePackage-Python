@@ -415,7 +415,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-setup">1. Notation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
@@ -469,46 +468,16 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-from-scratch">
 <h1>Multilayer Perceptron (MLP) From Scratch<a class="headerlink" href="#multilayer-perceptron-mlp-from-scratch" title="Permalink to this heading">#</a></h1>
-<p>In this section, we develop the fundamental components of a feedforward neural network from first principles. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
+<p>In this section, we discuss the fundamental components of a feedforward neural network. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
 <p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation.</p>
 <section id="mathematical-equations-computational-graphs-and-backpropagation">
 <h2>Mathematical Equations, Computational Graphs, and Backpropagation<a class="headerlink" href="#mathematical-equations-computational-graphs-and-backpropagation" title="Permalink to this heading">#</a></h2>
 <p>This notebook builds an MLP by defining <strong>Layer</strong> objects (Dense, ReLU, etc.) and composing them.</p>
-<p>We cover:</p>
-<ul class="simple">
-<li><p>Forward equations</p></li>
-<li><p>Backward gradient equations</p></li>
-<li><p>Computational graph intuition</p></li>
-<li><p>Softmax + cross-entropy loss</p></li>
-<li><p>A minimal training loop</p></li>
-</ul>
-</section>
-<section id="notation-and-setup">
-<h2>1. Notation and Setup<a class="headerlink" href="#notation-and-setup" title="Permalink to this heading">#</a></h2>
-<p>We use mini-batches.</p>
-<ul class="simple">
-<li><p>Batch size: (N)</p></li>
-<li><p>Input dimension: (d_{in})</p></li>
-<li><p>Hidden dimension: (d_h)</p></li>
-<li><p>Output classes: (C)</p></li>
-</ul>
 <p>A layer maps:</p>
 <p><span class="math notranslate nohighlight">\(\mathbf{y} = f(\mathbf{x}; \theta)\)</span></p>
 <p>The MLP is a composition:</p>
 <p><span class="math notranslate nohighlight">\(f(\mathbf{x}) = f_L \circ f_{L-1} \circ \dots \circ f_1(\mathbf{x})\)</span></p>
 <p>Backpropagation is reverse-mode differentiation on the computational graph.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-
-<span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="dense-fully-connected-layer">
 <h2>2. Dense (Fully Connected) Layer<a class="headerlink" href="#dense-fully-connected-layer" title="Permalink to this heading">#</a></h2>
@@ -557,7 +526,9 @@ W ──┘               │
 \[\frac{\partial L}{\partial \mathbf{x}} = \mathbf{G}\mathbf{W}^T\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
@@ -796,6 +767,18 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;set_seed&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -873,9 +856,7 @@ $<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch= 50  loss=0.6870  acc=0.655
 epoch=100  loss=0.6803  acc=0.685
 epoch=150  loss=0.6734  acc=0.685
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch=200  loss=0.6651  acc=0.698
+epoch=200  loss=0.6651  acc=0.698
 epoch=250  loss=0.6565  acc=0.710
 epoch=300  loss=0.6478  acc=0.720
 </pre></div>
@@ -1096,7 +1077,6 @@ Z_3 &amp;= A_2W_3 + b_3
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-and-setup">1. Notation and Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
