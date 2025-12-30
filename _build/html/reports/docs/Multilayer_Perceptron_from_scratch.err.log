@@ -24,52 +24,21 @@ nbclient.exceptions.CellExecutionError: An error occurred while executing the fo
 ------------------
 set_seed(0)
 
-model = Sequential(
-    Dense(2, 64, weight_scale=0.1),
-    ReLU(),
-    Dense(64, 64, weight_scale=0.1),
-    ReLU(),
-    Dense(64, 2, weight_scale=0.1),
-)
+N = 400
+X = np.random.randn(N, 2)
 
-opt = SGD(lr=1e-2, weight_decay=1e-4)
-
-for epoch in range(1, 301):
-    # forward
-    logits = model.forward(X, training=True)
-
-    # loss + initial gradient
-    loss, dlogits = softmax_cross_entropy_with_logits(logits, y)
-
-    # backward
-    model.zero_grads()
-    model.backward(dlogits)
-
-    # update
-    opt.step(model)
-
-    if epoch % 50 == 0:
-        acc = accuracy_from_logits(model.forward(X, training=False), y)
-        print(f"epoch={epoch:3d}  loss={loss:.4f}  acc={acc:.3f}")
+# non-linear target (quadrant-based)
+y = (X[:, 0] * X[:, 1] > 0).astype(int)  # 0 or 1
 
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mTypeError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[9], line 15[0m
-[1;32m     11[0m opt [38;5;241m=[39m SGD(lr[38;5;241m=[39m[38;5;241m1e-2[39m, weight_decay[38;5;241m=[39m[38;5;241m1e-4[39m)
-[1;32m     13[0m [38;5;28;01mfor[39;00m epoch [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;241m1[39m, [38;5;241m301[39m):
-[1;32m     14[0m     [38;5;66;03m# forward[39;00m
-[0;32m---> 15[0m     logits [38;5;241m=[39m [43mmodel[49m[38;5;241;43m.[39;49m[43mforward[49m[43m([49m[43mX[49m[43m,[49m[43m [49m[43mtraining[49m[38;5;241;43m=[39;49m[38;5;28;43;01mTrue[39;49;00m[43m)[49m
-[1;32m     17[0m     [38;5;66;03m# loss + initial gradient[39;00m
-[1;32m     18[0m     loss, dlogits [38;5;241m=[39m softmax_cross_entropy_with_logits(logits, y)
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[6], line 1[0m
+[0;32m----> 1[0m [43mset_seed[49m([38;5;241m0[39m)
+[1;32m      3[0m N [38;5;241m=[39m [38;5;241m400[39m
+[1;32m      4[0m X [38;5;241m=[39m np[38;5;241m.[39mrandom[38;5;241m.[39mrandn(N, [38;5;241m2[39m)
 
-Cell [0;32mIn[5], line 7[0m, in [0;36mSequential.forward[0;34m(self, x, training)[0m
-[1;32m      5[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mforward[39m([38;5;28mself[39m, x, training[38;5;241m=[39m[38;5;28;01mTrue[39;00m):
-[1;32m      6[0m     [38;5;28;01mfor[39;00m layer [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39mlayers:
-[0;32m----> 7[0m         x [38;5;241m=[39m [43mlayer[49m[38;5;241;43m.[39;49m[43mforward[49m[43m([49m[43mx[49m[43m,[49m[43m [49m[43mtraining[49m[38;5;241;43m=[39;49m[43mtraining[49m[43m)[49m
-[1;32m      8[0m     [38;5;28;01mreturn[39;00m x
-
-[0;31mTypeError[0m: ReLU.forward() got an unexpected keyword argument 'training'
+[0;31mNameError[0m: name 'set_seed' is not defined
 
