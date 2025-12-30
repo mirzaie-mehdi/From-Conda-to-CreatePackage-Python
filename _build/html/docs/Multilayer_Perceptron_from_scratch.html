@@ -415,7 +415,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
@@ -480,7 +480,14 @@ document.write(`
 <p>Backpropagation is reverse-mode differentiation on the computational graph.</p>
 </section>
 <section id="dense-fully-connected-layer">
-<h2>2. Dense (Fully Connected) Layer<a class="headerlink" href="#dense-fully-connected-layer" title="Permalink to this heading">#</a></h2>
+<h2>Dense (Fully Connected) Layer<a class="headerlink" href="#dense-fully-connected-layer" title="Permalink to this heading">#</a></h2>
+<p>If we use mini-batches.</p>
+<ul class="simple">
+<li><p>Batch size: (N)</p></li>
+<li><p>Input dimension: (d_{in})</p></li>
+<li><p>Hidden dimension: (d_h)</p></li>
+<li><p>Output classes: (C)</p></li>
+</ul>
 <section id="forward">
 <h3>Forward<a class="headerlink" href="#forward" title="Permalink to this heading">#</a></h3>
 <p>For a batch input
@@ -1077,7 +1084,7 @@ Z_3 &amp;= A_2W_3 + b_3
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">2. Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
