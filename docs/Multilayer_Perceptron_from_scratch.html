@@ -421,6 +421,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-vs-backward-values-vs-sensitivities">Forward vs. Backward: values vs. sensitivities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-and-the-chain-rule">Computational graph and the chain rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-notation-batch-form">3. MLP notation (batch form)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-backward-starts-from-the-loss">4. Why backward starts from the loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reusable-layer-pattern">5. The reusable layer pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-layer-softmax-cross-entropy">6. Loss layer: Softmax + Cross-Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-layer-relu">7. Activation layer: ReLU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-affine-layer">8. Dense (Affine) layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-example-two-layer-mlp">9. End-to-end example: two-layer MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-cache-forward-values">10. Why we cache forward values</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
@@ -531,6 +541,178 @@ document.write(`
 \[\frac{\partial L}{\partial \mathbf{b}} = \sum_{n=1}^{N} \mathbf{G}_n\]</div>
 <div class="math notranslate nohighlight">
 \[\frac{\partial L}{\partial \mathbf{x}} = \mathbf{G}\mathbf{W}^T\]</div>
+</section>
+</section>
+<section id="forward-vs-backward-values-vs-sensitivities">
+<h2>Forward vs. Backward: values vs. sensitivities<a class="headerlink" href="#forward-vs-backward-values-vs-sensitivities" title="Permalink to this heading">#</a></h2>
+<p>A feedforward neural network defines a <strong>composition of functions</strong>:</p>
+<p><span class="math notranslate nohighlight">\(X \xrightarrow{f_1} H_1 \xrightarrow{f_2} H_2 \xrightarrow{} \cdots \xrightarrow{f_L} Z \xrightarrow{\text{loss}} L\)</span></p>
+<ul class="simple">
+<li><p><strong>Forward pass</strong> computes <em>values</em> of intermediate variables <span class="math notranslate nohighlight">\(H_1, H_2, \dots, Z\)</span> starting from the input <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>Backward pass</strong> computes <em>sensitivities</em> (gradients) of the final scalar loss <span class="math notranslate nohighlight">\(L\)</span> with respect to intermediate variables and parameters.</p></li>
+</ul>
+<p>Because <span class="math notranslate nohighlight">\(L\)</span> is a <strong>scalar</strong>, gradients like <span class="math notranslate nohighlight">\(\partial L/\partial v\)</span> have a direct interpretation:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial v} \quad\text{measures how a small change in } v \text{ would change the loss.}\)</span></p>
+<p>This is why backpropagation naturally starts at the loss: the loss is the endpoint of the computational graph, and all parameters influence the loss only through the output.</p>
+</section>
+<section id="computational-graph-and-the-chain-rule">
+<h2>Computational graph and the chain rule<a class="headerlink" href="#computational-graph-and-the-chain-rule" title="Permalink to this heading">#</a></h2>
+<p>Backpropagation is the chain rule applied systematically.</p>
+<p>If a variable <span class="math notranslate nohighlight">\(u\)</span> influences <span class="math notranslate nohighlight">\(v\)</span>, and <span class="math notranslate nohighlight">\(v\)</span> influences the loss <span class="math notranslate nohighlight">\(L\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial u} = \frac{\partial L}{\partial v} \cdot \frac{\partial v}{\partial u}\]</div>
+<p>The operational principle is modular:</p>
+<ul class="simple">
+<li><p>Each layer/module computes a forward mapping <span class="math notranslate nohighlight">\(v = f(u;\theta)\)</span>.</p></li>
+<li><p>During backward, if we know the upstream gradient <span class="math notranslate nohighlight">\(G_{out}=\partial L/\partial v\)</span>, the layer can compute:</p>
+<ul>
+<li><p><strong>input gradient</strong> <span class="math notranslate nohighlight">\(G_{in}=\partial L/\partial u\)</span></p></li>
+<li><p><strong>parameter gradients</strong> <span class="math notranslate nohighlight">\(\partial L/\partial \theta\)</span> (if the layer has parameters)</p></li>
+</ul>
+</li>
+</ul>
+<p>This is why you can say:</p>
+<p><strong>Given the gradient of the next layer, we can compute the gradient of the current layer.</strong></p>
+<p>It is simply the chain rule written in a reusable layer-by-layer form.</p>
+</section>
+<section id="mlp-notation-batch-form">
+<h2>3. MLP notation (batch form)<a class="headerlink" href="#mlp-notation-batch-form" title="Permalink to this heading">#</a></h2>
+<p>For a batch size <span class="math notranslate nohighlight">\(N\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(H_0 = X \in \mathbb{R}^{N\times d_0}\)</span></p></li>
+<li><p>For <span class="math notranslate nohighlight">\(\ell=1,\dots,L\)</span>:</p>
+<ul>
+<li><p>Affine (Dense) transform:</p>
+<div class="math notranslate nohighlight">
+\[Z_\ell = H_{\ell-1} W_\ell + b_\ell
+    \quad
+    (W_\ell \in \mathbb{R}^{d_{\ell-1}\times d_\ell},\; b_\ell\in\mathbb{R}^{d_\ell})
+    \]</div>
+</li>
+<li><p>Nonlinearity:
+$<span class="math notranslate nohighlight">\(
+H_\ell = \phi(Z_\ell)
+\)</span>$</p></li>
+</ul>
+</li>
+</ul>
+<p>Final logits are <span class="math notranslate nohighlight">\(Z_L\)</span>. The training objective is a scalar loss <span class="math notranslate nohighlight">\(L\)</span> computed from <span class="math notranslate nohighlight">\(Z_L\)</span> and labels.</p>
+<p>We want gradients for all parameters:</p>
+<div class="math notranslate nohighlight">
+\[\left\{\frac{\partial L}{\partial W_\ell},\frac{\partial L}{\partial b_\ell}\right\}_{\ell=1}^{L}\]</div>
+</section>
+<section id="why-backward-starts-from-the-loss">
+<h2>4. Why backward starts from the loss<a class="headerlink" href="#why-backward-starts-from-the-loss" title="Permalink to this heading">#</a></h2>
+<p>The loss <span class="math notranslate nohighlight">\(L\)</span> is a scalar function of the final model output. Every parameter affects <span class="math notranslate nohighlight">\(L\)</span> only through the sequence of intermediate computations.</p>
+<p>Therefore the derivative propagation must begin at the endpoint:</p>
+<ol class="arabic">
+<li><p>Compute <span class="math notranslate nohighlight">\(\partial L/\partial Z_L\)</span> (loss gradient w.r.t. logits).</p></li>
+<li><p>Propagate gradients backward through each layer:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial H_{L-1}},\; \frac{\partial L}{\partial Z_{L-1}},\; \dots,\; \frac{\partial L}{\partial H_0}\]</div>
+</li>
+<li><p>At each layer, compute parameter gradients <span class="math notranslate nohighlight">\(\partial L/\partial W_\ell\)</span> and <span class="math notranslate nohighlight">\(\partial L/\partial b_\ell\)</span>.</p></li>
+</ol>
+<p>This is exactly the chain rule for a composition of functions, applied from right to left.</p>
+</section>
+<section id="the-reusable-layer-pattern">
+<h2>5. The reusable layer pattern<a class="headerlink" href="#the-reusable-layer-pattern" title="Permalink to this heading">#</a></h2>
+<p>Each layer exposes a backward mapping:</p>
+<ul class="simple">
+<li><p><strong>Input:</strong> upstream gradient <span class="math notranslate nohighlight">\(G_{out}=\partial L/\partial (\text{layer output})\)</span></p></li>
+<li><p><strong>Outputs:</strong></p>
+<ul>
+<li><p>downstream gradient <span class="math notranslate nohighlight">\(G_{in}=\partial L/\partial (\text{layer input})\)</span></p></li>
+<li><p>parameter gradients <span class="math notranslate nohighlight">\(\partial L/\partial \theta\)</span> (if parameters exist)</p></li>
+</ul>
+</li>
+</ul>
+<p>In code, this corresponds to receiving <code class="docutils literal notranslate"><span class="pre">grad_out</span></code> and returning <code class="docutils literal notranslate"><span class="pre">grad_in</span></code>, while storing <code class="docutils literal notranslate"><span class="pre">dW</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code>, etc.</p>
+</section>
+<section id="loss-layer-softmax-cross-entropy">
+<h2>6. Loss layer: Softmax + Cross-Entropy<a class="headerlink" href="#loss-layer-softmax-cross-entropy" title="Permalink to this heading">#</a></h2>
+<p>Let logits be <span class="math notranslate nohighlight">\(Z\in\mathbb{R}^{N\times C}\)</span>, labels be one-hot <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{N\times C}\)</span>.</p>
+<p>Softmax:</p>
+<div class="math notranslate nohighlight">
+\[P_{n,i} = \frac{e^{Z_{n,i}}}{\sum_{j=1}^{C} e^{Z_{n,j}}}\]</div>
+<p>Mean cross-entropy loss:</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{1}{N}\sum_{n=1}^{N} \left(-\sum_{i=1}^{C} Y_{n,i}\log P_{n,i}\right)\]</div>
+<p>A key result (from differentiating softmax and cross-entropy together) is:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial Z} = \frac{1}{N}(P - Y)}\]</div>
+<p>This gradient is the <strong>starting point</strong> of backpropagation into the network.</p>
+</section>
+<section id="activation-layer-relu">
+<h2>7. Activation layer: ReLU<a class="headerlink" href="#activation-layer-relu" title="Permalink to this heading">#</a></h2>
+<p>Forward:</p>
+<div class="math notranslate nohighlight">
+\[H = \mathrm{ReLU}(Z) = \max(0, Z)\]</div>
+<p>Elementwise derivative:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial H}{\partial Z} = \mathbf{1}_{Z&gt;0}\]</div>
+<p>Given upstream gradient <span class="math notranslate nohighlight">\(G_H = \partial L/\partial H\)</span>, chain rule yields:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial Z} = G_H \odot \mathbf{1}_{Z&gt;0}}\]</div>
+<p>This shows why we cache <span class="math notranslate nohighlight">\(Z\)</span> in forward: the mask <span class="math notranslate nohighlight">\(\mathbf{1}_{Z&gt;0}\)</span> is computed from it.</p>
+</section>
+<section id="dense-affine-layer">
+<h2>8. Dense (Affine) layer<a class="headerlink" href="#dense-affine-layer" title="Permalink to this heading">#</a></h2>
+<p>Forward:
+$<span class="math notranslate nohighlight">\(Z = HW + b\)</span>$</p>
+<p>with <span class="math notranslate nohighlight">\(H\in\mathbb{R}^{N\times d_{in}}\)</span>, <span class="math notranslate nohighlight">\(W\in\mathbb{R}^{d_{in}\times d_{out}}\)</span>, <span class="math notranslate nohighlight">\(b\in\mathbb{R}^{d_{out}}\)</span>, <span class="math notranslate nohighlight">\(Z\in\mathbb{R}^{N\times d_{out}}\)</span>.</p>
+<p>Let upstream gradient be <span class="math notranslate nohighlight">\(G_Z = \partial L/\partial Z\)</span>. Then:</p>
+<p><strong>Weights</strong>
+$<span class="math notranslate nohighlight">\(\boxed{\frac{\partial L}{\partial W} = H^\top G_Z}\)</span>$</p>
+<p><strong>Bias</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial b} = \sum_{n=1}^{N} (G_Z)_{n,:}}\]</div>
+<p><strong>Inputs (to propagate further backward)</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial H} = G_Z W^\top}\]</div>
+<p>These are the core backprop equations used repeatedly throughout an MLP.</p>
+</section>
+<section id="end-to-end-example-two-layer-mlp">
+<h2>9. End-to-end example: two-layer MLP<a class="headerlink" href="#end-to-end-example-two-layer-mlp" title="Permalink to this heading">#</a></h2>
+<p>Consider:</p>
+<div class="math notranslate nohighlight">
+\[X=H_0 \rightarrow Z_1=H_0W_1+b_1 \rightarrow H_1=\mathrm{ReLU}(Z_1) \rightarrow Z_2=H_1W_2+b_2 \rightarrow P=\mathrm{softmax}(Z_2) \rightarrow L
+\]</div>
+<p>Backward proceeds in reverse:</p>
+<ol class="arabic simple">
+<li><p><strong>Loss → logits</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[ G_{Z_2}=\frac{\partial L}{\partial Z_2}=\frac{1}{N}(P-Y)\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Dense2</strong>
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial W_2}=H_1^\top G_{Z_2},\quad
+\frac{\partial L}{\partial b_2}=\sum_n (G_{Z_2})_{n,:},\quad
+G_{H_1}=G_{Z_2}W_2^\top
+\)</span>$</p></li>
+<li><p><strong>ReLU1</strong>
+$<span class="math notranslate nohighlight">\(
+G_{Z_1}=G_{H_1}\odot \mathbf{1}_{Z_1&gt;0}
+\)</span>$</p></li>
+<li><p><strong>Dense1</strong>
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial W_1}=H_0^\top G_{Z_1},\quad
+\frac{\partial L}{\partial b_1}=\sum_n (G_{Z_1})_{n,:},\quad
+G_{H_0}=G_{Z_1}W_1^\top
+\)</span>$</p></li>
+</ol>
+<p>At the end, we have gradients for every parameter and can apply an optimizer update.</p>
+</section>
+<section id="why-we-cache-forward-values">
+<h2>10. Why we cache forward values<a class="headerlink" href="#why-we-cache-forward-values" title="Permalink to this heading">#</a></h2>
+<p>Backprop rules require certain forward intermediates:</p>
+<ul class="simple">
+<li><p>Dense needs <span class="math notranslate nohighlight">\(H\)</span> to compute <span class="math notranslate nohighlight">\(H^\top G_Z\)</span></p></li>
+<li><p>ReLU needs <span class="math notranslate nohighlight">\(Z\)</span> to compute the mask <span class="math notranslate nohighlight">\(\mathbf{1}_{Z&gt;0}\)</span></p></li>
+<li><p>Softmax+CE needs <span class="math notranslate nohighlight">\(P\)</span> (or logits <span class="math notranslate nohighlight">\(Z\)</span>) and labels</p></li>
+</ul>
+<p>Therefore implementations store (cache) inputs/outputs during forward so that local derivatives can be computed efficiently during backward.</p>
 <p>We define the following Basic class and utilize it in all layers.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -589,7 +771,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
 </section>
 <section id="relu-rectified-linear-unit-activation">
 <h2>3. ReLU(Rectified Linear Unit) Activation<a class="headerlink" href="#relu-rectified-linear-unit-activation" title="Permalink to this heading">#</a></h2>
@@ -1095,6 +1276,16 @@ Z_3 &amp;= A_2W_3 + b_3
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-vs-backward-values-vs-sensitivities">Forward vs. Backward: values vs. sensitivities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-and-the-chain-rule">Computational graph and the chain rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-notation-batch-form">3. MLP notation (batch form)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-backward-starts-from-the-loss">4. Why backward starts from the loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reusable-layer-pattern">5. The reusable layer pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-layer-softmax-cross-entropy">6. Loss layer: Softmax + Cross-Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-layer-relu">7. Activation layer: ReLU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-affine-layer">8. Dense (Affine) layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-example-two-layer-mlp">9. End-to-end example: two-layer MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-cache-forward-values">10. Why we cache forward values</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
