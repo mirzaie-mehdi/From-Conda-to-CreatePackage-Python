@@ -416,6 +416,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-vs-heap-simple-mental-model">2) Stack vs Heap (simple mental model)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-simple-view">Stack (simple view)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heap-simple-view">Heap (simple view)</a></li>
@@ -504,6 +505,107 @@ list b: [1, 2, 11]
 <p>This is because in both the scenarios above, the new variable that we created actually binds to the same memory address of <code class="docutils literal notranslate"><span class="pre">a</span></code>, which means although it seems that we created a new variable <code class="docutils literal notranslate"><span class="pre">b</span></code>, it does not take actual memory space and the new variable was a reference to list <code class="docutils literal notranslate"><span class="pre">a</span></code>.</p>
 <p>An illustrative diagram would be this:</p>
 <p><img alt="Referencing in Python" src="../_images/refrencing_python.webp" /></p>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">b</span></code> in the first example and <code class="docutils literal notranslate"><span class="pre">input_list</span></code> in the second are both pointing to the same address of the variable <code class="docutils literal notranslate"><span class="pre">a</span></code> , so changing the element would be directly modifying the values in the specific memory address which leads to the changes in <code class="docutils literal notranslate"><span class="pre">a</span></code> as well.</p>
+<p>You can verify the point by printing the memory address of the variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of a is: &quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of b is: &quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a is:  4416017280
+Address of b is:  4416017280
+</pre></div>
+</div>
+</div>
+</div>
+<p>So how to address the problem?</p>
+</section>
+<section id="shallow-copy">
+<h2>Shallow Copy<a class="headerlink" href="#shallow-copy" title="Permalink to this heading">#</a></h2>
+<p>One way is to use the copy module in python.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list a:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of a is:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of b is:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
+list b: [1, 2, 3]
+Address of a is: 4416018624
+Address of b is: 4416019840
+</pre></div>
+</div>
+</div>
+</div>
+<p>The copy function makes a shallow copy of the original object which separates the original variable <code class="docutils literal notranslate"><span class="pre">a</span></code> from the new variable <code class="docutils literal notranslate"><span class="pre">b</span></code>. The line</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>is basically saying please give me 12 bytes(consider an <code class="docutils literal notranslate"><span class="pre">int</span></code> takes 4 bytes) of memory and copy the value of <code class="docutils literal notranslate"><span class="pre">a</span></code> to the new memory address allocated.</p>
+<p><img alt="Referencing in Python" src="../_images/refrencing_copy.webp" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list a:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of a is:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of b is:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
+list b: [1, 2, 11]
+Address of a is: 4416013120
+Address of b is: 4416012352
+</pre></div>
+</div>
+</div>
+</div>
+<p>But there are problems with shallow copy, see the below example,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list a:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, [11, 2]]
+list b: [1, 2, [11, 2]]
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this scenario, modifying <code class="docutils literal notranslate"><span class="pre">b</span></code> changes the element in <code class="docutils literal notranslate"><span class="pre">a</span></code> again, what happened?</p>
+<p>The problem with shallow copy is it does not copy a nested object, in this case, it is <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code> which is nested in the original list.</p>
+<p><img alt="Referencing in Python" src="../_images/refrencing_nested.webp" /></p>
 </section>
 <section id="stack-vs-heap-simple-mental-model">
 <h2>2) Stack vs Heap (simple mental model)<a class="headerlink" href="#stack-vs-heap-simple-mental-model" title="Permalink to this heading">#</a></h2>
@@ -809,6 +911,7 @@ After : [9.9, 20]
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-vs-heap-simple-mental-model">2) Stack vs Heap (simple mental model)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-simple-view">Stack (simple view)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heap-simple-view">Heap (simple view)</a></li>
