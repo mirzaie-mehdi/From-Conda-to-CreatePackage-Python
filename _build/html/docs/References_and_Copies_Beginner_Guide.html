@@ -417,21 +417,15 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-vs-heap-simple-mental-model">2) Stack vs Heap (simple mental model)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-simple-view">Stack (simple view)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heap-simple-view">Heap (simple view)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key takeaway</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">3) Reference vs Copy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-make-a-copy">7) How to make a copy</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy">Deep Copy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">Reference vs Copy</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy-example">Shallow copy example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy-example">Deep copy example</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">8) References inside classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">9) Connection to optimizers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiny-optimizer-demo">Tiny optimizer demo</a></li>
@@ -517,8 +511,8 @@ list b: [1, 2, 11]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a is:  4416017280
-Address of b is:  4416017280
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a is:  4356576640
+Address of b is:  4356576640
 </pre></div>
 </div>
 </div>
@@ -544,8 +538,8 @@ Address of b is:  4416017280
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
 list b: [1, 2, 3]
-Address of a is: 4416018624
-Address of b is: 4416019840
+Address of a is: 4356577984
+Address of b is: 4356579200
 </pre></div>
 </div>
 </div>
@@ -577,8 +571,8 @@ Address of b is: 4416019840
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
 list b: [1, 2, 11]
-Address of a is: 4416013120
-Address of b is: 4416012352
+Address of a is: 4356572608
+Address of b is: 4356571200
 </pre></div>
 </div>
 </div>
@@ -606,97 +600,58 @@ list b: [1, 2, [11, 2]]
 <p>In this scenario, modifying <code class="docutils literal notranslate"><span class="pre">b</span></code> changes the element in <code class="docutils literal notranslate"><span class="pre">a</span></code> again, what happened?</p>
 <p>The problem with shallow copy is it does not copy a nested object, in this case, it is <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code> which is nested in the original list.</p>
 <p><img alt="Referencing in Python" src="../_images/refrencing_nested.webp" /></p>
+<p>Just like the name shallow copy, it only copies the surface instead of delving deep into the recursion, here the third element of <code class="docutils literal notranslate"><span class="pre">b</span></code> reference back to the original list instead of making a copy. You can verify by printing the memory address of the element.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of a[2]:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Address of b[2]:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a[2]: 4355941952
+Address of b[2]: 4355941952
+</pre></div>
+</div>
+</div>
+</div>
+<p>How to resolve the issue?</p>
 </section>
-<section id="stack-vs-heap-simple-mental-model">
-<h2>2) Stack vs Heap (simple mental model)<a class="headerlink" href="#stack-vs-heap-simple-mental-model" title="Permalink to this heading">#</a></h2>
-<p>You do not need low-level details to program Python, but a simple model helps.</p>
-<section id="stack-simple-view">
-<h3>Stack (simple view)<a class="headerlink" href="#stack-simple-view" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Used for <strong>function calls</strong> and <strong>local names</strong> (variables inside functions).</p></li>
-<li><p>When a function ends, its local names go away.</p></li>
-</ul>
-</section>
-<section id="heap-simple-view">
-<h3>Heap (simple view)<a class="headerlink" href="#heap-simple-view" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Where <strong>objects live</strong> (lists, dicts, strings, arrays, class instances, etc.).</p></li>
-<li><p>Objects can live longer than a single function call.</p></li>
-</ul>
-</section>
-<section id="key-takeaway">
-<h3>Key takeaway<a class="headerlink" href="#key-takeaway" title="Permalink to this heading">#</a></h3>
-<p><strong>Names are temporary labels. Objects are the real data.</strong></p>
-</section>
+<section id="deep-copy">
+<h2>Deep Copy<a class="headerlink" href="#deep-copy" title="Permalink to this heading">#</a></h2>
+<p>A deep copy would go recursively copying an object. Replace the copy with deep copy, you would get:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list a:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;address of a[2]:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;address of b[2]:&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, [1, 2]]
+list b: [1, 2, [11, 2]]
+address of a[2]: 4356580416
+address of b[2]: 4356579968
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here changes made on <code class="docutils literal notranslate"><span class="pre">b</span></code> would not affect the original variable and the address of <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> would be completely different.</p>
 </section>
 <section id="reference-vs-copy">
-<h2>3) Reference vs Copy<a class="headerlink" href="#reference-vs-copy" title="Permalink to this heading">#</a></h2>
+<h2>Reference vs Copy<a class="headerlink" href="#reference-vs-copy" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Reference:</strong> two variables can point to the <em>same</em> object.</p></li>
 <li><p><strong>Copy:</strong> you create a <em>new</em> object with the same (or similar) content.</p></li>
-</ul>
-</section>
-<section id="mutable-vs-immutable">
-<h2>4) Mutable vs Immutable<a class="headerlink" href="#mutable-vs-immutable" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>Immutable:</strong> cannot be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>).</p></li>
-<li><p><strong>Mutable:</strong> can be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, many class instances).</p></li>
-</ul>
-</section>
-<section id="experiment-assignment-shares-references-mutable-case">
-<h2>5) Experiment: assignment shares references (mutable case)<a class="headerlink" href="#experiment-assignment-shares-references-mutable-case" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-
-<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a =&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b =&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a is b:&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = [100, 2, 3]
-b = [100, 2, 3]
-a is b: True
-</pre></div>
-</div>
-</div>
-</div>
-<p><strong>Notice:</strong> <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">b</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, meaning both names refer to the same object.</p>
-</section>
-<section id="experiment-immutable-objects-behave-differently">
-<h2>6) Experiment: immutable objects behave differently<a class="headerlink" href="#experiment-immutable-objects-behave-differently" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x =&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;y =&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x is y:&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = 10
-y = 11
-x is y: False
-</pre></div>
-</div>
-</div>
-</div>
-<p><strong>Notice:</strong> integers are immutable, so <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">1</span></code> creates a new object and rebinds <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
-</section>
-<section id="how-to-make-a-copy">
-<h2>7) How to make a copy<a class="headerlink" href="#how-to-make-a-copy" title="Permalink to this heading">#</a></h2>
-<p>Python will not copy automatically on assignment. You must copy explicitly.</p>
-<ul class="simple">
+<li><p>Python will not copy automatically on assignment. You must copy explicitly.</p></li>
 <li><p><strong>Shallow copy:</strong> copies only the outer container; nested objects can remain shared.</p></li>
 <li><p><strong>Deep copy:</strong> recursively copies nested objects so nothing is shared.</p></li>
 </ul>
@@ -757,6 +712,63 @@ inner shared?  False
 </div>
 </div>
 </section>
+</section>
+<section id="mutable-vs-immutable">
+<h2>4) Mutable vs Immutable<a class="headerlink" href="#mutable-vs-immutable" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Immutable:</strong> cannot be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>).</p></li>
+<li><p><strong>Mutable:</strong> can be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, many class instances).</p></li>
+</ul>
+</section>
+<section id="experiment-assignment-shares-references-mutable-case">
+<h2>5) Experiment: assignment shares references (mutable case)<a class="headerlink" href="#experiment-assignment-shares-references-mutable-case" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+
+<span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a =&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;b =&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;a is b:&#39;</span><span class="p">,</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>a = [100, 2, 3]
+b = [100, 2, 3]
+a is b: True
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Notice:</strong> <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">b</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, meaning both names refer to the same object.</p>
+</section>
+<section id="experiment-immutable-objects-behave-differently">
+<h2>6) Experiment: immutable objects behave differently<a class="headerlink" href="#experiment-immutable-objects-behave-differently" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x =&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;y =&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x is y:&#39;</span><span class="p">,</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x = 10
+y = 11
+x is y: False
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Notice:</strong> integers are immutable, so <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">1</span></code> creates a new object and rebinds <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 </section>
 <section id="references-inside-classes">
 <h2>8) References inside classes<a class="headerlink" href="#references-inside-classes" title="Permalink to this heading">#</a></h2>
@@ -912,21 +924,15 @@ After : [9.9, 20]
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-vs-heap-simple-mental-model">2) Stack vs Heap (simple mental model)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stack-simple-view">Stack (simple view)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#heap-simple-view">Heap (simple view)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key takeaway</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">3) Reference vs Copy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-make-a-copy">7) How to make a copy</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy">Deep Copy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">Reference vs Copy</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy-example">Shallow copy example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy-example">Deep copy example</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">8) References inside classes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">9) Connection to optimizers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiny-optimizer-demo">Tiny optimizer demo</a></li>
