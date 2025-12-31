@@ -415,7 +415,10 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment-shares-references">Assignment Shares References</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy">Deep Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">Reference vs Copy</a><ul class="nav section-nav flex-column">
@@ -423,15 +426,15 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy-example">Deep copy example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">8) References inside classes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">9) Connection to optimizers</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">Mutable vs Immutable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment-shares-references-mutable-case">assignment shares references (mutable case)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immutable-objects-behave-differently">immutable objects behave differently</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">References inside classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">Connection to optimizers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiny-optimizer-demo">Tiny optimizer demo</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist">10) Checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist">Checklist</a></li>
 </ul>
             </nav>
         </div>
@@ -456,8 +459,32 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
-<span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code> is the object</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> is the <strong>label</strong> that tells Python where the <strong>object</strong> lives</p></li>
+</ul>
+<section id="assignment-shares-references">
+<h3>Assignment Shares References<a class="headerlink" href="#assignment-shares-references" title="Permalink to this heading">#</a></h3>
+<p>Lets see the following assignment:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You do not make a new copy of the list.</p>
+<p>Instead:</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> now point to the same list object.</p>
+<p>So:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list a:&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;list b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
@@ -471,6 +498,7 @@ list b: [1, 2, 11]
 </div>
 </div>
 </div>
+<p>Both variables show the same updated list because they both reference the same object.</p>
 <p>We created a new variable <code class="docutils literal notranslate"><span class="pre">b</span></code> and assigned the value of list <code class="docutils literal notranslate"><span class="pre">a</span></code> to it, after modifying the value in list <code class="docutils literal notranslate"><span class="pre">b</span></code>, what would be the result of list <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code>?</p>
 <p>Consider a second case:</p>
 <div class="cell docutils container">
@@ -511,13 +539,14 @@ list b: [1, 2, 11]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a is:  4356576640
-Address of b is:  4356576640
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a is:  4347697024
+Address of b is:  4347697024
 </pre></div>
 </div>
 </div>
 </div>
 <p>So how to address the problem?</p>
+</section>
 </section>
 <section id="shallow-copy">
 <h2>Shallow Copy<a class="headerlink" href="#shallow-copy" title="Permalink to this heading">#</a></h2>
@@ -538,8 +567,8 @@ Address of b is:  4356576640
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
 list b: [1, 2, 3]
-Address of a is: 4356577984
-Address of b is: 4356579200
+Address of a is: 4347673856
+Address of b is: 4347699008
 </pre></div>
 </div>
 </div>
@@ -571,8 +600,8 @@ Address of b is: 4356579200
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, 3]
 list b: [1, 2, 11]
-Address of a is: 4356572608
-Address of b is: 4356571200
+Address of a is: 4347704064
+Address of b is: 4347697472
 </pre></div>
 </div>
 </div>
@@ -609,8 +638,8 @@ list b: [1, 2, [11, 2]]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a[2]: 4355941952
-Address of b[2]: 4355941952
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Address of a[2]: 4347697408
+Address of b[2]: 4347697408
 </pre></div>
 </div>
 </div>
@@ -638,8 +667,8 @@ Address of b[2]: 4355941952
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>list a: [1, 2, [1, 2]]
 list b: [1, 2, [11, 2]]
-address of a[2]: 4356580416
-address of b[2]: 4356579968
+address of a[2]: 4347701056
+address of b[2]: 4347701184
 </pre></div>
 </div>
 </div>
@@ -714,14 +743,30 @@ inner shared?  False
 </section>
 </section>
 <section id="mutable-vs-immutable">
-<h2>4) Mutable vs Immutable<a class="headerlink" href="#mutable-vs-immutable" title="Permalink to this heading">#</a></h2>
+<h2>Mutable vs Immutable<a class="headerlink" href="#mutable-vs-immutable" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>Immutable:</strong> cannot be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">tuple</span></code>).</p></li>
-<li><p><strong>Mutable:</strong> can be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, many class instances).</p></li>
+<li><p><strong>Mutable:</strong> can be changed in place (e.g., <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>,<code class="docutils literal notranslate"><span class="pre">set</span></code>, many class instances). You can modify them without creating a new object</p></li>
 </ul>
+<p>Example of mutable:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="n">b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># [1, 2, 3, 4]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 2, 3, 4]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="experiment-assignment-shares-references-mutable-case">
-<h2>5) Experiment: assignment shares references (mutable case)<a class="headerlink" href="#experiment-assignment-shares-references-mutable-case" title="Permalink to this heading">#</a></h2>
+<section id="assignment-shares-references-mutable-case">
+<h2>assignment shares references (mutable case)<a class="headerlink" href="#assignment-shares-references-mutable-case" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
@@ -745,8 +790,8 @@ a is b: True
 </div>
 <p><strong>Notice:</strong> <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">is</span> <span class="pre">b</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, meaning both names refer to the same object.</p>
 </section>
-<section id="experiment-immutable-objects-behave-differently">
-<h2>6) Experiment: immutable objects behave differently<a class="headerlink" href="#experiment-immutable-objects-behave-differently" title="Permalink to this heading">#</a></h2>
+<section id="immutable-objects-behave-differently">
+<h2>immutable objects behave differently<a class="headerlink" href="#immutable-objects-behave-differently" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">10</span>
@@ -771,7 +816,7 @@ x is y: False
 <p><strong>Notice:</strong> integers are immutable, so <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">y</span> <span class="pre">+</span> <span class="pre">1</span></code> creates a new object and rebinds <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 </section>
 <section id="references-inside-classes">
-<h2>8) References inside classes<a class="headerlink" href="#references-inside-classes" title="Permalink to this heading">#</a></h2>
+<h2>References inside classes<a class="headerlink" href="#references-inside-classes" title="Permalink to this heading">#</a></h2>
 <p>Attributes are references too.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -800,7 +845,7 @@ same object? = True
 </div>
 </section>
 <section id="connection-to-optimizers">
-<h2>9) Connection to optimizers<a class="headerlink" href="#connection-to-optimizers" title="Permalink to this heading">#</a></h2>
+<h2>Connection to optimizers<a class="headerlink" href="#connection-to-optimizers" title="Permalink to this heading">#</a></h2>
 <p>In gradient descent, a parameter <span class="math notranslate nohighlight">\(p\)</span> is updated by:</p>
 <p><span class="math notranslate nohighlight">\(p \leftarrow p - \eta g\)</span></p>
 <p>Optimizers work because they receive <strong>references</strong> to parameter objects, not copies.</p>
@@ -846,7 +891,7 @@ After : [9.9, 20]
 </section>
 </section>
 <section id="checklist">
-<h2>10) Checklist<a class="headerlink" href="#checklist" title="Permalink to this heading">#</a></h2>
+<h2>Checklist<a class="headerlink" href="#checklist" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Assume assignment shares references unless you explicitly copy.</p></li>
 <li><p>Mutable objects can change in place (and other references will see it).</p></li>
@@ -922,7 +967,10 @@ After : [9.9, 20]
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-most-important-rule">The most important rule</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referencing">Referencing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment-shares-references">Assignment Shares References</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#shallow-copy">Shallow Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy">Deep Copy</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference-vs-copy">Reference vs Copy</a><ul class="nav section-nav flex-column">
@@ -930,15 +978,15 @@ After : [9.9, 20]
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#deep-copy-example">Deep copy example</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">4) Mutable vs Immutable</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-assignment-shares-references-mutable-case">5) Experiment: assignment shares references (mutable case)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-immutable-objects-behave-differently">6) Experiment: immutable objects behave differently</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">8) References inside classes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">9) Connection to optimizers</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mutable-vs-immutable">Mutable vs Immutable</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assignment-shares-references-mutable-case">assignment shares references (mutable case)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#immutable-objects-behave-differently">immutable objects behave differently</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references-inside-classes">References inside classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-optimizers">Connection to optimizers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tiny-optimizer-demo">Tiny optimizer demo</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist">10) Checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#checklist">Checklist</a></li>
 </ul>
   </nav></div>
 
