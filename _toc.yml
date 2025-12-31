@@ -10,6 +10,8 @@ chapters:
   title: SSH Basics
 - file: docs/class.ipynb
   title: Class
+- file: docs/References_and_Copies_Beginner_Guide.ipynb
+  title: References and Copies
 - file: docs/numpy.ipynb
   title: Numpy
 - file: docs/pandas.ipynb
