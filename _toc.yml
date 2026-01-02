@@ -16,7 +16,7 @@ chapters:
   title: Numpy
 - file: docs/pandas.ipynb
   title: Pandas
-- file: docs/Multilayer_Perceptron_from_scratch.ipynb
+- file: docs/MLP_from_scratch.ipynb
   title: Multilayer Perceptron (MLP) From Scratch
 - file: docs/mlp_pytorch_mnist.ipynb
   title: Multilayer Perceptron (MLP) with PyTorch
