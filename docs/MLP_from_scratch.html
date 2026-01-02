@@ -1,0 +1,1437 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Multilayer Perceptron (MLP) From Scratch &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/MLP_from_scratch';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multilayer Perceptron (MLP) with PyTorch on MNIST" href="mlp_pytorch_mnist.html" />
+    <link rel="prev" title="Pandas: Working with Structured Data in Python" href="pandas.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/MLP_from_scratch.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/MLP_from_scratch.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/MLP_from_scratch.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multilayer Perceptron (MLP) From Scratch</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-vs-backward-values-vs-sensitivities">Forward vs. Backward: values vs. sensitivities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-and-the-chain-rule">Computational graph and the chain rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-notation-batch-form">3. MLP notation (batch form)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-backward-starts-from-the-loss">4. Why backward starts from the loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reusable-layer-pattern">5. The reusable layer pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-layer-softmax-cross-entropy">6. Loss layer: Softmax + Cross-Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-layer-relu">7. Activation layer: ReLU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-affine-layer">8. Dense (Affine) layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-example-two-layer-mlp">9. End-to-end example: two-layer MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-cache-forward-values">10. Why we cache forward values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward">Backward</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-an-mlp-by-composing-layers-sequential">4. Building an MLP by Composing Layers (Sequential)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-cross-entropy-loss">5. Softmax + Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-probabilities">Softmax (probabilities)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-integer-class-labels">Cross-entropy (integer class labels)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-sgd">6. Parameter Update (SGD)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-dataset-for-demonstration">7. Toy Dataset (for demonstration)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-train-the-mlp">8. Build and Train the MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-checklist-understanding-backprop">9. Student Checklist (Understanding Backprop)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-and-gradient-flow-in-a-multilayer-perceptron">Backpropagation and Gradient Flow in a Multilayer Perceptron</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram-forward-and-backward">Gradient Flow Diagram (Forward and Backward)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-pass">Forward pass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-pass-reverse-order">Backward pass (reverse order)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consolidated-backpropagation-mathematics">Consolidated Backpropagation Mathematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-softmax-cross-entropy-gradient">Step 1: Softmax + Cross-Entropy Gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-dense-layer-backpropagation">Step 2: Dense Layer Backpropagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-relu-backpropagation">Step 3: ReLU Backpropagation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-backpropagation-summary">End-to-End Backpropagation Summary</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-from-scratch">
+<h1>Multilayer Perceptron (MLP) From Scratch<a class="headerlink" href="#multilayer-perceptron-mlp-from-scratch" title="Permalink to this heading">#</a></h1>
+<p>In this section, we discuss the fundamental components of a feedforward neural network. Each component is derived mathematically and implemented explicitly using NumPy. No automatic differentiation or high-level abstractions are used; all gradients are computed manually to make the learning dynamics fully transparent.</p>
+<p>We begin by defining a common interface for network layers, then implement linear transformations and nonlinear activation functions. Together, these components form the basis of forward propagation and backpropagation.</p>
+<section id="mathematical-equations-computational-graphs-and-backpropagation">
+<h2>Mathematical Equations, Computational Graphs, and Backpropagation<a class="headerlink" href="#mathematical-equations-computational-graphs-and-backpropagation" title="Permalink to this heading">#</a></h2>
+<p>This notebook builds an MLP by defining <strong>Layer</strong> objects (Dense, ReLU, etc.) and composing them.</p>
+<p>A layer maps:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{y} = f(\mathbf{x}; \theta)\)</span></p>
+<p>The MLP is a composition:</p>
+<p><span class="math notranslate nohighlight">\(f(\mathbf{x}) = f_L \circ f_{L-1} \circ \dots \circ f_1(\mathbf{x})\)</span></p>
+<p>Backpropagation is reverse-mode differentiation on the computational graph.</p>
+</section>
+<section id="dense-fully-connected-layer">
+<h2>Dense (Fully Connected) Layer<a class="headerlink" href="#dense-fully-connected-layer" title="Permalink to this heading">#</a></h2>
+<p>If we use mini-batches.</p>
+<ul class="simple">
+<li><p>Batch size: (<span class="math notranslate nohighlight">\(N\)</span>)</p></li>
+<li><p>Input dimension: (<span class="math notranslate nohighlight">\(d_{in}\)</span>)</p></li>
+<li><p>Hidden dimension: (<span class="math notranslate nohighlight">\(d_h\)</span>)</p></li>
+<li><p>Output classes: (<span class="math notranslate nohighlight">\(C\)</span>)</p></li>
+</ul>
+<section id="forward">
+<h3>Forward<a class="headerlink" href="#forward" title="Permalink to this heading">#</a></h3>
+<p>For a batch input
+<span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{N \times d_{in}}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{y} = \mathbf{x}\mathbf{W} + \mathbf{b}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{W} \in \mathbb{R}^{d_{in} \times d_{out}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{b} \in \mathbb{R}^{d_{out}}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{y} \in \mathbb{R}^{N \times d_{out}}\)</span></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="computational-graph-dense">
+<h3>Computational graph (Dense)<a class="headerlink" href="#computational-graph-dense" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                            x ──┐
+                                |
+                            ├── MatMul ── z ── Add ── y
+                                |               ▲
+                            W ──┘               │
+                                                b
+</pre></div>
+</div>
+<p>Mathematically:</p>
+<div class="math notranslate nohighlight">
+\[ z = x W \]</div>
+<div class="math notranslate nohighlight">
+\[ y = z + b \]</div>
+</section>
+<hr class="docutils" />
+<section id="backward-gradients">
+<h3>Backward (gradients)<a class="headerlink" href="#backward-gradients" title="Permalink to this heading">#</a></h3>
+<p>Assume upstream gradient:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{y}} = \mathbf{G}\]</div>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{W}} = \mathbf{x}^T \mathbf{G}\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{b}} = \sum_{n=1}^{N} \mathbf{G}_n\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{x}} = \mathbf{G}\mathbf{W}^T\]</div>
+</section>
+</section>
+<section id="forward-vs-backward-values-vs-sensitivities">
+<h2>Forward vs. Backward: values vs. sensitivities<a class="headerlink" href="#forward-vs-backward-values-vs-sensitivities" title="Permalink to this heading">#</a></h2>
+<p>A feedforward neural network defines a <strong>composition of functions</strong>:</p>
+<p><span class="math notranslate nohighlight">\(X \xrightarrow{f_1} H_1 \xrightarrow{f_2} H_2 \xrightarrow{} \cdots \xrightarrow{f_L} Z \xrightarrow{\text{loss}} L\)</span></p>
+<ul class="simple">
+<li><p><strong>Forward pass</strong> computes <em>values</em> of intermediate variables <span class="math notranslate nohighlight">\(H_1, H_2, \dots, Z\)</span> starting from the input <span class="math notranslate nohighlight">\(X\)</span>.</p></li>
+<li><p><strong>Backward pass</strong> computes <em>sensitivities</em> (gradients) of the final scalar loss <span class="math notranslate nohighlight">\(L\)</span> with respect to intermediate variables and parameters.</p></li>
+</ul>
+<p>Because <span class="math notranslate nohighlight">\(L\)</span> is a <strong>scalar</strong>, gradients like <span class="math notranslate nohighlight">\(\partial L/\partial v\)</span> have a direct interpretation:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial v} \quad\text{measures how a small change in } v \text{ would change the loss.}\)</span></p>
+<p>This is why backpropagation naturally starts at the loss: the loss is the endpoint of the computational graph, and all parameters influence the loss only through the output.</p>
+</section>
+<section id="computational-graph-and-the-chain-rule">
+<h2>Computational graph and the chain rule<a class="headerlink" href="#computational-graph-and-the-chain-rule" title="Permalink to this heading">#</a></h2>
+<p>Backpropagation is the chain rule applied systematically.</p>
+<p>If a variable <span class="math notranslate nohighlight">\(u\)</span> influences <span class="math notranslate nohighlight">\(v\)</span>, and <span class="math notranslate nohighlight">\(v\)</span> influences the loss <span class="math notranslate nohighlight">\(L\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial u} = \frac{\partial L}{\partial v} \cdot \frac{\partial v}{\partial u}\]</div>
+<p>The operational principle is modular:</p>
+<ul class="simple">
+<li><p>Each layer/module computes a forward mapping <span class="math notranslate nohighlight">\(v = f(u;\theta)\)</span>.</p></li>
+<li><p>During backward, if we know the upstream gradient <span class="math notranslate nohighlight">\(G_{out}=\partial L/\partial v\)</span>, the layer can compute:</p>
+<ul>
+<li><p><strong>input gradient</strong> <span class="math notranslate nohighlight">\(G_{in}=\partial L/\partial u\)</span></p></li>
+<li><p><strong>parameter gradients</strong> <span class="math notranslate nohighlight">\(\partial L/\partial \theta\)</span> (if the layer has parameters)</p></li>
+</ul>
+</li>
+</ul>
+<p>This is why you can say:</p>
+<p><strong>Given the gradient of the next layer, we can compute the gradient of the current layer.</strong></p>
+<p>It is simply the chain rule written in a reusable layer-by-layer form.</p>
+</section>
+<section id="mlp-notation-batch-form">
+<h2>3. MLP notation (batch form)<a class="headerlink" href="#mlp-notation-batch-form" title="Permalink to this heading">#</a></h2>
+<p>For a batch size <span class="math notranslate nohighlight">\(N\)</span>:</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(H_0 = X \in \mathbb{R}^{N\times d_0}\)</span></p></li>
+<li><p>For <span class="math notranslate nohighlight">\(\ell=1,\dots,L\)</span>:</p>
+<ul>
+<li><p>Affine (Dense) transform:</p>
+<div class="math notranslate nohighlight">
+\[Z_\ell = H_{\ell-1} W_\ell + b_\ell
+    \quad
+    (W_\ell \in \mathbb{R}^{d_{\ell-1}\times d_\ell},\; b_\ell\in\mathbb{R}^{d_\ell})
+    \]</div>
+</li>
+<li><p>Nonlinearity:
+$<span class="math notranslate nohighlight">\(
+H_\ell = \phi(Z_\ell)
+\)</span>$</p></li>
+</ul>
+</li>
+</ul>
+<p>Final logits are <span class="math notranslate nohighlight">\(Z_L\)</span>. The training objective is a scalar loss <span class="math notranslate nohighlight">\(L\)</span> computed from <span class="math notranslate nohighlight">\(Z_L\)</span> and labels.</p>
+<p>We want gradients for all parameters:</p>
+<div class="math notranslate nohighlight">
+\[\left\{\frac{\partial L}{\partial W_\ell},\frac{\partial L}{\partial b_\ell}\right\}_{\ell=1}^{L}\]</div>
+</section>
+<section id="why-backward-starts-from-the-loss">
+<h2>4. Why backward starts from the loss<a class="headerlink" href="#why-backward-starts-from-the-loss" title="Permalink to this heading">#</a></h2>
+<p>The loss <span class="math notranslate nohighlight">\(L\)</span> is a scalar function of the final model output. Every parameter affects <span class="math notranslate nohighlight">\(L\)</span> only through the sequence of intermediate computations.</p>
+<p>Therefore the derivative propagation must begin at the endpoint:</p>
+<ol class="arabic">
+<li><p>Compute <span class="math notranslate nohighlight">\(\partial L/\partial Z_L\)</span> (loss gradient w.r.t. logits).</p></li>
+<li><p>Propagate gradients backward through each layer:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial H_{L-1}},\; \frac{\partial L}{\partial Z_{L-1}},\; \dots,\; \frac{\partial L}{\partial H_0}\]</div>
+</li>
+<li><p>At each layer, compute parameter gradients <span class="math notranslate nohighlight">\(\partial L/\partial W_\ell\)</span> and <span class="math notranslate nohighlight">\(\partial L/\partial b_\ell\)</span>.</p></li>
+</ol>
+<p>This is exactly the chain rule for a composition of functions, applied from right to left.</p>
+</section>
+<section id="the-reusable-layer-pattern">
+<h2>5. The reusable layer pattern<a class="headerlink" href="#the-reusable-layer-pattern" title="Permalink to this heading">#</a></h2>
+<p>Each layer exposes a backward mapping:</p>
+<ul class="simple">
+<li><p><strong>Input:</strong> upstream gradient <span class="math notranslate nohighlight">\(G_{out}=\partial L/\partial (\text{layer output})\)</span></p></li>
+<li><p><strong>Outputs:</strong></p>
+<ul>
+<li><p>downstream gradient <span class="math notranslate nohighlight">\(G_{in}=\partial L/\partial (\text{layer input})\)</span></p></li>
+<li><p>parameter gradients <span class="math notranslate nohighlight">\(\partial L/\partial \theta\)</span> (if parameters exist)</p></li>
+</ul>
+</li>
+</ul>
+<p>In code, this corresponds to receiving <code class="docutils literal notranslate"><span class="pre">grad_out</span></code> and returning <code class="docutils literal notranslate"><span class="pre">grad_in</span></code>, while storing <code class="docutils literal notranslate"><span class="pre">dW</span></code>, <code class="docutils literal notranslate"><span class="pre">db</span></code>, etc.</p>
+</section>
+<section id="loss-layer-softmax-cross-entropy">
+<h2>6. Loss layer: Softmax + Cross-Entropy<a class="headerlink" href="#loss-layer-softmax-cross-entropy" title="Permalink to this heading">#</a></h2>
+<p>Let logits be <span class="math notranslate nohighlight">\(Z\in\mathbb{R}^{N\times C}\)</span>, labels be one-hot <span class="math notranslate nohighlight">\(Y\in\mathbb{R}^{N\times C}\)</span>.</p>
+<p>Softmax:</p>
+<div class="math notranslate nohighlight">
+\[P_{n,i} = \frac{e^{Z_{n,i}}}{\sum_{j=1}^{C} e^{Z_{n,j}}}\]</div>
+<p>Mean cross-entropy loss:</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{1}{N}\sum_{n=1}^{N} \left(-\sum_{i=1}^{C} Y_{n,i}\log P_{n,i}\right)\]</div>
+<p>A key result (from differentiating softmax and cross-entropy together) is:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial Z} = \frac{1}{N}(P - Y)}\]</div>
+<p>This gradient is the <strong>starting point</strong> of backpropagation into the network.</p>
+</section>
+<section id="activation-layer-relu">
+<h2>7. Activation layer: ReLU<a class="headerlink" href="#activation-layer-relu" title="Permalink to this heading">#</a></h2>
+<p>Forward:</p>
+<div class="math notranslate nohighlight">
+\[H = \mathrm{ReLU}(Z) = \max(0, Z)\]</div>
+<p>Elementwise derivative:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial H}{\partial Z} = \mathbf{1}_{Z&gt;0}\]</div>
+<p>Given upstream gradient <span class="math notranslate nohighlight">\(G_H = \partial L/\partial H\)</span>, chain rule yields:</p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial Z} = G_H \odot \mathbf{1}_{Z&gt;0}}\]</div>
+<p>This shows why we cache <span class="math notranslate nohighlight">\(Z\)</span> in forward: the mask <span class="math notranslate nohighlight">\(\mathbf{1}_{Z&gt;0}\)</span> is computed from it.</p>
+</section>
+<section id="dense-affine-layer">
+<h2>8. Dense (Affine) layer<a class="headerlink" href="#dense-affine-layer" title="Permalink to this heading">#</a></h2>
+<p>Forward:
+$<span class="math notranslate nohighlight">\(Z = HW + b\)</span>$</p>
+<p>with <span class="math notranslate nohighlight">\(H\in\mathbb{R}^{N\times d_{in}}\)</span>, <span class="math notranslate nohighlight">\(W\in\mathbb{R}^{d_{in}\times d_{out}}\)</span>, <span class="math notranslate nohighlight">\(b\in\mathbb{R}^{d_{out}}\)</span>, <span class="math notranslate nohighlight">\(Z\in\mathbb{R}^{N\times d_{out}}\)</span>.</p>
+<p>Let upstream gradient be <span class="math notranslate nohighlight">\(G_Z = \partial L/\partial Z\)</span>. Then:</p>
+<p><strong>Weights</strong>
+$<span class="math notranslate nohighlight">\(\boxed{\frac{\partial L}{\partial W} = H^\top G_Z}\)</span>$</p>
+<p><strong>Bias</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial b} = \sum_{n=1}^{N} (G_Z)_{n,:}}\]</div>
+<p><strong>Inputs (to propagate further backward)</strong></p>
+<div class="math notranslate nohighlight">
+\[\boxed{\frac{\partial L}{\partial H} = G_Z W^\top}\]</div>
+<p>These are the core backprop equations used repeatedly throughout an MLP.</p>
+</section>
+<section id="end-to-end-example-two-layer-mlp">
+<h2>9. End-to-end example: two-layer MLP<a class="headerlink" href="#end-to-end-example-two-layer-mlp" title="Permalink to this heading">#</a></h2>
+<p>Consider:</p>
+<div class="math notranslate nohighlight">
+\[X=H_0 \rightarrow Z_1=H_0W_1+b_1 \rightarrow H_1=\mathrm{ReLU}(Z_1) \rightarrow Z_2=H_1W_2+b_2 \rightarrow P=\mathrm{softmax}(Z_2) \rightarrow L
+\]</div>
+<p>Backward proceeds in reverse:</p>
+<ol class="arabic simple">
+<li><p><strong>Loss → logits</strong></p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[ G_{Z_2}=\frac{\partial L}{\partial Z_2}=\frac{1}{N}(P-Y)\]</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Dense2</strong>
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial W_2}=H_1^\top G_{Z_2},\quad
+\frac{\partial L}{\partial b_2}=\sum_n (G_{Z_2})_{n,:},\quad
+G_{H_1}=G_{Z_2}W_2^\top
+\)</span>$</p></li>
+<li><p><strong>ReLU1</strong>
+$<span class="math notranslate nohighlight">\(
+G_{Z_1}=G_{H_1}\odot \mathbf{1}_{Z_1&gt;0}
+\)</span>$</p></li>
+<li><p><strong>Dense1</strong>
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial W_1}=H_0^\top G_{Z_1},\quad
+\frac{\partial L}{\partial b_1}=\sum_n (G_{Z_1})_{n,:},\quad
+G_{H_0}=G_{Z_1}W_1^\top
+\)</span>$</p></li>
+</ol>
+<p>At the end, we have gradients for every parameter and can apply an optimizer update.</p>
+</section>
+<section id="why-we-cache-forward-values">
+<h2>10. Why we cache forward values<a class="headerlink" href="#why-we-cache-forward-values" title="Permalink to this heading">#</a></h2>
+<p>Backprop rules require certain forward intermediates:</p>
+<ul class="simple">
+<li><p>Dense needs <span class="math notranslate nohighlight">\(H\)</span> to compute <span class="math notranslate nohighlight">\(H^\top G_Z\)</span></p></li>
+<li><p>ReLU needs <span class="math notranslate nohighlight">\(Z\)</span> to compute the mask <span class="math notranslate nohighlight">\(\mathbf{1}_{Z&gt;0}\)</span></p></li>
+<li><p>Softmax+CE needs <span class="math notranslate nohighlight">\(P\)</span> (or logits <span class="math notranslate nohighlight">\(Z\)</span>) and labels</p></li>
+</ul>
+<p>Therefore implementations store (cache) inputs/outputs during forward so that local derivatives can be computed efficiently during backward.</p>
+<p>We define the following Basic class and utilize it in all layers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Layer</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Dense</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">weight_scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out_features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># cache</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="c1"># grad_out = dL/dy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">grad_out</span>           <span class="c1"># dL/dW</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">grad_out</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>          <span class="c1"># dL/db</span>
+        <span class="n">grad_x</span> <span class="o">=</span> <span class="n">grad_out</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">T</span>            <span class="c1"># dL/dx</span>
+        <span class="k">return</span> <span class="n">grad_x</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">dW</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dW</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="relu-rectified-linear-unit-activation">
+<h2>3. ReLU(Rectified Linear Unit) Activation<a class="headerlink" href="#relu-rectified-linear-unit-activation" title="Permalink to this heading">#</a></h2>
+<section id="id1">
+<h3>Forward<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The ReLU function outputs 0 if the input is less than zero, otherwise it will return the input itself:
+$<span class="math notranslate nohighlight">\(f(x) = \text{ReLU}(x) = \max(0,x) \)</span>$</p></li>
+<li><p>ReLU helps introduce non-linearity into the model, which is essential for learning complex patterns.</p></li>
+<li><p>It also helps avoid the vanishing gradient problem common in deep networks with the Sigmoid activation.</p></li>
+<li><p>During backpropagation, only the gradients for inputs greater than 0 pass through:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split} f'(x) = \begin{cases} 1 &amp; \text{if } x &gt; 0 \\ 0 &amp; \text{otherwise} \end{cases}\end{split}\]</div>
+</section>
+<section id="id2">
+<h3>Computational graph (Dense)<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>x ── ReLU ── y
+    
+</pre></div>
+</div>
+</section>
+<section id="backward">
+<h3>Backward<a class="headerlink" href="#backward" title="Permalink to this heading">#</a></h3>
+<p>The derivative is:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\frac{d}{dx}\text{ReLU}(x) =
+\begin{cases}
+1 &amp; x &gt; 0 \\
+0 &amp; x \le 0
+\end{cases}\end{split}\]</div>
+<p>So:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y} \odot \mathbb{1}_{x&gt;0}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ReLU</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">grad_out</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="building-an-mlp-by-composing-layers-sequential">
+<h2>4. Building an MLP by Composing Layers (Sequential)<a class="headerlink" href="#building-an-mlp-by-composing-layers-sequential" title="Permalink to this heading">#</a></h2>
+<p>If we build:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x} \rightarrow \text{Dense}_1 \rightarrow \text{ReLU} \rightarrow \text{Dense}_2 \rightarrow \text{ReLU} \rightarrow \text{Dense}_3 \rightarrow \mathbf{z}\]</div>
+<p>Then the computational graph is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Sequential</span><span class="p">(</span><span class="n">Layer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">layers</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_out</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+            <span class="n">grad_out</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">grad_out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grad_out</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">params</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">ps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">gs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">gs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">grads</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">gs</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">zero_grads</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">layer</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="softmax-cross-entropy-loss">
+<h2>5. Softmax + Cross-Entropy Loss<a class="headerlink" href="#softmax-cross-entropy-loss" title="Permalink to this heading">#</a></h2>
+<section id="softmax-probabilities">
+<h3>Softmax (probabilities)<a class="headerlink" href="#softmax-probabilities" title="Permalink to this heading">#</a></h3>
+<p>Given logits
+<span class="math notranslate nohighlight">\(\mathbf{z} \in \mathbb{R}^{N \times C}\)</span>:
+$<span class="math notranslate nohighlight">\(p_{n,i} = \frac{e^{z_{n,i}}}{\sum_{j=1}^{C} e^{z_{n,j}}}\)</span>$</p>
+</section>
+<section id="cross-entropy-integer-class-labels">
+<h3>Cross-entropy (integer class labels)<a class="headerlink" href="#cross-entropy-integer-class-labels" title="Permalink to this heading">#</a></h3>
+<p>If the true class for sample <span class="math notranslate nohighlight">\(n\)</span> is <span class="math notranslate nohighlight">\(y_n\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[L = \frac{1}{N}\sum_{n=1}^{N} -\log(p_{n,y_n})\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    logits: (N, C)</span>
+<span class="sd">    y: (N,) integer labels</span>
+<span class="sd">    returns: (loss, dlogits)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># stable softmax</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">-</span> <span class="n">logits</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exp_z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">exp_z</span> <span class="o">/</span> <span class="n">exp_z</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1e-12</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="c1"># gradient: (p - y_onehot)/N</span>
+    <span class="n">dlogits</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dlogits</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.0</span>
+    <span class="n">dlogits</span> <span class="o">/=</span> <span class="n">N</span>
+
+    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">accuracy_from_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="parameter-update-sgd">
+<h2>6. Parameter Update (SGD)<a class="headerlink" href="#parameter-update-sgd" title="Permalink to this heading">#</a></h2>
+<p>Gradient descent update:</p>
+<div class="math notranslate nohighlight">
+\[\theta \leftarrow \theta - \eta \frac{\partial L}{\partial \theta}\]</div>
+<p>We apply this to each parameter tensor in the model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SGD</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">=</span> <span class="n">weight_decay</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">()</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">grads</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="n">g</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">*</span> <span class="n">p</span>
+            <span class="n">p</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">g</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="toy-dataset-for-demonstration">
+<h2>7. Toy Dataset (for demonstration)<a class="headerlink" href="#toy-dataset-for-demonstration" title="Permalink to this heading">#</a></h2>
+<p>We’ll generate a simple 2D classification dataset.</p>
+<p>This is not about dataset quality—just to verify:</p>
+<ul class="simple">
+<li><p>forward works</p></li>
+<li><p>backward gradients propagate</p></li>
+<li><p>loss decreases during training</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># non-linear target (quadrant-based)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># 0 or 1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">400</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;set_seed&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Assumes you already have:</span>
+<span class="c1"># X: shape (N, 2)</span>
+<span class="c1"># y: shape (N,) with values 0 or 1</span>
+
+<span class="n">X_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">sc</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_plot</span><span class="p">)</span>  <span class="c1"># colors by class label</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Toy dataset colored by class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Class&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/95b70f299c395e640f9d352abb07032c9a0d9fff7bf094822af66f4cd924f180.png" src="../_images/95b70f299c395e640f9d352abb07032c9a0d9fff7bf094822af66f4cd924f180.png" />
+</div>
+</div>
+</section>
+<section id="build-and-train-the-mlp">
+<h2>8. Build and Train the MLP<a class="headerlink" href="#build-and-train-the-mlp" title="Permalink to this heading">#</a></h2>
+<p>Model:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x} \rightarrow \text{Dense}(2, 64) \rightarrow \text{ReLU} \rightarrow \text{Dense}(64, 64) \rightarrow \text{ReLU} \rightarrow \text{Dense}(64, 2)\]</div>
+<p>Training loop:</p>
+<ol class="arabic simple">
+<li><p>Forward: logits</p></li>
+<li><p>Loss + gradient: <span class="math notranslate nohighlight">\(L, \frac{\partial L}{\partial \mathbf{z}}\)</span></p></li>
+<li><p>Backward through model</p></li>
+<li><p>SGD update</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">ReLU</span><span class="p">(),</span>
+    <span class="n">Dense</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">weight_decay</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">301</span><span class="p">):</span>
+    <span class="c1"># forward</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># loss + initial gradient</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span> <span class="o">=</span> <span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># backward</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dlogits</span><span class="p">)</span>
+
+    <span class="c1"># update</span>
+    <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_from_logits</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch=</span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">  loss=</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  acc=</span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch= 50  loss=0.6870  acc=0.655
+epoch=100  loss=0.6803  acc=0.685
+epoch=150  loss=0.6734  acc=0.685
+epoch=200  loss=0.6651  acc=0.698
+epoch=250  loss=0.6565  acc=0.710
+epoch=300  loss=0.6478  acc=0.720
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># shuffle indices each epoch</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">X_shuf</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+    <span class="n">y_shuf</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">epoch_acc</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">batch_size</span>
+        <span class="n">Xb</span> <span class="o">=</span> <span class="n">X_shuf</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+        <span class="n">yb</span> <span class="o">=</span> <span class="n">y_shuf</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+        <span class="c1"># forward</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">Xb</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># loss + initial gradient (scaled by batch size internally)</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">dlogits</span> <span class="o">=</span> <span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+
+        <span class="c1"># backward + update</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">zero_grads</span><span class="p">()</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">dlogits</span><span class="p">)</span>
+        <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+        <span class="c1"># bookkeeping</span>
+        <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span>
+        <span class="n">epoch_acc</span> <span class="o">+=</span> <span class="n">accuracy_from_logits</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+        <span class="n">num_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;epoch=</span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">3d</span><span class="si">}</span><span class="s2">  loss=</span><span class="si">{</span><span class="n">epoch_loss</span><span class="o">/</span><span class="n">num_batches</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  acc=</span><span class="si">{</span><span class="n">epoch_acc</span><span class="o">/</span><span class="n">num_batches</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch= 50  loss=0.5670  acc=0.770
+epoch=100  loss=0.4515  acc=0.868
+epoch=150  loss=0.3135  acc=0.922
+epoch=200  loss=0.2291  acc=0.949
+epoch=250  loss=0.1729  acc=0.973
+epoch=300  loss=0.1395  acc=0.984
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="student-checklist-understanding-backprop">
+<h2>9. Student Checklist (Understanding Backprop)<a class="headerlink" href="#student-checklist-understanding-backprop" title="Permalink to this heading">#</a></h2>
+<p>Students should be able to explain:</p>
+<ol class="arabic">
+<li><p>Why Dense backward gives:
+$<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{W}} = \mathbf{x}^T \frac{\partial L}{\partial \mathbf{y}}\)</span>$</p></li>
+<li><p>Why ReLU backward uses a mask:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial x} = \frac{\partial L}{\partial y}\odot \mathbb{1}_{x&gt;0}\]</div>
+</li>
+<li><p>Why softmax + cross-entropy gradient simplifies to:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial \mathbf{z}} = \frac{1}{N}(\mathbf{p}-\mathbf{Y})\]</div>
+</li>
+<li><p>How the computational graph explains the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial L}{\partial u} = \sum_{v} \frac{\partial L}{\partial v}\frac{\partial v}{\partial u}\]</div>
+</li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="backpropagation-and-gradient-flow-in-a-multilayer-perceptron">
+<h1>Backpropagation and Gradient Flow in a Multilayer Perceptron<a class="headerlink" href="#backpropagation-and-gradient-flow-in-a-multilayer-perceptron" title="Permalink to this heading">#</a></h1>
+<p>This section provides a consolidated view of how gradients flow through the network,
+from the loss function back to each layer’s parameters.</p>
+<section id="gradient-flow-diagram-forward-and-backward">
+<h2>Gradient Flow Diagram (Forward and Backward)<a class="headerlink" href="#gradient-flow-diagram-forward-and-backward" title="Permalink to this heading">#</a></h2>
+<section id="forward-pass">
+<h3>Forward pass<a class="headerlink" href="#forward-pass" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                                        X (input batch)
+                                           │
+                                           ▼
+                                        Dense1: Z1 = XW1 + b1
+                                           │
+                                           ▼
+                                        ReLU1:  A1 = max(0, Z1)
+                                           │
+                                           ▼
+                                        Dense2: Z2 = A1W2 + b2
+                                           │
+                                           ▼
+                                        ReLU2:  A2 = max(0, Z2)
+                                           │
+                                           ▼
+                                        Dense3: Z3 = A2W3 + b3   (logits)
+                                           │
+                                           ▼
+                                        Softmax + Cross-Entropy Loss L
+</pre></div>
+</div>
+</section>
+<section id="backward-pass-reverse-order">
+<h3>Backward pass (reverse order)<a class="headerlink" href="#backward-pass-reverse-order" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+                                        ∂L/∂Z3  (from loss)
+                                           │
+                                           ├── ∂L/∂W3 , ∂L/∂b3
+                                           ▼
+                                        ∂L/∂A2 = ∂L/∂Z3 · W3ᵀ
+                                           │
+                                           ▼
+                                        ReLU mask (Z2 &gt; 0)
+                                           │
+                                           ▼
+                                        ∂L/∂Z2
+                                           │
+                                           ├── ∂L/∂W2 , ∂L/∂b2
+                                           ▼
+                                        ∂L/∂A1 = ∂L/∂Z2 · W2ᵀ
+                                           │
+                                           ▼
+                                        ReLU mask (Z1 &gt; 0)
+                                           │
+                                           ▼
+                                        ∂L/∂Z1
+                                           │
+                                           ├── ∂L/∂W1 , ∂L/∂b1
+                                           ▼
+                                        ∂L/∂X
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="consolidated-backpropagation-mathematics">
+<h2>Consolidated Backpropagation Mathematics<a class="headerlink" href="#consolidated-backpropagation-mathematics" title="Permalink to this heading">#</a></h2>
+<p>Consider a minibatch:</p>
+<ul class="simple">
+<li><p>Input: <span class="math notranslate nohighlight">\( X \in \mathbb{R}^{N \times d_{in}} \)</span></p></li>
+<li><p>Labels: <span class="math notranslate nohighlight">\( y \in \{0,\dots,C-1\}^N \)</span></p></li>
+</ul>
+<p>The MLP is defined as:</p>
+<p><span class="math notranslate nohighlight">\(\begin{aligned}
+Z_1 &amp;= XW_1 + b_1 \\
+A_1 &amp;= \mathrm{ReLU}(Z_1) \\
+Z_2 &amp;= A_1W_2 + b_2 \\
+A_2 &amp;= \mathrm{ReLU}(Z_2) \\
+Z_3 &amp;= A_2W_3 + b_3
+\end{aligned}\)</span></p>
+<section id="step-1-softmax-cross-entropy-gradient">
+<h3>Step 1: Softmax + Cross-Entropy Gradient<a class="headerlink" href="#step-1-softmax-cross-entropy-gradient" title="Permalink to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(P = \mathrm{softmax}(Z_3)\)</span></p>
+<p><span class="math notranslate nohighlight">\(L = -\frac{1}{N}\sum_{n=1}^N \log P_{n,y_n}\)</span></p>
+<p>The gradient with respect to logits is:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L}{\partial Z_3} = \frac{1}{N}(P - Y)\)</span></p>
+<p>This gradient is the <strong>starting point of backpropagation</strong>.</p>
+</section>
+<section id="step-2-dense-layer-backpropagation">
+<h3>Step 2: Dense Layer Backpropagation<a class="headerlink" href="#step-2-dense-layer-backpropagation" title="Permalink to this heading">#</a></h3>
+<p>For a dense layer:</p>
+<p><span class="math notranslate nohighlight">\(Z = AW + b\)</span></p>
+<p>Given upstream gradient <span class="math notranslate nohighlight">\(G = \frac{\partial L}{\partial Z} \)</span>:</p>
+<p><span class="math notranslate nohighlight">\(\begin{aligned}
+\frac{\partial L}{\partial W} &amp;= A^\top G \\
+\frac{\partial L}{\partial b} &amp;= \sum_{n=1}^N G_{n,:} \\
+\frac{\partial L}{\partial A} &amp;= G W^\top
+\end{aligned}\)</span></p>
+<p>This applies to <strong>all Dense layers</strong> in the network.</p>
+</section>
+<section id="step-3-relu-backpropagation">
+<h3>Step 3: ReLU Backpropagation<a class="headerlink" href="#step-3-relu-backpropagation" title="Permalink to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(A = \mathrm{ReLU}(Z)\)</span></p>
+<p>The derivative of ReLU is:</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial A}{\partial Z} =
+\begin{cases}
+1 &amp; Z &gt; 0 \\
+0 &amp; Z \le 0
+\end{cases}\)</span></p>
+<p>Thus:
+<span class="math notranslate nohighlight">\(\frac{\partial L}{\partial Z} =
+\frac{\partial L}{\partial A} \odot \mathbf{1}[Z &gt; 0]\)</span></p>
+<p>ReLU has <strong>no parameters</strong>, but it gates gradient flow.</p>
+</section>
+</section>
+<section id="end-to-end-backpropagation-summary">
+<h2>End-to-End Backpropagation Summary<a class="headerlink" href="#end-to-end-backpropagation-summary" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The loss function provides <span class="math notranslate nohighlight">\( \frac{\partial L}{\partial Z_3} \)</span></p></li>
+<li><p>Each Dense layer computes gradients for its <strong>weights, bias, and inputs</strong></p></li>
+<li><p>Each ReLU layer applies a binary mask</p></li>
+<li><p>Gradients propagate backward via the chain rule</p></li>
+<li><p>The optimizer updates parameters using stored gradients</p></li>
+</ul>
+<p>This mirrors exactly how the <code class="docutils literal notranslate"><span class="pre">backward()</span></code> methods are composed in the code.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="pandas.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Pandas: Working with Structured Data in Python</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mlp_pytorch_mnist.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Multilayer Perceptron (MLP) with PyTorch on MNIST</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) From Scratch</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-equations-computational-graphs-and-backpropagation">Mathematical Equations, Computational Graphs, and Backpropagation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-fully-connected-layer">Dense (Fully Connected) Layer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-dense">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-gradients">Backward (gradients)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-vs-backward-values-vs-sensitivities">Forward vs. Backward: values vs. sensitivities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computational-graph-and-the-chain-rule">Computational graph and the chain rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-notation-batch-form">3. MLP notation (batch form)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-backward-starts-from-the-loss">4. Why backward starts from the loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-reusable-layer-pattern">5. The reusable layer pattern</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-layer-softmax-cross-entropy">6. Loss layer: Softmax + Cross-Entropy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#activation-layer-relu">7. Activation layer: ReLU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-affine-layer">8. Dense (Affine) layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-example-two-layer-mlp">9. End-to-end example: two-layer MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-cache-forward-values">10. Why we cache forward values</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#relu-rectified-linear-unit-activation">3. ReLU(Rectified Linear Unit) Activation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Forward</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Computational graph (Dense)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward">Backward</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-an-mlp-by-composing-layers-sequential">4. Building an MLP by Composing Layers (Sequential)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-cross-entropy-loss">5. Softmax + Cross-Entropy Loss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#softmax-probabilities">Softmax (probabilities)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-entropy-integer-class-labels">Cross-entropy (integer class labels)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-sgd">6. Parameter Update (SGD)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toy-dataset-for-demonstration">7. Toy Dataset (for demonstration)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-and-train-the-mlp">8. Build and Train the MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#student-checklist-understanding-backprop">9. Student Checklist (Understanding Backprop)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#backpropagation-and-gradient-flow-in-a-multilayer-perceptron">Backpropagation and Gradient Flow in a Multilayer Perceptron</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram-forward-and-backward">Gradient Flow Diagram (Forward and Backward)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-pass">Forward pass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-pass-reverse-order">Backward pass (reverse order)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consolidated-backpropagation-mathematics">Consolidated Backpropagation Mathematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-softmax-cross-entropy-gradient">Step 1: Softmax + Cross-Entropy Gradient</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-dense-layer-backpropagation">Step 2: Dense Layer Backpropagation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-relu-backpropagation">Step 3: ReLU Backpropagation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-backpropagation-summary">End-to-End Backpropagation Summary</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
