@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/mlp_pytorch_mnist';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working with Virtual Machines, SSH and Remote MLflow Infrastructure" href="Deployment_Infrastructure.html" />
+    <link rel="next" title="Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?" href="tensors_vs_numpy.html" />
     <link rel="prev" title="Multilayer Perceptron (MLP) From Scratch" href="Multilayer_Perceptron_from_scratch.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,6 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Multilayer_Perceptron_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors versus Numpy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
 </ul>
@@ -593,19 +594,19 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.9224 | Test Acc: 0.9571
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.9217 | Test Acc: 0.9596
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9667 | Test Acc: 0.9712
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9667 | Test Acc: 0.9683
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9784 | Test Acc: 0.9761
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9777 | Test Acc: 0.9734
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9841 | Test Acc: 0.9784
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9838 | Test Acc: 0.9773
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9881 | Test Acc: 0.9766
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9872 | Test Acc: 0.9771
 </pre></div>
 </div>
 </div>
@@ -653,11 +654,11 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
       </div>
     </a>
     <a class="right-next"
-       href="Deployment_Infrastructure.html"
+       href="tensors_vs_numpy.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Working with Virtual Machines, SSH and Remote MLflow Infrastructure</p>
+        <p class="prev-next-title">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

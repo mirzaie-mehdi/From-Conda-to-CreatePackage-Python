@@ -1,0 +1,904 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation? &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/tensors_vs_numpy';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with Virtual Machines, SSH and Remote MLflow Infrastructure" href="Deployment_Infrastructure.html" />
+    <link rel="prev" title="Multilayer Perceptron (MLP) with PyTorch on MNIST" href="mlp_pytorch_mnist.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Multilayer_Perceptron_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tensors versus Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/tensors_vs_numpy.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/tensors_vs_numpy.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/tensors_vs_numpy.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-tensor">1. What Is a Tensor?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-just-use-numpy-arrays-a-more-convincing-answer">2. Why Not Just Use NumPy Arrays? (A More Convincing Answer)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#side-by-side-numpy-arrays-vs-pytorch-tensors-values">3. Side-by-Side: NumPy Arrays vs PyTorch Tensors (Values)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensors-and-automatic-differentiation-computation-graphs">4. Tensors and Automatic Differentiation (Computation Graphs)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#side-by-side-manual-gradients-numpy-vs-autograd-pytorch">Side-by-Side: Manual Gradients (NumPy) vs Autograd (PyTorch)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-data-types-dtype-and-why-they-matter">5. Tensor Data Types (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>) and Why They Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-shape-and-batching">6. Tensor Shape and Batching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-awareness-cpu-vs-gpu">7. Device Awareness (CPU vs GPU)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-connecting-both-worlds">8. Summary: Connecting Both Worlds</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tensors-in-pytorch-what-changes-compared-to-the-from-scratch-implementation">
+<h1>Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?<a class="headerlink" href="#tensors-in-pytorch-what-changes-compared-to-the-from-scratch-implementation" title="Permalink to this heading">#</a></h1>
+<p>In the previous section, we implemented a Multilayer Perceptron (MLP) <strong>from scratch</strong> using basic Python and NumPy arrays.
+All computations were expressed in terms of scalars, vectors, and matrices, and we explicitly managed:</p>
+<ul class="simple">
+<li><p>the forward pass,</p></li>
+<li><p>gradient derivations and the backward pass,</p></li>
+<li><p>parameter updates.</p></li>
+</ul>
+<p>PyTorch introduces a new core data type: the <strong>tensor</strong>. While tensors may look similar to NumPy arrays, they add capabilities that are central to modern deep learning systems: <strong>automatic differentiation</strong>, <strong>hardware acceleration</strong>, and a library of optimized deep learning operators.</p>
+<section id="what-is-a-tensor">
+<h2>1. What Is a Tensor?<a class="headerlink" href="#what-is-a-tensor" title="Permalink to this heading">#</a></h2>
+<p>In numerical computing, a <strong>tensor</strong> is a multi-dimensional array. The term emphasizes that we may work with data of arbitrary order (number of axes).</p>
+<ul class="simple">
+<li><p>Scalars are <strong>0D tensors</strong></p></li>
+<li><p>Vectors are <strong>1D tensors</strong></p></li>
+<li><p>Matrices are <strong>2D tensors</strong></p></li>
+<li><p>Higher-dimensional arrays are <strong>3D+ tensors</strong></p></li>
+</ul>
+<p>Mathematically, one can view a tensor of order <span class="math notranslate nohighlight">\(k\)</span> as an element of a tensor product space:
+$<span class="math notranslate nohighlight">\(
+\mathbf{T} \in V_1 \otimes V_2 \otimes \cdots \otimes V_k.
+\)</span>$</p>
+<p>In the MLP context, tensors represent the same objects you used earlier—only the container and execution model change.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mathematical object</p></th>
+<th class="head"><p>From-scratch code</p></th>
+<th class="head"><p>PyTorch</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Scalar</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p>0D tensor</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vector</p></td>
+<td><p>1D NumPy array</p></td>
+<td><p>1D tensor</p></td>
+</tr>
+<tr class="row-even"><td><p>Matrix</p></td>
+<td><p>2D NumPy array</p></td>
+<td><p>2D tensor</p></td>
+</tr>
+<tr class="row-odd"><td><p>Batch of matrices</p></td>
+<td><p>3D array</p></td>
+<td><p>3D tensor</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="why-not-just-use-numpy-arrays-a-more-convincing-answer">
+<h2>2. Why Not Just Use NumPy Arrays? (A More Convincing Answer)<a class="headerlink" href="#why-not-just-use-numpy-arrays-a-more-convincing-answer" title="Permalink to this heading">#</a></h2>
+<p>NumPy arrays are excellent <strong>numerical containers</strong> and are sufficient for forward computation. However, deep learning workloads require additional <em>system-level guarantees</em> and <em>capabilities</em> that NumPy does not provide out of the box:</p>
+<ol class="arabic simple">
+<li><p><strong>Automatic differentiation (autograd)</strong></p>
+<ul class="simple">
+<li><p>Deep networks require gradients such as <span class="math notranslate nohighlight">\(\nabla_\theta L(\theta)\)</span> for millions of parameters <span class="math notranslate nohighlight">\(\theta\)</span>.</p></li>
+<li><p>With NumPy, gradients must be derived and coded manually or via external tools.</p></li>
+</ul>
+</li>
+<li><p><strong>Hardware acceleration and device abstraction</strong></p>
+<ul class="simple">
+<li><p>Training modern models efficiently depends on GPUs (and sometimes other accelerators).</p></li>
+<li><p>NumPy operations run on CPU. GPU support requires switching libraries (e.g., CuPy) and re-auditing the pipeline.</p></li>
+</ul>
+</li>
+<li><p><strong>A differentiable operator ecosystem</strong></p>
+<ul class="simple">
+<li><p>Deep learning uses specialized ops (convolutions, normalization, embedding lookups, fused kernels).</p></li>
+<li><p>PyTorch provides these operators <strong>together with</strong> correct gradient rules and optimized kernels.</p></li>
+</ul>
+</li>
+</ol>
+<p>A useful summary is:</p>
+<ul class="simple">
+<li><p><strong>NumPy</strong>: array computing (values only)</p></li>
+<li><p><strong>PyTorch tensor</strong>: array computing <strong>plus</strong> gradient tracking <strong>plus</strong> device-aware execution <strong>plus</strong> deep-learning primitives</p></li>
+</ul>
+</section>
+<section id="side-by-side-numpy-arrays-vs-pytorch-tensors-values">
+<h2>3. Side-by-Side: NumPy Arrays vs PyTorch Tensors (Values)<a class="headerlink" href="#side-by-side-numpy-arrays-vs-pytorch-tensors-values" title="Permalink to this heading">#</a></h2>
+<p>Consider a linear layer (affine map):
+$<span class="math notranslate nohighlight">\(
+\mathbf{Y} = \mathbf{X}\mathbf{W} + \mathbf{b},
+\)</span><span class="math notranslate nohighlight">\(
+with \)</span>\mathbf{X} \in \mathbb{R}^{N \times d}<span class="math notranslate nohighlight">\(, \)</span>\mathbf{W} \in \mathbb{R}^{d \times m}<span class="math notranslate nohighlight">\(, and \)</span>\mathbf{b} \in \mathbb{R}^{m}$.</p>
+<p>Both NumPy and PyTorch can compute <span class="math notranslate nohighlight">\(\mathbf{Y}\)</span> as a forward pass.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NumPy: forward computation (values only)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>      <span class="c1"># N=4, d=3</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>      <span class="c1"># d=3, m=2</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,)</span>        <span class="c1"># m=2</span>
+
+<span class="n">Y_np</span> <span class="o">=</span> <span class="n">X</span> <span class="o">@</span> <span class="n">W</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">Y_np</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 3.2955051 , -0.70672864],
+       [ 1.38728186,  0.24221777],
+       [ 0.8147218 , -0.76782153],
+       [ 2.86228391, -1.05442875]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch: forward computation (values only)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">W_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">b_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">Y_t</span> <span class="o">=</span> <span class="n">X_t</span> <span class="o">@</span> <span class="n">W_t</span> <span class="o">+</span> <span class="n">b_t</span>
+<span class="n">Y_t</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[-0.6639, -0.6620],
+        [ 0.5748, -1.5384],
+        [-1.7279, -1.2307],
+        [-0.0104, -1.9583]])
+</pre></div>
+</div>
+</div>
+</div>
+<p>At this point, the two libraries look similar. The crucial differences appear when we need <strong>gradients</strong>, <strong>devices</strong>, and <strong>training loops</strong>.</p>
+</section>
+<section id="tensors-and-automatic-differentiation-computation-graphs">
+<h2>4. Tensors and Automatic Differentiation (Computation Graphs)<a class="headerlink" href="#tensors-and-automatic-differentiation-computation-graphs" title="Permalink to this heading">#</a></h2>
+<p>In gradient-based learning, we minimize a loss <span class="math notranslate nohighlight">\(L(\theta)\)</span> over parameters <span class="math notranslate nohighlight">\(\theta\)</span> (weights and biases). Training requires:
+$<span class="math notranslate nohighlight">\(
+\theta \leftarrow \theta - \eta \nabla_\theta L(\theta),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\eta$ is the learning rate.</p>
+<p>In the from-scratch section, you explicitly coded partial derivatives such as:
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial \mathbf{W}}, \quad \frac{\partial L}{\partial \mathbf{b}}.
+\)</span>$</p>
+<p>PyTorch tensors can <strong>track computation graphs</strong>. If a tensor is created with <code class="docutils literal notranslate"><span class="pre">requires_grad=True</span></code>, PyTorch records the sequence of differentiable operations. Calling <code class="docutils literal notranslate"><span class="pre">backward()</span></code> applies the chain rule automatically.</p>
+<p>The chain rule in backpropagation has the generic form:
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial \mathbf{W}} = \frac{\partial L}{\partial \mathbf{Y}}\,\frac{\partial \mathbf{Y}}{\partial \mathbf{W}}.
+\)</span>$</p>
+<p>For <span class="math notranslate nohighlight">\(\mathbf{Y}=\mathbf{X}\mathbf{W}+\mathbf{b}\)</span>, this becomes:
+$<span class="math notranslate nohighlight">\(
+\frac{\partial L}{\partial \mathbf{W}} = \mathbf{X}^\top\frac{\partial L}{\partial \mathbf{Y}}, 
+\qquad
+\frac{\partial L}{\partial \mathbf{b}} = \sum_{i=1}^{N} \frac{\partial L}{\partial \mathbf{Y}_{i,:}}.
+\)</span>$</p>
+<section id="side-by-side-manual-gradients-numpy-vs-autograd-pytorch">
+<h3>Side-by-Side: Manual Gradients (NumPy) vs Autograd (PyTorch)<a class="headerlink" href="#side-by-side-manual-gradients-numpy-vs-autograd-pytorch" title="Permalink to this heading">#</a></h3>
+<p>We will use a simple scalar loss:
+$<span class="math notranslate nohighlight">\(
+L = \sum_{i,j} Y_{ij}.
+\)</span>$</p>
+<p>Then <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial Y_{ij}} = 1\)</span> for all entries, so <span class="math notranslate nohighlight">\(\frac{\partial L}{\partial \mathbf{Y}}\)</span> is a matrix of ones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># NumPy: manual gradients for L = sum(Y)</span>
+<span class="n">grad_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">Y_np</span><span class="p">)</span>          <span class="c1"># dL/dY</span>
+<span class="n">grad_W</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">grad_Y</span>                <span class="c1"># dL/dW = X^T dL/dY</span>
+<span class="n">grad_b</span> <span class="o">=</span> <span class="n">grad_Y</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>          <span class="c1"># dL/db = sum over batch</span>
+
+<span class="n">grad_W</span><span class="p">,</span> <span class="n">grad_b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([[5.36563246, 5.36563246],
+        [2.26040156, 2.26040156],
+        [1.35251476, 1.35251476]]),
+ array([4., 4.]))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># PyTorch: autograd for the same computation</span>
+<span class="n">X_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">W_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">b_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">X_t</span> <span class="o">@</span> <span class="n">W_t</span> <span class="o">+</span> <span class="n">b_t</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">L</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">W_t</span><span class="o">.</span><span class="n">grad</span><span class="p">,</span> <span class="n">b_t</span><span class="o">.</span><span class="n">grad</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tensor([[-0.8637, -0.8637],
+         [ 1.3759,  1.3759],
+         [ 0.8702,  0.8702]]),
+ tensor([4., 4.]))
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Key takeaway:</strong> Autograd does not change the mathematics of backpropagation; it changes <em>who writes</em> the gradient code.
+You still conceptually start from the loss and propagate backward—PyTorch simply performs the bookkeeping consistently and efficiently.</p>
+</section>
+</section>
+<section id="tensor-data-types-dtype-and-why-they-matter">
+<h2>5. Tensor Data Types (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>) and Why They Matter<a class="headerlink" href="#tensor-data-types-dtype-and-why-they-matter" title="Permalink to this heading">#</a></h2>
+<p>Every tensor has a <code class="docutils literal notranslate"><span class="pre">dtype</span></code> that controls numerical precision and valid operations. Common choices include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.float32</span></code> (default for neural network weights and activations)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.float64</span></code> (higher precision; typically slower and rarely needed for standard training)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.int64</span></code> (commonly used for class labels)</p></li>
+</ul>
+<p>This becomes important in classification. For example, <code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code> expects labels as integer class indices:
+$<span class="math notranslate nohighlight">\(
+y \in \{0, 1, \dots, C-1\},
+\)</span>$
+not one-hot vectors.</p>
+<p>In the MNIST workflow:</p>
+<ul class="simple">
+<li><p>Inputs <code class="docutils literal notranslate"><span class="pre">x</span></code> are floating-point tensors (e.g., <code class="docutils literal notranslate"><span class="pre">float32</span></code>)</p></li>
+<li><p>Labels <code class="docutils literal notranslate"><span class="pre">y</span></code> are integer tensors (typically <code class="docutils literal notranslate"><span class="pre">int64</span></code>)</p></li>
+</ul>
+<p>NumPy will often silently cast types in mixed operations, which can hide bugs. PyTorch is stricter in many training-critical paths.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dtype illustration</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>          <span class="c1"># float32 by default</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>       <span class="c1"># int64 by default for integer literals</span>
+
+<span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.float32, torch.int64)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="tensor-shape-and-batching">
+<h2>6. Tensor Shape and Batching<a class="headerlink" href="#tensor-shape-and-batching" title="Permalink to this heading">#</a></h2>
+<p>A major practical difference between educational “from-scratch” code and production deep learning code is <strong>batching</strong>.</p>
+<p>For MNIST, a batch of images typically has shape:
+$<span class="math notranslate nohighlight">\(
+(\text{batch}, \text{channels}, \text{height}, \text{width}) = (B, 1, 28, 28).
+\)</span>$</p>
+<p>An MLP expects a matrix of shape <span class="math notranslate nohighlight">\((B, 784)\)</span>, so we reshape (flatten) each image:
+$<span class="math notranslate nohighlight">\(
+\mathbf{X} \in \mathbb{R}^{B \times 784}.
+\)</span>$</p>
+<p>In PyTorch, flattening is often written as:
+<code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x.view(x.size(0),</span> <span class="pre">-1)</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># shape and flattening example</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">x_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">x_flat</span> <span class="o">=</span> <span class="n">x_batch</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">x_batch</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x_flat</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(torch.Size([128, 1, 28, 28]), torch.Size([128, 784]))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="device-awareness-cpu-vs-gpu">
+<h2>7. Device Awareness (CPU vs GPU)<a class="headerlink" href="#device-awareness-cpu-vs-gpu" title="Permalink to this heading">#</a></h2>
+<p>PyTorch tensors are <strong>device-aware</strong>: each tensor lives on a specific device (CPU or GPU).
+The same code can run on a GPU by moving tensors and models to that device:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>NumPy arrays do not have this concept. To use a GPU in a NumPy-like workflow, you must typically switch libraries (and sometimes APIs), which increases complexity and maintenance cost.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># device illustration</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">x_device</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">x_device</span><span class="o">.</span><span class="n">device</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(device(type=&#39;cpu&#39;), device(type=&#39;cpu&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary-connecting-both-worlds">
+<h2>8. Summary: Connecting Both Worlds<a class="headerlink" href="#summary-connecting-both-worlds" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <strong>mathematics</strong> of the MLP is identical in both approaches.</p></li>
+<li><p>The <strong>from-scratch</strong> implementation emphasizes understanding:</p>
+<ul>
+<li><p>explicit forward/backward derivations,</p></li>
+<li><p>explicit parameter updates.</p></li>
+</ul>
+</li>
+<li><p>PyTorch tensors emphasize scalability and correctness:</p>
+<ul>
+<li><p>automatic differentiation,</p></li>
+<li><p>standardized batching,</p></li>
+<li><p>device-aware execution,</p></li>
+<li><p>and a large library of optimized differentiable operators.</p></li>
+</ul>
+</li>
+</ul>
+<p>Learning tensors effectively does not replace understanding backpropagation—it <em>operationalizes</em> it for real training workloads.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mlp_pytorch_mnist.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Multilayer Perceptron (MLP) with PyTorch on MNIST</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Deployment_Infrastructure.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Working with Virtual Machines, SSH and Remote MLflow Infrastructure</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-tensor">1. What Is a Tensor?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-just-use-numpy-arrays-a-more-convincing-answer">2. Why Not Just Use NumPy Arrays? (A More Convincing Answer)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#side-by-side-numpy-arrays-vs-pytorch-tensors-values">3. Side-by-Side: NumPy Arrays vs PyTorch Tensors (Values)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensors-and-automatic-differentiation-computation-graphs">4. Tensors and Automatic Differentiation (Computation Graphs)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#side-by-side-manual-gradients-numpy-vs-autograd-pytorch">Side-by-Side: Manual Gradients (NumPy) vs Autograd (PyTorch)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-data-types-dtype-and-why-they-matter">5. Tensor Data Types (<code class="docutils literal notranslate"><span class="pre">dtype</span></code>) and Why They Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor-shape-and-batching">6. Tensor Shape and Batching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-awareness-cpu-vs-gpu">7. Device Awareness (CPU vs GPU)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-connecting-both-worlds">8. Summary: Connecting Both Worlds</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

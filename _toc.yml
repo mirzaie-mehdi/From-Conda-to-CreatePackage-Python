@@ -20,6 +20,8 @@ chapters:
   title: Multilayer Perceptron (MLP) From Scratch
 - file: docs/mlp_pytorch_mnist.ipynb
   title: Multilayer Perceptron (MLP) with PyTorch
+- file: docs/tensors_vs_numpy.ipynb
+  title: Tensors versus Numpy 
 - file: docs/Deployment_Infrastructure
   title: Virtual Machine, Deployment and Infrastructure
 - file: docs/jupyter_book_tut
