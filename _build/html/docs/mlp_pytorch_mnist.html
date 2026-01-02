@@ -184,7 +184,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="Multilayer_Perceptron_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
@@ -415,14 +416,21 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-and-device-setup">1. Imports and Device Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loaders">Data Loaders</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model">3. Define the MLP Model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-and-optimizer">4. Loss Function and Optimizer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-evaluation-functions">5. Training and Evaluation Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">6. Train the Model</a></li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -471,12 +479,17 @@ This notebook demonstrates how to train a Multilayer Perceptron (MLP) using PyTo
 </section>
 <section id="load-the-mnist-dataset-with-torchvision">
 <h2>2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code><a class="headerlink" href="#load-the-mnist-dataset-with-torchvision" title="Permalink to this heading">#</a></h2>
-<p>MNIST images are 28×28 grayscale. For an MLP, we flatten each image into a 784-dimensional vector.</p>
+<p>MNIST images are 28×28 grayscale. For an MLP, we flatten each image into a 784-dimensional vector.
+We will use <code class="docutils literal notranslate"><span class="pre">datasets</span></code> from <code class="docutils literal notranslate"><span class="pre">torchvision</span></code> to load the <a class="reference external" href="https://yann.lecun.com/exdb/mnist/">MNIST</a> handwritten digits dataset. You can find the list of datasets available on torchvision <a class="reference external" href="https://pytorch.org/vision/0.8/datasets.html">here</a>. Now let’s take a loot at the parameters we set:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">root</span></code> sets the directory we store and load our data from.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train</span></code> indicates wether we want the training dataset or the test dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">transform</span></code> allows us to apply transformations to our data, here we are only going to convert the data to tensor so that they work with PyToch, however in the future notebooks you will see more complicated transformations.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
-    <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-    <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,))</span>
+    <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
 <span class="p">])</span>
 
 <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span>
@@ -487,13 +500,46 @@ This notebook demonstrates how to train a Multilayer Perceptron (MLP) using PyTo
     <span class="n">root</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
 <span class="p">)</span>
 
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training data: </span><span class="si">{</span><span class="n">train_dataset</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test data: </span><span class="si">{</span><span class="n">test_dataset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training data: Dataset MNIST
+    Number of datapoints: 60000
+    Root location: data
+    Split: Train
+    StandardTransform
+Transform: Compose(
+               ToTensor()
+           )
+
+Test data: Dataset MNIST
+    Number of datapoints: 10000
+    Root location: data
+    Split: Test
+    StandardTransform
+Transform: Compose(
+               ToTensor()
+           )
 </pre></div>
 </div>
 </div>
 </div>
 </section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-loaders">
+<h1>Data Loaders<a class="headerlink" href="#data-loaders" title="Permalink to this heading">#</a></h1>
+<p>To make loading and working with the data easier, we are going to use <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> from <code class="docutils literal notranslate"><span class="pre">torch.utils.data</span></code>. The <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> takes in a dataset and a <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> parameter, and allows us to iterate over the dataset. Here we do one iteration just to see the data shapes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="define-the-mlp-model">
 <h2>3. Define the MLP Model<a class="headerlink" href="#define-the-mlp-model" title="Permalink to this heading">#</a></h2>
 <p>This is a standard fully connected network: 784 → hidden → hidden → 10.
@@ -595,19 +641,19 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.9220 | Test Acc: 0.9622
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.9030 | Test Acc: 0.9519
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9684 | Test Acc: 0.9732
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9600 | Test Acc: 0.9678
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9796 | Test Acc: 0.9754
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9734 | Test Acc: 0.9749
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9839 | Test Acc: 0.9779
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9812 | Test Acc: 0.9745
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9875 | Test Acc: 0.9799
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9853 | Test Acc: 0.9752
 </pre></div>
 </div>
 </div>
@@ -679,14 +725,21 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-and-device-setup">1. Imports and Device Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loaders">Data Loaders</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model">3. Define the MLP Model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-and-optimizer">4. Loss Function and Optimizer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-evaluation-functions">5. Training and Evaluation Functions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">6. Train the Model</a></li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
