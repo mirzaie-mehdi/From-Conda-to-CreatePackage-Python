@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Graph Neural Network- GNN</a></li>
 
 
+
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
 </ul>
@@ -466,6 +467,7 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 
             </nav>
@@ -985,11 +987,17 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+Cora()
+Data(x=[2708, 1433], edge_index=[2, 10556], y=[2708], train_mask=[2708], val_mask=[2708], test_mask=[2708])
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ===== Cora Dataset Inspection (PyTorch Geometric) =====</span>
-
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;===== GRAPH SUMMARY =====&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">()</span>
@@ -1030,6 +1038,49 @@ document.write(`
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Edge index shape: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;First 10 edges:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>===== GRAPH SUMMARY =====
+Data(x=[2708, 1433], edge_index=[2, 10556], y=[2708], train_mask=[2708], val_mask=[2708], test_mask=[2708])
+
+===== BASIC STATISTICS =====
+Number of nodes: 2708
+Number of edges: 10556
+Average node degree: 3.90
+Is undirected: True
+Number of Feature: 1433
+
+===== NODE FEATURES =====
+Feature matrix shape: torch.Size([2708, 1433])
+Number of node features: 1433
+First node feature vector:
+tensor([0., 0., 0.,  ..., 0., 0., 0.])
+
+===== LABELS =====
+Label tensor shape: torch.Size([2708])
+Number of classes: 7
+
+===== DATA SPLITS =====
+Training nodes: 140
+Validation nodes: 500
+Test nodes: 1000
+
+===== CLASS DISTRIBUTION =====
+Class 0: 351 nodes
+Class 1: 217 nodes
+Class 2: 418 nodes
+Class 3: 818 nodes
+Class 4: 426 nodes
+Class 5: 298 nodes
+Class 6: 180 nodes
+
+===== EDGE INFORMATION =====
+Edge index shape: torch.Size([2, 10556])
+First 10 edges:
+tensor([[ 633, 1862, 2582,    2,  652,  654,    1,  332, 1454, 1666],
+        [   0,    0,    0,    1,    1,    1,    2,    2,    2,    2]])
 </pre></div>
 </div>
 </div>
@@ -1079,6 +1130,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{np.int64(3): 818, np.int64(4): 426, np.int64(0): 351, np.int64(2): 418, np.int64(1): 217, np.int64(5): 298, np.int64(6): 180}
+</pre></div>
+</div>
+<img alt="../_images/393d48fdb2c5c9d5f967b13c4c4bfd696ff15b2a8b6723ba445d9a3469c84840.png" src="../_images/393d48fdb2c5c9d5f967b13c4c4bfd696ff15b2a8b6723ba445d9a3469c84840.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1123,6 +1180,9 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/e44b9c00d7992b9e5afbb4fcb732799e5e03c9faca969a6444a585ea64f5fc18.png" src="../_images/e44b9c00d7992b9e5afbb4fcb732799e5e03c9faca969a6444a585ea64f5fc18.png" />
+</div>
 </div>
 </section>
 <section id="two-layer-graph-convolutional-network-gcn">
@@ -1163,6 +1223,14 @@ The GCN class defines a simple two-layer Graph Convolutional Network used for no
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GCN(
+  (conv1): GCNConv(1433, 16)
+  (conv2): GCNConv(16, 7)
+)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1172,6 +1240,12 @@ The GCN class defines a simple two-layer Graph Convolutional Network used for no
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;out:&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;labels:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>out: torch.Size([2708, 7]) torch.float32 cpu
+labels: torch.Size([2708]) torch.int64 cpu
 </pre></div>
 </div>
 </div>
@@ -1221,6 +1295,9 @@ The GCN class defines a simple two-layer Graph Convolutional Network used for no
 <span class="n">visualize_tsne</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/083eb91330a7ba79bedffb25a092dc061d393eba26652f27072e4b68d928e0fd.png" src="../_images/083eb91330a7ba79bedffb25a092dc061d393eba26652f27072e4b68d928e0fd.png" />
 </div>
 </div>
 <p>The following code initializes the main components required to train a Graph Convolutional Network (GCN) for node classification. First, the GCN model is created by specifying the number of input channels (equal to the number of node features) and output channels (equal to the number of classes), and then moved to the chosen computation device (CPU or GPU) using .to(device). Next, the Adam optimizer is defined, which updates the model parameters during training; the learning rate controls how large each update step is, while weight decay acts as a regularization term to reduce overfitting. Finally, the loss function is set to CrossEntropyLoss, which is the standard choice for multi-class classification problems and compares the model’s predicted class scores (logits) with the true node labels. Together, these components prepare the model for the training loop, where the optimizer minimizes the loss by adjusting the GCN’s weights.</p>
@@ -2186,26 +2263,26 @@ Number of parameters: 8706
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 010, Train Acc: 0.0614, Val Acc: 0.0200
-Epoch: 020, Train Acc: 0.0600, Val Acc: 0.0250
-Epoch: 030, Train Acc: 0.0657, Val Acc: 0.0200
-Epoch: 040, Train Acc: 0.0629, Val Acc: 0.0200
-Epoch: 050, Train Acc: 0.0600, Val Acc: 0.0200
-Epoch: 060, Train Acc: 0.0543, Val Acc: 0.0150
-Epoch: 070, Train Acc: 0.0671, Val Acc: 0.0250
-Epoch: 080, Train Acc: 0.0543, Val Acc: 0.0150
-Epoch: 090, Train Acc: 0.0614, Val Acc: 0.0150
-Epoch: 100, Train Acc: 0.0671, Val Acc: 0.0200
-Epoch: 110, Train Acc: 0.0686, Val Acc: 0.0200
-Epoch: 120, Train Acc: 0.0657, Val Acc: 0.0200
-Epoch: 130, Train Acc: 0.0700, Val Acc: 0.0200
-Epoch: 140, Train Acc: 0.0614, Val Acc: 0.0150
-Epoch: 150, Train Acc: 0.0643, Val Acc: 0.0200
-Epoch: 160, Train Acc: 0.0586, Val Acc: 0.0200
-Epoch: 170, Train Acc: 0.0671, Val Acc: 0.0150
-Epoch: 180, Train Acc: 0.0600, Val Acc: 0.0200
-Epoch: 190, Train Acc: 0.0571, Val Acc: 0.0150
-Epoch: 200, Train Acc: 0.0614, Val Acc: 0.0150
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch: 010, Train Acc: 0.0614, Val Acc: 0.0150
+Epoch: 020, Train Acc: 0.0629, Val Acc: 0.0200
+Epoch: 030, Train Acc: 0.0571, Val Acc: 0.0200
+Epoch: 040, Train Acc: 0.0557, Val Acc: 0.0250
+Epoch: 050, Train Acc: 0.0686, Val Acc: 0.0200
+Epoch: 060, Train Acc: 0.0600, Val Acc: 0.0200
+Epoch: 070, Train Acc: 0.0657, Val Acc: 0.0200
+Epoch: 080, Train Acc: 0.0700, Val Acc: 0.0200
+Epoch: 090, Train Acc: 0.0600, Val Acc: 0.0200
+Epoch: 100, Train Acc: 0.0729, Val Acc: 0.0150
+Epoch: 110, Train Acc: 0.0614, Val Acc: 0.0200
+Epoch: 120, Train Acc: 0.0629, Val Acc: 0.0250
+Epoch: 130, Train Acc: 0.0571, Val Acc: 0.0200
+Epoch: 140, Train Acc: 0.0700, Val Acc: 0.0150
+Epoch: 150, Train Acc: 0.0600, Val Acc: 0.0200
+Epoch: 160, Train Acc: 0.0600, Val Acc: 0.0200
+Epoch: 170, Train Acc: 0.0729, Val Acc: 0.0200
+Epoch: 180, Train Acc: 0.0643, Val Acc: 0.0200
+Epoch: 190, Train Acc: 0.0629, Val Acc: 0.0150
+Epoch: 200, Train Acc: 0.0643, Val Acc: 0.0150
 Best validation accuracy:  0.025
 </pre></div>
 </div>
@@ -2609,6 +2686,269 @@ Final Test AUC: 0.9008
 </section>
 </section>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="example">
+<h1>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">QM9</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">NNConv</span><span class="p">,</span> <span class="n">global_add_pool</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dset</span> <span class="o">=</span> <span class="n">QM9</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading https://data.pyg.org/datasets/qm9_v3.zip
+Extracting ./raw/qm9_v3.zip
+Processing...
+Using a pre-processed version of the dataset. Please install &#39;rdkit&#39; to alternatively process the raw data.
+Done!
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>130831
+</pre></div>
+</div>
+</div>
+</div>
+<p>The QM9 dataset contains approximately 134,000 small organic molecules, represented as graphs where:</p>
+<ul class="simple">
+<li><p>Nodes correspond to atoms</p></li>
+<li><p>Edges correspond to chemical bonds</p></li>
+</ul>
+<p>Each molecule includes:</p>
+<ul class="simple">
+<li><p>Atom features (e.g., atomic number)</p></li>
+<li><p>Bond information</p></li>
+<li><p>Multiple target properties such as energy, dipole moment, and molecular orbitals</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">dset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data(x=[5, 11], edge_index=[2, 8], edge_attr=[8, 4], y=[1, 19], pos=[5, 3], idx=[1], name=&#39;gdb_1&#39;, z=[5])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">z</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([6, 1, 1, 1, 1])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">new_attribute</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">data</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data(x=[5, 11], edge_index=[2, 8], edge_attr=[8, 4], y=[1, 19], pos=[5, 3], idx=[1], name=&#39;gdb_1&#39;, z=[5], new_attribute=[3])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">new_attribute</span><span class="o">.</span><span class="n">is_cuda</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ExampleNet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num_node_features</span><span class="p">,</span><span class="n">num_edge_features</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">conv1_net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_edge_features</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+                                  <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                                  <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">num_node_features</span><span class="o">*</span><span class="mi">32</span><span class="p">))</span>
+        <span class="n">conv2_net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_edge_features</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span>
+                                  <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                                  <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="o">*</span><span class="mi">16</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">NNConv</span><span class="p">(</span><span class="n">num_node_features</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">conv1_net</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">NNConv</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">conv2_net</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">batch</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_attr</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">global_add_pool</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc_1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">random_split</span>
+
+
+<span class="n">train_set</span><span class="p">,</span> <span class="n">valid_set</span><span class="p">,</span> <span class="n">test_set</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dset</span><span class="p">,[</span><span class="mi">110000</span><span class="p">,</span> <span class="mi">10831</span><span class="p">,</span> <span class="mi">10000</span><span class="p">])</span>
+
+<span class="n">trainloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">validloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">valid_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">testloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_set</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qm9_node_feats</span><span class="p">,</span> <span class="n">qm9_edge_feats</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">4</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">ExampleNet</span><span class="p">(</span><span class="n">qm9_node_feats</span><span class="p">,</span> <span class="n">qm9_edge_feats</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">target_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># index position of the polarizability label</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">net</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExampleNet(
+  (conv1): NNConv(11, 32, aggr=add, nn=Sequential(
+    (0): Linear(in_features=4, out_features=32, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=32, out_features=352, bias=True)
+  ))
+  (conv2): NNConv(32, 16, aggr=add, nn=Sequential(
+    (0): Linear(in_features=4, out_features=32, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=32, out_features=512, bias=True)
+  ))
+  (fc_1): Linear(in_features=16, out_features=32, bias=True)
+  (out): Linear(in_features=32, out_features=1, bias=True)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">total_epochs</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    
+    <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_graphs</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">trainloader</span><span class="p">:</span>
+        <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="n">target_idx</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">total_graphs</span> <span class="o">+=</span> <span class="n">batch</span><span class="o">.</span><span class="n">num_graphs</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+    <span class="n">train_avg_loss</span> <span class="o">=</span> <span class="n">epoch_loss</span> <span class="o">/</span> <span class="n">total_graphs</span>
+    <span class="n">val_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_graphs</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">validloader</span><span class="p">:</span>
+        <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span><span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="n">target_idx</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">val_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="n">total_graphs</span> <span class="o">+=</span> <span class="n">batch</span><span class="o">.</span><span class="n">num_graphs</span>
+    <span class="n">val_avg_loss</span> <span class="o">=</span> <span class="n">val_loss</span> <span class="o">/</span> <span class="n">total_graphs</span>
+    
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epochs: </span><span class="si">{</span><span class="n">total_epochs</span><span class="si">}</span><span class="s2"> | epoch avg. loss: </span><span class="si">{</span><span class="n">train_avg_loss</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> | validation avg. loss: </span><span class="si">{</span><span class="n">val_avg_loss</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epochs: 0 | epoch avg. loss: 0.44 | validation avg. loss: 0.10
+Epochs: 1 | epoch avg. loss: 0.13 | validation avg. loss: 0.12
+Epochs: 2 | epoch avg. loss: 0.10 | validation avg. loss: 0.06
+Epochs: 3 | epoch avg. loss: 0.09 | validation avg. loss: 0.07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">real</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">testloader</span><span class="p">:</span>
+    
+    <span class="n">output</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+    <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+    <span class="n">real</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="n">target_idx</span><span class="p">]</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+<span class="n">real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">real</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">[:</span><span class="mi">500</span><span class="p">],</span><span class="n">predictions</span><span class="p">[:</span><span class="mi">500</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Predicted isotropic polarizability&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Isotropic polarizability&#39;</span><span class="p">)</span>
+<span class="c1">#plt.savefig(&#39;figures/18_12.png&#39;, dpi=300)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Isotropic polarizability&#39;)
+</pre></div>
+</div>
+<img alt="../_images/c0f5e4bad5b9da06bb7a2590e6d745e76bfac13db4d9de0bfa7a41b35e9af49f.png" src="../_images/c0f5e4bad5b9da06bb7a2590e6d745e76bfac13db4d9de0bfa7a41b35e9af49f.png" />
+</div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2721,6 +3061,7 @@ Final Test AUC: 0.9008
 </li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 
   </nav></div>
