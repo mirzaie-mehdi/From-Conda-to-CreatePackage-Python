@@ -7,3 +7,4 @@ plotly
 seaborn
 scikit-learn
 torch torchvision
+torch_geometric
