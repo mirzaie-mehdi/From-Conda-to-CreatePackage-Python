@@ -191,7 +191,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Graph Neural Network- GNN</a></li>
 
 
-
 <li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
 </ul>
@@ -422,9 +421,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Graph Neural Network- GNN</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-version-checks">Package version checks</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-18-graph-neural-networks-for-capturing-dependencies-in-graph-structured-data-part-1-2">Chapter 18 - Graph Neural Networks for Capturing Dependencies in Graph Structured Data (Part 1/2)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-graph-data">Introduction to graph data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphs">Undirected graphs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphs">Directed graphs</a></li>
@@ -482,6 +478,9 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="graph-neural-network-gnn">
 <h1>Graph Neural Network- GNN<a class="headerlink" href="#graph-neural-network-gnn" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>for Capturing Dependencies in Graph Structured Data</p></li>
+</ul>
 <section id="package-version-checks">
 <h2>Package version checks<a class="headerlink" href="#package-version-checks" title="Permalink to this heading">#</a></h2>
 <p>Add folder to path in order to load from the check_packages.py script:</p>
@@ -526,10 +525,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="chapter-18-graph-neural-networks-for-capturing-dependencies-in-graph-structured-data-part-1-2">
-<h1>Chapter 18 - Graph Neural Networks for Capturing Dependencies in Graph Structured Data (Part 1/2)<a class="headerlink" href="#chapter-18-graph-neural-networks-for-capturing-dependencies-in-graph-structured-data-part-1-2" title="Permalink to this heading">#</a></h1>
 <ul class="simple">
 <li><p><span class="xref myst">Introduction to graph data</span></p>
 <ul>
@@ -563,6 +558,7 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
 <section id="introduction-to-graph-data">
 <h2>Introduction to graph data<a class="headerlink" href="#introduction-to-graph-data" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
@@ -2735,10 +2731,20 @@ Final Test AUC: 0.9008
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data(x=[5, 11], edge_index=[2, 8], edge_attr=[8, 4], y=[1, 19], pos=[5, 3], idx=[1], name=&#39;gdb_1&#39;, z=[5])
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">z</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([6, 1, 1, 1, 1])
 </pre></div>
 </div>
 </div>
@@ -2750,12 +2756,22 @@ Final Test AUC: 0.9008
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data(x=[5, 11], edge_index=[2, 8], edge_attr=[8, 4], y=[1, 19], pos=[5, 3], idx=[1], name=&#39;gdb_1&#39;, z=[5], new_attribute=[3])
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda:0&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 <span class="n">data</span><span class="o">.</span><span class="n">new_attribute</span><span class="o">.</span><span class="n">is_cuda</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
 </pre></div>
 </div>
 </div>
@@ -2822,6 +2838,24 @@ Final Test AUC: 0.9008
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExampleNet(
+  (conv1): NNConv(11, 32, aggr=add, nn=Sequential(
+    (0): Linear(in_features=4, out_features=32, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=32, out_features=352, bias=True)
+  ))
+  (conv2): NNConv(32, 16, aggr=add, nn=Sequential(
+    (0): Linear(in_features=4, out_features=32, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=32, out_features=512, bias=True)
+  ))
+  (fc_1): Linear(in_features=16, out_features=32, bias=True)
+  (out): Linear(in_features=32, out_features=1, bias=True)
+)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2857,6 +2891,14 @@ Final Test AUC: 0.9008
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epochs: 0 | epoch avg. loss: 0.55 | validation avg. loss: 0.21
+Epochs: 1 | epoch avg. loss: 0.13 | validation avg. loss: 0.11
+Epochs: 2 | epoch avg. loss: 0.11 | validation avg. loss: 0.18
+Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2887,6 +2929,12 @@ Final Test AUC: 0.9008
 <span class="c1">#plt.savefig(&#39;figures/18_12.png&#39;, dpi=300)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Isotropic polarizability&#39;)
+</pre></div>
+</div>
+<img alt="../_images/d86016b1d63e3daa9925573eaa08401fb6b6c593950276d2aec32dcb5736ee83.png" src="../_images/d86016b1d63e3daa9925573eaa08401fb6b6c593950276d2aec32dcb5736ee83.png" />
 </div>
 </div>
 </section>
@@ -2957,9 +3005,6 @@ Final Test AUC: 0.9008
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Graph Neural Network- GNN</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-version-checks">Package version checks</a></li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#chapter-18-graph-neural-networks-for-capturing-dependencies-in-graph-structured-data-part-1-2">Chapter 18 - Graph Neural Networks for Capturing Dependencies in Graph Structured Data (Part 1/2)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-graph-data">Introduction to graph data</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphs">Undirected graphs</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphs">Directed graphs</a></li>
