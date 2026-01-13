@@ -22,29 +22,14 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from python_environment_check import check_packages
-
-
-d = {
-    'torch': '1.8.0',
-    'networkx': '2.6.2',
-    'numpy': '1.21.2',
-}
-
-check_packages(d)
+Image(filename='images/GNN_graph.png', width=500)
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[2], line 1[0m
-[0;32m----> 1[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mpython_environment_check[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m check_packages
-[1;32m      4[0m d [38;5;241m=[39m {
-[1;32m      5[0m     [38;5;124m'[39m[38;5;124mtorch[39m[38;5;124m'[39m: [38;5;124m'[39m[38;5;124m1.8.0[39m[38;5;124m'[39m,
-[1;32m      6[0m     [38;5;124m'[39m[38;5;124mnetworkx[39m[38;5;124m'[39m: [38;5;124m'[39m[38;5;124m2.6.2[39m[38;5;124m'[39m,
-[1;32m      7[0m     [38;5;124m'[39m[38;5;124mnumpy[39m[38;5;124m'[39m: [38;5;124m'[39m[38;5;124m1.21.2[39m[38;5;124m'[39m,
-[1;32m      8[0m }
-[1;32m     10[0m check_packages(d)
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[1], line 1[0m
+[0;32m----> 1[0m [43mImage[49m(filename[38;5;241m=[39m[38;5;124m'[39m[38;5;124mimages/GNN_graph.png[39m[38;5;124m'[39m, width[38;5;241m=[39m[38;5;241m500[39m)
 
-[0;31mModuleNotFoundError[0m: No module named 'python_environment_check'
+[0;31mNameError[0m: name 'Image' is not defined
 

@@ -420,20 +420,12 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Graph Neural Network- GNN</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-version-checks">Package version checks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-graph-data">Introduction to graph data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphs">Undirected graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphs">Directed graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labeled-graphs">Labeled graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representing-molecules-as-graphs">Representing molecules as graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions">Understanding graph convolutions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-graph-convolution">Implementing a basic graph convolution</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-representing-molecules-as-graphs">An Example: Representing molecules as graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coding-the-nodenetworks-graph-convolution-layer">Coding the NodeNetwork’s graph convolution layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataloader">Preparing the DataLoader</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-nodenetwork-to-make-predictions">Using the NodeNetwork to make predictions</a></li>
@@ -478,53 +470,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="graph-neural-network-gnn">
 <h1>Graph Neural Network- GNN<a class="headerlink" href="#graph-neural-network-gnn" title="Permalink to this heading">#</a></h1>
-<ul class="simple">
-<li><p>for Capturing Dependencies in Graph Structured Data</p></li>
-</ul>
-<section id="package-version-checks">
-<h2>Package version checks<a class="headerlink" href="#package-version-checks" title="Permalink to this heading">#</a></h2>
-<p>Add folder to path in order to load from the check_packages.py script:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Check recommended package versions:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">python_environment_check</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_packages</span>
-
-
-<span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;torch&#39;</span><span class="p">:</span> <span class="s1">&#39;1.8.0&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;networkx&#39;</span><span class="p">:</span> <span class="s1">&#39;2.6.2&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;numpy&#39;</span><span class="p">:</span> <span class="s1">&#39;1.21.2&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">check_packages</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">python_environment_check</span><span class="w"> </span><span class="kn">import</span> <span class="n">check_packages</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="s1">&#39;torch&#39;</span><span class="p">:</span> <span class="s1">&#39;1.8.0&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="s1">&#39;networkx&#39;</span><span class="p">:</span> <span class="s1">&#39;2.6.2&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="s1">&#39;numpy&#39;</span><span class="p">:</span> <span class="s1">&#39;1.21.2&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="p">}</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">check_packages</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;python_environment_check&#39;
-</pre></div>
-</div>
-</div>
-</div>
+<p>A powerfull tool for Capturing Dependencies in Graph Structured Data.</p>
 <ul class="simple">
 <li><p><span class="xref myst">Introduction to graph data</span></p>
 <ul>
@@ -550,77 +496,53 @@ document.write(`
 </ul>
 </li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="introduction-to-graph-data">
-<h2>Introduction to graph data<a class="headerlink" href="#introduction-to-graph-data" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_01.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<section id="undirected-graphs">
-<h3>Undirected graphs<a class="headerlink" href="#undirected-graphs" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_02.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="directed-graphs">
-<h3>Directed graphs<a class="headerlink" href="#directed-graphs" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_03.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="labeled-graphs">
-<h3>Labeled graphs<a class="headerlink" href="#labeled-graphs" title="Permalink to this heading">#</a></h3>
-</section>
-<section id="representing-molecules-as-graphs">
-<h3>Representing molecules as graphs<a class="headerlink" href="#representing-molecules-as-graphs" title="Permalink to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_04.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="understanding-graph-convolutions">
-<h3>Understanding graph convolutions<a class="headerlink" href="#understanding-graph-convolutions" title="Permalink to this heading">#</a></h3>
-</section>
 <section id="the-motivation-behind-using-graph-convolutions">
-<h3>The motivation behind using graph convolutions<a class="headerlink" href="#the-motivation-behind-using-graph-convolutions" title="Permalink to this heading">#</a></h3>
+<h2>The motivation behind using graph convolutions<a class="headerlink" href="#the-motivation-behind-using-graph-convolutions" title="Permalink to this heading">#</a></h2>
+<p>Graphs are invariant under node ordering. Therefore, as shown below, all of the adjacency matrices represent the same graph.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_05.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;Image&#39; is not defined
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="implementing-a-basic-graph-convolution">
-<h3>Implementing a basic graph convolution<a class="headerlink" href="#implementing-a-basic-graph-convolution" title="Permalink to this heading">#</a></h3>
+<section id="an-example-representing-molecules-as-graphs">
+<h2>An Example: Representing molecules as graphs<a class="headerlink" href="#an-example-representing-molecules-as-graphs" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_06.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_Molec.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/783b2859cb124b3f88b19d2fa0638295c85bcdbc47022731852cbb365392e46c.png" src="../_images/783b2859cb124b3f88b19d2fa0638295c85bcdbc47022731852cbb365392e46c.png" />
+</div>
+</div>
+</section>
+<section id="understanding-graph-convolutions-implementing-a-basic-graph-convolution">
+<h2>Understanding graph convolutions: Implementing a basic graph convolution<a class="headerlink" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution" title="Permalink to this heading">#</a></h2>
+<p>In this simple example, each node has a three dimensional representaion. Each row represents the features of that specific node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph2.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/96e51796377bc15a3d65e5fe49e52fe81b4418a20b570ae1b03fd17b40129a02.png" src="../_images/96e51796377bc15a3d65e5fe49e52fe81b4418a20b570ae1b03fd17b40129a02.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -650,6 +572,14 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0 1 1 0]
+ [1 0 1 0]
+ [1 1 0 1]
+ [0 0 1 0]]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -666,6 +596,17 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[0. 1. 0.]
+ [0. 0. 1.]
+ [0. 1. 0.]
+ [1. 0. 0.]]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -674,12 +615,19 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/c0975abd4b489c2bfd739362064a476832e0b23fd7e03a08a98b2ceb1cf51779.png" src="../_images/c0975abd4b489c2bfd739362064a476832e0b23fd7e03a08a98b2ceb1cf51779.png" />
 </div>
+</div>
+<p>The figure illustrates how the first graph convolution layer aggregates information from immediate neighbors, while the second layer captures information from neighbors of neighbors.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_07.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_conc.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0ef5d73dad4c27d77a09be565ecf9a1fa85e399a6171aabe9469f58f599f4205.png" src="../_images/0ef5d73dad4c27d77a09be565ecf9a1fa85e399a6171aabe9469f58f599f4205.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -694,15 +642,27 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_08.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_mp.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/8d32f6fe6256a8e921089d061d621242051c0aed32e2d885082202d7603d4371.png" src="../_images/8d32f6fe6256a8e921089d061d621242051c0aed32e2d885082202d7603d4371.png" />
 </div>
-</section>
+</div>
 </section>
 <section id="implementing-a-gnn-in-pytorch-from-scratch">
 <h2>Implementing a GNN in PyTorch from scratch<a class="headerlink" href="#implementing-a-gnn-in-pytorch-from-scratch" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_GCN.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/30eef1ca53ab58d83e2bb088a616c11ac33e20bbcf24f6c76412d5953a7ee64a.png" src="../_images/30eef1ca53ab58d83e2bb088a616c11ac33e20bbcf24f6c76412d5953a7ee64a.png" />
+</div>
+</div>
 <section id="defining-the-nodenetwork-model">
 <h3>Defining the NodeNetwork model<a class="headerlink" href="#defining-the-nodenetwork-model" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -739,16 +699,9 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_09.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 </section>
-<section id="coding-the-nodenetworks-graph-convolution-layer">
-<h3>Coding the NodeNetwork’s graph convolution layer<a class="headerlink" href="#coding-the-nodenetworks-graph-convolution-layer" title="Permalink to this heading">#</a></h3>
+<section id="the-nodenetworks-graph-convolution-layer">
+<h3>The NodeNetwork’s graph convolution layer<a class="headerlink" href="#the-nodenetworks-graph-convolution-layer" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BasicGraphConvolutionLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -3004,20 +2957,12 @@ Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Graph Neural Network- GNN</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-version-checks">Package version checks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-graph-data">Introduction to graph data</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undirected-graphs">Undirected graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#directed-graphs">Directed graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labeled-graphs">Labeled graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representing-molecules-as-graphs">Representing molecules as graphs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions">Understanding graph convolutions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-graph-convolution">Implementing a basic graph convolution</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-representing-molecules-as-graphs">An Example: Representing molecules as graphs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coding-the-nodenetworks-graph-convolution-layer">Coding the NodeNetwork’s graph convolution layer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataloader">Preparing the DataLoader</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-nodenetwork-to-make-predictions">Using the NodeNetwork to make predictions</a></li>
