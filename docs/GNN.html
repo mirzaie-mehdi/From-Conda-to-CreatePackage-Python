@@ -63,6 +63,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/GNN';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -423,6 +425,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-representing-molecules-as-graphs">An Example: Representing molecules as graphs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
@@ -471,59 +475,29 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="graph-neural-network-gnn">
 <h1>Graph Neural Network- GNN<a class="headerlink" href="#graph-neural-network-gnn" title="Permalink to this heading">#</a></h1>
 <p>A powerfull tool for Capturing Dependencies in Graph Structured Data.</p>
-<ul class="simple">
-<li><p><span class="xref myst">Introduction to graph data</span></p>
-<ul>
-<li><p><span class="xref myst">Undirected graphs</span></p></li>
-<li><p><span class="xref myst">Directed graphs</span></p></li>
-<li><p><span class="xref myst">Labeled graphs</span></p></li>
-<li><p><span class="xref myst">Representing molecules as graphs</span></p></li>
-</ul>
-</li>
-<li><p><span class="xref myst">Understanding graph convolutions</span></p>
-<ul>
-<li><p><span class="xref myst">The motivation behind using graph convolutions</span></p></li>
-<li><p><span class="xref myst">Implementing a basic graph convolution</span></p></li>
-</ul>
-</li>
-<li><p><span class="xref myst">Implementing a GNN in PyTorch from scratch</span></p>
-<ul>
-<li><p><span class="xref myst">Defining the NodeNetwork model</span></p></li>
-<li><p><span class="xref myst">Coding the NodeNetwork’s graph convolution layer</span></p></li>
-<li><p><span class="xref myst">Adding a global pooling layer to deal with varying graph sizes</span></p></li>
-<li><p><span class="xref myst">Preparing the DataLoader</span></p></li>
-<li><p><span class="xref myst">Using the NodeNetwork to make predictions</span></p></li>
-</ul>
-</li>
-</ul>
 <section id="the-motivation-behind-using-graph-convolutions">
 <h2>The motivation behind using graph convolutions<a class="headerlink" href="#the-motivation-behind-using-graph-convolutions" title="Permalink to this heading">#</a></h2>
 <p>Graphs are invariant under node ordering. Therefore, as shown below, all of the adjacency matrices represent the same graph.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;Image&#39; is not defined
-</pre></div>
-</div>
+<img alt="../_images/a60964aa2f1f16e8f4eed63a5dea4f910d33895f2e588cc32d0c3043d8dccc39.png" src="../_images/a60964aa2f1f16e8f4eed63a5dea4f910d33895f2e588cc32d0c3043d8dccc39.png" />
 </div>
 </div>
 </section>
 <section id="an-example-representing-molecules-as-graphs">
 <h2>An Example: Representing molecules as graphs<a class="headerlink" href="#an-example-representing-molecules-as-graphs" title="Permalink to this heading">#</a></h2>
+<p>Molecular structures in two or three dimensions can be naturally represented as graphs. For instance, the caffeine molecule shown below can be modeled by treating each atom as a node in the graph. Edges between nodes represent chemical bonds, such as single or double bonds.</p>
+<p>Each node is associated with a three-dimensional feature vector describing the properties of the corresponding atom, while each edge has a two-dimensional feature vector that captures the characteristics of the bond. In this example, node features encode the atom type, and edge features encode the bond type. Depending on the specific task and the available chemical information, the definitions of node and edge feature sets can be adapted accordingly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_Molec.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_Molec.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -534,7 +508,7 @@ document.write(`
 </section>
 <section id="understanding-graph-convolutions-implementing-a-basic-graph-convolution">
 <h2>Understanding graph convolutions: Implementing a basic graph convolution<a class="headerlink" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution" title="Permalink to this heading">#</a></h2>
-<p>In this simple example, each node has a three dimensional representaion. Each row represents the features of that specific node.</p>
+<p>In the followig simple example, each node has a three dimensional representaion. Each row represents the features of that specific node.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_graph2.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
@@ -545,18 +519,13 @@ document.write(`
 <img alt="../_images/96e51796377bc15a3d65e5fe49e52fe81b4418a20b570ae1b03fd17b40129a02.png" src="../_images/96e51796377bc15a3d65e5fe49e52fe81b4418a20b570ae1b03fd17b40129a02.png" />
 </div>
 </div>
+<p>The follwoing code generate the above graph using networkx library.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
 
 <span class="c1">#Hex codes for colors if we draw graph</span>
 <span class="n">blue</span><span class="p">,</span> <span class="n">orange</span><span class="p">,</span> <span class="n">green</span> <span class="o">=</span> <span class="s2">&quot;#1f77b4&quot;</span><span class="p">,</span> <span class="s2">&quot;#ff7f0e&quot;</span><span class="p">,</span><span class="s2">&quot;#2ca02c&quot;</span>
@@ -616,10 +585,76 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c0975abd4b489c2bfd739362064a476832e0b23fd7e03a08a98b2ceb1cf51779.png" src="../_images/c0975abd4b489c2bfd739362064a476832e0b23fd7e03a08a98b2ceb1cf51779.png" />
+<img alt="../_images/8e8c433fed6fff9904b746ec6b715e1da2cf00dfeb1979a1352c92c5f7c98966.png" src="../_images/8e8c433fed6fff9904b746ec6b715e1da2cf00dfeb1979a1352c92c5f7c98966.png" />
 </div>
 </div>
+<p><strong>Convolution in CNNs (Grid-Structured Data)</strong>
+Let <span class="math notranslate nohighlight">\(x_{i,j} \in \mathbb{R}^F\)</span> denote the feature vector at pixel location <span class="math notranslate nohighlight">\((i,j)\)</span>. A convolutional layer with a <span class="math notranslate nohighlight">\(k \times k\)</span> kernel computes:</p>
+<p><span class="math notranslate nohighlight">\( h_{i,j}^{(l+1)} = \sigma \left( \sum_{(u,v) \in \mathcal{N}(i,j)} W_{u-i, v-j}^{(l)} , x_{u,v}^{(l)} + b^{(l)} \right) \)</span></p>
+<p><strong>Key properties</strong></p>
+<ul class="simple">
+<li><p>Neighborhood: fixed spatial window (e.g., 3×3)</p></li>
+<li><p>Parameters: shared kernel weights</p></li>
+<li><p>Ordering: fixed by grid structure</p></li>
+<li><p>Operation: local weighted sum</p></li>
+</ul>
+<p><strong>Convolution in GNNs (Graph-Structured Data)</strong>
+Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> be the feature vector of node (i), and <span class="math notranslate nohighlight">\(\mathcal{N}(i)\)</span> its neighbors.</p>
+<p>A generic graph convolution layer is:</p>
+<p><span class="math notranslate nohighlight">\( h_i^{(l+1)} = \sigma \left( W_{\text{self}}^{(l)} h_i^{(l)} + \sum_{j \in \mathcal{N}(i)} W_{\text{nbr}}^{(l)} h_j^{(l)} \right) \)</span></p>
+<p>or more generally:</p>
+<p><span class="math notranslate nohighlight">\( h_i^{(l+1)} = \sigma \left( \text{AGGREGATE}_{j \in \mathcal{N}(i) \cup {i}} \big( W^{(l)} h_j^{(l)} \big) \right) \)</span></p>
+<p><strong>Key properties</strong></p>
+<ul class="simple">
+<li><p>Neighborhood: defined by graph edges</p></li>
+<li><p>Parameters: shared across all nodes</p></li>
+<li><p>Ordering: permutation-invariant</p></li>
+<li><p>Operation: message passing + aggregation</p></li>
+</ul>
+</section>
+<section id="mathematical-correspondence">
+<h2>Mathematical Correspondence<a class="headerlink" href="#mathematical-correspondence" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>CNN</p></th>
+<th class="head"><p>GNN</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Pixel</p></td>
+<td><p>Node</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spatial neighbors</p></td>
+<td><p>Graph neighbors</p></td>
+</tr>
+<tr class="row-even"><td><p>Sliding window</p></td>
+<td><p>Message passing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kernel weights</p></td>
+<td><p>Shared transformations</p></td>
+</tr>
+<tr class="row-even"><td><p>Translation invariance</p></td>
+<td><p>Permutation invariance</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="why-this-is-a-convolution">
+<h2>Why This Is a Convolution<a class="headerlink" href="#why-this-is-a-convolution" title="Permalink to this heading">#</a></h2>
+<p>Both CNN and GNN layers:</p>
+<ul class="simple">
+<li><p>Aggregate <strong>local neighborhood information</strong></p></li>
+<li><p>Use <strong>shared parameters</strong></p></li>
+<li><p>Build <strong>hierarchical representations</strong> by stacking layers</p></li>
+</ul>
+<p>A <strong>graph convolution</strong> generalizes classical convolution from regular grids to arbitrary graph structures, replacing spatial locality with topological locality.</p>
+<p><img alt="GNN-cnn" src="../_images/GNN_cnn.png" />
+<img alt="GNN-gnn" src="../_images/GNN_gnn.png" /></p>
 <p>The figure illustrates how the first graph convolution layer aggregates information from immediate neighbors, while the second layer captures information from neighbors of neighbors.</p>
+<p>In a graph convolution, each node updates its representation by collecting and combining feature information from its connected neighbors. This process is often referred to as message passing. During a single graph convolution layer, every node receives messages from adjacent nodes through the edges of the graph. These messages typically consist of the neighbors’ feature vectors, which may be transformed by learnable weights and weighted according to the edge types or connectivity structure.</p>
+<p>The received messages are then aggregated using a permutation-invariant <strong>operation such as summation, mean, or maximum</strong>, ensuring that the result <strong>does not depend on the order of the neighbors</strong>. The aggregated information is combined with the node’s own features and passed through a nonlinear transformation to produce an updated node representation. As a result, after one graph convolution layer, each node’s embedding encodes information about itself and its immediate neighborhood.</p>
+<p>By stacking multiple graph convolution layers, the receptive field of each node expands. The second layer allows nodes to incorporate information from nodes that are two hops away, effectively capturing higher-order structural and relational patterns in the graph. This hierarchical aggregation enables graph neural networks to learn representations that reflect both local structure and broader graph context, which is essential for tasks such as molecular property prediction, node classification, and graph-level inference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_conc.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
@@ -746,6 +781,45 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_10.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_10.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:1053,</span> in <span class="ni">Image.__init__</span><span class="nt">(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1051</span> <span class="bp">self</span><span class="o">.</span><span class="n">unconfined</span> <span class="o">=</span> <span class="n">unconfined</span>
+<span class="g g-Whitespace">   </span><span class="mi">1052</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt</span> <span class="o">=</span> <span class="n">alt</span>
+<span class="ne">-&gt; </span><span class="mi">1053</span> <span class="nb">super</span><span class="p">(</span><span class="n">Image</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1054</span>         <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1056</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="p">{}):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1057</span>     <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:371,</span> in <span class="ni">DisplayObject.__init__</span><span class="nt">(self, data, url, filename, metadata)</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span>     <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="ne">--&gt; </span><span class="mi">371</span> <span class="bp">self</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_data</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:1088,</span> in <span class="ni">Image.reload</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1086</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Reload the raw data from file or URL.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1087</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1088</span>     <span class="nb">super</span><span class="p">(</span><span class="n">Image</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1089</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retina</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1090</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_retina_shape</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:397,</span> in <span class="ni">DisplayObject.reload</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">395</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">396</span>     <span class="n">encoding</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_flags</span> <span class="k">else</span> <span class="s2">&quot;utf-8&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">397</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_flags</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">398</span>         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">399</span> <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">400</span>     <span class="c1"># Deferred import</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;figures/18_10.png&#39;
 </pre></div>
 </div>
 </div>
@@ -2960,6 +3034,8 @@ Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-motivation-behind-using-graph-convolutions">The motivation behind using graph convolutions</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-representing-molecules-as-graphs">An Example: Representing molecules as graphs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
