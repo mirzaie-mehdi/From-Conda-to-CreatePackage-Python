@@ -427,7 +427,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-networks-with-edge-embeddings">Graph Neural Networks with Edge Embeddings</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-to-edge-update-v-rightarrow-e">Node-to-edge update <span class="math notranslate nohighlight">\( (v \rightarrow e)\)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-to-node-update-e-rightarrow-v">Edge-to-node update <span class="math notranslate nohighlight">\((e \rightarrow v)\)</span></a></li>
@@ -438,7 +437,27 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention">Multi-head attention.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smoothness-in-graph-neural-networks">Smoothness in Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition">Intuition.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#smoothness-via-message-passing">Smoothness via message passing.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-graph-laplacian-regularization">Connection to graph Laplacian regularization.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#benefits-and-limitations">Benefits and limitations.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batching-and-training-strategies-for-graph-neural-networks">Mini-batching and Training Strategies for Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-batch-training">Full-batch training.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-level-mini-batching">Graph-level mini-batching.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-wise-mini-batching-with-neighbor-sampling">Node-wise mini-batching with neighbor sampling.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subgraph-based-mini-batching">Subgraph-based mini-batching.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs">Trade-offs.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
@@ -596,7 +615,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/832721fefba0e5db2c4a66676980ab707c8d1292bef61182af32904ce69b7d16.png" src="../_images/832721fefba0e5db2c4a66676980ab707c8d1292bef61182af32904ce69b7d16.png" />
+<img alt="../_images/c3fc9f7e79403bf9e559f3b706527f09d92567b197e3a6c44efe2a56fa805fde.png" src="../_images/c3fc9f7e79403bf9e559f3b706527f09d92567b197e3a6c44efe2a56fa805fde.png" />
 </div>
 </div>
 <p><strong>Convolution in CNNs (Grid-Structured Data)</strong>
@@ -706,9 +725,6 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 <img alt="../_images/8d32f6fe6256a8e921089d061d621242051c0aed32e2d885082202d7603d4371.png" src="../_images/8d32f6fe6256a8e921089d061d621242051c0aed32e2d885082202d7603d4371.png" />
 </div>
 </div>
-</section>
-<section id="implementing-a-gnn-in-pytorch-from-scratch">
-<h2>Implementing a GNN in PyTorch from scratch<a class="headerlink" href="#implementing-a-gnn-in-pytorch-from-scratch" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_GCN.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
@@ -927,6 +943,131 @@ where \)</span>\sigma(\cdot)$ denotes the logistic sigmoid function.</p>
 <img alt="../_images/1367a60fed7fbd338cfbea4b4b2340b5940ad5db9b125b92eaa13379290a94f0.png" src="../_images/1367a60fed7fbd338cfbea4b4b2340b5940ad5db9b125b92eaa13379290a94f0.png" />
 </div>
 </div>
+</section>
+<section id="smoothness-in-graph-neural-networks">
+<h2>Smoothness in Graph Neural Networks<a class="headerlink" href="#smoothness-in-graph-neural-networks" title="Permalink to this heading">#</a></h2>
+<p>A fundamental assumption underlying Graph Neural Networks is the principle of \emph{smoothness} on graphs.
+Smoothness expresses the idea that nodes that are close or strongly connected in the graph structure are likely to have similar representations and labels.</p>
+<section id="intuition">
+<h3>Intuition.<a class="headerlink" href="#intuition" title="Permalink to this heading">#</a></h3>
+<p>In many real-world graphs, such as social networks, citation networks, or molecular graphs, neighboring nodes often share semantic or functional similarity.
+Graph Neural Networks exploit this assumption by propagating and averaging information across edges, thereby encouraging neighboring nodes to have similar embeddings.</p>
+</section>
+<section id="smoothness-via-message-passing">
+<h3>Smoothness via message passing.<a class="headerlink" href="#smoothness-via-message-passing" title="Permalink to this heading">#</a></h3>
+<p>Consider a generic GCN layer of the form
+$<span class="math notranslate nohighlight">\(
+\mathbf{H}^{(l+1)} = \sigma\!\left(\hat{\mathbf{A}}\,\mathbf{H}^{(l)}\mathbf{W}^{(l)}\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\hat{\mathbf{A}}<span class="math notranslate nohighlight">\( is the normalized adjacency matrix. 
+Multiplication by \)</span>\hat{\mathbf{A}}$ performs a local averaging of node representations over the graph neighborhood.
+As a result, node embeddings become progressively smoother across edges as the number of layers increases.</p>
+</section>
+<section id="connection-to-graph-laplacian-regularization">
+<h3>Connection to graph Laplacian regularization.<a class="headerlink" href="#connection-to-graph-laplacian-regularization" title="Permalink to this heading">#</a></h3>
+<p>The smoothness assumption can be formalized using the graph Laplacian.
+Let <span class="math notranslate nohighlight">\(\mathbf{Z} \in \mathbb{R}^{N \times d}\)</span> denote the matrix of node embeddings.
+A common smoothness regularizer is
+$<span class="math notranslate nohighlight">\(
+\mathcal{R}_{\text{smooth}}(\mathbf{Z}) =
+\frac{1}{2}
+\sum_{i,j} A_{ij}
+\lVert \mathbf{z}_i - \mathbf{z}_j \rVert^2
+=\mathrm{Tr}\!\left(\mathbf{Z}^{\top}\mathbf{L}\mathbf{Z}\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathbf{L} = \mathbf{D} - \mathbf{A}$ is the graph Laplacian.
+Minimizing this term explicitly enforces similar embeddings for neighboring nodes.</p>
+<p>GCN layers can be interpreted as implicitly minimizing such a smoothness objective, thereby acting as a form of Laplacian regularization.</p>
+<section id="benefits-and-limitations">
+<h4>Benefits and limitations.<a class="headerlink" href="#benefits-and-limitations" title="Permalink to this heading">#</a></h4>
+<p>Smoothness is a powerful inductive bias that enables effective semi-supervised learning and label propagation on graphs.
+However, excessive smoothing can be detrimental.
+As multiple GNN layers are stacked, node embeddings may converge to similar values across the graph, a phenomenon known as \emph{over-smoothing}.</p>
+<p>\paragraph{Over-smoothing.}
+Over-smoothing occurs when repeated neighborhood aggregation causes node embeddings to become indistinguishable:
+$<span class="math notranslate nohighlight">\(
+\mathbf{z}_i \approx \mathbf{z}_j \quad \forall i,j.
+\)</span>$
+This limits the expressive power of deep GNNs and degrades performance on tasks that require discriminative node representations.</p>
+<p><strong>Mitigation strategies.</strong>
+Common techniques to mitigate over-smoothing include:</p>
+<ul class="simple">
+<li><p>limiting the depth of GNNs,</p></li>
+<li><p>residual or skip connections,</p></li>
+<li><p>normalization and regularization techniques,</p></li>
+<li><p>attention mechanisms that adaptively weight neighbors.</p></li>
+</ul>
+<p>Overall, smoothness provides a crucial theoretical foundation for Graph Neural Networks, explaining both their strengths in relational learning and their limitations when applied too aggressively.</p>
+</section>
+</section>
+</section>
+<section id="mini-batching-and-training-strategies-for-graph-neural-networks">
+<h2>Mini-batching and Training Strategies for Graph Neural Networks<a class="headerlink" href="#mini-batching-and-training-strategies-for-graph-neural-networks" title="Permalink to this heading">#</a></h2>
+<p>Unlike standard deep learning models, Graph Neural Networks operate on structured data with dependencies between nodes.
+As a result, constructing mini-batches for training is non-trivial and requires special care.
+Several batching strategies have been proposed, each with different trade-offs in terms of scalability, memory usage, and approximation quality.</p>
+<section id="full-batch-training">
+<h3>Full-batch training.<a class="headerlink" href="#full-batch-training" title="Permalink to this heading">#</a></h3>
+<p>The simplest approach is full-batch training, where the entire graph is processed at once:
+$<span class="math notranslate nohighlight">\(
+\mathbf{H}^{(l+1)} = \sigma\!\left(\hat{\mathbf{A}}\,\mathbf{H}^{(l)}\mathbf{W}^{(l)}\right).
+\)</span>$
+This approach preserves exact message passing and is commonly used in semi-supervised node classification on small graphs.
+However, it does not scale to large graphs due to memory and computational constraints.</p>
+</section>
+<section id="graph-level-mini-batching">
+<h3>Graph-level mini-batching.<a class="headerlink" href="#graph-level-mini-batching" title="Permalink to this heading">#</a></h3>
+<p>For graph classification tasks, the dataset typically consists of many small, independent graphs.
+In this setting, mini-batching is straightforward: multiple graphs are combined into a batch by constructing a block-diagonal adjacency matrix:
+$<span class="math notranslate nohighlight">\(
+\hat{\mathbf{A}}_{\text{batch}} =
+\begin{bmatrix}
+\hat{\mathbf{A}}^{(1)} &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \hat{\mathbf{A}}^{(2)} &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \hat{\mathbf{A}}^{(B)}
+\end{bmatrix}.
+\)</span>$
+This allows standard mini-batch training while preserving graph independence and permutation invariance.</p>
+</section>
+<section id="node-wise-mini-batching-with-neighbor-sampling">
+<h3>Node-wise mini-batching with neighbor sampling.<a class="headerlink" href="#node-wise-mini-batching-with-neighbor-sampling" title="Permalink to this heading">#</a></h3>
+<p>For large single-graph settings, node-wise mini-batching is commonly employed.
+A subset of target nodes is sampled, and only a fixed number of neighbors is expanded at each layer.
+For a <span class="math notranslate nohighlight">\(L\)</span>-layer GNN, this produces a computation graph of bounded size:
+$<span class="math notranslate nohighlight">\(
+\mathcal{B}^{(l)} = \bigcup_{i \in \mathcal{B}^{(l+1)}} \mathcal{S}_l(i),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathcal{S}_l(i)<span class="math notranslate nohighlight">\( denotes the sampled neighbors of node \)</span>i<span class="math notranslate nohighlight">\( at layer \)</span>l$.
+This strategy reduces memory usage but introduces stochasticity and approximation error.</p>
+<p>\paragraph{Layer-wise sampling.}
+An alternative is layer-wise sampling, where a fixed set of nodes is sampled per layer rather than per target node.
+This approach avoids the exponential neighborhood expansion common in node-wise sampling and improves scalability for deep GNNs.</p>
+</section>
+<section id="subgraph-based-mini-batching">
+<h3>Subgraph-based mini-batching.<a class="headerlink" href="#subgraph-based-mini-batching" title="Permalink to this heading">#</a></h3>
+<p>Another approach is to sample induced subgraphs from the original graph and treat each subgraph as a mini-batch.
+Message passing is performed only within the sampled subgraph:
+$<span class="math notranslate nohighlight">\(
+\mathbf{H}_{\mathcal{S}}^{(l+1)} =
+\sigma\!\left(\hat{\mathbf{A}}_{\mathcal{S}}\,\mathbf{H}_{\mathcal{S}}^{(l)}\mathbf{W}^{(l)}\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathcal{S}$ denotes the sampled node set.
+This method preserves local structure while enabling scalable training.</p>
+<section id="trade-offs">
+<h4>Trade-offs.<a class="headerlink" href="#trade-offs" title="Permalink to this heading">#</a></h4>
+<p>Each batching strategy involves trade-offs between accuracy and efficiency:</p>
+<ul class="simple">
+<li><p>Full-batch training is exact but does not scale.</p></li>
+<li><p>Graph-level batching is efficient but limited to independent graphs.</p></li>
+<li><p>Sampling-based methods scale to large graphs but introduce bias and variance.</p></li>
+</ul>
+<p>Selecting an appropriate batching strategy depends on the task, graph size, and available computational resources.</p>
+</section>
+</section>
+</section>
+<section id="implementing-a-gnn-in-pytorch-from-scratch">
+<h2>Implementing a GNN in PyTorch from scratch<a class="headerlink" href="#implementing-a-gnn-in-pytorch-from-scratch" title="Permalink to this heading">#</a></h2>
 <section id="defining-the-nodenetwork-model">
 <h3>Defining the NodeNetwork model<a class="headerlink" href="#defining-the-nodenetwork-model" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -3265,7 +3406,6 @@ Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-networks-with-edge-embeddings">Graph Neural Networks with Edge Embeddings</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-to-edge-update-v-rightarrow-e">Node-to-edge update <span class="math notranslate nohighlight">\( (v \rightarrow e)\)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-to-node-update-e-rightarrow-v">Edge-to-node update <span class="math notranslate nohighlight">\((e \rightarrow v)\)</span></a></li>
@@ -3276,7 +3416,27 @@ Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention">Multi-head attention.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smoothness-in-graph-neural-networks">Smoothness in Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#intuition">Intuition.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#smoothness-via-message-passing">Smoothness via message passing.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-graph-laplacian-regularization">Connection to graph Laplacian regularization.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#benefits-and-limitations">Benefits and limitations.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mini-batching-and-training-strategies-for-graph-neural-networks">Mini-batching and Training Strategies for Graph Neural Networks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-batch-training">Full-batch training.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-level-mini-batching">Graph-level mini-batching.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-wise-mini-batching-with-neighbor-sampling">Node-wise mini-batching with neighbor sampling.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#subgraph-based-mini-batching">Subgraph-based mini-batching.</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-offs">Trade-offs.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
