@@ -639,16 +639,16 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2791 | test loss: 0.2358
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2783 | test loss: 0.2359
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2008 | test loss: 0.1676
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2056 | test loss: 0.1751
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1603 | test loss: 0.1530
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1642 | test loss: 0.1550
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1505 | test loss: 0.1459
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1518 | test loss: 0.1462
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
@@ -661,23 +661,15 @@ Traceback (most recent call last):
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/__init__.py&quot;, line 16, in &lt;module&gt;
     from . import context
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/context.py&quot;, line 6, in &lt;module&gt;
     from . import context
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/context.py&quot;, line 6, in &lt;module&gt;
-    from . import reduction
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/reduction.py&quot;, line 16, in &lt;module&gt;
-    from . import reduction
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/reduction.py&quot;, line 16, in &lt;module&gt;
-    import socket
-    import socket
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/socket.py&quot;, line 90, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/socket.py&quot;, line 54, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/context.py&quot;, line 6, in &lt;module&gt;
 Traceback (most recent call last):
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_8417/2208291953.py&quot;, line 6, in &lt;module&gt;
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_31701/2208291953.py&quot;, line 6, in &lt;module&gt;
     test_loss  = run_epoch(model, test_loader,  train=False, sigma=sigma)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_8417/489305300.py&quot;, line 8, in run_epoch
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_31701/489305300.py&quot;, line 8, in run_epoch
     for x, _ in loader:
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
     data = self._next_data()
@@ -716,19 +708,12 @@ Traceback (most recent call last):
     style = get_style_by_name(self.tb_highlight_style)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/styles/__init__.py&quot;, line 45, in get_style_by_name
     mod = __import__(mod, None, None, [cls])
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1027, in _find_and_load
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1006, in _find_and_load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 674, in _load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 577, in module_from_spec
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 556, in _init_module_attrs
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 397, in cached
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 513, in _get_cached
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 406, in cache_from_source
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 134, in _path_split
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 134, in &lt;genexpr&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/styles/default.py&quot;, line 19, in &lt;module&gt;
+    class DefaultStyle(Style):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/style.py&quot;, line -1, in __new__
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
     _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 8446) is killed by signal: Terminated: 15. 
+RuntimeError: DataLoader worker (pid 31733) is killed by signal: Terminated: 15. 
 </pre></div>
 </div>
 </div>

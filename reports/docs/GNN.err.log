@@ -28,7 +28,7 @@ Image(filename='figures/18_10.png', width=600)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mFileNotFoundError[0m                         Traceback (most recent call last)
-Cell [0;32mIn[15], line 1[0m
+Cell [0;32mIn[18], line 1[0m
 [0;32m----> 1[0m [43mImage[49m[43m([49m[43mfilename[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mfigures/18_10.png[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mwidth[49m[38;5;241;43m=[39;49m[38;5;241;43m600[39;49m[43m)[49m
 
 File [0;32m~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:1053[0m, in [0;36mImage.__init__[0;34m(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)[0m

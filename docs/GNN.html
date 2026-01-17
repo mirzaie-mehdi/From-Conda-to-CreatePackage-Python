@@ -585,7 +585,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/8e8c433fed6fff9904b746ec6b715e1da2cf00dfeb1979a1352c92c5f7c98966.png" src="../_images/8e8c433fed6fff9904b746ec6b715e1da2cf00dfeb1979a1352c92c5f7c98966.png" />
+<img alt="../_images/4b7dc8b7e2a34260e5e8ae606d26b4b73665c56a0dfb545a01624013699cc19d.png" src="../_images/4b7dc8b7e2a34260e5e8ae606d26b4b73665c56a0dfb545a01624013699cc19d.png" />
 </div>
 </div>
 <p><strong>Convolution in CNNs (Grid-Structured Data)</strong>
@@ -651,6 +651,16 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 <p>A <strong>graph convolution</strong> generalizes classical convolution from regular grids to arbitrary graph structures, replacing spatial locality with topological locality.</p>
 <p><img alt="GNN-cnn" src="../_images/GNN_cnn.png" />
 <img alt="GNN-gnn" src="../_images/GNN_gnn.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_intro.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a0c7257c14e7a9efce04056c65d6b7bdc06b8da08c4616bfee11399a064916d9.png" src="../_images/a0c7257c14e7a9efce04056c65d6b7bdc06b8da08c4616bfee11399a064916d9.png" />
+</div>
+</div>
 <p>The figure illustrates how the first graph convolution layer aggregates information from immediate neighbors, while the second layer captures information from neighbors of neighbors.</p>
 <p>In a graph convolution, each node updates its representation by collecting and combining feature information from its connected neighbors. This process is often referred to as message passing. During a single graph convolution layer, every node receives messages from adjacent nodes through the edges of the graph. These messages typically consist of the neighbors’ feature vectors, which may be transformed by learnable weights and weighted according to the edge types or connectivity structure.</p>
 <p>The received messages are then aggregated using a permutation-invariant <strong>operation such as summation, mean, or maximum</strong>, ensuring that the result <strong>does not depend on the order of the neighbors</strong>. The aggregated information is combined with the node’s own features and passed through a nonlinear transformation to produce an updated node representation. As a result, after one graph convolution layer, each node’s embedding encodes information about itself and its immediate neighborhood.</p>
@@ -698,6 +708,32 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 <img alt="../_images/30eef1ca53ab58d83e2bb088a616c11ac33e20bbcf24f6c76412d5953a7ee64a.png" src="../_images/30eef1ca53ab58d83e2bb088a616c11ac33e20bbcf24f6c76412d5953a7ee64a.png" />
 </div>
 </div>
+<p>The following image shops the flowchart of graph convolution network (GCN).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_flow.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" src="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" />
+</div>
+</div>
+<p>The above algorithm can be formalze by the following equations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_flow.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" src="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" />
+</div>
+</div>
+<p>A GCN can be formalize as follows:</p>
+<p><span class="math notranslate nohighlight">\(H^{(l+1)} = \sigma(\hat{A} H^{(l)} W^{(l)})\)</span></p>
+<p><span class="math notranslate nohighlight">\(\hat{A} = A + I\)</span></p>
+<p><span class="math notranslate nohighlight">\(\hat{A}{ij} = \frac{A{ij}}{\sqrt{d_i}\sqrt{d_j}}\)</span></p>
 <section id="defining-the-nodenetwork-model">
 <h3>Defining the NodeNetwork model<a class="headerlink" href="#defining-the-nodenetwork-model" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -787,7 +823,7 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_10.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 
 <span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:1053,</span> in <span class="ni">Image.__init__</span><span class="nt">(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)</span>
