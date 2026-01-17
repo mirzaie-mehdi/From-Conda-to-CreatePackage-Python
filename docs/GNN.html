@@ -427,7 +427,18 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-networks-with-edge-embeddings">Graph Neural Networks with Edge Embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-to-edge-update-v-rightarrow-e">Node-to-edge update <span class="math notranslate nohighlight">\( (v \rightarrow e)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-to-node-update-e-rightarrow-v">Edge-to-node update <span class="math notranslate nohighlight">\((e \rightarrow v)\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-network-with-attention">Graph Neural Network with attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-head-attention">Single-head attention.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention">Multi-head attention.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
@@ -585,7 +596,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4b7dc8b7e2a34260e5e8ae606d26b4b73665c56a0dfb545a01624013699cc19d.png" src="../_images/4b7dc8b7e2a34260e5e8ae606d26b4b73665c56a0dfb545a01624013699cc19d.png" />
+<img alt="../_images/fafa0fd0beaf36c294bf2727c8b62b6a8daf209eaf0ff1882a9c4a228ce43ba4.png" src="../_images/fafa0fd0beaf36c294bf2727c8b62b6a8daf209eaf0ff1882a9c4a228ce43ba4.png" />
 </div>
 </div>
 <p><strong>Convolution in CNNs (Grid-Structured Data)</strong>
@@ -720,20 +731,202 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 </div>
 </div>
 <p>The above algorithm can be formalze by the following equations:</p>
+<p>A GCN can be formalize as follows:</p>
+<div class="math notranslate nohighlight">
+\[H^{(l+1)} = \sigma(\hat{A} H^{(l)} W^{(l)})\]</div>
+<div class="math notranslate nohighlight">
+\[\hat{A} = \tilde{A}+ I\]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\tilde{A}_{ij} = \frac{A_{ij}}{\sqrt{d_i}\sqrt{d_j}}$$ This is Kipf Normalization\\Therefore each layer of GCN is updated as follows:\\$$H^{(1)} = F\!\left(X, A, W^{(1)}\right)\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[H^{(2)} = F\!\left(H^{(1)}, A, W^{(2)}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\vdots\]</div>
+<div class="math notranslate nohighlight">
+\[H^{(L)} = F\!\left(H^{(L-1)}, A, W^{(L)}\right)\]</div>
+<p>The above architecture is permutation equivariant, meaning that any permutation of the node ordering induces the same permutation of the rows of the node embedding matrix
+<span class="math notranslate nohighlight">\(H^{(L)}\)</span> at the final layer.</p>
+<p>If a min pooling operator is applied across the node dimension at the final layer, the model becomes permutation invariant rather than permutation equivariant.</p>
+<ul class="simple">
+<li><p>The GCN layers produce node-level embeddings <span class="math notranslate nohighlight">\(H^{(L)}\)</span>
+that are permutation equivariant.</p></li>
+<li><p>Applying min pooling aggregates node embeddings into a single graph-level representation:
+<span class="math notranslate nohighlight">\(\mathbf{h}_G = \min_{n \in \mathcal{V}} \mathbf{H}^{(L)}_n\)</span></p></li>
+<li><p>Because the minimum operation is independent of node ordering, the output no longer changes under any permutation of nodes.</p></li>
+</ul>
+</section>
+<section id="graph-neural-networks-with-edge-embeddings">
+<h2>Graph Neural Networks with Edge Embeddings<a class="headerlink" href="#graph-neural-networks-with-edge-embeddings" title="Permalink to this heading">#</a></h2>
+<p>In many graph-structured problems, edges carry rich information that cannot be captured by the adjacency matrix alone.
+Examples include bond types in molecular graphs, relationship types in knowledge graphs, or distances and weights in physical networks.
+To incorporate such information, Graph Neural Networks can be extended to explicitly learn <strong>edge embeddings</strong> alongside node embeddings.</p>
+<p>A common approach alternates between two message-passing steps:</p>
+<section id="node-to-edge-update-v-rightarrow-e">
+<h3>Node-to-edge update <span class="math notranslate nohighlight">\( (v \rightarrow e)\)</span><a class="headerlink" href="#node-to-edge-update-v-rightarrow-e" title="Permalink to this heading">#</a></h3>
+<p>Each edge embedding is updated using the embeddings of its incident nodes together with the edge features:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{h}_{(i,j)} = f_e\!\left(\mathbf{h}_i, \mathbf{h}_j, \mathbf{x}_{(i,j)}\right),\]</div>
+<p>where <span class="math notranslate nohighlight">\( \mathbf{h}_i \)</span> and <span class="math notranslate nohighlight">\( \mathbf{h}_j \)</span> are node embeddings, <span class="math notranslate nohighlight">\( \mathbf{x}_{(i,j)} \)</span> denotes edge attributes, and <span class="math notranslate nohighlight">\( f_e \)</span> is a learnable function (typically a multilayer perceptron).</p>
+</section>
+<section id="edge-to-node-update-e-rightarrow-v">
+<h3>Edge-to-node update <span class="math notranslate nohighlight">\((e \rightarrow v)\)</span><a class="headerlink" href="#edge-to-node-update-e-rightarrow-v" title="Permalink to this heading">#</a></h3>
+<p>Node embeddings are updated by aggregating messages from incident edges:</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{h}_j^{(l+1)} = f_v\!\left(\sum_{i \in \mathcal{N}(j)} \mathbf{h}_{(i,j)}, \mathbf{x}_j\right),\]</div>
+<p>where the aggregation operator is permutation invariant and <span class="math notranslate nohighlight">\( f_v \)</span> is another learnable function.</p>
+<p>This alternating update scheme preserves <strong>permutation equivariance</strong> at the node level while enabling the model to capture rich interactions between nodes and edges.
+Such architectures form the foundation of message-passing neural networks and are widely used in molecular modeling, physical simulation, and relational reasoning tasks.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_flow.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_edgeemb.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" src="../_images/c50b79c25e8c9fc90cf4ceffbe3d51b347ba68318a2a562762f213dbf6810cb8.png" />
+<img alt="../_images/ed402c5c99a15206fb844b822e779f64840d53e8312944b7560048015924c571.png" src="../_images/ed402c5c99a15206fb844b822e779f64840d53e8312944b7560048015924c571.png" />
 </div>
 </div>
-<p>A GCN can be formalize as follows:</p>
-<p><span class="math notranslate nohighlight">\(H^{(l+1)} = \sigma(\hat{A} H^{(l)} W^{(l)})\)</span></p>
-<p><span class="math notranslate nohighlight">\(\hat{A} = A + I\)</span></p>
-<p><span class="math notranslate nohighlight">\(\hat{A}{ij} = \frac{A{ij}}{\sqrt{d_i}\sqrt{d_j}}\)</span></p>
+</section>
+</section>
+<section id="graph-neural-network-with-attention">
+<h2>Graph Neural Network with attention<a class="headerlink" href="#graph-neural-network-with-attention" title="Permalink to this heading">#</a></h2>
+<p>In Graph Neural Networks, a central operation is the aggregation of information from the neighbors of a node.
+A simple approach is to aggregate neighbor embeddings using sum or average pooling.
+While these operators are permutation invariant and can handle a variable number of neighbors, they assign equal importance to all neighboring nodes.</p>
+<p>More expressive aggregation mechanisms can also be considered.
+For instance, sequence-based models such as LSTMs are capable of processing a variable number of neighbors.
+However, such models are not permutation invariant and therefore depend on an arbitrary ordering of the neighbors.
+Since graphs do not admit a canonical ordering of nodes, this makes sequence-based aggregation unsuitable for general graph-structured data.</p>
+<p>A principled and effective alternative is \emph{attention-based aggregation}.
+Attention mechanisms allow the model to learn adaptive importance weights for different neighbors while preserving permutation invariance.
+Instead of treating all neighbors equally, the model learns to focus on the most relevant ones.</p>
+<p>Attention-based aggregation provides a principled solution to this problem.
+Attention mechanisms allow the model to learn adaptive, data-driven weights that quantify the importance of each neighbor while preserving permutation invariance.</p>
+<section id="single-head-attention">
+<h3>Single-head attention.<a class="headerlink" href="#single-head-attention" title="Permalink to this heading">#</a></h3>
+<p>In attention-based GNNs, two distinct sets of parameters are learned:
+(i) a weight matrix that transforms node embeddings, and
+(ii) a separate attention mechanism that models pairwise interactions between neighboring nodes.</p>
+<p>First, node embeddings are linearly transformed:
+$<span class="math notranslate nohighlight">\(
+\mathbf{z}_i = \mathbf{W}\,\mathbf{h}_i,
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathbf{W}$ is a learnable weight matrix shared across all nodes.</p>
+<p>Next, for each edge <span class="math notranslate nohighlight">\((i,j)\)</span>, an unnormalized attention score is computed using a learnable interaction function:
+$<span class="math notranslate nohighlight">\(
+e_{ij} =
+\text{LeakyReLU}
+\left(
+\mathbf{a}^{\top}
+\left[
+\mathbf{z}_i \,\Vert\, \mathbf{z}_j
+\right]
+\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathbf{a}<span class="math notranslate nohighlight">\( is a learnable attention vector and \)</span>[\cdot \Vert \cdot]$ denotes concatenation.</p>
+<p>The attention coefficients are obtained via softmax normalization over the neighborhood:
+$<span class="math notranslate nohighlight">\(
+a_{ij} =
+\frac{\exp(e_{ij})}
+{\sum_{k \in \mathcal{N}_i} \exp(e_{ik})}.
+\)</span>$</p>
+<p>Finally, the updated node embedding is computed as an attention-weighted aggregation of transformed neighbor embeddings:
+$<span class="math notranslate nohighlight">\(
+\mathbf{h}_i^{(l+1)} =
+\sum_{j \in \mathcal{N}_i}
+a_{ij}\,\mathbf{z}_j.
+\)</span>$</p>
+<p>This formulation preserves permutation invariance while allowing the model to focus on the most informative neighbors.</p>
+</section>
+<section id="multi-head-attention">
+<h3>Multi-head attention.<a class="headerlink" href="#multi-head-attention" title="Permalink to this heading">#</a></h3>
+<p>To stabilize training and increase representational capacity, multiple independent attention heads are often employed.
+For each head <span class="math notranslate nohighlight">\(k \in \{1,\dots,K\}\)</span>, separate parameters <span class="math notranslate nohighlight">\(\mathbf{W}^k\)</span> and <span class="math notranslate nohighlight">\(\mathbf{a}^k\)</span> are learned.</p>
+<p>The output of the multi-head attention layer is given by
+$<span class="math notranslate nohighlight">\(
+\mathbf{h}_i^{(l+1)} =
+\sigma
+\left(
+\frac{1}{K}
+\sum_{k=1}^{K}
+\sum_{j \in \mathcal{N}_i}
+a_{ij}^{k}\,
+\mathbf{W}^{k}\mathbf{h}_j
+\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>a_{ij}^{k}<span class="math notranslate nohighlight">\( denotes the attention coefficient computed by head \)</span>k<span class="math notranslate nohighlight">\(, and \)</span>\sigma(\cdot)$ is a nonlinear activation function.</p>
+<p>Multi-head attention enables the model to attend to different aspects of the neighborhood simultaneously, leading to more expressive and robust node representations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_atten.jpg&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/01f531c1636fc68e1f020b6128895eda4e41693dbf4b8f3dbb90d764e8980be8.jpg" src="../_images/01f531c1636fc68e1f020b6128895eda4e41693dbf4b8f3dbb90d764e8980be8.jpg" />
+</div>
+</div>
+<div class="math notranslate nohighlight">
+\[a_{ij} = \frac{\exp\!\left(\mathbf{h}_i^{\top} \mathbf{W} \mathbf{h}_j\right)}
+{\sum_{k \in \mathcal{N}_i} \exp\!\left(\mathbf{h}_i^{\top} \mathbf{W} \mathbf{h}_k\right)}\]</div>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{h}_i^{(l+1)} = \sum_{j \in \mathcal{N}_i} a_{ij}\, \mathbf{h}_j^{(l)}
+\]</div>
+</section>
+</section>
+<section id="a-unified-view-classification-and-link-prediction-with-gnns">
+<h2>A Unified View: Classification and Link Prediction with GNNs<a class="headerlink" href="#a-unified-view-classification-and-link-prediction-with-gnns" title="Permalink to this heading">#</a></h2>
+<p>Graph Neural Networks provide a unified framework for a wide range of learning tasks on graphs.
+Given a graph with <span class="math notranslate nohighlight">\(N\)</span> nodes, let
+$<span class="math notranslate nohighlight">\(
+\mathbf{X} \in \mathbb{R}^{N \times F}
+\)</span><span class="math notranslate nohighlight">\(
+denote the node feature matrix and let \)</span>\hat{\mathbf{A}}$ be the preprocessed adjacency matrix (including self-loops and normalization).</p>
+<p>A GNN (or GCN) computes a sequence of hidden representations by repeatedly applying a message-passing layer of the form
+$<span class="math notranslate nohighlight">\(
+\mathbf{H}^{(l+1)} = \sigma\!\left(\hat{\mathbf{A}}\,\mathbf{H}^{(l)}\mathbf{W}^{(l)}\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathbf{H}^{(0)} = \mathbf{X}<span class="math notranslate nohighlight">\(, \)</span>\mathbf{W}^{(l)}<span class="math notranslate nohighlight">\( are learnable weight matrices, and \)</span>\sigma(\cdot)<span class="math notranslate nohighlight">\( is a nonlinear activation function.
+After \)</span>L<span class="math notranslate nohighlight">\( layers, we obtain the final node embeddings
+\)</span><span class="math notranslate nohighlight">\(
+\mathbf{Z} = \mathbf{H}^{(L)}.
+\)</span>$</p>
+<p>Different learning tasks are obtained by applying task-specific readout functions to <span class="math notranslate nohighlight">\(\mathbf{Z}\)</span>.</p>
+<p>\paragraph{Node classification.}
+For node-level prediction, a classifier is applied independently to each node embedding:
+$<span class="math notranslate nohighlight">\(
+p(y_n \mid \mathbf{Z}) = \text{softmax}(\mathbf{z}_n),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\mathbf{z}_n<span class="math notranslate nohighlight">\( denotes the embedding of node \)</span>n$.
+This setting is commonly used in semi-supervised learning on graphs.</p>
+<p>\paragraph{Graph classification.}
+For graph-level prediction, node embeddings are aggregated into a single graph representation using a permutation-invariant pooling operation, such as summation:
+$<span class="math notranslate nohighlight">\(
+\mathbf{z}_G = \sum_{n=1}^{N} \mathbf{z}_n,
+\)</span><span class="math notranslate nohighlight">\(
+followed by a classifier:
+\)</span><span class="math notranslate nohighlight">\(
+p(y_G \mid \mathbf{Z}) = \text{softmax}(\mathbf{z}_G).
+\)</span>$</p>
+<p>\paragraph{Link prediction.}
+For link prediction, node embeddings are used to estimate the probability of an edge between two nodes.
+A common choice is an inner-product decoder:
+$<span class="math notranslate nohighlight">\(
+p(A_{ij} = 1 \mid \mathbf{Z}) = \sigma\!\left(\mathbf{z}_i^{\top}\mathbf{z}_j\right),
+\)</span><span class="math notranslate nohighlight">\(
+where \)</span>\sigma(\cdot)$ denotes the logistic sigmoid function.</p>
+<p>This formulation highlights that a single GNN encoder can be reused across multiple tasks, with only the output layer or readout function changing depending on the learning objective.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/GNN_overview.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1367a60fed7fbd338cfbea4b4b2340b5940ad5db9b125b92eaa13379290a94f0.png" src="../_images/1367a60fed7fbd338cfbea4b4b2340b5940ad5db9b125b92eaa13379290a94f0.png" />
+</div>
+</div>
 <section id="defining-the-nodenetwork-model">
 <h3>Defining the NodeNetwork model<a class="headerlink" href="#defining-the-nodenetwork-model" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -823,7 +1016,7 @@ Let <span class="math notranslate nohighlight">\(h_i \in \mathbb{R}^F\)</span> b
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;figures/18_10.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
 
 <span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/display.py:1053,</span> in <span class="ni">Image.__init__</span><span class="nt">(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)</span>
@@ -3072,7 +3265,18 @@ Epochs: 3 | epoch avg. loss: 0.10 | validation avg. loss: 0.10
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-graph-convolutions-implementing-a-basic-graph-convolution">Understanding graph convolutions: Implementing a basic graph convolution</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-correspondence">Mathematical Correspondence</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-a-convolution">Why This Is a Convolution</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-gnn-in-pytorch-from-scratch">Implementing a GNN in PyTorch from scratch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-networks-with-edge-embeddings">Graph Neural Networks with Edge Embeddings</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#node-to-edge-update-v-rightarrow-e">Node-to-edge update <span class="math notranslate nohighlight">\( (v \rightarrow e)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-to-node-update-e-rightarrow-v">Edge-to-node update <span class="math notranslate nohighlight">\((e \rightarrow v)\)</span></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-neural-network-with-attention">Graph Neural Network with attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-head-attention">Single-head attention.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-head-attention">Multi-head attention.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-unified-view-classification-and-link-prediction-with-gnns">A Unified View: Classification and Link Prediction with GNNs</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-nodenetwork-model">Defining the NodeNetwork model</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nodenetworks-graph-convolution-layer">The NodeNetwork’s graph convolution layer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-a-global-pooling-layer-to-deal-with-varying-graph-sizes">Adding a global pooling layer to deal with varying graph sizes</a></li>
