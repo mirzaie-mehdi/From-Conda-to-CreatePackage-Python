@@ -1,0 +1,150 @@
+Traceback (most recent call last):
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# THIS CELL IS USED TO GENERATE A FIGURE
+# AND NOT RELATED TO CHAPTER
+# YOU CAN SKIP IT
+from myst_nb import glue
+from moviepy import VideoClip
+
+
+def mplfig_to_npimage(fig):
+    fig.canvas.draw()
+    return np.asarray(fig.canvas.buffer_rgba())[:, :, :3]
+
+def draw_vector(x, y, s, v, ax, cmap, **kwargs):
+    x += s / 2
+    y += s / 2
+    for vi in v:
+        if cmap is not None:
+            ax.add_patch(
+                mpl.patches.Rectangle((x, y), s * 1.5, s, facecolor=cmap(vi), **kwargs)
+            )
+        else:
+            ax.add_patch(
+                mpl.patches.Rectangle(
+                    (x, y), s * 1.5, s, facecolor="#FFF", edgecolor="#333", **kwargs
+                )
+            )
+        ax.text(
+            x + s * 1.5 / 2,
+            y + s / 2,
+            "{:.2f}".format(vi),
+            verticalalignment="center",
+            horizontalalignment="center",
+        )
+        y += s
+
+
+def draw_key(x, y, s, v, ax, cmap, **kwargs):
+    x += s / 2
+    y += s / 2
+    for vi in v:
+        ax.add_patch(
+            mpl.patches.Rectangle((x, y), s * 1.5, s, facecolor=cmap(1.0), **kwargs)
+        )
+        ax.text(
+            x + s * 1.5 / 2,
+            y + s / 2,
+            vi,
+            verticalalignment="center",
+            horizontalalignment="center",
+        )
+        y += s
+    ax.text(
+        x, y + s / 2, "Key:", verticalalignment="center", horizontalalignment="left"
+    )
+
+
+def draw(
+    nodes, adj, ax, highlight=None, key=False, labels=None, mask=None, draw_nodes=None
+):
+    G = nx.Graph()
+    for i in range(adj.shape[0]):
+        for j in range(adj.shape[0]):
+            if np.any(adj[i, j]):
+                G.add_edge(i, j)
+    if mask is None:
+        mask = [True] * len(G)
+    if draw_nodes is None:
+        draw_nodes = nodes
+    # go from atomic number to element
+    elements = np.argmax(draw_nodes, axis=-1)
+    el_labels = {i: list(my_elements.values())[e] for i, e in enumerate(elements)}
+    try:
+        pos = nx.nx_agraph.graphviz_layout(G, prog="sfdp")
+    except ImportError:
+        pos = nx.spring_layout(G, iterations=100, seed=4, k=1)
+    pos = nx.rescale_layout_dict(pos)
+    c = ["white"] * len(G)
+    all_h = []
+    if highlight is not None:
+        for i, h in enumerate(highlight):
+            for hj in h:
+                c[hj] = "C{}".format(i + 1)
+                all_h.append(hj)
+    nx.draw(G, ax=ax, pos=pos, labels=el_labels, node_size=700, node_color=c)
+    cmap = plt.get_cmap("Wistia")
+    for i in range(len(G)):
+        if not mask[i]:
+            continue
+        if i in all_h:
+            draw_vector(*pos[i], 0.15, nodes[i], ax, cmap)
+        else:
+            draw_vector(*pos[i], 0.15, nodes[i], ax, None)
+    if key:
+        draw_key(-1, -1, 0.15, my_elements.values(), ax, cmap)
+    if labels is not None:
+        legend_elements = []
+        for i, l in enumerate(labels):
+            p = mpl.lines.Line2D(
+                [0], [0], marker="o", color="C{}".format(i + 1), label=l, markersize=15
+            )
+            legend_elements.append(p)
+        ax.legend(handles=legend_elements)
+    ax.set_xlim(-1.2, 1.2)
+    ax.set_ylim(-1.2, 1.2)
+    ax.set_facecolor("#f5f4e9")
+
+
+fig = plt.figure(figsize=(8, 5))
+draw(nodes, adj, plt.gca(), highlight=[[1], [5, 0]], labels=["center", "neighbors"])
+fig.set_facecolor("#f5f4e9")
+glue("dframe", plt.gcf(), display=False)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[7], line 5[0m
+[1;32m      1[0m [38;5;66;03m# THIS CELL IS USED TO GENERATE A FIGURE[39;00m
+[1;32m      2[0m [38;5;66;03m# AND NOT RELATED TO CHAPTER[39;00m
+[1;32m      3[0m [38;5;66;03m# YOU CAN SKIP IT[39;00m
+[1;32m      4[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mmyst_nb[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m glue
+[0;32m----> 5[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mmoviepy[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m VideoClip
+[1;32m      8[0m [38;5;28;01mdef[39;00m[38;5;250m [39m[38;5;21mmplfig_to_npimage[39m(fig):
+[1;32m      9[0m     fig[38;5;241m.[39mcanvas[38;5;241m.[39mdraw()
+
+[0;31mModuleNotFoundError[0m: No module named 'moviepy'
+
