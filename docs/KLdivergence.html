@@ -191,6 +191,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch with example</a></li>
+
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
 
 
@@ -452,8 +457,8 @@ This section explains the mathematical relationship between these two quantities
 </section>
 <section id="kl-divergence">
 <h2>KL Divergence<a class="headerlink" href="#kl-divergence" title="Permalink to this heading">#</a></h2>
-<p>The KL divergence from <span class="math notranslate nohighlight">\(P\)</span> to <span class="math notranslate nohighlight">\(Q\)</span> is defined as:
-$<span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = \sum_x p(x)\,\log\frac{p(x)}{q(x)}\)</span>$</p>
+<p>The KL divergence from <span class="math notranslate nohighlight">\(P\)</span> to <span class="math notranslate nohighlight">\(Q\)</span> is defined as:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = \sum_x p(x)\,\log\frac{p(x)}{q(x)}\)</span></p>
 <p>Key properties of KL divergence include:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) \ge 0\)</span></p></li>
@@ -465,31 +470,32 @@ $<span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = \sum_x p(x)\
 </section>
 <section id="cross-entropy">
 <h2>Cross-Entropy<a class="headerlink" href="#cross-entropy" title="Permalink to this heading">#</a></h2>
-<p>The cross-entropy between distributions <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> is defined as:
-$<span class="math notranslate nohighlight">\(H(P, Q) = -\sum_x p(x)\,\log q(x)\)</span>$</p>
+<p>The cross-entropy between distributions <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(Q\)</span> is defined as:</p>
+<p><span class="math notranslate nohighlight">\(H(P, Q) = -\sum_x p(x)\,\log q(x)\)</span></p>
 <p>Cross-entropy quantifies how well the model distribution <span class="math notranslate nohighlight">\(Q\)</span> assigns probability mass to outcomes that occur under the true distribution <span class="math notranslate nohighlight">\(P\)</span>.</p>
 </section>
 <section id="fundamental-relationship">
 <h2>Fundamental Relationship<a class="headerlink" href="#fundamental-relationship" title="Permalink to this heading">#</a></h2>
-<p>KL divergence and cross-entropy are related through the identity:
-$<span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = H(P, Q) - H(P)\)</span>$</p>
+<p>KL divergence and cross-entropy are related through the identity:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = H(P, Q) - H(P)\)</span></p>
 <p>where the entropy of the true distribution is:
-$<span class="math notranslate nohighlight">\(H(P) = -\sum_x p(x)\,\log p(x)\)</span>$</p>
+<span class="math notranslate nohighlight">\(H(P) = -\sum_x p(x)\,\log p(x)\)</span></p>
 <p>If <span class="math notranslate nohighlight">\(P\)</span> is fixed, then <span class="math notranslate nohighlight">\(H(P)\)</span> is constant with respect to <span class="math notranslate nohighlight">\(Q\)</span>. Therefore,
-$<span class="math notranslate nohighlight">\(\arg\min_Q \mathrm{KL}(P \| Q)
+<span class="math notranslate nohighlight">\(\arg\min_Q \mathrm{KL}(P \| Q)
 \;\equiv\;
-\arg\min_Q H(P, Q)\)</span>$</p>
+\arg\min_Q H(P, Q)\)</span></p>
 <p>Thus, minimizing KL divergence is equivalent to minimizing cross-entropy.</p>
 </section>
 <section id="why-cross-entropy-is-used-in-practice">
 <h2>Why Cross-Entropy Is Used in Practice<a class="headerlink" href="#why-cross-entropy-is-used-in-practice" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
+<ul>
 <li><p><strong>The entropy <span class="math notranslate nohighlight">\(H(P)\)</span> is unknown.</strong>
 In real-world problems, the true distribution <span class="math notranslate nohighlight">\(P\)</span> is not accessible; only samples from it are available. As a result, <span class="math notranslate nohighlight">\(H(P)\)</span> cannot be computed.</p></li>
 <li><p><strong>Cross-entropy is directly estimable from data.</strong>
-Given samples <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N \sim P\)</span>, cross-entropy can be approximated as:
-$<span class="math notranslate nohighlight">\(H(P, Q) \approx -\frac{1}{N}\sum_{i=1}^N \log q(x_i)\)</span>$
-which is exactly the negative log-likelihood.</p></li>
+Given samples <span class="math notranslate nohighlight">\(\{x_i\}_{i=1}^N \sim P\)</span>, cross-entropy can be approximated as:</p>
+<p><span class="math notranslate nohighlight">\(H(P, Q) \approx -\frac{1}{N}\sum_{i=1}^N \log q(x_i)\)</span></p>
+<p>which is exactly the negative log-likelihood.</p>
+</li>
 <li><p><strong>Efficient and stable optimization.</strong>
 Modern deep learning frameworks implement numerically stable versions of cross-entropy, leading to well-behaved gradients and reliable convergence.</p></li>
 <li><p><strong>Clear statistical interpretation.</strong>
@@ -499,9 +505,9 @@ Minimizing cross-entropy is equivalent to maximum likelihood estimation, providi
 <section id="special-case-one-hot-labels">
 <h2>Special Case: One-Hot Labels<a class="headerlink" href="#special-case-one-hot-labels" title="Permalink to this heading">#</a></h2>
 <p>In classification tasks with one-hot encoded true labels, the entropy of the true distribution is:
-$<span class="math notranslate nohighlight">\(H(P) = 0\)</span>$</p>
+<span class="math notranslate nohighlight">\(H(P) = 0\)</span></p>
 <p>Consequently,
-$<span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = H(P, Q)\)</span>$</p>
+<span class="math notranslate nohighlight">\(\mathrm{KL}(P \| Q) = H(P, Q)\)</span></p>
 <p>In this common setting, KL divergence and cross-entropy are numerically identical, although cross-entropy remains the preferred formulation.</p>
 <section id="summary">
 <h3>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h3>
