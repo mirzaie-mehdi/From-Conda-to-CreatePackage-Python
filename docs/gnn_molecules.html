@@ -485,7 +485,496 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="graph-neural-networks-on-molecules">
 <h1>Graph Neural Networks on Molecules<a class="headerlink" href="#graph-neural-networks-on-molecules" title="Permalink to this heading">#</a></h1>
-<p>As we discussed later, GNN is the best methos to represnt molecules in neural network.</p>
+<p>In this section we design a graph neural network to predict the solubility of molecules using its graph structure, where the molecular graph is derived from <strong>SMILE structures</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/molecules/curated-solubility-dataset.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Keep only necessary columns</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;SMILES&#39;</span><span class="p">,</span> <span class="s1">&#39;Solubility&#39;</span><span class="p">]]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="c1"># convert panda to numpy array for machine learning tasks</span>
+<span class="n">smiles_list</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;SMILES&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Solubility&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rdkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chem</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Data</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">atom_features</span><span class="p">(</span><span class="n">atom</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">GetAtomicNum</span><span class="p">(),</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">GetDegree</span><span class="p">(),</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">GetFormalCharge</span><span class="p">(),</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">GetHybridization</span><span class="p">()</span><span class="o">.</span><span class="n">real</span><span class="p">,</span>
+        <span class="n">atom</span><span class="o">.</span><span class="n">GetIsAromatic</span><span class="p">()</span>
+    <span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">mol_to_graph</span><span class="p">(</span><span class="n">smiles</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">smiles</span><span class="p">)</span>
+
+    <span class="n">node_features</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">atom</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">():</span>
+        <span class="n">node_features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atom_features</span><span class="p">(</span><span class="n">atom</span><span class="p">))</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">node_features</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">bond</span> <span class="ow">in</span> <span class="n">mol</span><span class="o">.</span><span class="n">GetBonds</span><span class="p">():</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetBeginAtomIdx</span><span class="p">()</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">bond</span><span class="o">.</span><span class="n">GetEndAtomIdx</span><span class="p">()</span>
+
+        <span class="n">edge_index</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="n">edge_index</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">y</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">smi</span><span class="p">,</span> <span class="n">sol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">smiles_list</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">mol_to_graph</span><span class="p">(</span><span class="n">smi</span><span class="p">,</span> <span class="n">sol</span><span class="p">)</span>
+        <span class="n">graphs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Graphs:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">graphs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:12] Explicit valence for atom # 5 N, 4, is greater than permitted
+[14:37:12] WARNING: not removing hydrogen atom without neighbors
+[14:37:13] Explicit valence for atom # 5 N, 4, is greater than permitted
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[14:37:13] WARNING: not removing hydrogen atom without neighbors
+[14:37:13] WARNING: not removing hydrogen atom without neighbors
+[14:37:13] WARNING: not removing hydrogen atom without neighbors
+[14:37:13] WARNING: not removing hydrogen atom without neighbors
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Graphs: 9980
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">train_graphs</span><span class="p">,</span> <span class="n">test_graphs</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">graphs</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_graphs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_graphs</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch_geometric.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">GCNConv</span><span class="p">,</span> <span class="n">global_mean_pool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">GCN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_features</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GCN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="n">num_features</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">global_mean_pool</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_device</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;mps&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">get_device</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using device:&quot;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GCN</span><span class="p">(</span><span class="n">num_features</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Using device: mps
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">():</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">loader</span><span class="p">):</span>
+    
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">trues</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+
+            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">)</span>
+
+            <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+            <span class="n">trues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+    <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">trues</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">trues</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+    <span class="n">rmse</span> <span class="o">=</span> <span class="p">((</span><span class="n">preds</span> <span class="o">-</span> <span class="n">trues</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">trues</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">rmse</span><span class="p">,</span> <span class="n">r2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_rmses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_r2s</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">()</span>
+
+    <span class="n">rmse</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">)</span>
+
+    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+    <span class="n">test_rmses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span>
+    <span class="n">test_r2s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train Loss: </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test RMSE: </span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test R2: </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/loss.py:634: UserWarning: Using a target size (torch.Size([32])) that is different to the input size (torch.Size([32, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/loss.py:634: UserWarning: Using a target size (torch.Size([16])) that is different to the input size (torch.Size([16, 1])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
+  return F.mse_loss(input, target, reduction=self.reduction)
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">rmse</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">test_rmses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span>
+
+<span class="nn">Cell In[9], line 16,</span> in <span class="ni">evaluate</span><span class="nt">(loader)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">16</span>     <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">trues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1775,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1773</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1774</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1775</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1786,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1781</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1784</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1785</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1786</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1788</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1789</span> <span class="n">called_always_called_hooks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="nn">Cell In[6], line 27,</span> in <span class="ni">GCN.forward</span><span class="nt">(self, x, edge_index, batch)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">27</span> <span class="n">x</span> <span class="o">=</span> <span class="n">global_mean_pool</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span> <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch_geometric/nn/pool/glob.py:63,</span> in <span class="ni">global_mean_pool</span><span class="nt">(x, batch, size)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span> <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">63</span> <span class="k">return</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch_geometric/utils/_scatter.py:74,</span> in <span class="ni">scatter</span><span class="nt">(src, index, dim, dim_size, reduce)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="k">if</span> <span class="n">reduce</span> <span class="o">==</span> <span class="s1">&#39;mean&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="n">count</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">new_zeros</span><span class="p">(</span><span class="n">dim_size</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">74</span>     <span class="n">count</span><span class="o">.</span><span class="n">scatter_add_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="o">.</span><span class="n">new_ones</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span>     <span class="n">count</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">77</span>     <span class="n">index</span> <span class="o">=</span> <span class="n">broadcast</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_losses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_rmses</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Test RMSE&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;RMSE&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/449910629abaec381235cf789fc9b9d744509829ab8bd3789f0a9e37b6386dc6.png" src="../_images/449910629abaec381235cf789fc9b9d744509829ab8bd3789f0a9e37b6386dc6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_r2s</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Test R² Score&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;R²&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2a2804664e4d0c8183f751134f5eabd3b0b2619ab66f608e65191afabe1a56e3.png" src="../_images/2a2804664e4d0c8183f751134f5eabd3b0b2619ab66f608e65191afabe1a56e3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rmse</span><span class="p">,</span> <span class="n">r2</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">)</span>
+
+<span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">trues</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+        <span class="n">trues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">cpu</span><span class="p">())</span>
+
+<span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">trues</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">trues</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">trues</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;True Solubility&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Solubility&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Predicted vs True Solubility&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">trues</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">trues</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span>
+         <span class="p">[</span><span class="n">trues</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">trues</span><span class="o">.</span><span class="n">max</span><span class="p">()],</span>
+         <span class="s1">&#39;r--&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3825a648901badfc57b5535f058736064673c0cd79d317c3bebfcd9f6c9e5b96.png" src="../_images/3825a648901badfc57b5535f058736064673c0cd79d317c3bebfcd9f6c9e5b96.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">train_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_rmses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Test RMSE&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Metric&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training Performance&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c7411137ba0e473892b2434953bef01dc572f124dfb41b0971a60c08360f5088.png" src="../_images/c7411137ba0e473892b2434953bef01dc572f124dfb41b0971a60c08360f5088.png" />
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -522,94 +1011,85 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># keep only rowa that the smile representation is valid.</span>
 <span class="n">soldata</span> <span class="o">=</span> <span class="n">soldata</span><span class="p">[</span><span class="n">soldata</span><span class="o">.</span><span class="n">SMILES</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dropped </span><span class="si">{</span><span class="n">N</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">soldata</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows with invalid SMILES&quot;</span><span class="p">)</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">my_elements</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] Explicit valence for atom # 5 N, 4, is greater than permitted
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] Explicit valence for atom # 5 N, 4, is greater than permitted
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-[12:06:35] WARNING: not removing hydrogen atom without neighbors
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dropped 2 rows with invalid SMILES
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
+[12:54:54] WARNING: not removing hydrogen atom without neighbors
 </pre></div>
 </div>
 </div>
 </div>
-<p>The following function <code class="docutils literal notranslate"><span class="pre">smiles2graph</span></code> creates one-hot node feature vectors for the element C, H, and O. It also creates an adjacency tensor with one-hot bond order being the feature vector.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s2">&quot;CCO&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;type of the rdkit.Chem.MolFromSmiles is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">rdkit</span><span class="o">.</span><span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;type of the mol is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1">#print(mol)</span>
+<span class="nb">dir</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -618,8 +1098,165 @@ document.write(`
 type of the mol is &lt;class &#39;rdkit.Chem.rdchem.Mol&#39;&gt;
 </pre></div>
 </div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;AddConformer&#39;,
+ &#39;ClearComputedProps&#39;,
+ &#39;ClearProp&#39;,
+ &#39;ClearPropertyCache&#39;,
+ &#39;Debug&#39;,
+ &#39;GetAromaticAtoms&#39;,
+ &#39;GetAtomWithIdx&#39;,
+ &#39;GetAtoms&#39;,
+ &#39;GetAtomsMatchingQuery&#39;,
+ &#39;GetBondBetweenAtoms&#39;,
+ &#39;GetBondWithIdx&#39;,
+ &#39;GetBonds&#39;,
+ &#39;GetBoolProp&#39;,
+ &#39;GetConformer&#39;,
+ &#39;GetConformers&#39;,
+ &#39;GetDoubleProp&#39;,
+ &#39;GetIntProp&#39;,
+ &#39;GetNumAtoms&#39;,
+ &#39;GetNumBonds&#39;,
+ &#39;GetNumConformers&#39;,
+ &#39;GetNumHeavyAtoms&#39;,
+ &#39;GetProp&#39;,
+ &#39;GetPropNames&#39;,
+ &#39;GetPropsAsDict&#39;,
+ &#39;GetRingInfo&#39;,
+ &#39;GetStereoGroups&#39;,
+ &#39;GetSubstructMatch&#39;,
+ &#39;GetSubstructMatches&#39;,
+ &#39;GetUnsignedProp&#39;,
+ &#39;HasProp&#39;,
+ &#39;HasQuery&#39;,
+ &#39;HasSubstructMatch&#39;,
+ &#39;NeedsUpdatePropertyCache&#39;,
+ &#39;RemoveAllConformers&#39;,
+ &#39;RemoveConformer&#39;,
+ &#39;SetBoolProp&#39;,
+ &#39;SetDoubleProp&#39;,
+ &#39;SetIntProp&#39;,
+ &#39;SetProp&#39;,
+ &#39;SetUnsignedProp&#39;,
+ &#39;ToBinary&#39;,
+ &#39;UpdatePropertyCache&#39;,
+ &#39;__DebugMol&#39;,
+ &#39;__GetSubstructMatch&#39;,
+ &#39;__GetSubstructMatches&#39;,
+ &#39;__class__&#39;,
+ &#39;__copy__&#39;,
+ &#39;__deepcopy__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dict__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__getinitargs__&#39;,
+ &#39;__getstate__&#39;,
+ &#39;__getstate_manages_dict__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__instance_size__&#39;,
+ &#39;__le__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__module__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__new__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__safe_for_unpickling__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__setstate__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__str__&#39;,
+ &#39;__subclasshook__&#39;,
+ &#39;__weakref__&#39;,
+ &#39;_repr_html_&#39;,
+ &#39;_repr_png_&#39;,
+ &#39;_repr_svg_&#39;]
+</pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">mol</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rdkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chem</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Chem</span><span class="o">.</span><span class="n">MolFromSmiles</span><span class="p">(</span><span class="s2">&quot;CCO&quot;</span><span class="p">)</span>
+
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AddConformer
+ClearComputedProps
+ClearProp
+ClearPropertyCache
+Debug
+GetAromaticAtoms
+GetAtomWithIdx
+GetAtoms
+GetAtomsMatchingQuery
+GetBondBetweenAtoms
+GetBondWithIdx
+GetBonds
+GetBoolProp
+GetConformer
+GetConformers
+GetDoubleProp
+GetIntProp
+GetNumAtoms
+GetNumBonds
+GetNumConformers
+GetNumHeavyAtoms
+GetProp
+GetPropNames
+GetPropsAsDict
+GetRingInfo
+GetStereoGroups
+GetSubstructMatch
+GetSubstructMatches
+GetUnsignedProp
+HasProp
+HasQuery
+HasSubstructMatch
+NeedsUpdatePropertyCache
+RemoveAllConformers
+RemoveConformer
+SetBoolProp
+SetDoubleProp
+SetIntProp
+SetProp
+SetUnsignedProp
+ToBinary
+UpdatePropertyCache
+</pre></div>
+</div>
+</div>
+</div>
+<p>The following function <code class="docutils literal notranslate"><span class="pre">smiles2graph</span></code> creates one-hot node feature vectors for the element C, H, and O. It also creates an adjacency tensor with one-hot bond order being the feature vector.</p>
 <div class="cell tag_hide-cell docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -627,7 +1264,9 @@ type of the mol is &lt;class &#39;rdkit.Chem.rdchem.Mol&#39;&gt;
 <span class="expanded">Hide code cell content</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">smiles2graph</span><span class="p">(</span><span class="n">sml</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_elements</span> <span class="o">=</span> <span class="p">{</span><span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;H&quot;</span><span class="p">}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">smiles2graph</span><span class="p">(</span><span class="n">sml</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Argument for the RD2NX function should be a valid SMILES sequence</span>
 <span class="sd">    returns: the graph</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -661,6 +1300,19 @@ type of the mol is &lt;class &#39;rdkit.Chem.rdchem.Mol&#39;&gt;
 </div>
 </div>
 </details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atoms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">GetAtoms</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;rdkit.Chem.rdchem.Atom object at 0x169c20580&gt;, &lt;rdkit.Chem.rdchem.Atom object at 0x169c20200&gt;, &lt;rdkit.Chem.rdchem.Atom object at 0x169c20190&gt;]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

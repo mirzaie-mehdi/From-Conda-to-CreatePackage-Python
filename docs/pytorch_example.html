@@ -479,9 +479,9 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.5727, 0.3689, 0.5353],
-        [0.2467, 0.1360, 0.5949],
-        [0.9393, 0.5771, 0.8226]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.4326, 0.2963, 0.7348],
+        [0.1248, 0.5223, 0.7505],
+        [0.9718, 0.0926, 0.1805]])
 </pre></div>
 </div>
 </div>
@@ -495,9 +495,9 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.5727, 0.3689, 0.5353],
-        [0.2467, 0.1360, 0.5949],
-        [0.9393, 0.5771, 0.8226]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.4326, 0.2963, 0.7348],
+        [0.1248, 0.5223, 0.7505],
+        [0.9718, 0.0926, 0.1805]])
 </pre></div>
 </div>
 </div>
@@ -514,13 +514,13 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[-0.0980,  2.2390,  0.9774, -0.5666],
-         [ 1.0257,  0.1333, -0.5856,  0.4131],
-         [ 0.8098,  0.2080,  0.6055,  0.2950]],
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[-1.8348,  0.3611, -0.6914,  1.6177],
+         [ 1.0778,  1.4309,  1.2529,  0.8935],
+         [ 0.6873,  1.0960, -0.7498,  1.7236]],
 
-        [[ 0.3643,  2.2875, -1.0909, -0.4631],
-         [ 0.3229,  0.7688,  1.6794,  0.5749],
-         [ 0.0232,  0.0285,  0.1647, -0.9652]]])
+        [[-0.6183, -0.3880, -1.7339, -0.8742],
+         [ 0.0150,  0.2988,  0.2727, -1.4199],
+         [ 0.9907, -0.4025,  0.8135,  1.4160]]])
 torch.Size([2, 3, 4])
 torch.float32
 tensor([[1., 1., 1.],
@@ -617,70 +617,70 @@ Sample targettensor([3.])
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([32, 4])
 torch.Size([32, 1])
-tensor([[0.2174, 0.0658, 0.8571, 0.8571],
-        [0.9130, 0.0356, 0.1429, 0.7143],
-        [0.1739, 0.0658, 0.7143, 0.5714],
-        [0.0435, 0.0493, 0.8571, 0.5714],
-        [0.9130, 0.0548, 0.8571, 1.0000],
-        [0.1304, 0.0767, 0.2857, 0.8571],
-        [0.9565, 0.0274, 0.2857, 0.0000],
-        [0.2609, 0.0274, 1.0000, 1.0000],
-        [0.7826, 0.0630, 0.7143, 0.2857],
-        [0.2174, 0.0055, 1.0000, 1.0000],
-        [0.3043, 0.0603, 0.0000, 0.4286],
-        [0.5652, 0.0658, 0.7143, 0.8571],
-        [0.1739, 0.0356, 0.0000, 0.7143],
-        [0.3913, 0.0411, 0.2857, 1.0000],
-        [0.0000, 0.0027, 0.5714, 1.0000],
-        [0.8261, 0.0438, 0.5714, 0.7143],
-        [0.4783, 0.0219, 0.2857, 1.0000],
-        [0.5217, 0.0247, 0.7143, 0.5714],
-        [0.5652, 0.0082, 0.2857, 0.0000],
-        [0.3043, 0.0164, 0.7143, 0.0000],
-        [0.1739, 0.0192, 0.8571, 1.0000],
-        [0.5652, 0.0384, 0.4286, 0.1429],
-        [0.3478, 0.0685, 0.2857, 0.8571],
-        [0.0435, 0.0301, 0.8571, 1.0000],
-        [0.1739, 0.0137, 0.7143, 0.1429],
-        [0.4783, 0.0301, 1.0000, 0.1429],
-        [0.8696, 0.0493, 1.0000, 0.1429],
-        [0.6087, 0.0712, 0.1429, 0.5714],
-        [0.2174, 0.0685, 0.5714, 0.2857],
-        [0.5652, 0.0411, 0.0000, 0.1429],
-        [0.9130, 0.0000, 1.0000, 0.7143],
-        [0.1739, 0.0192, 0.8571, 0.1429]])
-tensor([[  0.],
-        [103.],
+tensor([[0.3043, 0.0356, 0.1429, 1.0000],
+        [0.1304, 0.0630, 0.7143, 0.8571],
+        [1.0000, 0.0110, 0.1429, 0.0000],
+        [0.2609, 0.0658, 0.8571, 0.2857],
+        [0.2174, 0.0438, 0.8571, 0.7143],
+        [0.5652, 0.0795, 0.5714, 1.0000],
+        [0.5217, 0.0384, 0.0000, 0.7143],
+        [0.5217, 0.0438, 0.8571, 1.0000],
+        [0.7391, 0.0274, 0.4286, 0.7143],
+        [0.3913, 0.0219, 0.2857, 0.5714],
+        [0.1304, 0.0603, 0.5714, 0.7143],
+        [0.1739, 0.0493, 0.5714, 0.0000],
+        [0.2609, 0.0027, 0.0000, 0.0000],
+        [0.0435, 0.0137, 0.8571, 0.2857],
+        [0.5217, 0.0192, 0.8571, 1.0000],
+        [0.9565, 0.0411, 0.7143, 0.7143],
+        [0.4348, 0.0329, 1.0000, 0.5714],
+        [0.4348, 0.0603, 0.5714, 0.1429],
+        [0.2174, 0.0740, 0.2857, 0.8571],
+        [0.4348, 0.0712, 1.0000, 0.5714],
+        [0.6957, 0.0082, 0.0000, 0.5714],
+        [0.3478, 0.0466, 0.1429, 0.0000],
+        [0.8696, 0.0603, 0.2857, 0.7143],
+        [0.5217, 0.0712, 0.5714, 1.0000],
+        [0.1739, 0.0247, 0.7143, 0.4286],
+        [0.6087, 0.0548, 0.2857, 0.2857],
+        [0.0435, 0.0027, 0.8571, 0.7143],
+        [0.0000, 0.0603, 0.7143, 0.5714],
+        [0.7391, 0.0466, 0.7143, 0.4286],
+        [0.6087, 0.0274, 0.2857, 0.8571],
+        [0.2174, 0.0329, 0.1429, 0.2857],
+        [0.9565, 0.0329, 0.0000, 0.7143]])
+tensor([[117.],
         [  0.],
         [  0.],
         [  0.],
-        [ 31.],
         [  0.],
         [  0.],
-        [  0.],
-        [  9.],
-        [ 61.],
         [135.],
-        [  0.],
-        [146.],
-        [  0.],
-        [142.],
-        [ 27.],
-        [ 28.],
-        [  9.],
-        [  0.],
-        [ 23.],
-        [ 20.],
-        [193.],
-        [  5.],
+        [ 11.],
+        [ 47.],
+        [ 15.],
         [  0.],
         [  0.],
+        [ 14.],
         [  0.],
+        [  0.],
+        [ 63.],
+        [  0.],
+        [  0.],
+        [ 11.],
+        [  0.],
+        [ 94.],
+        [  0.],
+        [230.],
+        [ 92.],
+        [  0.],
+        [ 48.],
+        [ 41.],
+        [  0.],
+        [ 11.],
         [ 64.],
-        [  0.],
-        [ 17.],
-        [  0.],
-        [  0.]])
+        [ 14.],
+        [ 19.]])
 </pre></div>
 </div>
 </div>
@@ -755,7 +755,7 @@ fc3.weight torch.Size([5, 10])
 fc3.bias torch.Size([5])
 output.weight torch.Size([1, 5])
 output.bias torch.Size([1])
-tensor([0.0150], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-0.3175], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -837,7 +837,7 @@ ffblock.4.weight torch.Size([5, 10])
 ffblock.4.bias torch.Size([5])
 ffblock.6.weight torch.Size([1, 5])
 ffblock.6.bias torch.Size([1])
-tensor([0.1657], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.4685], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -860,7 +860,7 @@ tensor([0.1657], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.2664], grad_fn=&lt;ViewBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.2191], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -945,33 +945,33 @@ tensor([0.1657], grad_fn=&lt;ViewBackward0&gt;)
 -----------------------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 173.74119508780018
-Test loss is: 151.97590195215136
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 173.80498412882838
+Test loss is: 151.98603446299498
 Epochs 2 
 -----------------------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 170.38742026173097
-Test loss is: 150.54218179405507
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 170.3366845936551
+Test loss is: 150.55067248190622
 Epochs 3 
 -----------------------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.69123163811022
-Test loss is: 150.30387346621444
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.68857959915454
+Test loss is: 150.30301771835295
 Epochs 4 
 -----------------------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.5649555982083
-Test loss is: 150.2636972878848
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.58013594064693
+Test loss is: 150.26339515361187
 Epochs 5 
 -----------------------------------
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.55152161493046
-Test loss is: 150.25976240377736
-tensor([53.4979], grad_fn=&lt;ViewBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.54038123484506
+Test loss is: 150.259659549322
+tensor([53.1630], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -996,7 +996,7 @@ tensor([53.4979], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([53.4979], grad_fn=&lt;ViewBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([53.1630], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
