@@ -175,6 +175,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+
+
 <li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
 
 
@@ -552,6 +554,257 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-reference">26. Command Reference</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork">1. What Is a Fork?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork">2. When Do We Use a Fork?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone">3. Fork vs Clone</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow">6. The Full Fork Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-a-new-branch-for-your-change">10. Step 4: Create a New Branch for Your Change</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why">Why?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-command">Recommended Command</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-git-branch-and-git-switch-fit-in">11. Where Do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> Fit In?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-branch"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-switch"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-combined-form">Best Combined Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-older-syntax">Comparison with Older Syntax</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-make-your-changes">12. Step 5: Make Your Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-stage-and-commit-the-changes">13. Step 6: Stage and Commit the Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-commit-message-advice">Good Commit Message Advice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-push-the-branch-to-your-fork">14. Step 7: Push the Branch to Your Fork</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-open-a-pull-request">15. Step 8: Open a Pull Request</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-a-pull-request">Meaning of a Pull Request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-direction">Typical Direction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-create-a-pull-request-on-github">16. How to Create a Pull Request on GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-pr-title">Good PR Title</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-pr-description-should-explain">Good PR Description Should Explain</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-pull-request-writing">17. Professional Pull Request Writing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-good-pr-usually-includes">A Good PR Usually Includes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-pr-description">Example PR Description</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-after-you-open-a-pr">18. What Happens After You Open a PR?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-reviewers-request-changes">19. What If Reviewers Request Changes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-branches-matter-so-much-for-pull-requests">20. Why Branches Matter So Much for Pull Requests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice">Best Practice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-your-fork-up-to-date">21. Keeping Your Fork Up to Date</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-sync-workflow">Common Sync Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">What This Does</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-fork-workflow-scenarios">23. Common Fork Workflow Scenarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-a-small-documentation-fix">Scenario A: Small Documentation Fix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-b-feature-proposal">Scenario B: Feature Proposal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-c-personal-long-term-fork">Scenario C: Personal Long-Term Fork</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-to-avoid">24. Common Mistakes to Avoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-directly-on-main">1. Working directly on <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-to-add-upstream">2. Forgetting to add <code class="docutils literal notranslate"><span class="pre">upstream</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-giant-prs">3. Creating giant PRs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-vague-commit-messages">4. Using vague commit messages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-unrelated-changes">5. Mixing unrelated changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-project-guidelines">6. Ignoring project guidelines</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-this-relate-to-being-a-contributor">25. How Does This Relate to Being a Contributor?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-are-not-a-contributor-merely-because">You are <strong>not</strong> a contributor merely because:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-generally-become-a-contributor-to-the-original-project-when">You generally become a contributor to the original project when:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example">26. A Complete Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-on-github">Step 1: Fork on GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork">Step 2: Clone your fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-upstream">Step 3: Add upstream</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-branch">Step 4: Create branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-edit-file">Step 5: Edit file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-commit">Step 6: Commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-push">Step 7: Push</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-open-pr">Step 8: Open PR</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-commands">27. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-your-fork">Clone your fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-upstream">Add upstream</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-switch-to-a-branch">Create and switch to a branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit">Stage and commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#push-branch">Push branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sync-your-fork">Sync your fork</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">28. Final Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-practice-exercises">29. Suggested Practice Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-merge-rebase-and-conflict-resolution">Professional Guide to Merge, Rebase, and Conflict Resolution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter">1. Why These Topics Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture">2. The Big Picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge">3. What Is a Merge?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-merge-preserve">4. What Does Merge Preserve?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-rebase">5. What Is a Rebase?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-rebase-change">6. What Does Rebase Change?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-vs-rebase-conceptual-comparison">7. Merge vs Rebase: Conceptual Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-useful-mental-model">One Useful Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-history-shapes">8. Example History Shapes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#before-integration">Before Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-merge">After Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-rebase">After Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-choose-merge">9. Why Teams Choose Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-choose-rebase">10. Why Teams Choose Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#golden-rule-of-rebase">11. Golden Rule of Rebase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safe-rule">Safe Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-merge-workflow">12. Typical Merge Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens">What Happens?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-rebase-workflow-for-a-feature-branch">13. Typical Rebase Workflow for a Feature Branch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-force-with-lease">Why <code class="docutils literal notranslate"><span class="pre">--force-with-lease</span></code>?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conflict">14. What Is a Conflict?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-conflicts-happen">15. Why Conflicts Happen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict">16. Example of a Conflict</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge">18. Conflict During Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-rebase">19. Conflict During Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-resolution-step-by-step">20. Merge Conflict Resolution: Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-attempt-the-merge">Step 1: Attempt the merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-check-status">Step 2: Check status</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-open-each-conflicted-file">Step 3: Open each conflicted file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-edit-to-the-correct-final-result">Step 4: Edit to the correct final result</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-stage-resolved-files">Step 5: Stage resolved files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-finish-the-merge">Step 6: Finish the merge</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-conflict-resolution-step-by-step">21. Rebase Conflict Resolution: Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-the-rebase">Step 1: Start the rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-git-stops-on-a-conflict">Step 2: Git stops on a conflict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-fix-the-file-contents">Step 3: Fix the file contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-the-resolved-files">Step 4: Stage the resolved files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-continue-the-rebase">Step 5: Continue the rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-skip-a-problematic-commit">Optional: Skip a problematic commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-abort-the-whole-rebase">Optional: Abort the whole rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aborting-merge-or-rebase">22. Aborting Merge or Rebase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abort-a-merge">Abort a Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abort-a-rebase">Abort a Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-example-human-decision">23. Merge Conflict Example: Human Decision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-commands-during-conflict-resolution">24. Useful Commands During Conflict Resolution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-current-status">See current status</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-differences">See differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-staged-differences">See staged differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-resolving">After resolving</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-prevention-strategies">25. Conflict Prevention Strategies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-practices">Good Practices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-or-rebase-before-a-pull-request">26. Merge or Rebase Before a Pull Request?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-team-preferences">Common Team Preferences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correct-practical-rule">Correct Practical Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-squash-merge">27. What Is Squash Merge?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-use-it">Why Teams Use It</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-distinction">Important Distinction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-merge-vs-rebase-guidance">28. Practical Merge vs Rebase Guidance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-merge-when">Prefer Merge When</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-rebase-when">Prefer Rebase When</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-good-beginner-rule">A Good Beginner Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-1-updating-a-feature-branch-with-merge">29. Realistic Scenario 1: Updating a Feature Branch with Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-2-updating-a-feature-branch-with-rebase">30. Realistic Scenario 2: Updating a Feature Branch with Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-3-conflict-in-a-pull-request">31. Realistic Scenario 3: Conflict in a Pull Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-thinking-conflict-is-about-overlapping-intent">32. Visual Thinking: Conflict Is About Overlapping Intent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">33. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebasing-a-shared-branch-without-coordination">1. Rebasing a shared branch without coordination</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-force-carelessly">2. Using <code class="docutils literal notranslate"><span class="pre">--force</span></code> carelessly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolving-conflicts-mechanically-without-understanding-the-code">3. Resolving conflicts mechanically without understanding the code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-tests-after-conflict-resolution">4. Ignoring tests after conflict resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#letting-branches-become-stale">5. Letting branches become stale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#safe-recovery-mindset">34. Safe Recovery Mindset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">35. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-a-branch-into-main">Merge a branch into main</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-a-branch-onto-main">Rebase a branch onto main</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continue-rebase-after-resolving-conflicts">Continue rebase after resolving conflicts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Abort a rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Abort a merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safer-force-push-after-rebase">Safer force push after rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">36. Final Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conflicts">Conflicts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">37. Suggested Practice Exercises</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
@@ -1277,6 +1530,1818 @@ ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </div>
 </section>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="git-forks-and-pull-requests">
+<h1>Git Forks and Pull Requests<a class="headerlink" href="#git-forks-and-pull-requests" title="Permalink to this heading">#</a></h1>
+<p>This section is about <strong>Forks</strong>, <strong>Branches</strong>, and <strong>Pull Requests (PRs)</strong> in Git and GitHub.</p>
+<p>It is designed for learners who already know the basics of Git and now want to understand the standard contribution workflow used in open-source and collaborative development.</p>
+<hr class="docutils" />
+<section id="learning-goals">
+<h2>Learning Goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain what a <strong>fork</strong> is</p></li>
+<li><p>distinguish <strong>fork</strong> from <strong>clone</strong></p></li>
+<li><p>understand when to use a <strong>fork-based workflow</strong></p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> correctly in this workflow</p></li>
+<li><p>create and push a feature branch from your fork</p></li>
+<li><p>open a <strong>Pull Request</strong></p></li>
+<li><p>respond to review comments and update the same PR</p></li>
+<li><p>keep your fork synchronized with the original repository</p></li>
+<li><p>understand what makes someone a <strong>contributor</strong></p></li>
+</ul>
+</section>
+<section id="what-is-a-fork">
+<h2>1. What Is a Fork?<a class="headerlink" href="#what-is-a-fork" title="Permalink to this heading">#</a></h2>
+<p>A <strong>fork</strong> is a copy of a GitHub repository that is created under <strong>your own GitHub account</strong>.
+This is different from a local copy on your computer. A fork lives on <strong>GitHub</strong>, not just on your machine.</p>
+<section id="mental-model">
+<h3>Mental Model<a class="headerlink" href="#mental-model" title="Permalink to this heading">#</a></h3>
+<p>Suppose there is an original repository:</p>
+<ul class="simple">
+<li><p>original repository: <code class="docutils literal notranslate"><span class="pre">github.com/original-owner/project</span></code></p></li>
+<li><p>your fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
+</ul>
+<p>The original repository is often called:</p>
+<ul class="simple">
+<li><p><strong>upstream</strong></p></li>
+</ul>
+<p>Your personal copy is usually connected as:</p>
+<ul class="simple">
+<li><p><strong>origin</strong></p></li>
+</ul>
+<p>So in a typical fork workflow:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> = the original repository</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> = your fork on GitHub</p></li>
+</ul>
+</section>
+</section>
+<section id="when-do-we-use-a-fork">
+<h2>2. When Do We Use a Fork?<a class="headerlink" href="#when-do-we-use-a-fork" title="Permalink to this heading">#</a></h2>
+<p>Forks are commonly used when you <strong>do not have direct write access</strong> to the original repository.</p>
+<section id="typical-cases">
+<h3>Typical Cases<a class="headerlink" href="#typical-cases" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Open-source contribution</strong><br />
+You want to improve a public project, but you are not part of the core team.</p></li>
+<li><p><strong>Safe experimentation</strong><br />
+You want to try changes freely without affecting the original repository.</p></li>
+<li><p><strong>Personal customization</strong><br />
+You want to maintain your own version of a project with custom changes.</p></li>
+<li><p><strong>External collaboration</strong><br />
+You are contributing from outside the main organization or team.</p></li>
+</ol>
+</section>
+<section id="when-a-fork-is-usually-not-needed">
+<h3>When a Fork Is Usually Not Needed<a class="headerlink" href="#when-a-fork-is-usually-not-needed" title="Permalink to this heading">#</a></h3>
+<p>If you are already a member of the project team and have write access, the team may prefer this workflow instead:</p>
+<ul class="simple">
+<li><p>clone the main repository directly</p></li>
+<li><p>create a branch inside that repository</p></li>
+<li><p>push your branch</p></li>
+<li><p>open a Pull Request from that branch</p></li>
+</ul>
+<p>In that case, no fork is necessary.</p>
+</section>
+</section>
+<section id="fork-vs-clone">
+<h2>3. Fork vs Clone<a class="headerlink" href="#fork-vs-clone" title="Permalink to this heading">#</a></h2>
+<p>These two concepts are related, but they are not the same.</p>
+<section id="fork">
+<h3>Fork<a class="headerlink" href="#fork" title="Permalink to this heading">#</a></h3>
+<p>A <strong>fork</strong> creates a copy of a repository on <strong>GitHub</strong> under your account.</p>
+</section>
+<section id="clone">
+<h3>Clone<a class="headerlink" href="#clone" title="Permalink to this heading">#</a></h3>
+<p>A <strong>clone</strong> creates a copy of a repository on <strong>your local computer</strong>.</p>
+</section>
+<section id="standard-order">
+<h3>Standard Order<a class="headerlink" href="#standard-order" title="Permalink to this heading">#</a></h3>
+<p>In a fork-based contribution workflow, the normal order is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork on GitHub → Clone to your computer
+</pre></div>
+</div>
+<p>So first you create the fork online, and then you clone <strong>your fork</strong> locally.</p>
+</section>
+</section>
+<section id="do-we-get-the-full-history-after-forking">
+<h2>4. Do We Get the Full History After Forking?<a class="headerlink" href="#do-we-get-the-full-history-after-forking" title="Permalink to this heading">#</a></h2>
+<p>Yes. In normal GitHub usage, a fork preserves the repository history.</p>
+<p>That means your fork contains:</p>
+<ul class="simple">
+<li><p>commits</p></li>
+<li><p>branches and references relevant to the forked project</p></li>
+<li><p>tags (depending on repository state and hosting behavior)</p></li>
+<li><p>the complete evolution of the project</p></li>
+</ul>
+<p>So conceptually, you inherit the project history.</p>
+<p>However, <strong>having the history does not automatically make you a contributor</strong> to the original project.</p>
+</section>
+<section id="are-you-a-contributor-just-because-you-forked">
+<h2>5. Are You a Contributor Just Because You Forked?<a class="headerlink" href="#are-you-a-contributor-just-because-you-forked" title="Permalink to this heading">#</a></h2>
+<p>No.</p>
+<p>Forking a repository means:</p>
+<ul class="simple">
+<li><p>you now have your own copy of the project</p></li>
+<li><p>you can work on it independently</p></li>
+<li><p>you can propose changes</p></li>
+</ul>
+<p>But it does <strong>not</strong> mean that you are already a contributor to the original repository.</p>
+<section id="when-are-you-usually-considered-a-contributor">
+<h3>When Are You Usually Considered a Contributor?<a class="headerlink" href="#when-are-you-usually-considered-a-contributor" title="Permalink to this heading">#</a></h3>
+<p>In practice, you become a contributor when your changes are accepted into the original project, usually by:</p>
+<ul class="simple">
+<li><p>opening a Pull Request</p></li>
+<li><p>having it reviewed</p></li>
+<li><p>and getting it merged</p></li>
+</ul>
+<p>So this statement is accurate:</p>
+<blockquote>
+<div><p>You may have the full repository history in your fork, but you are not yet a contributor to the original project until your contribution is accepted there.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="the-full-fork-workflow">
+<h2>6. The Full Fork Workflow<a class="headerlink" href="#the-full-fork-workflow" title="Permalink to this heading">#</a></h2>
+<p>Here is the standard end-to-end workflow:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
+</pre></div>
+</div>
+<p>We will now go through each part carefully.</p>
+</section>
+<section id="step-1-fork-the-repository-on-github">
+<h2>7. Step 1: Fork the Repository on GitHub<a class="headerlink" href="#step-1-fork-the-repository-on-github" title="Permalink to this heading">#</a></h2>
+<p>On GitHub:</p>
+<ol class="arabic simple">
+<li><p>open the original repository</p></li>
+<li><p>click <strong>Fork</strong></p></li>
+<li><p>GitHub creates a copy under your own account</p></li>
+</ol>
+<p>Example:</p>
+<ul class="simple">
+<li><p>original: <code class="docutils literal notranslate"><span class="pre">github.com/original-owner/project</span></code></p></li>
+<li><p>fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
+</ul>
+<p>At this point, you have your own GitHub-hosted copy of the project.</p>
+</section>
+<section id="step-2-clone-your-fork-locally">
+<h2>8. Step 2: Clone Your Fork Locally<a class="headerlink" href="#step-2-clone-your-fork-locally" title="Permalink to this heading">#</a></h2>
+<p>After forking, clone <strong>your fork</strong>, not the upstream repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/PROJECT.git
+<span class="nb">cd</span><span class="w"> </span>PROJECT
+</pre></div>
+</div>
+<p>Now your local repository is connected to your fork as <code class="docutils literal notranslate"><span class="pre">origin</span></code>.</p>
+</section>
+<section id="step-3-add-the-original-repository-as-upstream">
+<h2>9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code><a class="headerlink" href="#step-3-add-the-original-repository-as-upstream" title="Permalink to this heading">#</a></h2>
+<p>This is a very important step.</p>
+<p>You usually want two remotes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> → your fork</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> → the original repository</p></li>
+</ul>
+<p>Add <code class="docutils literal notranslate"><span class="pre">upstream</span></code> like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:ORIGINAL_OWNER/PROJECT.git
+</pre></div>
+</div>
+<p>Then verify your remotes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Expected idea:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>origin    git@github.com:YOUR_USERNAME/PROJECT.git
+upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
+</pre></div>
+</div>
+<section id="why-is-upstream-important">
+<h3>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?<a class="headerlink" href="#why-is-upstream-important" title="Permalink to this heading">#</a></h3>
+<p>Because the original project keeps moving forward.</p>
+<p>If you only work with your fork and never sync from upstream:</p>
+<ul class="simple">
+<li><p>your fork becomes outdated</p></li>
+<li><p>your branch may drift away from the current project state</p></li>
+<li><p>your Pull Request may become harder to review or merge</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">YOUR_USERNAME</span><span class="o">/</span><span class="n">PROJECT</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">PROJECT</span>
+
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">ORIGINAL_OWNER</span><span class="o">/</span><span class="n">PROJECT</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">YOUR_USERNAME</span><span class="o">/</span><span class="n">PROJECT</span><span class="o">.</span><span class="n">git</span>
+        <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-4-create-a-new-branch-for-your-change">
+<h2>10. Step 4: Create a New Branch for Your Change<a class="headerlink" href="#step-4-create-a-new-branch-for-your-change" title="Permalink to this heading">#</a></h2>
+<p>You should <strong>not</strong> usually work directly on <code class="docutils literal notranslate"><span class="pre">main</span></code> for a contribution.</p>
+<p>Instead, create a branch for each separate change.</p>
+<section id="why">
+<h3>Why?<a class="headerlink" href="#why" title="Permalink to this heading">#</a></h3>
+<p>Because branches help you:</p>
+<ul class="simple">
+<li><p>isolate your work</p></li>
+<li><p>keep <code class="docutils literal notranslate"><span class="pre">main</span></code> clean</p></li>
+<li><p>open focused Pull Requests</p></li>
+<li><p>revise one change without mixing it with another</p></li>
+</ul>
+</section>
+<section id="recommended-command">
+<h3>Recommended Command<a class="headerlink" href="#recommended-command" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>This command does two things at once:</p>
+<ol class="arabic simple">
+<li><p>creates a new branch named <code class="docutils literal notranslate"><span class="pre">fix-readme-typo</span></code></p></li>
+<li><p>switches to that branch immediately</p></li>
+</ol>
+</section>
+</section>
+<section id="where-do-git-branch-and-git-switch-fit-in">
+<h2>11. Where Do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> Fit In?<a class="headerlink" href="#where-do-git-branch-and-git-switch-fit-in" title="Permalink to this heading">#</a></h2>
+<p>These two commands are very important in the fork workflow.</p>
+<section id="git-branch">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code><a class="headerlink" href="#git-branch" title="Permalink to this heading">#</a></h3>
+<p>Used to:</p>
+<ul class="simple">
+<li><p>list branches</p></li>
+<li><p>create branches</p></li>
+<li><p>delete branches</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch
+git<span class="w"> </span>branch<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>If you run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>it creates the branch, but does <strong>not</strong> move you into it.</p>
+</section>
+<section id="git-switch">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code><a class="headerlink" href="#git-switch" title="Permalink to this heading">#</a></h3>
+<p>Used to move between branches.</p>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>switch<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+</section>
+<section id="best-combined-form">
+<h3>Best Combined Form<a class="headerlink" href="#best-combined-form" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>This is usually the cleanest modern command for contribution work.</p>
+</section>
+<section id="comparison-with-older-syntax">
+<h3>Comparison with Older Syntax<a class="headerlink" href="#comparison-with-older-syntax" title="Permalink to this heading">#</a></h3>
+<p>Older style:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>Modern clearer style:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">branch</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="o">-</span><span class="n">c</span> <span class="n">fix</span><span class="o">-</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
+<span class="n">git</span> <span class="n">branch</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-5-make-your-changes">
+<h2>12. Step 5: Make Your Changes<a class="headerlink" href="#step-5-make-your-changes" title="Permalink to this heading">#</a></h2>
+<p>Now edit the project files.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>fix a typo</p></li>
+<li><p>improve documentation</p></li>
+<li><p>add a small feature</p></li>
+<li><p>refactor a function</p></li>
+<li><p>update tests</p></li>
+</ul>
+<p>At this point, your changes are only on your local branch.</p>
+</section>
+<section id="step-6-stage-and-commit-the-changes">
+<h2>13. Step 6: Stage and Commit the Changes<a class="headerlink" href="#step-6-stage-and-commit-the-changes" title="Permalink to this heading">#</a></h2>
+<p>After editing, stage and commit your work.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix typo in installation guide&quot;</span>
+</pre></div>
+</div>
+<section id="good-commit-message-advice">
+<h3>Good Commit Message Advice<a class="headerlink" href="#good-commit-message-advice" title="Permalink to this heading">#</a></h3>
+<p>A good commit message is:</p>
+<ul class="simple">
+<li><p>specific</p></li>
+<li><p>short</p></li>
+<li><p>action-oriented</p></li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">typo</span> <span class="pre">in</span> <span class="pre">README</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">validation</span> <span class="pre">for</span> <span class="pre">email</span> <span class="pre">field</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Improve</span> <span class="pre">setup</span> <span class="pre">instructions</span> <span class="pre">for</span> <span class="pre">macOS</span></code></p></li>
+</ul>
+<p>Avoid vague messages like:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">change</span> <span class="pre">stuff</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Fix typo in installation guide&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-7-push-the-branch-to-your-fork">
+<h2>14. Step 7: Push the Branch to Your Fork<a class="headerlink" href="#step-7-push-the-branch-to-your-fork" title="Permalink to this heading">#</a></h2>
+<p>Now push your branch to <code class="docutils literal notranslate"><span class="pre">origin</span></code>, which is your fork.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>This sends your branch to GitHub under <strong>your fork</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">fix</span><span class="o">-</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-8-open-a-pull-request">
+<h2>15. Step 8: Open a Pull Request<a class="headerlink" href="#step-8-open-a-pull-request" title="Permalink to this heading">#</a></h2>
+<p>This is the key step.</p>
+<p>A <strong>Pull Request (PR)</strong> is a request asking the maintainers of the original project to review and potentially merge your changes.</p>
+<section id="meaning-of-a-pull-request">
+<h3>Meaning of a Pull Request<a class="headerlink" href="#meaning-of-a-pull-request" title="Permalink to this heading">#</a></h3>
+<p>A Pull Request is basically saying:</p>
+<blockquote>
+<div><p>I made these changes in my branch. Please review them and merge them into the main project if they are acceptable.</p>
+</div></blockquote>
+</section>
+<section id="typical-direction">
+<h3>Typical Direction<a class="headerlink" href="#typical-direction" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>your fork / your branch  →  upstream / main
+</pre></div>
+</div>
+<p>Example:</p>
+<ul class="simple">
+<li><p>source: <code class="docutils literal notranslate"><span class="pre">your-username:fix-readme-typo</span></code></p></li>
+<li><p>target: <code class="docutils literal notranslate"><span class="pre">original-owner:main</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="how-to-create-a-pull-request-on-github">
+<h2>16. How to Create a Pull Request on GitHub<a class="headerlink" href="#how-to-create-a-pull-request-on-github" title="Permalink to this heading">#</a></h2>
+<p>Typical steps:</p>
+<ol class="arabic simple">
+<li><p>push your branch to your fork</p></li>
+<li><p>go to your fork on GitHub</p></li>
+<li><p>GitHub often shows a <strong>Compare &amp; pull request</strong> button</p></li>
+<li><p>click it</p></li>
+<li><p>confirm the base repository and base branch</p></li>
+<li><p>confirm your source branch</p></li>
+<li><p>write a clear title</p></li>
+<li><p>write a helpful description</p></li>
+<li><p>submit the Pull Request</p></li>
+</ol>
+<section id="good-pr-title">
+<h3>Good PR Title<a class="headerlink" href="#good-pr-title" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">typo</span> <span class="pre">in</span> <span class="pre">installation</span> <span class="pre">guide</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">missing</span> <span class="pre">null</span> <span class="pre">check</span> <span class="pre">in</span> <span class="pre">login</span> <span class="pre">flow</span></code></p></li>
+</ul>
+</section>
+<section id="good-pr-description-should-explain">
+<h3>Good PR Description Should Explain<a class="headerlink" href="#good-pr-description-should-explain" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>what changed</p></li>
+<li><p>why it changed</p></li>
+<li><p>any special context reviewers should know</p></li>
+<li><p>how to test it, if relevant</p></li>
+</ul>
+</section>
+</section>
+<section id="professional-pull-request-writing">
+<h2>17. Professional Pull Request Writing<a class="headerlink" href="#professional-pull-request-writing" title="Permalink to this heading">#</a></h2>
+<p>A strong Pull Request is not just code. It is also communication.</p>
+<section id="a-good-pr-usually-includes">
+<h3>A Good PR Usually Includes<a class="headerlink" href="#a-good-pr-usually-includes" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Problem</strong>: What issue are you solving?</p></li>
+<li><p><strong>Change</strong>: What did you modify?</p></li>
+<li><p><strong>Reasoning</strong>: Why is this the right change?</p></li>
+<li><p><strong>Testing</strong>: How did you verify it?</p></li>
+<li><p><strong>Scope</strong>: Is this a small focused change or a broader change?</p></li>
+</ul>
+</section>
+<section id="example-pr-description">
+<h3>Example PR Description<a class="headerlink" href="#example-pr-description" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>## Summary
+This PR fixes a typo in the installation section of the README.
+
+## Details
+The command name was missing a dash, which could confuse new users.
+
+## Testing
+No code changes were made. Documentation reviewed manually.
+</pre></div>
+</div>
+<p>This helps maintainers review quickly and confidently.</p>
+</section>
+</section>
+<section id="what-happens-after-you-open-a-pr">
+<h2>18. What Happens After You Open a PR?<a class="headerlink" href="#what-happens-after-you-open-a-pr" title="Permalink to this heading">#</a></h2>
+<p>After you submit the Pull Request, several things may happen:</p>
+<ol class="arabic simple">
+<li><p><strong>Maintainers review it</strong></p></li>
+<li><p><strong>Automated checks may run</strong></p>
+<ul class="simple">
+<li><p>tests</p></li>
+<li><p>formatting</p></li>
+<li><p>linting</p></li>
+<li><p>CI pipelines</p></li>
+</ul>
+</li>
+<li><p><strong>Reviewers may approve it</strong></p></li>
+<li><p><strong>Reviewers may request changes</strong></p></li>
+<li><p><strong>Maintainers may merge it</strong></p></li>
+<li><p>In some cases, they may close it without merging</p></li>
+</ol>
+<p>This is normal. A closed PR is not necessarily a failure. Sometimes it simply means the project chose a different direction.</p>
+</section>
+<section id="what-if-reviewers-request-changes">
+<h2>19. What If Reviewers Request Changes?<a class="headerlink" href="#what-if-reviewers-request-changes" title="Permalink to this heading">#</a></h2>
+<p>This is very common and completely normal.</p>
+<p>You do <strong>not</strong> usually create a new Pull Request for small requested changes.</p>
+<p>Instead, you:</p>
+<ol class="arabic simple">
+<li><p>stay on the same branch</p></li>
+<li><p>make the requested updates</p></li>
+<li><p>commit the new changes</p></li>
+<li><p>push again to the same branch</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Address review comments&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>When you push to the same branch, the existing Pull Request updates automatically.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Address review comments&quot;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">fix</span><span class="o">-</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="why-branches-matter-so-much-for-pull-requests">
+<h2>20. Why Branches Matter So Much for Pull Requests<a class="headerlink" href="#why-branches-matter-so-much-for-pull-requests" title="Permalink to this heading">#</a></h2>
+<p>Branches are central to PR workflows.</p>
+<p>A Pull Request is typically tied to:</p>
+<ul class="simple">
+<li><p>one source branch</p></li>
+<li><p>one target branch</p></li>
+</ul>
+<p>Because of this, branches give you:</p>
+<ul class="simple">
+<li><p>clean separation of work</p></li>
+<li><p>easier review</p></li>
+<li><p>better rollback options</p></li>
+<li><p>less risk of mixing unrelated changes</p></li>
+</ul>
+<section id="best-practice">
+<h3>Best Practice<a class="headerlink" href="#best-practice" title="Permalink to this heading">#</a></h3>
+<p>Create one branch per topic, fix, or feature.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fix-readme-typo</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs-installation-update</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bugfix-login-timeout</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature-export-csv</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="keeping-your-fork-up-to-date">
+<h2>21. Keeping Your Fork Up to Date<a class="headerlink" href="#keeping-your-fork-up-to-date" title="Permalink to this heading">#</a></h2>
+<p>The upstream repository changes over time.</p>
+<p>If you do not sync your fork, you can end up working on an old base.</p>
+<section id="common-sync-workflow">
+<h3>Common Sync Workflow<a class="headerlink" href="#common-sync-workflow" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>upstream/main
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>What This Does<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">upstream</span></code><br />
+downloads the latest state from the original project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span> <span class="pre">main</span></code><br />
+returns you to your local main branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">upstream/main</span></code><br />
+brings upstream changes into your local main</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">main</span></code><br />
+updates your fork’s <code class="docutils literal notranslate"><span class="pre">main</span></code> on GitHub</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">main</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="alternative-rebase-instead-of-merge">
+<h2>22. Alternative: Rebase Instead of Merge<a class="headerlink" href="#alternative-rebase-instead-of-merge" title="Permalink to this heading">#</a></h2>
+<p>Some projects prefer a cleaner linear history and may encourage <code class="docutils literal notranslate"><span class="pre">rebase</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>my-feature
+git<span class="w"> </span>rebase<span class="w"> </span>upstream/main
+</pre></div>
+</div>
+<section id="why-rebase">
+<h3>Why Rebase?<a class="headerlink" href="#why-rebase" title="Permalink to this heading">#</a></h3>
+<p>Rebase rewrites your branch so it appears to start from the latest upstream state.</p>
+<p>This can make history cleaner, but it is conceptually more advanced than merge.</p>
+</section>
+<section id="practical-advice-for-learners">
+<h3>Practical Advice for Learners<a class="headerlink" href="#practical-advice-for-learners" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>understand <code class="docutils literal notranslate"><span class="pre">merge</span></code> first</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">rebase</span></code> when the project workflow expects it</p></li>
+<li><p>read the contribution guide of the repository</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">upstream</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="n">my</span><span class="o">-</span><span class="n">feature</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">upstream</span><span class="o">/</span><span class="n">main</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="common-fork-workflow-scenarios">
+<h2>23. Common Fork Workflow Scenarios<a class="headerlink" href="#common-fork-workflow-scenarios" title="Permalink to this heading">#</a></h2>
+<section id="scenario-a-small-documentation-fix">
+<h3>Scenario A: Small Documentation Fix<a class="headerlink" href="#scenario-a-small-documentation-fix" title="Permalink to this heading">#</a></h3>
+<p>This is the easiest contribution path.</p>
+<p>Example:</p>
+<ul class="simple">
+<li><p>fork the repository</p></li>
+<li><p>clone your fork</p></li>
+<li><p>create branch <code class="docutils literal notranslate"><span class="pre">fix-docs-typo</span></code></p></li>
+<li><p>fix typo</p></li>
+<li><p>commit</p></li>
+<li><p>push</p></li>
+<li><p>open PR</p></li>
+</ul>
+</section>
+<section id="scenario-b-feature-proposal">
+<h3>Scenario B: Feature Proposal<a class="headerlink" href="#scenario-b-feature-proposal" title="Permalink to this heading">#</a></h3>
+<p>This requires more communication.</p>
+<p>Often you should:</p>
+<ul class="simple">
+<li><p>check existing issues</p></li>
+<li><p>read the contribution guide</p></li>
+<li><p>discuss the idea first if the project is strict about scope</p></li>
+<li><p>then implement on a branch and submit a PR</p></li>
+</ul>
+</section>
+<section id="scenario-c-personal-long-term-fork">
+<h3>Scenario C: Personal Long-Term Fork<a class="headerlink" href="#scenario-c-personal-long-term-fork" title="Permalink to this heading">#</a></h3>
+<p>In this case, you may not intend to send changes back upstream.
+You still benefit from keeping <code class="docutils literal notranslate"><span class="pre">upstream</span></code> configured so you can selectively sync useful updates.</p>
+</section>
+</section>
+<section id="common-mistakes-to-avoid">
+<h2>24. Common Mistakes to Avoid<a class="headerlink" href="#common-mistakes-to-avoid" title="Permalink to this heading">#</a></h2>
+<section id="working-directly-on-main">
+<h3>1. Working directly on <code class="docutils literal notranslate"><span class="pre">main</span></code><a class="headerlink" href="#working-directly-on-main" title="Permalink to this heading">#</a></h3>
+<p>This makes your contribution workflow messy.</p>
+</section>
+<section id="forgetting-to-add-upstream">
+<h3>2. Forgetting to add <code class="docutils literal notranslate"><span class="pre">upstream</span></code><a class="headerlink" href="#forgetting-to-add-upstream" title="Permalink to this heading">#</a></h3>
+<p>Then syncing with the original project becomes harder.</p>
+</section>
+<section id="creating-giant-prs">
+<h3>3. Creating giant PRs<a class="headerlink" href="#creating-giant-prs" title="Permalink to this heading">#</a></h3>
+<p>Large PRs are harder to review and more likely to be delayed.</p>
+</section>
+<section id="using-vague-commit-messages">
+<h3>4. Using vague commit messages<a class="headerlink" href="#using-vague-commit-messages" title="Permalink to this heading">#</a></h3>
+<p>Reviewers need clarity.</p>
+</section>
+<section id="mixing-unrelated-changes">
+<h3>5. Mixing unrelated changes<a class="headerlink" href="#mixing-unrelated-changes" title="Permalink to this heading">#</a></h3>
+<p>One PR should solve one focused problem when possible.</p>
+</section>
+<section id="ignoring-project-guidelines">
+<h3>6. Ignoring project guidelines<a class="headerlink" href="#ignoring-project-guidelines" title="Permalink to this heading">#</a></h3>
+<p>Always check:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.md</span></code></p></li>
+<li><p>issue templates</p></li>
+<li><p>PR templates</p></li>
+<li><p>code style rules</p></li>
+</ul>
+</section>
+</section>
+<section id="how-does-this-relate-to-being-a-contributor">
+<h2>25. How Does This Relate to Being a Contributor?<a class="headerlink" href="#how-does-this-relate-to-being-a-contributor" title="Permalink to this heading">#</a></h2>
+<p>This point is important enough to state clearly.</p>
+<section id="you-are-not-a-contributor-merely-because">
+<h3>You are <strong>not</strong> a contributor merely because:<a class="headerlink" href="#you-are-not-a-contributor-merely-because" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you forked the repository</p></li>
+<li><p>you cloned it</p></li>
+<li><p>you changed files in your copy</p></li>
+<li><p>you pushed to your fork</p></li>
+</ul>
+</section>
+<section id="you-generally-become-a-contributor-to-the-original-project-when">
+<h3>You generally become a contributor to the original project when:<a class="headerlink" href="#you-generally-become-a-contributor-to-the-original-project-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you submit a Pull Request</p></li>
+<li><p>the project accepts it</p></li>
+<li><p>the changes are merged into the original repository</p></li>
+</ul>
+<p>So the true contribution happens at the point where your work enters the upstream project.</p>
+</section>
+</section>
+<section id="a-complete-example">
+<h2>26. A Complete Example<a class="headerlink" href="#a-complete-example" title="Permalink to this heading">#</a></h2>
+<p>Let us imagine you found a typo in the original repository’s README.</p>
+<section id="step-1-fork-on-github">
+<h3>Step 1: Fork on GitHub<a class="headerlink" href="#step-1-fork-on-github" title="Permalink to this heading">#</a></h3>
+<p>You click <strong>Fork</strong>.</p>
+</section>
+<section id="step-2-clone-your-fork">
+<h3>Step 2: Clone your fork<a class="headerlink" href="#step-2-clone-your-fork" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/project.git
+<span class="nb">cd</span><span class="w"> </span>project
+</pre></div>
+</div>
+</section>
+<section id="step-3-add-upstream">
+<h3>Step 3: Add upstream<a class="headerlink" href="#step-3-add-upstream" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:ORIGINAL_OWNER/project.git
+</pre></div>
+</div>
+</section>
+<section id="step-4-create-branch">
+<h3>Step 4: Create branch<a class="headerlink" href="#step-4-create-branch" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+</section>
+<section id="step-5-edit-file">
+<h3>Step 5: Edit file<a class="headerlink" href="#step-5-edit-file" title="Permalink to this heading">#</a></h3>
+<p>You fix the typo in <code class="docutils literal notranslate"><span class="pre">README.md</span></code>.</p>
+</section>
+<section id="step-6-commit">
+<h3>Step 6: Commit<a class="headerlink" href="#step-6-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>README.md
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix typo in README&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-7-push">
+<h3>Step 7: Push<a class="headerlink" href="#step-7-push" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+</section>
+<section id="step-8-open-pr">
+<h3>Step 8: Open PR<a class="headerlink" href="#step-8-open-pr" title="Permalink to this heading">#</a></h3>
+<p>On GitHub, you create a Pull Request from:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">YOUR_USERNAME/fix-readme-typo</span></code></p></li>
+<li><p>into <code class="docutils literal notranslate"><span class="pre">ORIGINAL_OWNER/main</span></code></p></li>
+</ul>
+<p>If maintainers approve and merge it, your change becomes part of the real project.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">YOUR_USERNAME</span><span class="o">/</span><span class="n">project</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">project</span>
+<span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">upstream</span> <span class="n">git</span><span class="nd">@github</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="n">ORIGINAL_OWNER</span><span class="o">/</span><span class="n">project</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="o">-</span><span class="n">c</span> <span class="n">fix</span><span class="o">-</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Fix typo in README&quot;</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">fix</span><span class="o">-</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="quick-reference-commands">
+<h2>27. Quick Reference Commands<a class="headerlink" href="#quick-reference-commands" title="Permalink to this heading">#</a></h2>
+<section id="clone-your-fork">
+<h3>Clone your fork<a class="headerlink" href="#clone-your-fork" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/PROJECT.git
+<span class="nb">cd</span><span class="w"> </span>PROJECT
+</pre></div>
+</div>
+</section>
+<section id="add-upstream">
+<h3>Add upstream<a class="headerlink" href="#add-upstream" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:ORIGINAL_OWNER/PROJECT.git
+git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+</section>
+<section id="create-and-switch-to-a-branch">
+<h3>Create and switch to a branch<a class="headerlink" href="#create-and-switch-to-a-branch" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>my-feature
+</pre></div>
+</div>
+</section>
+<section id="stage-and-commit">
+<h3>Stage and commit<a class="headerlink" href="#stage-and-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Describe your change&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="push-branch">
+<h3>Push branch<a class="headerlink" href="#push-branch" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>my-feature
+</pre></div>
+</div>
+</section>
+<section id="sync-your-fork">
+<h3>Sync your fork<a class="headerlink" href="#sync-your-fork" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>upstream/main
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</section>
+</section>
+<section id="final-summary">
+<h2>28. Final Summary<a class="headerlink" href="#final-summary" title="Permalink to this heading">#</a></h2>
+<p>A <strong>fork</strong> is your own GitHub-hosted copy of someone else’s repository.</p>
+<p>You typically use a fork when:</p>
+<ul class="simple">
+<li><p>you do not have write access</p></li>
+<li><p>you want to contribute safely</p></li>
+<li><p>you want to work independently before proposing changes</p></li>
+</ul>
+<p>The professional workflow is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request
+</pre></div>
+</div>
+<p>Key ideas to remember:</p>
+<ul class="simple">
+<li><p>a fork gives you a personal copy, not contributor status</p></li>
+<li><p>contribution usually becomes official when your PR is merged upstream</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> are essential for clean PR workflows</p></li>
+<li><p>branches should be focused and separate</p></li>
+<li><p>Pull Requests are both technical and communicative</p></li>
+<li><p>syncing with <code class="docutils literal notranslate"><span class="pre">upstream</span></code> keeps your fork healthy and current</p></li>
+</ul>
+</section>
+<section id="suggested-practice-exercises">
+<h2>29. Suggested Practice Exercises<a class="headerlink" href="#suggested-practice-exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Fork a small public repository.</p></li>
+<li><p>Clone your fork locally.</p></li>
+<li><p>Add the original repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code>.</p></li>
+<li><p>Create a branch named <code class="docutils literal notranslate"><span class="pre">docs-example-change</span></code>.</p></li>
+<li><p>Edit a documentation file.</p></li>
+<li><p>Commit the change with a clear message.</p></li>
+<li><p>Push the branch.</p></li>
+<li><p>Draft a Pull Request description, even if you do not submit it.</p></li>
+</ol>
+<p>This practical repetition is the fastest way to internalize the workflow.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="professional-guide-to-merge-rebase-and-conflict-resolution">
+<h1>Professional Guide to Merge, Rebase, and Conflict Resolution<a class="headerlink" href="#professional-guide-to-merge-rebase-and-conflict-resolution" title="Permalink to this heading">#</a></h1>
+<p>This section adresses three critical Git topics:</p>
+<ul class="simple">
+<li><p><strong>merge</strong></p></li>
+<li><p><strong>rebase</strong></p></li>
+<li><p><strong>conflict resolution</strong></p></li>
+</ul>
+<p>These concepts are essential after learning branching, forks, and Pull Requests, because real collaboration almost always involves integrating changes from multiple branches.</p>
+<hr class="docutils" />
+<section id="id6">
+<h2>Learning Goals<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain what <strong>merge</strong> does</p></li>
+<li><p>explain what <strong>rebase</strong> does</p></li>
+<li><p>distinguish the workflows and history produced by each</p></li>
+<li><p>understand when a team may prefer <strong>merge</strong> or <strong>rebase</strong></p></li>
+<li><p>detect and resolve <strong>merge conflicts</strong></p></li>
+<li><p>continue or abort a merge or rebase safely</p></li>
+<li><p>understand why conflicts happen</p></li>
+<li><p>use practical commands in real project scenarios</p></li>
+</ul>
+</section>
+<section id="why-these-topics-matter">
+<h2>1. Why These Topics Matter<a class="headerlink" href="#why-these-topics-matter" title="Permalink to this heading">#</a></h2>
+<p>As soon as more than one branch exists, integration becomes necessary.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>you created a feature branch and now want to bring it into <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>the upstream repository moved forward while you were working</p></li>
+<li><p>your Pull Request is out of date</p></li>
+<li><p>two developers changed the same file in incompatible ways</p></li>
+</ul>
+<p>At that point, Git must combine histories and file changes.</p>
+<p>That is where <strong>merge</strong>, <strong>rebase</strong>, and <strong>conflict resolution</strong> become central.</p>
+</section>
+<section id="the-big-picture">
+<h2>2. The Big Picture<a class="headerlink" href="#the-big-picture" title="Permalink to this heading">#</a></h2>
+<p>There are two common ways to integrate branch histories:</p>
+<ol class="arabic simple">
+<li><p><strong>Merge</strong></p></li>
+<li><p><strong>Rebase</strong></p></li>
+</ol>
+<p>Both can bring one line of work together with another, but they do it differently.</p>
+<section id="high-level-difference">
+<h3>High-Level Difference<a class="headerlink" href="#high-level-difference" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>merge</strong> preserves the branching history and adds a merge commit</p></li>
+<li><p><strong>rebase</strong> rewrites the branch so it appears to start from a new base</p></li>
+</ul>
+<p>Neither is universally “better.”<br />
+The right choice depends on workflow, team preference, and whether the branch has already been shared.</p>
+</section>
+</section>
+<section id="what-is-a-merge">
+<h2>3. What Is a Merge?<a class="headerlink" href="#what-is-a-merge" title="Permalink to this heading">#</a></h2>
+<p>A <strong>merge</strong> combines the histories of two branches.</p>
+<p>Suppose you have:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/login</span></code></p></li>
+</ul>
+<p>You worked on <code class="docutils literal notranslate"><span class="pre">feature/login</span></code>, and now you want those changes in <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p>A common workflow is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+</pre></div>
+</div>
+<p>Git then attempts to combine the histories.</p>
+<p>If it succeeds without conflict:</p>
+<ul class="simple">
+<li><p>your work is integrated into <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>Git may create a <strong>merge commit</strong></p></li>
+<li><p>the branch structure remains visible in history</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-does-merge-preserve">
+<h2>4. What Does Merge Preserve?<a class="headerlink" href="#what-does-merge-preserve" title="Permalink to this heading">#</a></h2>
+<p>Merge is often appreciated because it preserves the historical fact that:</p>
+<ul class="simple">
+<li><p>work diverged</p></li>
+<li><p>work happened on a side branch</p></li>
+<li><p>that branch was later combined</p></li>
+</ul>
+<p>So the history may show a branch shape instead of a perfectly straight line.</p>
+<p>This can be useful because:</p>
+<ul class="simple">
+<li><p>it reflects real development flow</p></li>
+<li><p>it preserves context</p></li>
+<li><p>it avoids rewriting existing commits</p></li>
+</ul>
+</section>
+<section id="what-is-a-rebase">
+<h2>5. What Is a Rebase?<a class="headerlink" href="#what-is-a-rebase" title="Permalink to this heading">#</a></h2>
+<p>A <strong>rebase</strong> moves a branch so that it is replayed on top of another base.</p>
+<p>Suppose this happened:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code> moved ahead</p></li>
+<li><p>your <code class="docutils literal notranslate"><span class="pre">feature/login</span></code> branch was created earlier</p></li>
+<li><p>you now want your branch to sit on top of the latest <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+<p>You might run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>Git then takes the commits from <code class="docutils literal notranslate"><span class="pre">feature/login</span></code> and <strong>reapplies</strong> them one by one on top of the newer base.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-does-rebase-change">
+<h2>6. What Does Rebase Change?<a class="headerlink" href="#what-does-rebase-change" title="Permalink to this heading">#</a></h2>
+<p>Rebase changes commit history.</p>
+<p>That is because Git is not merely “attaching” the old commits to a new base.<br />
+It is usually <strong>re-creating</strong> them.</p>
+<p>So after a rebase:</p>
+<ul class="simple">
+<li><p>commit IDs change</p></li>
+<li><p>the branch history becomes more linear</p></li>
+<li><p>the development path may look cleaner</p></li>
+<li><p>but the original branch topology is no longer preserved in the same way</p></li>
+</ul>
+</section>
+<section id="merge-vs-rebase-conceptual-comparison">
+<h2>7. Merge vs Rebase: Conceptual Comparison<a class="headerlink" href="#merge-vs-rebase-conceptual-comparison" title="Permalink to this heading">#</a></h2>
+<section id="merge">
+<h3>Merge<a class="headerlink" href="#merge" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>combines branches</p></li>
+<li><p>usually creates a merge commit</p></li>
+<li><p>preserves branch structure</p></li>
+<li><p>does not rewrite existing commits</p></li>
+</ul>
+</section>
+<section id="rebase">
+<h3>Rebase<a class="headerlink" href="#rebase" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>reapplies commits on a new base</p></li>
+<li><p>usually creates a linear history</p></li>
+<li><p>rewrites commit history</p></li>
+<li><p>changes commit hashes</p></li>
+</ul>
+</section>
+<section id="one-useful-mental-model">
+<h3>One Useful Mental Model<a class="headerlink" href="#one-useful-mental-model" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>merge</strong> = “bring histories together”</p></li>
+<li><p><strong>rebase</strong> = “move my branch so it looks like it started later”</p></li>
+</ul>
+</section>
+</section>
+<section id="example-history-shapes">
+<h2>8. Example History Shapes<a class="headerlink" href="#example-history-shapes" title="Permalink to this heading">#</a></h2>
+<p>Imagine this simplified history.</p>
+<section id="before-integration">
+<h3>Before Integration<a class="headerlink" href="#before-integration" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A---B---C   main
+     \
+      D---E   feature
+</pre></div>
+</div>
+</section>
+<section id="after-merge">
+<h3>After Merge<a class="headerlink" href="#after-merge" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A---B---C-------M   main
+     \         /
+      D---E----/    feature
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">M</span></code> is a merge commit.</p>
+</section>
+<section id="after-rebase">
+<h3>After Rebase<a class="headerlink" href="#after-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A---B---C---D&#39;---E&#39;   feature
+</pre></div>
+</div>
+<p>The rebased commits <code class="docutils literal notranslate"><span class="pre">D'</span></code> and <code class="docutils literal notranslate"><span class="pre">E'</span></code> are new versions of the original commits <code class="docutils literal notranslate"><span class="pre">D</span></code> and <code class="docutils literal notranslate"><span class="pre">E</span></code>.</p>
+</section>
+</section>
+<section id="why-teams-choose-merge">
+<h2>9. Why Teams Choose Merge<a class="headerlink" href="#why-teams-choose-merge" title="Permalink to this heading">#</a></h2>
+<p>A team may prefer <strong>merge</strong> because:</p>
+<ul class="simple">
+<li><p>it is safer for shared history</p></li>
+<li><p>it does not rewrite commits already pushed</p></li>
+<li><p>it preserves the true branch story</p></li>
+<li><p>it is easier to reason about for many teams</p></li>
+<li><p>it works well in collaborative environments where branches are already public</p></li>
+</ul>
+<p>Merge is often the conservative and collaboration-friendly option.</p>
+</section>
+<section id="why-teams-choose-rebase">
+<h2>10. Why Teams Choose Rebase<a class="headerlink" href="#why-teams-choose-rebase" title="Permalink to this heading">#</a></h2>
+<p>A team may prefer <strong>rebase</strong> because:</p>
+<ul class="simple">
+<li><p>it produces a cleaner, linear history</p></li>
+<li><p>it reduces noisy merge commits</p></li>
+<li><p>it can make <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> easier to read</p></li>
+<li><p>it keeps feature branches up to date before merging</p></li>
+<li><p>some projects require a clean history for review</p></li>
+</ul>
+<p>Rebase is often favored in teams that care deeply about history hygiene and disciplined branch practices.</p>
+</section>
+<section id="golden-rule-of-rebase">
+<h2>11. Golden Rule of Rebase<a class="headerlink" href="#golden-rule-of-rebase" title="Permalink to this heading">#</a></h2>
+<p>A very important rule:</p>
+<blockquote>
+<div><p>Do not casually rebase commits that other people may already be using.</p>
+</div></blockquote>
+<p>Why?</p>
+<p>Because rebase rewrites history.</p>
+<p>If you rebase a shared public branch:</p>
+<ul class="simple">
+<li><p>commit hashes change</p></li>
+<li><p>others may still have the old commits</p></li>
+<li><p>pulling and merging becomes confusing</p></li>
+<li><p>collaboration can break or become messy</p></li>
+</ul>
+<section id="safe-rule">
+<h3>Safe Rule<a class="headerlink" href="#safe-rule" title="Permalink to this heading">#</a></h3>
+<p>Rebase is safest when:</p>
+<ul class="simple">
+<li><p>the branch is local to you</p></li>
+<li><p>or the team explicitly agrees on the rebase workflow</p></li>
+</ul>
+</section>
+</section>
+<section id="typical-merge-workflow">
+<h2>12. Typical Merge Workflow<a class="headerlink" href="#typical-merge-workflow" title="Permalink to this heading">#</a></h2>
+<p>A common merge workflow after finishing a feature:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<section id="what-happens">
+<h3>What Happens?<a class="headerlink" href="#what-happens" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>move to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>update local <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>merge the feature branch into <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>push the integrated result</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">pull</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">main</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="typical-rebase-workflow-for-a-feature-branch">
+<h2>13. Typical Rebase Workflow for a Feature Branch<a class="headerlink" href="#typical-rebase-workflow-for-a-feature-branch" title="Permalink to this heading">#</a></h2>
+<p>Suppose your branch is behind <code class="docutils literal notranslate"><span class="pre">main</span></code> and you want to update it before opening or finalizing a PR.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>Then, if the branch was already pushed before, you may need:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--force-with-lease<span class="w"> </span>origin<span class="w"> </span>feature/login
+</pre></div>
+</div>
+<section id="why-force-with-lease">
+<h3>Why <code class="docutils literal notranslate"><span class="pre">--force-with-lease</span></code>?<a class="headerlink" href="#why-force-with-lease" title="Permalink to this heading">#</a></h3>
+<p>Because after rebase, the branch history changed.<br />
+A normal push may be rejected.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--force-with-lease</span></code> is safer than plain <code class="docutils literal notranslate"><span class="pre">--force</span></code> because it checks that the remote state is what you expect before overwriting it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">lease</span> <span class="n">origin</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="what-is-a-conflict">
+<h2>14. What Is a Conflict?<a class="headerlink" href="#what-is-a-conflict" title="Permalink to this heading">#</a></h2>
+<p>A <strong>conflict</strong> happens when Git cannot automatically decide how to combine changes.</p>
+<p>This usually happens when:</p>
+<ul class="simple">
+<li><p>two branches changed the same lines</p></li>
+<li><p>one branch deleted a file that another branch edited</p></li>
+<li><p>structural changes overlap in incompatible ways</p></li>
+</ul>
+<p>Git is very good at automatic merging, but it cannot safely guess human intent in every case.</p>
+</section>
+<section id="why-conflicts-happen">
+<h2>15. Why Conflicts Happen<a class="headerlink" href="#why-conflicts-happen" title="Permalink to this heading">#</a></h2>
+<p>Conflicts are not signs that Git is broken.<br />
+They are signs that Git found overlapping changes and needs human judgment.</p>
+<p>Typical reasons:</p>
+<ol class="arabic simple">
+<li><p>two developers edited the same code block</p></li>
+<li><p>branch A renamed or deleted something that branch B still uses</p></li>
+<li><p>the code evolved in two directions simultaneously</p></li>
+<li><p>a long-lived branch fell far behind <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ol>
+<p>The longer a branch lives without syncing, the more likely conflicts become.</p>
+</section>
+<section id="example-of-a-conflict">
+<h2>16. Example of a Conflict<a class="headerlink" href="#example-of-a-conflict" title="Permalink to this heading">#</a></h2>
+<p>Imagine <code class="docutils literal notranslate"><span class="pre">main</span></code> has:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello&quot;</span>
+</pre></div>
+</div>
+<p>And your feature branch changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello, user&quot;</span>
+</pre></div>
+</div>
+<p>But meanwhile <code class="docutils literal notranslate"><span class="pre">main</span></code> changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hi&quot;</span>
+</pre></div>
+</div>
+<p>Git now sees that the same lines were changed differently.</p>
+<p>It cannot confidently choose one, so it reports a conflict.</p>
+</section>
+<section id="how-git-marks-conflicts-in-files">
+<h2>17. How Git Marks Conflicts in Files<a class="headerlink" href="#how-git-marks-conflicts-in-files" title="Permalink to this heading">#</a></h2>
+<p>When a conflict happens, Git inserts markers into the file, such as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+return &quot;Hi&quot;
+=======
+return &quot;Hello, user&quot;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login
+</pre></div>
+</div>
+<section id="meaning">
+<h3>Meaning<a class="headerlink" href="#meaning" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="pre">HEAD</span></code><br />
+the current branch’s version</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">=======</span></code><br />
+separator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="pre">feature/login</span></code><br />
+the incoming branch’s version</p></li>
+</ul>
+<p>You must edit the file manually and remove these markers.</p>
+</section>
+</section>
+<section id="conflict-during-merge">
+<h2>18. Conflict During Merge<a class="headerlink" href="#conflict-during-merge" title="Permalink to this heading">#</a></h2>
+<p>If a conflict happens during merge:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+</pre></div>
+</div>
+<p>Git may stop and tell you which files are conflicted.</p>
+<p>Then the normal process is:</p>
+<ol class="arabic simple">
+<li><p>open conflicted files</p></li>
+<li><p>decide the correct final content</p></li>
+<li><p>remove conflict markers</p></li>
+<li><p>stage the resolved files</p></li>
+<li><p>complete the merge</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conflict-during-rebase">
+<h2>19. Conflict During Rebase<a class="headerlink" href="#conflict-during-rebase" title="Permalink to this heading">#</a></h2>
+<p>If a conflict happens during rebase:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>Git stops at the conflicting commit.</p>
+<p>Then you:</p>
+<ol class="arabic simple">
+<li><p>open the conflicted files</p></li>
+<li><p>resolve the conflict</p></li>
+<li><p>stage the fixed files</p></li>
+<li><p>continue the rebase</p></li>
+</ol>
+<p>Command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>If more conflicts appear, repeat the same process.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+<span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="k">continue</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merge-conflict-resolution-step-by-step">
+<h2>20. Merge Conflict Resolution: Step-by-Step<a class="headerlink" href="#merge-conflict-resolution-step-by-step" title="Permalink to this heading">#</a></h2>
+<p>Here is the standard sequence.</p>
+<section id="step-1-attempt-the-merge">
+<h3>Step 1: Attempt the merge<a class="headerlink" href="#step-1-attempt-the-merge" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+</pre></div>
+</div>
+</section>
+<section id="step-2-check-status">
+<h3>Step 2: Check status<a class="headerlink" href="#step-2-check-status" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+</pre></div>
+</div>
+<p>Git shows which files are unmerged.</p>
+</section>
+<section id="step-3-open-each-conflicted-file">
+<h3>Step 3: Open each conflicted file<a class="headerlink" href="#step-3-open-each-conflicted-file" title="Permalink to this heading">#</a></h3>
+<p>Look for markers like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+=======
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+</pre></div>
+</div>
+</section>
+<section id="step-4-edit-to-the-correct-final-result">
+<h3>Step 4: Edit to the correct final result<a class="headerlink" href="#step-4-edit-to-the-correct-final-result" title="Permalink to this heading">#</a></h3>
+<p>Choose:</p>
+<ul class="simple">
+<li><p>your version</p></li>
+<li><p>their version</p></li>
+<li><p>or a combination</p></li>
+</ul>
+</section>
+<section id="step-5-stage-resolved-files">
+<h3>Step 5: Stage resolved files<a class="headerlink" href="#step-5-stage-resolved-files" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+</section>
+<section id="step-6-finish-the-merge">
+<h3>Step 6: Finish the merge<a class="headerlink" href="#step-6-finish-the-merge" title="Permalink to this heading">#</a></h3>
+<p>If needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit
+</pre></div>
+</div>
+<p>Sometimes Git prepares the merge commit automatically after staging, depending on the conflict path and tooling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">status</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">file</span>
+<span class="n">git</span> <span class="n">commit</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="rebase-conflict-resolution-step-by-step">
+<h2>21. Rebase Conflict Resolution: Step-by-Step<a class="headerlink" href="#rebase-conflict-resolution-step-by-step" title="Permalink to this heading">#</a></h2>
+<section id="step-1-start-the-rebase">
+<h3>Step 1: Start the rebase<a class="headerlink" href="#step-1-start-the-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+</section>
+<section id="step-2-git-stops-on-a-conflict">
+<h3>Step 2: Git stops on a conflict<a class="headerlink" href="#step-2-git-stops-on-a-conflict" title="Permalink to this heading">#</a></h3>
+<p>Check status:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+</pre></div>
+</div>
+</section>
+<section id="step-3-fix-the-file-contents">
+<h3>Step 3: Fix the file contents<a class="headerlink" href="#step-3-fix-the-file-contents" title="Permalink to this heading">#</a></h3>
+<p>Remove markers and keep the correct result.</p>
+</section>
+<section id="step-4-stage-the-resolved-files">
+<h3>Step 4: Stage the resolved files<a class="headerlink" href="#step-4-stage-the-resolved-files" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+</section>
+<section id="step-5-continue-the-rebase">
+<h3>Step 5: Continue the rebase<a class="headerlink" href="#step-5-continue-the-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>Git then moves to the next commit.<br />
+If another conflict appears, repeat.</p>
+</section>
+<section id="optional-skip-a-problematic-commit">
+<h3>Optional: Skip a problematic commit<a class="headerlink" href="#optional-skip-a-problematic-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--skip
+</pre></div>
+</div>
+</section>
+<section id="optional-abort-the-whole-rebase">
+<h3>Optional: Abort the whole rebase<a class="headerlink" href="#optional-abort-the-whole-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+<span class="n">git</span> <span class="n">status</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">file</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="k">continue</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="aborting-merge-or-rebase">
+<h2>22. Aborting Merge or Rebase<a class="headerlink" href="#aborting-merge-or-rebase" title="Permalink to this heading">#</a></h2>
+<p>Sometimes you decide the current integration attempt is not worth continuing right now.</p>
+<section id="abort-a-merge">
+<h3>Abort a Merge<a class="headerlink" href="#abort-a-merge" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>merge<span class="w"> </span>--abort
+</pre></div>
+</div>
+<p>This attempts to return the repository to the pre-merge state.</p>
+</section>
+<section id="abort-a-rebase">
+<h3>Abort a Rebase<a class="headerlink" href="#abort-a-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+</pre></div>
+</div>
+<p>This attempts to restore the branch to how it looked before the rebase began.</p>
+<p>These commands are very important safety tools.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">merge</span> <span class="o">--</span><span class="n">abort</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="o">--</span><span class="n">abort</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="merge-conflict-example-human-decision">
+<h2>23. Merge Conflict Example: Human Decision<a class="headerlink" href="#merge-conflict-example-human-decision" title="Permalink to this heading">#</a></h2>
+<p>Suppose a file contains:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">():</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="k">return</span> <span class="n">timeout</span>
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">main</span></code>, someone changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">():</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">return</span> <span class="n">timeout</span>
+</pre></div>
+</div>
+<p>In your branch, you changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">():</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="k">return</span> <span class="n">timeout</span>
+</pre></div>
+</div>
+<p>Git cannot decide whether the timeout should be <code class="docutils literal notranslate"><span class="pre">10</span></code> or <code class="docutils literal notranslate"><span class="pre">60</span></code>.</p>
+<p>A human must decide:</p>
+<ul class="simple">
+<li><p>should the final value be <code class="docutils literal notranslate"><span class="pre">10</span></code>?</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">60</span></code>?</p></li>
+<li><p>another value entirely?</p></li>
+<li><p>should logic be refactored?</p></li>
+</ul>
+<p>This shows why conflict resolution is a semantic task, not just a mechanical one.</p>
+</section>
+<section id="useful-commands-during-conflict-resolution">
+<h2>24. Useful Commands During Conflict Resolution<a class="headerlink" href="#useful-commands-during-conflict-resolution" title="Permalink to this heading">#</a></h2>
+<section id="see-current-status">
+<h3>See current status<a class="headerlink" href="#see-current-status" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+</pre></div>
+</div>
+</section>
+<section id="see-differences">
+<h3>See differences<a class="headerlink" href="#see-differences" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
+</pre></div>
+</div>
+</section>
+<section id="see-staged-differences">
+<h3>See staged differences<a class="headerlink" href="#see-staged-differences" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
+</pre></div>
+</div>
+</section>
+<section id="after-resolving">
+<h3>After resolving<a class="headerlink" href="#after-resolving" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+<p>These are the core commands you will use repeatedly during conflict handling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">status</span>
+<span class="n">git</span> <span class="n">diff</span>
+<span class="n">git</span> <span class="n">diff</span> <span class="o">--</span><span class="n">staged</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conflict-prevention-strategies">
+<h2>25. Conflict Prevention Strategies<a class="headerlink" href="#conflict-prevention-strategies" title="Permalink to this heading">#</a></h2>
+<p>You cannot eliminate all conflicts, but you can reduce them.</p>
+<section id="good-practices">
+<h3>Good Practices<a class="headerlink" href="#good-practices" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Keep branches short-lived</strong><br />
+Long-lived branches drift and conflict more.</p></li>
+<li><p><strong>Sync frequently with main or upstream</strong></p>
+<ul class="simple">
+<li><p>merge from main regularly</p></li>
+<li><p>or rebase regularly if that is the team workflow</p></li>
+</ul>
+</li>
+<li><p><strong>Make smaller Pull Requests</strong><br />
+Small focused changes are easier to integrate.</p></li>
+<li><p><strong>Communicate with teammates</strong><br />
+If two people plan to edit the same subsystem, coordinate early.</p></li>
+<li><p><strong>Avoid giant unrelated commits</strong><br />
+Big mixed commits make conflict analysis much harder.</p></li>
+</ol>
+</section>
+</section>
+<section id="merge-or-rebase-before-a-pull-request">
+<h2>26. Merge or Rebase Before a Pull Request?<a class="headerlink" href="#merge-or-rebase-before-a-pull-request" title="Permalink to this heading">#</a></h2>
+<p>This depends on the team.</p>
+<section id="common-team-preferences">
+<h3>Common Team Preferences<a class="headerlink" href="#common-team-preferences" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Some teams want you to <strong>merge <code class="docutils literal notranslate"><span class="pre">main</span></code> into your feature branch</strong></p></li>
+<li><p>Others want you to <strong>rebase your feature branch onto <code class="docutils literal notranslate"><span class="pre">main</span></code></strong></p></li>
+<li><p>Some teams squash everything at merge time on GitHub</p></li>
+</ul>
+</section>
+<section id="correct-practical-rule">
+<h3>Correct Practical Rule<a class="headerlink" href="#correct-practical-rule" title="Permalink to this heading">#</a></h3>
+<p>Always check:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CONTRIBUTING.md</span></code></p></li>
+<li><p>repository guidelines</p></li>
+<li><p>maintainer expectations</p></li>
+</ul>
+<p>There is no universal rule that fits every project.</p>
+</section>
+</section>
+<section id="what-is-squash-merge">
+<h2>27. What Is Squash Merge?<a class="headerlink" href="#what-is-squash-merge" title="Permalink to this heading">#</a></h2>
+<p>A related concept is <strong>squash merge</strong>.</p>
+<p>Instead of preserving all commits from the feature branch, the branch is merged as <strong>one single commit</strong>.</p>
+<p>This is often offered in GitHub Pull Requests.</p>
+<section id="why-teams-use-it">
+<h3>Why Teams Use It<a class="headerlink" href="#why-teams-use-it" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>cleaner history on <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>less noise from many small “work in progress” commits</p></li>
+<li><p>easier project history reading</p></li>
+</ul>
+</section>
+<section id="important-distinction">
+<h3>Important Distinction<a class="headerlink" href="#important-distinction" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>squash merge is not the same as rebase</p></li>
+<li><p>rebase rewrites branch history before integration</p></li>
+<li><p>squash merge compresses branch history at integration time</p></li>
+</ul>
+</section>
+</section>
+<section id="practical-merge-vs-rebase-guidance">
+<h2>28. Practical Merge vs Rebase Guidance<a class="headerlink" href="#practical-merge-vs-rebase-guidance" title="Permalink to this heading">#</a></h2>
+<section id="prefer-merge-when">
+<h3>Prefer Merge When<a class="headerlink" href="#prefer-merge-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you want safety on shared branches</p></li>
+<li><p>you do not want to rewrite history</p></li>
+<li><p>the team values preserving the branch story</p></li>
+<li><p>the branch is already public and collaborative</p></li>
+</ul>
+</section>
+<section id="prefer-rebase-when">
+<h3>Prefer Rebase When<a class="headerlink" href="#prefer-rebase-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>the branch is primarily yours</p></li>
+<li><p>you want a cleaner linear history</p></li>
+<li><p>the project expects rebased branches</p></li>
+<li><p>you understand the implications of history rewriting</p></li>
+</ul>
+</section>
+<section id="a-good-beginner-rule">
+<h3>A Good Beginner Rule<a class="headerlink" href="#a-good-beginner-rule" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>learn <strong>merge</strong> first</p></li>
+<li><p>then learn <strong>rebase</strong></p></li>
+<li><p>use <strong>rebase carefully</strong></p></li>
+</ul>
+</section>
+</section>
+<section id="realistic-scenario-1-updating-a-feature-branch-with-merge">
+<h2>29. Realistic Scenario 1: Updating a Feature Branch with Merge<a class="headerlink" href="#realistic-scenario-1-updating-a-feature-branch-with-merge" title="Permalink to this heading">#</a></h2>
+<p>You started <code class="docutils literal notranslate"><span class="pre">feature/login</span></code> a week ago.<br />
+Meanwhile, <code class="docutils literal notranslate"><span class="pre">main</span></code> received new commits.</p>
+<p>You want to update your feature branch without rewriting history.</p>
+<p>One approach:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>merge<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>Pros:</p>
+<ul class="simple">
+<li><p>simple</p></li>
+<li><p>history-safe</p></li>
+<li><p>no rewrite</p></li>
+</ul>
+<p>Cons:</p>
+<ul class="simple">
+<li><p>branch history may become noisier</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="realistic-scenario-2-updating-a-feature-branch-with-rebase">
+<h2>30. Realistic Scenario 2: Updating a Feature Branch with Rebase<a class="headerlink" href="#realistic-scenario-2-updating-a-feature-branch-with-rebase" title="Permalink to this heading">#</a></h2>
+<p>Same situation, but you want a cleaner branch history.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+<p>Pros:</p>
+<ul class="simple">
+<li><p>linear history</p></li>
+<li><p>cleaner PR branch</p></li>
+</ul>
+<p>Cons:</p>
+<ul class="simple">
+<li><p>rewrites commit history</p></li>
+<li><p>may require force-push</p></li>
+<li><p>must be used carefully if shared</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">fetch</span> <span class="n">origin</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+<span class="n">git</span> <span class="n">rebase</span> <span class="n">origin</span><span class="o">/</span><span class="n">main</span>
+<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">force</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">lease</span> <span class="n">origin</span> <span class="n">feature</span><span class="o">/</span><span class="n">login</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="realistic-scenario-3-conflict-in-a-pull-request">
+<h2>31. Realistic Scenario 3: Conflict in a Pull Request<a class="headerlink" href="#realistic-scenario-3-conflict-in-a-pull-request" title="Permalink to this heading">#</a></h2>
+<p>Suppose GitHub says:</p>
+<blockquote>
+<div><p>This branch has conflicts that must be resolved.</p>
+</div></blockquote>
+<p>That usually means your branch can no longer be cleanly merged into the target branch.</p>
+<p>A common local resolution workflow is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>my-feature
+git<span class="w"> </span>rebase<span class="w"> </span>upstream/main
+</pre></div>
+</div>
+<p>or, depending on team style:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>my-feature
+git<span class="w"> </span>merge<span class="w"> </span>upstream/main
+</pre></div>
+</div>
+<p>Then:</p>
+<ul class="simple">
+<li><p>resolve conflicts locally</p></li>
+<li><p>run tests</p></li>
+<li><p>commit or continue</p></li>
+<li><p>push the updated branch</p></li>
+<li><p>the PR updates automatically</p></li>
+</ul>
+</section>
+<section id="visual-thinking-conflict-is-about-overlapping-intent">
+<h2>32. Visual Thinking: Conflict Is About Overlapping Intent<a class="headerlink" href="#visual-thinking-conflict-is-about-overlapping-intent" title="Permalink to this heading">#</a></h2>
+<p>A conflict is not merely “same file changed.”</p>
+<p>Two branches can modify the same file without conflict if they touch different areas.</p>
+<p>Conflict is more about:</p>
+<ul class="simple">
+<li><p>overlapping edits</p></li>
+<li><p>incompatible structural changes</p></li>
+<li><p>ambiguous final intent</p></li>
+</ul>
+<p>So conflict resolution requires understanding the code or text, not just knowing Git commands.</p>
+</section>
+<section id="common-mistakes">
+<h2>33. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permalink to this heading">#</a></h2>
+<section id="rebasing-a-shared-branch-without-coordination">
+<h3>1. Rebasing a shared branch without coordination<a class="headerlink" href="#rebasing-a-shared-branch-without-coordination" title="Permalink to this heading">#</a></h3>
+<p>This confuses collaborators.</p>
+</section>
+<section id="using-force-carelessly">
+<h3>2. Using <code class="docutils literal notranslate"><span class="pre">--force</span></code> carelessly<a class="headerlink" href="#using-force-carelessly" title="Permalink to this heading">#</a></h3>
+<p>Prefer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--force-with-lease
+</pre></div>
+</div>
+</section>
+<section id="resolving-conflicts-mechanically-without-understanding-the-code">
+<h3>3. Resolving conflicts mechanically without understanding the code<a class="headerlink" href="#resolving-conflicts-mechanically-without-understanding-the-code" title="Permalink to this heading">#</a></h3>
+<p>This can introduce subtle bugs.</p>
+</section>
+<section id="ignoring-tests-after-conflict-resolution">
+<h3>4. Ignoring tests after conflict resolution<a class="headerlink" href="#ignoring-tests-after-conflict-resolution" title="Permalink to this heading">#</a></h3>
+<p>Always verify behavior after integrating complex changes.</p>
+</section>
+<section id="letting-branches-become-stale">
+<h3>5. Letting branches become stale<a class="headerlink" href="#letting-branches-become-stale" title="Permalink to this heading">#</a></h3>
+<p>The longer you wait, the harder integration becomes.</p>
+</section>
+</section>
+<section id="safe-recovery-mindset">
+<h2>34. Safe Recovery Mindset<a class="headerlink" href="#safe-recovery-mindset" title="Permalink to this heading">#</a></h2>
+<p>When Git reports a conflict, do not panic.</p>
+<p>A professional recovery mindset is:</p>
+<ol class="arabic simple">
+<li><p>read the status carefully</p></li>
+<li><p>identify which branches are involved</p></li>
+<li><p>inspect the conflicted files</p></li>
+<li><p>decide the correct final code</p></li>
+<li><p>stage only when truly resolved</p></li>
+<li><p>continue or abort as needed</p></li>
+<li><p>run tests after resolution</p></li>
+</ol>
+<p>Git is usually waiting for a human decision, not punishing you.</p>
+</section>
+<section id="id7">
+<h2>35. Quick Reference Commands<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="merge-a-branch-into-main">
+<h3>Merge a branch into main<a class="headerlink" href="#merge-a-branch-into-main" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature-name
+</pre></div>
+</div>
+</section>
+<section id="rebase-a-branch-onto-main">
+<h3>Rebase a branch onto main<a class="headerlink" href="#rebase-a-branch-onto-main" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature-name
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+</pre></div>
+</div>
+</section>
+<section id="continue-rebase-after-resolving-conflicts">
+<h3>Continue rebase after resolving conflicts<a class="headerlink" href="#continue-rebase-after-resolving-conflicts" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>rebase<span class="w"> </span>--continue
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>Abort a rebase<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--abort
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>Abort a merge<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>merge<span class="w"> </span>--abort
+</pre></div>
+</div>
+</section>
+<section id="safer-force-push-after-rebase">
+<h3>Safer force push after rebase<a class="headerlink" href="#safer-force-push-after-rebase" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--force-with-lease<span class="w"> </span>origin<span class="w"> </span>feature-name
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>36. Final Summary<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<p><strong>Merge</strong> and <strong>rebase</strong> are both integration tools, but they produce different histories.</p>
+<section id="id11">
+<h3>Merge<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>combines branches</p></li>
+<li><p>preserves branch structure</p></li>
+<li><p>does not rewrite history</p></li>
+<li><p>often safer for shared collaboration</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>Rebase<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>replays commits on a new base</p></li>
+<li><p>creates linear history</p></li>
+<li><p>rewrites commit IDs</p></li>
+<li><p>useful when used intentionally and carefully</p></li>
+</ul>
+</section>
+<section id="conflicts">
+<h3>Conflicts<a class="headerlink" href="#conflicts" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>happen when Git cannot choose between overlapping changes</p></li>
+<li><p>must be resolved by understanding the intended final result</p></li>
+<li><p>are normal in real teamwork</p></li>
+</ul>
+<p>The deeper lesson is this:</p>
+<blockquote>
+<div><p>Git integration is not only about commands. It is about managing history, collaboration, and code intent.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="id13">
+<h2>37. Suggested Practice Exercises<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Create a repository with a <code class="docutils literal notranslate"><span class="pre">main</span></code> branch and a <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch.</p></li>
+<li><p>Modify the same line differently in both branches.</p></li>
+<li><p>try <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code> and resolve the conflict manually.</p></li>
+<li><p>reset the repository and repeat using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rebase</span></code>.</p></li>
+<li><p>practice:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">status</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">--abort</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rebase</span> <span class="pre">--abort</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">rebase</span> <span class="pre">--continue</span></code></p></li>
+</ul>
+</li>
+<li><p>compare the final history using:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+<p>That comparison is one of the fastest ways to truly understand the difference between merge and rebase.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">log</span> <span class="o">--</span><span class="n">oneline</span> <span class="o">--</span><span class="n">graph</span> <span class="o">--</span><span class="nb">all</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section class="tex2jax_ignore mathjax_ignore" id="github-notes">
 <h1>GitHub Notes<a class="headerlink" href="#github-notes" title="Permalink to this heading">#</a></h1>
 <section id="forking-a-repository">
@@ -1672,6 +3737,257 @@ git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-reference">26. Command Reference</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork">1. What Is a Fork?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork">2. When Do We Use a Fork?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone">3. Fork vs Clone</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow">6. The Full Fork Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-a-new-branch-for-your-change">10. Step 4: Create a New Branch for Your Change</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why">Why?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-command">Recommended Command</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-do-git-branch-and-git-switch-fit-in">11. Where Do <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> Fit In?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-branch"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-switch"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-combined-form">Best Combined Form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-with-older-syntax">Comparison with Older Syntax</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-make-your-changes">12. Step 5: Make Your Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-stage-and-commit-the-changes">13. Step 6: Stage and Commit the Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-commit-message-advice">Good Commit Message Advice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-push-the-branch-to-your-fork">14. Step 7: Push the Branch to Your Fork</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-open-a-pull-request">15. Step 8: Open a Pull Request</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-a-pull-request">Meaning of a Pull Request</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-direction">Typical Direction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-create-a-pull-request-on-github">16. How to Create a Pull Request on GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-pr-title">Good PR Title</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-pr-description-should-explain">Good PR Description Should Explain</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-pull-request-writing">17. Professional Pull Request Writing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-good-pr-usually-includes">A Good PR Usually Includes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-pr-description">Example PR Description</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-after-you-open-a-pr">18. What Happens After You Open a PR?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-reviewers-request-changes">19. What If Reviewers Request Changes?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-branches-matter-so-much-for-pull-requests">20. Why Branches Matter So Much for Pull Requests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practice">Best Practice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#keeping-your-fork-up-to-date">21. Keeping Your Fork Up to Date</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-sync-workflow">Common Sync Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">What This Does</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-fork-workflow-scenarios">23. Common Fork Workflow Scenarios</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-a-small-documentation-fix">Scenario A: Small Documentation Fix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-b-feature-proposal">Scenario B: Feature Proposal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario-c-personal-long-term-fork">Scenario C: Personal Long-Term Fork</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes-to-avoid">24. Common Mistakes to Avoid</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-directly-on-main">1. Working directly on <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-to-add-upstream">2. Forgetting to add <code class="docutils literal notranslate"><span class="pre">upstream</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-giant-prs">3. Creating giant PRs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-vague-commit-messages">4. Using vague commit messages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixing-unrelated-changes">5. Mixing unrelated changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-project-guidelines">6. Ignoring project guidelines</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-does-this-relate-to-being-a-contributor">25. How Does This Relate to Being a Contributor?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-are-not-a-contributor-merely-because">You are <strong>not</strong> a contributor merely because:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#you-generally-become-a-contributor-to-the-original-project-when">You generally become a contributor to the original project when:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-complete-example">26. A Complete Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-on-github">Step 1: Fork on GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork">Step 2: Clone your fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-upstream">Step 3: Add upstream</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-create-branch">Step 4: Create branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-edit-file">Step 5: Edit file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-commit">Step 6: Commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-push">Step 7: Push</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-open-pr">Step 8: Open PR</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-commands">27. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-your-fork">Clone your fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-upstream">Add upstream</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-switch-to-a-branch">Create and switch to a branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit">Stage and commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#push-branch">Push branch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sync-your-fork">Sync your fork</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">28. Final Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-practice-exercises">29. Suggested Practice Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-merge-rebase-and-conflict-resolution">Professional Guide to Merge, Rebase, and Conflict Resolution</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter">1. Why These Topics Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture">2. The Big Picture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge">3. What Is a Merge?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-merge-preserve">4. What Does Merge Preserve?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-rebase">5. What Is a Rebase?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-rebase-change">6. What Does Rebase Change?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-vs-rebase-conceptual-comparison">7. Merge vs Rebase: Conceptual Comparison</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-useful-mental-model">One Useful Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-history-shapes">8. Example History Shapes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#before-integration">Before Integration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-merge">After Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-rebase">After Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-choose-merge">9. Why Teams Choose Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-choose-rebase">10. Why Teams Choose Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#golden-rule-of-rebase">11. Golden Rule of Rebase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safe-rule">Safe Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-merge-workflow">12. Typical Merge Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens">What Happens?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-rebase-workflow-for-a-feature-branch">13. Typical Rebase Workflow for a Feature Branch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-force-with-lease">Why <code class="docutils literal notranslate"><span class="pre">--force-with-lease</span></code>?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-conflict">14. What Is a Conflict?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-conflicts-happen">15. Why Conflicts Happen</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict">16. Example of a Conflict</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge">18. Conflict During Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-rebase">19. Conflict During Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-resolution-step-by-step">20. Merge Conflict Resolution: Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-attempt-the-merge">Step 1: Attempt the merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-check-status">Step 2: Check status</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-open-each-conflicted-file">Step 3: Open each conflicted file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-edit-to-the-correct-final-result">Step 4: Edit to the correct final result</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-stage-resolved-files">Step 5: Stage resolved files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-finish-the-merge">Step 6: Finish the merge</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-conflict-resolution-step-by-step">21. Rebase Conflict Resolution: Step-by-Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-the-rebase">Step 1: Start the rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-git-stops-on-a-conflict">Step 2: Git stops on a conflict</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-fix-the-file-contents">Step 3: Fix the file contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-the-resolved-files">Step 4: Stage the resolved files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-continue-the-rebase">Step 5: Continue the rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-skip-a-problematic-commit">Optional: Skip a problematic commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-abort-the-whole-rebase">Optional: Abort the whole rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#aborting-merge-or-rebase">22. Aborting Merge or Rebase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abort-a-merge">Abort a Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abort-a-rebase">Abort a Rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-example-human-decision">23. Merge Conflict Example: Human Decision</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-commands-during-conflict-resolution">24. Useful Commands During Conflict Resolution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-current-status">See current status</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-differences">See differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#see-staged-differences">See staged differences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#after-resolving">After resolving</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-prevention-strategies">25. Conflict Prevention Strategies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-practices">Good Practices</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-or-rebase-before-a-pull-request">26. Merge or Rebase Before a Pull Request?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-team-preferences">Common Team Preferences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correct-practical-rule">Correct Practical Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-squash-merge">27. What Is Squash Merge?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-teams-use-it">Why Teams Use It</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-distinction">Important Distinction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-merge-vs-rebase-guidance">28. Practical Merge vs Rebase Guidance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-merge-when">Prefer Merge When</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prefer-rebase-when">Prefer Rebase When</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-good-beginner-rule">A Good Beginner Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-1-updating-a-feature-branch-with-merge">29. Realistic Scenario 1: Updating a Feature Branch with Merge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-2-updating-a-feature-branch-with-rebase">30. Realistic Scenario 2: Updating a Feature Branch with Rebase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#realistic-scenario-3-conflict-in-a-pull-request">31. Realistic Scenario 3: Conflict in a Pull Request</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-thinking-conflict-is-about-overlapping-intent">32. Visual Thinking: Conflict Is About Overlapping Intent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">33. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebasing-a-shared-branch-without-coordination">1. Rebasing a shared branch without coordination</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-force-carelessly">2. Using <code class="docutils literal notranslate"><span class="pre">--force</span></code> carelessly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolving-conflicts-mechanically-without-understanding-the-code">3. Resolving conflicts mechanically without understanding the code</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-tests-after-conflict-resolution">4. Ignoring tests after conflict resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#letting-branches-become-stale">5. Letting branches become stale</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#safe-recovery-mindset">34. Safe Recovery Mindset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">35. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-a-branch-into-main">Merge a branch into main</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-a-branch-onto-main">Rebase a branch onto main</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#continue-rebase-after-resolving-conflicts">Continue rebase after resolving conflicts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Abort a rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Abort a merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safer-force-push-after-rebase">Safer force push after rebase</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">36. Final Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conflicts">Conflicts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">37. Suggested Practice Exercises</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
