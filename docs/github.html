@@ -1,0 +1,1761 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Git, GitHub, and SSH Setup Guide &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/github';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class and Objects" href="class.html" />
+    <link rel="prev" title="SSH Basics" href="SSH.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Git, GitHub, and SSH Setup Guide</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch with example</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="gnn_molecules.html">Graph Neural Networks on Molecules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/github.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/github.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/github.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Git, GitHub, and SSH Setup Guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git, GitHub, and SSH Setup Guide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">1. Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">2. What Is Git?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">3. Initialize a Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-git-init-b-main">Meaning of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span> <span class="pre">-b</span> <span class="pre">main</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">4. Stage and Commit Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation">Explanation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">5. View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-shows">What it shows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-variations">Useful variations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-line-history">One-line history</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-view">Graph view</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#last-5-commits">Last 5 commits</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-full-patch-with-each-commit">Show full patch with each commit</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-history-for-one-file">Show history for one file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">6. Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-meaning">Basic meaning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms">Common forms</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unstaged-changes">Unstaged changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-changes">Staged changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-with-the-latest-commit">Compare with the latest commit</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-two-commits">Compare two commits</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-one-file">Compare one file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-only-file-names">Show only file names</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">7. Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-all-configuration">View all configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-one-specific-value">View one specific value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-default-editor">Set the default editor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-color-output">Enable color output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-aliases">Create aliases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">8. Git Configuration Levels</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">9. Show Configuration Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">11. A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">SSH</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-ssh">13. What Is SSH?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-clarification">Important clarification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-matters">Why SSH matters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-keys">14. Generate SSH Keys</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command">Command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-does">What this does</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-part-stays-private-and-which-part-goes-to-github">15. Which Part Stays Private and Which Part Goes to GitHub?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key">Private key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key">Public key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-github-verifies-that-you-have-the-correct-private-key">16. How GitHub Verifies That You Have the Correct Private Key</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simplified-process">Simplified process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-point">Key point</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-public-key-to-github">17. Add the Public Key to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-the-ssh-connection">18. Test the SSH Connection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-t">Meaning of <code class="docutils literal notranslate"><span class="pre">-T</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#successful-output">Successful output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-ssh-test-errors">19. Common SSH Test Errors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-time-host-verification">First-time host verification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-denied">Permission denied</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-whether-your-ssh-key-exists">20. Check Whether Your SSH Key Exists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-whether-the-key-is-loaded">21. Check Whether the Key Is Loaded</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-you-need-to-run-ssh-t-git-github-com-every-time">22. Do You Need to Run <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-T</span> <span class="pre">git@github.com</span></code> Every Time?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#in-normal-daily-use">In normal daily use</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daily-workflow-summary">23. Daily Workflow Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-mental-model">24. Recommended Mental Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-notes">25. Final Notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-security-habits">Good security habits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-learning-ssh-is-valuable">Why learning SSH is valuable</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-reference">26. Command Reference</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forking-a-repository">Forking a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-git-locally-vs-github">Using Git Locally vs GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-command">Pull Command</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-workflow-connect-local-folder-to-github-repository">📓 Git Workflow: Connect Local Folder to GitHub Repository</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-local-folder">💻 Step 1: Create Local Folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-initialize-git">⚙️ Step 2: Initialize Git</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-files">📄 Step 3: Add Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-files">➕ Step 4: Stage Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-commit">📝 Step 5: Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-connect-to-github">🔗 Step 6: Connect to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-check-remote">🔍 Step 7: Check Remote</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-push">🚀 Step 8: Push</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-archaeology-example-notebook">Git Archaeology Example Notebook</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-working-branch-from-networkx-2-6-3">Step 1: Create a working branch from networkx-2.6.3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-search-for-the-text-in-the-repository">Step 2: Search for the text in the repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-annotate-the-file">Step 4: Annotate the file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-search-inside-the-annotate-output">Step 5: Search inside the annotate output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-inspect-the-relevant-commit">Step 6: Inspect the relevant commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-create-a-branch-from-that-historical-commit">Step 7: Create a branch from that historical commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-example-demonstrates">What this example demonstrates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-summary">Command Summary</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="git-github-and-ssh-setup-guide">
+<h1>Git, GitHub, and SSH Setup Guide<a class="headerlink" href="#git-github-and-ssh-setup-guide" title="Permalink to this heading">#</a></h1>
+<p>This notebook is a clean English write-up of the topics we discussed:</p>
+<ul class="simple">
+<li><p>Creating a GitHub account</p></li>
+<li><p>Initializing Git repositories</p></li>
+<li><p>Core Git commands</p></li>
+<li><p>Configuring Git</p></li>
+<li><p>Using SSH with GitHub</p></li>
+<li><p>Generating SSH keys</p></li>
+<li><p>Testing SSH</p></li>
+<li><p>Understanding how public/private keys work</p></li>
+<li><p>When to run SSH tests</p></li>
+</ul>
+<section id="create-a-github-account">
+<h2>1. Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
+<p>To use GitHub effectively, the first step is to create a user account.</p>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Go to GitHub.</p></li>
+<li><p>Click <strong>Sign up</strong>.</p></li>
+<li><p>Enter:</p>
+<ul class="simple">
+<li><p>your email address</p></li>
+<li><p>a password</p></li>
+<li><p>a username</p></li>
+</ul>
+</li>
+<li><p>Verify your email address.</p></li>
+<li><p>Complete the sign-up process.</p></li>
+</ol>
+<p>After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.</p>
+</section>
+</section>
+<section id="what-is-git">
+<h2>2. What Is Git?<a class="headerlink" href="#what-is-git" title="Permalink to this heading">#</a></h2>
+<p><strong>Git</strong> is a version control system. It helps you:</p>
+<ul class="simple">
+<li><p>track changes in your files</p></li>
+<li><p>save project history</p></li>
+<li><p>collaborate with others</p></li>
+<li><p>restore older versions when needed</p></li>
+</ul>
+<p>Git runs on your own computer. GitHub is an online platform that hosts Git repositories.</p>
+</section>
+<section id="initialize-a-repository">
+<h2>3. Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
+<p>To turn a folder into a Git repository, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
+</pre></div>
+</div>
+<p>If you want the default branch to be <code class="docutils literal notranslate"><span class="pre">main</span></code> immediately, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
+</pre></div>
+</div>
+<section id="meaning-of-git-init-b-main">
+<h3>Meaning of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span> <span class="pre">-b</span> <span class="pre">main</span></code><a class="headerlink" href="#meaning-of-git-init-b-main" title="Permalink to this heading">#</a></h3>
+<p>This command:</p>
+<ol class="arabic simple">
+<li><p>creates a new Git repository</p></li>
+<li><p>creates the initial branch with the name <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ol>
+<p>This is cleaner than using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code> first and renaming the branch later.</p>
+</section>
+</section>
+<section id="stage-and-commit-changes">
+<h2>4. Stage and Commit Changes<a class="headerlink" href="#stage-and-commit-changes" title="Permalink to this heading">#</a></h2>
+<p>A common Git workflow looks like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your message&quot;</span>
+</pre></div>
+</div>
+<section id="explanation">
+<h3>Explanation<a class="headerlink" href="#explanation" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">.</span></code> stages the changes</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;...&quot;</span></code> records those staged changes into Git history</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>app.js
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix login bug&quot;</span>
+</pre></div>
+</div>
+<p>This means the changes in <code class="docutils literal notranslate"><span class="pre">app.js</span></code> are now stored as a commit with the message <code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">login</span> <span class="pre">bug</span></code>.</p>
+</section>
+</section>
+<section id="view-commit-history-with-git-log">
+<h2>5. View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code><a class="headerlink" href="#view-commit-history-with-git-log" title="Permalink to this heading">#</a></h2>
+<p>To see commit history, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+</pre></div>
+</div>
+<section id="what-it-shows">
+<h3>What it shows<a class="headerlink" href="#what-it-shows" title="Permalink to this heading">#</a></h3>
+<p>For each commit, Git usually shows:</p>
+<ul class="simple">
+<li><p>commit hash</p></li>
+<li><p>author</p></li>
+<li><p>date</p></li>
+<li><p>commit message</p></li>
+</ul>
+</section>
+<section id="useful-variations">
+<h3>Useful variations<a class="headerlink" href="#useful-variations" title="Permalink to this heading">#</a></h3>
+<section id="one-line-history">
+<h4>One-line history<a class="headerlink" href="#one-line-history" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
+</pre></div>
+</div>
+</section>
+<section id="graph-view">
+<h4>Graph view<a class="headerlink" href="#graph-view" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
+</pre></div>
+</div>
+</section>
+<section id="last-5-commits">
+<h4>Last 5 commits<a class="headerlink" href="#last-5-commits" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</pre></div>
+</div>
+</section>
+<section id="show-full-patch-with-each-commit">
+<h4>Show full patch with each commit<a class="headerlink" href="#show-full-patch-with-each-commit" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-p
+</pre></div>
+</div>
+</section>
+<section id="show-history-for-one-file">
+<h4>Show history for one file<a class="headerlink" href="#show-history-for-one-file" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>file.txt
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="compare-changes-with-git-diff">
+<h2>6. Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code><a class="headerlink" href="#compare-changes-with-git-diff" title="Permalink to this heading">#</a></h2>
+<p>To compare changes, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
+</pre></div>
+</div>
+<section id="basic-meaning">
+<h3>Basic meaning<a class="headerlink" href="#basic-meaning" title="Permalink to this heading">#</a></h3>
+<p>This shows changes that are <strong>not staged yet</strong>.</p>
+</section>
+<section id="id1">
+<h3>Example<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">- console.log(&quot;Hello&quot;);</span>
+<span class="gi">+ console.log(&quot;Hello World&quot;);</span>
+</pre></div>
+</div>
+</section>
+<section id="common-forms">
+<h3>Common forms<a class="headerlink" href="#common-forms" title="Permalink to this heading">#</a></h3>
+<section id="unstaged-changes">
+<h4>Unstaged changes<a class="headerlink" href="#unstaged-changes" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
+</pre></div>
+</div>
+</section>
+<section id="staged-changes">
+<h4>Staged changes<a class="headerlink" href="#staged-changes" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--cached
+</pre></div>
+</div>
+</section>
+<section id="compare-with-the-latest-commit">
+<h4>Compare with the latest commit<a class="headerlink" href="#compare-with-the-latest-commit" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>HEAD
+</pre></div>
+</div>
+</section>
+<section id="compare-two-commits">
+<h4>Compare two commits<a class="headerlink" href="#compare-two-commits" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
+</pre></div>
+</div>
+</section>
+<section id="compare-one-file">
+<h4>Compare one file<a class="headerlink" href="#compare-one-file" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>file.txt
+</pre></div>
+</div>
+</section>
+<section id="show-only-file-names">
+<h4>Show only file names<a class="headerlink" href="#show-only-file-names" title="Permalink to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--name-only
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="configure-git-with-git-config">
+<h2>7. Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-with-git-config" title="Permalink to this heading">#</a></h2>
+<p>Git uses configuration settings such as your name, email, editor, pager behavior, and aliases.</p>
+<section id="set-your-identity">
+<h3>Set your identity<a class="headerlink" href="#set-your-identity" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
+</pre></div>
+</div>
+<p>These values appear in your commits.</p>
+</section>
+<section id="view-all-configuration">
+<h3>View all configuration<a class="headerlink" href="#view-all-configuration" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list
+</pre></div>
+</div>
+</section>
+<section id="view-one-specific-value">
+<h3>View one specific value<a class="headerlink" href="#view-one-specific-value" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>user.name
+</pre></div>
+</div>
+</section>
+<section id="set-the-default-editor">
+<h3>Set the default editor<a class="headerlink" href="#set-the-default-editor" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;code --wait&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="enable-color-output">
+<h3>Enable color output<a class="headerlink" href="#enable-color-output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>color.ui<span class="w"> </span>auto
+</pre></div>
+</div>
+</section>
+<section id="create-aliases">
+<h3>Create aliases<a class="headerlink" href="#create-aliases" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.co<span class="w"> </span>checkout
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.br<span class="w"> </span>branch
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.cm<span class="w"> </span>commit
+</pre></div>
+</div>
+</section>
+</section>
+<section id="git-configuration-levels">
+<h2>8. Git Configuration Levels<a class="headerlink" href="#git-configuration-levels" title="Permalink to this heading">#</a></h2>
+<p>Git supports three configuration levels:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--system</span></code> → applies to the whole system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--global</span></code> → applies to the current user</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--local</span></code> → applies only to the current repository</p></li>
+</ul>
+<section id="priority">
+<h3>Priority<a class="headerlink" href="#priority" title="Permalink to this heading">#</a></h3>
+<p>If the same setting exists in multiple places, the order is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>local &gt; global &gt; system
+</pre></div>
+</div>
+<p>This means local settings override global settings, and global settings override system settings.</p>
+</section>
+</section>
+<section id="show-configuration-sources">
+<h2>9. Show Configuration Sources<a class="headerlink" href="#show-configuration-sources" title="Permalink to this heading">#</a></h2>
+<p>To see both the configuration values and where they come from, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
+</pre></div>
+</div>
+<section id="example-output">
+<h3>Example output<a class="headerlink" href="#example-output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>file:/etc/gitconfig        core.editor=vim
+file:/home/user/.gitconfig user.name=Ali
+file:.git/config           core.repositoryformatversion=0
+</pre></div>
+</div>
+</section>
+<section id="why-this-is-useful">
+<h3>Why this is useful<a class="headerlink" href="#why-this-is-useful" title="Permalink to this heading">#</a></h3>
+<p>This helps you debug configuration problems. For example, if the wrong email is used in commits, you can find out exactly which file defined it.</p>
+</section>
+</section>
+<section id="disabling-git-pagers">
+<h2>10. Disabling Git Pagers<a class="headerlink" href="#disabling-git-pagers" title="Permalink to this heading">#</a></h2>
+<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
+<p>You can disable the pager for a specific command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
+</pre></div>
+</div>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> print directly in the terminal.</p>
+<section id="other-examples">
+<h3>Other examples<a class="headerlink" href="#other-examples" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
+</pre></div>
+</div>
+</section>
+<section id="effect">
+<h3>Effect<a class="headerlink" href="#effect" title="Permalink to this heading">#</a></h3>
+<p>This disables pagers for many common Git commands.</p>
+</section>
+<section id="advantage">
+<h3>Advantage<a class="headerlink" href="#advantage" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>simpler output</p></li>
+<li><p>useful for scripts</p></li>
+<li><p>easier for some beginners</p></li>
+</ul>
+</section>
+<section id="disadvantage">
+<h3>Disadvantage<a class="headerlink" href="#disadvantage" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>very long output can flood the terminal</p></li>
+<li><p>searching inside output becomes harder</p></li>
+<li><p>less convenient for large histories</p></li>
+</ul>
+</section>
+</section>
+<section id="a-better-pager-setup">
+<h2>11. A Better Pager Setup<a class="headerlink" href="#a-better-pager-setup" title="Permalink to this heading">#</a></h2>
+<p>Instead of disabling all pagers, many developers prefer a smarter pager configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
+</pre></div>
+</div>
+<p>This keeps the benefits of a pager while making it less intrusive.</p>
+</section>
+<section id="https-vs-ssh-for-github">
+<h2>12. HTTPS vs SSH for GitHub<a class="headerlink" href="#https-vs-ssh-for-github" title="Permalink to this heading">#</a></h2>
+<p>There are two common ways to connect Git to GitHub:</p>
+<section id="https">
+<h3>HTTPS<a class="headerlink" href="#https" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/user/repo.git
+</pre></div>
+</div>
+</section>
+<section id="ssh">
+<h3>SSH<a class="headerlink" href="#ssh" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:user/repo.git
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>HTTPS<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>simpler to start with</p></li>
+<li><p>commonly available by default</p></li>
+<li><p>often uses a token for authentication</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>SSH<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>very common on Linux and macOS</p></li>
+<li><p>excellent for repeated use</p></li>
+<li><p>avoids typing credentials repeatedly</p></li>
+<li><p>useful beyond Git, for server administration as well</p></li>
+</ul>
+<p>SSH is widely considered worth learning.</p>
+</section>
+</section>
+<section id="what-is-ssh">
+<h2>13. What Is SSH?<a class="headerlink" href="#what-is-ssh" title="Permalink to this heading">#</a></h2>
+<p><strong>SSH</strong> stands for <strong>Secure Shell</strong>.</p>
+<p>It is a <strong>secure network protocol</strong> used to connect to remote systems over the internet.</p>
+<section id="important-clarification">
+<h3>Important clarification<a class="headerlink" href="#important-clarification" title="Permalink to this heading">#</a></h3>
+<p>SSH is <strong>not something separate from the internet</strong>.<br />
+It is a secure way of communicating <strong>over</strong> the internet.</p>
+</section>
+<section id="why-ssh-matters">
+<h3>Why SSH matters<a class="headerlink" href="#why-ssh-matters" title="Permalink to this heading">#</a></h3>
+<p>Without encryption, data may be exposed.<br />
+With SSH, communication is encrypted and authenticated.</p>
+</section>
+</section>
+<section id="generate-ssh-keys">
+<h2>14. Generate SSH Keys<a class="headerlink" href="#generate-ssh-keys" title="Permalink to this heading">#</a></h2>
+<p>To use SSH with GitHub, you normally create an SSH key pair on your own computer.</p>
+<section id="command">
+<h3>Command<a class="headerlink" href="#command" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="what-this-does">
+<h3>What this does<a class="headerlink" href="#what-this-does" title="Permalink to this heading">#</a></h3>
+<p>Your operating system creates two files:</p>
+<ul class="simple">
+<li><p><strong>private key</strong></p></li>
+<li><p><strong>public key</strong></p></li>
+</ul>
+<p>Usually they are stored in:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>~/.ssh/
+</pre></div>
+</div>
+<p>For example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519</span></code> → private key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519.pub</span></code> → public key</p></li>
+</ul>
+</section>
+</section>
+<section id="which-part-stays-private-and-which-part-goes-to-github">
+<h2>15. Which Part Stays Private and Which Part Goes to GitHub?<a class="headerlink" href="#which-part-stays-private-and-which-part-goes-to-github" title="Permalink to this heading">#</a></h2>
+<section id="private-key">
+<h3>Private key<a class="headerlink" href="#private-key" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>stays on your computer</p></li>
+<li><p>must never be shared</p></li>
+<li><p>is used to prove your identity</p></li>
+</ul>
+</section>
+<section id="public-key">
+<h3>Public key<a class="headerlink" href="#public-key" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>can be shared</p></li>
+<li><p>is copied to GitHub</p></li>
+<li><p>allows GitHub to recognize your computer</p></li>
+</ul>
+<p>You do <strong>not</strong> copy or upload the private key to GitHub.</p>
+</section>
+</section>
+<section id="how-github-verifies-that-you-have-the-correct-private-key">
+<h2>16. How GitHub Verifies That You Have the Correct Private Key<a class="headerlink" href="#how-github-verifies-that-you-have-the-correct-private-key" title="Permalink to this heading">#</a></h2>
+<p>A common question is:</p>
+<blockquote>
+<div><p>If GitHub only has my public key, how does it know I have the right private key?</p>
+</div></blockquote>
+<p>The answer is cryptographic authentication.</p>
+<section id="simplified-process">
+<h3>Simplified process<a class="headerlink" href="#simplified-process" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>GitHub already has your <strong>public key</strong></p></li>
+<li><p>During login/authentication, GitHub sends a challenge</p></li>
+<li><p>Your computer uses the <strong>private key</strong> to sign that challenge</p></li>
+<li><p>GitHub checks the signature using the <strong>public key</strong></p></li>
+<li><p>If the signature is valid, authentication succeeds</p></li>
+</ol>
+</section>
+<section id="key-point">
+<h3>Key point<a class="headerlink" href="#key-point" title="Permalink to this heading">#</a></h3>
+<p>The <strong>private key never leaves your computer</strong>.<br />
+You do not paste it anywhere.<br />
+Only the cryptographic proof is sent.</p>
+</section>
+</section>
+<section id="add-the-public-key-to-github">
+<h2>17. Add the Public Key to GitHub<a class="headerlink" href="#add-the-public-key-to-github" title="Permalink to this heading">#</a></h2>
+<p>To display your public key so you can copy it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
+</pre></div>
+</div>
+<p>Copy the output and add it to your GitHub account under SSH keys.</p>
+<p>Only the <code class="docutils literal notranslate"><span class="pre">.pub</span></code> file should be copied to GitHub.</p>
+</section>
+<section id="test-the-ssh-connection">
+<h2>18. Test the SSH Connection<a class="headerlink" href="#test-the-ssh-connection" title="Permalink to this heading">#</a></h2>
+<p>After adding the public key to GitHub, test the connection with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
+</pre></div>
+</div>
+<section id="meaning-of-t">
+<h3>Meaning of <code class="docutils literal notranslate"><span class="pre">-T</span></code><a class="headerlink" href="#meaning-of-t" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">-T</span></code> means:</p>
+<ul class="simple">
+<li><p>do not open an interactive shell</p></li>
+<li><p>only test authentication</p></li>
+</ul>
+</section>
+<section id="successful-output">
+<h3>Successful output<a class="headerlink" href="#successful-output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hi username! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>SSH is configured correctly</p></li>
+<li><p>GitHub recognizes your key</p></li>
+<li><p>Git operations over SSH should work</p></li>
+</ul>
+</section>
+</section>
+<section id="common-ssh-test-errors">
+<h2>19. Common SSH Test Errors<a class="headerlink" href="#common-ssh-test-errors" title="Permalink to this heading">#</a></h2>
+<section id="first-time-host-verification">
+<h3>First-time host verification<a class="headerlink" href="#first-time-host-verification" title="Permalink to this heading">#</a></h3>
+<p>You may see:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Are you sure you want to continue connecting (yes/no)?
+</pre></div>
+</div>
+<p>Type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yes
+</pre></div>
+</div>
+<p>This stores GitHub’s host fingerprint on your machine.</p>
+</section>
+<section id="permission-denied">
+<h3>Permission denied<a class="headerlink" href="#permission-denied" title="Permalink to this heading">#</a></h3>
+<p>You may see:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Permission denied (publickey).
+</pre></div>
+</div>
+<p>This usually means one of the following:</p>
+<ul class="simple">
+<li><p>the public key was not added to GitHub</p></li>
+<li><p>the wrong key is being used</p></li>
+<li><p>the key was not loaded by the SSH agent</p></li>
+<li><p>the file path is wrong</p></li>
+</ul>
+</section>
+</section>
+<section id="check-whether-your-ssh-key-exists">
+<h2>20. Check Whether Your SSH Key Exists<a class="headerlink" href="#check-whether-your-ssh-key-exists" title="Permalink to this heading">#</a></h2>
+<p>To see files in your SSH directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>~/.ssh
+</pre></div>
+</div>
+<p>You should usually see files like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>id_ed25519
+id_ed25519.pub
+</pre></div>
+</div>
+</section>
+<section id="check-whether-the-key-is-loaded">
+<h2>21. Check Whether the Key Is Loaded<a class="headerlink" href="#check-whether-the-key-is-loaded" title="Permalink to this heading">#</a></h2>
+<p>To list keys currently loaded in the SSH agent:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>-l
+</pre></div>
+</div>
+<p>If your key is not loaded, add it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
+</pre></div>
+</div>
+</section>
+<section id="do-you-need-to-run-ssh-t-git-github-com-every-time">
+<h2>22. Do You Need to Run <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-T</span> <span class="pre">git&#64;github.com</span></code> Every Time?<a class="headerlink" href="#do-you-need-to-run-ssh-t-git-github-com-every-time" title="Permalink to this heading">#</a></h2>
+<p>No.</p>
+<p>You usually run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
+</pre></div>
+</div>
+<p>only for:</p>
+<ul class="simple">
+<li><p>initial setup</p></li>
+<li><p>troubleshooting</p></li>
+<li><p>verifying that authentication works</p></li>
+</ul>
+<section id="in-normal-daily-use">
+<h3>In normal daily use<a class="headerlink" href="#in-normal-daily-use" title="Permalink to this heading">#</a></h3>
+<p>You do <strong>not</strong> run the SSH test every time.</p>
+<p>Instead, you just use Git normally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:user/repo.git
+git<span class="w"> </span>pull
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>SSH authentication happens automatically in the background.</p>
+</section>
+</section>
+<section id="daily-workflow-summary">
+<h2>23. Daily Workflow Summary<a class="headerlink" href="#daily-workflow-summary" title="Permalink to this heading">#</a></h2>
+<p>A typical workflow after setup looks like this:</p>
+<ol class="arabic simple">
+<li><p>create or enter your project folder</p></li>
+<li><p>initialize Git</p></li>
+<li><p>make changes</p></li>
+<li><p>stage changes</p></li>
+<li><p>commit</p></li>
+<li><p>push to GitHub using SSH</p></li>
+</ol>
+<section id="id4">
+<h3>Example<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
+git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:username/repository.git
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</section>
+</section>
+<section id="recommended-mental-model">
+<h2>24. Recommended Mental Model<a class="headerlink" href="#recommended-mental-model" title="Permalink to this heading">#</a></h2>
+<p>You can think of the SSH process like this:</p>
+<ul class="simple">
+<li><p>your computer keeps the <strong>private key</strong></p></li>
+<li><p>GitHub stores the <strong>public key</strong></p></li>
+<li><p>when needed, your computer proves ownership of the private key</p></li>
+<li><p>GitHub verifies the proof with the public key</p></li>
+</ul>
+<p>This is why SSH is secure and convenient.</p>
+</section>
+<section id="final-notes">
+<h2>25. Final Notes<a class="headerlink" href="#final-notes" title="Permalink to this heading">#</a></h2>
+<section id="good-security-habits">
+<h3>Good security habits<a class="headerlink" href="#good-security-habits" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>never share the private key</p></li>
+<li><p>only upload the public key</p></li>
+<li><p>protect the private key with a passphrase if possible</p></li>
+</ul>
+</section>
+<section id="why-learning-ssh-is-valuable">
+<h3>Why learning SSH is valuable<a class="headerlink" href="#why-learning-ssh-is-valuable" title="Permalink to this heading">#</a></h3>
+<p>SSH is useful not only for GitHub, but also for:</p>
+<ul class="simple">
+<li><p>remote server access</p></li>
+<li><p>cloud systems</p></li>
+<li><p>DevOps workflows</p></li>
+<li><p>secure file transfer</p></li>
+</ul>
+</section>
+</section>
+<section id="command-reference">
+<h2>26. Command Reference<a class="headerlink" href="#command-reference" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize a repository</span>
+git<span class="w"> </span>init
+git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
+
+<span class="c1"># Stage and commit</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+
+<span class="c1"># View history</span>
+git<span class="w"> </span>log
+git<span class="w"> </span>log<span class="w"> </span>--oneline
+git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
+git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+git<span class="w"> </span>log<span class="w"> </span>-p
+
+<span class="c1"># View differences</span>
+git<span class="w"> </span>diff
+git<span class="w"> </span>diff<span class="w"> </span>--staged
+git<span class="w"> </span>diff<span class="w"> </span>--cached
+git<span class="w"> </span>diff<span class="w"> </span>HEAD
+git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
+git<span class="w"> </span>diff<span class="w"> </span>file.txt
+git<span class="w"> </span>diff<span class="w"> </span>--name-only
+
+<span class="c1"># Git configuration</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--list
+git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
+
+<span class="c1"># Disable pagers for selected commands</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
+
+<span class="c1"># Better pager setup</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
+
+<span class="c1"># Generate SSH keys</span>
+ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
+
+<span class="c1"># Show public key</span>
+cat<span class="w"> </span>~/.ssh/id_ed25519.pub
+
+<span class="c1"># Test SSH</span>
+ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
+
+<span class="c1"># Check SSH files</span>
+ls<span class="w"> </span>~/.ssh
+
+<span class="c1"># Check/add SSH key in agent</span>
+ssh-add<span class="w"> </span>-l
+ssh-add<span class="w"> </span>~/.ssh/id_ed25519
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="github-notes">
+<h1>GitHub Notes<a class="headerlink" href="#github-notes" title="Permalink to this heading">#</a></h1>
+<section id="forking-a-repository">
+<h2>Forking a Repository<a class="headerlink" href="#forking-a-repository" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>We should <strong>fork</strong> a repository of interest.</p></li>
+<li><p>Forking allows us to:</p>
+<ul>
+<li><p>Create our own copy of the repository</p></li>
+<li><p>Modify its content and code independently</p></li>
+<li><p>Experiment without affecting the original project</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-git-locally-vs-github">
+<h2>Using Git Locally vs GitHub<a class="headerlink" href="#using-git-locally-vs-github" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Git can be used <strong>locally</strong> on your system:</p>
+<ul>
+<li><p>Useful when working with <strong>sensitive datasets</strong></p></li>
+<li><p>No need to upload data online</p></li>
+</ul>
+</li>
+<li><p>When using GitHub:</p>
+<ul>
+<li><p>Use a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to exclude sensitive or unnecessary files</p></li>
+<li><p>Helps keep the repository clean and secure</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="pull-command">
+<h2>Pull Command<a class="headerlink" href="#pull-command" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <strong>pull</strong> command means:</p>
+<ul>
+<li><p>Bringing changes from a <strong>remote repository</strong> into your local branch</p></li>
+<li><p>Or updating your branch with changes from another branch</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="git-workflow-connect-local-folder-to-github-repository">
+<h1>📓 Git Workflow: Connect Local Folder to GitHub Repository<a class="headerlink" href="#git-workflow-connect-local-folder-to-github-repository" title="Permalink to this heading">#</a></h1>
+<p>🧠 Goal
+We will:</p>
+<p>Create a repository on GitHub
+Create a local folder
+Initialize Git
+Connect to GitHub
+Push code</p>
+<section id="step-1-create-local-folder">
+<h2>💻 Step 1: Create Local Folder<a class="headerlink" href="#step-1-create-local-folder" title="Permalink to this heading">#</a></h2>
+<p>mkdir my-project
+cd my-project</p>
+</section>
+<section id="step-2-initialize-git">
+<h2>⚙️ Step 2: Initialize Git<a class="headerlink" href="#step-2-initialize-git" title="Permalink to this heading">#</a></h2>
+<p>git init</p>
+</section>
+<section id="step-3-add-files">
+<h2>📄 Step 3: Add Files<a class="headerlink" href="#step-3-add-files" title="Permalink to this heading">#</a></h2>
+<p>touch <a class="reference external" href="http://README.md">README.md</a></p>
+</section>
+<section id="step-4-stage-files">
+<h2>➕ Step 4: Stage Files<a class="headerlink" href="#step-4-stage-files" title="Permalink to this heading">#</a></h2>
+<p>git add .</p>
+</section>
+<section id="step-5-commit">
+<h2>📝 Step 5: Commit<a class="headerlink" href="#step-5-commit" title="Permalink to this heading">#</a></h2>
+<p>git commit -m “Initial commit”</p>
+</section>
+<section id="step-6-connect-to-github">
+<h2>🔗 Step 6: Connect to GitHub<a class="headerlink" href="#step-6-connect-to-github" title="Permalink to this heading">#</a></h2>
+<p>git remote add origin <a class="github reference external" href="https://github.com/username/my-project.git">username/my-project.git</a></p>
+</section>
+<section id="step-7-check-remote">
+<h2>🔍 Step 7: Check Remote<a class="headerlink" href="#step-7-check-remote" title="Permalink to this heading">#</a></h2>
+<p>git remote -v</p>
+<p>the result should be in the form of</p>
+<p>origin	<a class="reference external" href="mailto:git&#37;&#52;&#48;github&#46;com">git<span>&#64;</span>github<span>&#46;</span>com</a>:username/myproject.git (fetch)
+origin	<a class="reference external" href="mailto:git&#37;&#52;&#48;github&#46;com">git<span>&#64;</span>github<span>&#46;</span>com</a>:username/myproject.git (push)</p>
+</section>
+<section id="step-8-push">
+<h2>🚀 Step 8: Push<a class="headerlink" href="#step-8-push" title="Permalink to this heading">#</a></h2>
+<p>git branch -M main
+git push -u origin main</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="git-archaeology-example-notebook">
+<h1>Git Archaeology Example Notebook<a class="headerlink" href="#git-archaeology-example-notebook" title="Permalink to this heading">#</a></h1>
+<p>This notebook explains a practical <strong>Git archaeology</strong> workflow using the <code class="docutils literal notranslate"><span class="pre">networkx</span></code> repository.</p>
+<section id="goal">
+<h2>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">#</a></h2>
+<p>We want to:</p>
+<ol class="arabic simple">
+<li><p>Switch to a specific historical release branch/context</p></li>
+<li><p>Search for a specific text in the repository</p></li>
+<li><p>Find the file and line where it appears</p></li>
+<li><p>Identify the commit related to that line</p></li>
+<li><p>Inspect the commit</p></li>
+<li><p>Create a branch from that historical commit</p></li>
+</ol>
+<p>This is useful when you want to understand:</p>
+<ul class="simple">
+<li><p>where a bug message came from</p></li>
+<li><p>which commit introduced or changed something</p></li>
+<li><p>how the code looked at that point in time</p></li>
+</ul>
+</section>
+<section id="step-1-create-a-working-branch-from-networkx-2-6-3">
+<h2>Step 1: Create a working branch from networkx-2.6.3<a class="headerlink" href="#step-1-create-a-working-branch-from-networkx-2-6-3" title="Permalink to this heading">#</a></h2>
+<p>We start by creating a new branch called exercise from networkx-2.6.3.</p>
+<p>This gives us a safe branch to work on without changing the original branch.</p>
+<p>git switch –create exercise networkx-2.6.3</p>
+</section>
+<section id="step-2-search-for-the-text-in-the-repository">
+<h2>Step 2: Search for the text in the repository<a class="headerlink" href="#step-2-search-for-the-text-in-the-repository" title="Permalink to this heading">#</a></h2>
+<p>Now we search for the phrase:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Logic</span> <span class="pre">error</span> <span class="pre">in</span> <span class="pre">degree_correlation</span></code></p>
+<p>This tells us <strong>which file(s)</strong> contain that text.</p>
+<p>git grep “Logic error in degree_correlation”</p>
+<p>git grep -n “Logic error in degree_correlation”</p>
+</section>
+<section id="step-4-annotate-the-file">
+<h2>Step 4: Annotate the file<a class="headerlink" href="#step-4-annotate-the-file" title="Permalink to this heading">#</a></h2>
+<p>After identifying the file, we run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">annotate</span></code> on it:</p>
+<p><code class="docutils literal notranslate"><span class="pre">networkx/algorithms/threshold.py</span></code></p>
+<p>This shows, line by line:</p>
+<ul class="simple">
+<li><p>the commit hash</p></li>
+<li><p>the author</p></li>
+<li><p>the date</p></li>
+<li><p>the content of the line</p></li>
+</ul>
+<p>This helps us discover <strong>which commit last changed the line</strong> containing the text.</p>
+<p>git annotate networkx/algorithms/threshold.py</p>
+</section>
+<section id="step-5-search-inside-the-annotate-output">
+<h2>Step 5: Search inside the annotate output<a class="headerlink" href="#step-5-search-inside-the-annotate-output" title="Permalink to this heading">#</a></h2>
+<p>Inside the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">annotate</span></code> viewer, search for the phrase:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Logic</span> <span class="pre">error</span></code></p>
+<p>You typically type:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/Logic error
+</pre></div>
+</div>
+<p>This is not a shell command. It is a search command used inside the pager (<code class="docutils literal notranslate"><span class="pre">less</span></code>) opened by Git.</p>
+<p>/Logic error</p>
+</section>
+<section id="step-6-inspect-the-relevant-commit">
+<h2>Step 6: Inspect the relevant commit<a class="headerlink" href="#step-6-inspect-the-relevant-commit" title="Permalink to this heading">#</a></h2>
+<p>From the annotation output, we find the commit hash:</p>
+<p><code class="docutils literal notranslate"><span class="pre">90544b4fa</span></code></p>
+<p>Now we inspect that commit with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span></code>.</p>
+<p>This displays:</p>
+<ul class="simple">
+<li><p>commit metadata</p></li>
+<li><p>author and date</p></li>
+<li><p>commit message</p></li>
+<li><p>the diff (what changed)</p></li>
+</ul>
+<p>git show 90544b4fa</p>
+</section>
+<section id="step-7-create-a-branch-from-that-historical-commit">
+<h2>Step 7: Create a branch from that historical commit<a class="headerlink" href="#step-7-create-a-branch-from-that-historical-commit" title="Permalink to this heading">#</a></h2>
+<p>Now we create a new branch called <code class="docutils literal notranslate"><span class="pre">past-code</span></code> from commit <code class="docutils literal notranslate"><span class="pre">90544b4fa</span></code>.</p>
+<p>This lets us explore the code exactly as it existed at that point in history.</p>
+<p>git branch past-code 90544b4fa</p>
+</section>
+<section id="what-this-example-demonstrates">
+<h2>What this example demonstrates<a class="headerlink" href="#what-this-example-demonstrates" title="Permalink to this heading">#</a></h2>
+<p>This example solves the following investigation workflow:</p>
+<ul class="simple">
+<li><p>Find a text in the repository</p></li>
+<li><p>Locate the exact file and line</p></li>
+<li><p>Identify the commit responsible for that line</p></li>
+<li><p>Inspect the commit</p></li>
+<li><p>Create a branch from that point in history</p></li>
+</ul>
+<p>In short:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>grep<span class="w"> </span>-&gt;<span class="w"> </span>find<span class="w"> </span>the<span class="w"> </span>text
+git<span class="w"> </span>annotate<span class="w"> </span>-&gt;<span class="w"> </span>find<span class="w"> </span>the<span class="w"> </span>responsible<span class="w"> </span>commit
+git<span class="w"> </span>show<span class="w"> </span>-&gt;<span class="w"> </span>inspect<span class="w"> </span>the<span class="w"> </span>commit
+git<span class="w"> </span>branch<span class="w"> </span>-&gt;<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span>branch<span class="w"> </span>from<span class="w"> </span>that<span class="w"> </span>commit
+</pre></div>
+</div>
+<p>This is a classic Git archaeology workflow.</p>
+</section>
+<section id="command-summary">
+<h2>Command Summary<a class="headerlink" href="#command-summary" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>--create<span class="w"> </span>exercise<span class="w"> </span>networkx-2.6.3
+git<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+git<span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+git<span class="w"> </span>annotate<span class="w"> </span>networkx/algorithms/threshold.py
+/Logic<span class="w"> </span>error
+git<span class="w"> </span>show<span class="w"> </span>90544b4fa
+git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w"> </span>90544b4fa
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="SSH.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SSH Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="class.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Class and Objects</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git, GitHub, and SSH Setup Guide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">1. Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">2. What Is Git?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">3. Initialize a Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-git-init-b-main">Meaning of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span> <span class="pre">-b</span> <span class="pre">main</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">4. Stage and Commit Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation">Explanation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">5. View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-shows">What it shows</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-variations">Useful variations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-line-history">One-line history</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-view">Graph view</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#last-5-commits">Last 5 commits</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-full-patch-with-each-commit">Show full patch with each commit</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-history-for-one-file">Show history for one file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">6. Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-meaning">Basic meaning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms">Common forms</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#unstaged-changes">Unstaged changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-changes">Staged changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-with-the-latest-commit">Compare with the latest commit</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-two-commits">Compare two commits</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-one-file">Compare one file</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-only-file-names">Show only file names</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">7. Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-all-configuration">View all configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-one-specific-value">View one specific value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-default-editor">Set the default editor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-color-output">Enable color output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-aliases">Create aliases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">8. Git Configuration Levels</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">9. Show Configuration Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">11. A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">SSH</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-ssh">13. What Is SSH?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-clarification">Important clarification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-ssh-matters">Why SSH matters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-keys">14. Generate SSH Keys</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command">Command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-does">What this does</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-part-stays-private-and-which-part-goes-to-github">15. Which Part Stays Private and Which Part Goes to GitHub?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#private-key">Private key</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#public-key">Public key</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-github-verifies-that-you-have-the-correct-private-key">16. How GitHub Verifies That You Have the Correct Private Key</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simplified-process">Simplified process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-point">Key point</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-public-key-to-github">17. Add the Public Key to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-the-ssh-connection">18. Test the SSH Connection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-t">Meaning of <code class="docutils literal notranslate"><span class="pre">-T</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#successful-output">Successful output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-ssh-test-errors">19. Common SSH Test Errors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-time-host-verification">First-time host verification</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#permission-denied">Permission denied</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-whether-your-ssh-key-exists">20. Check Whether Your SSH Key Exists</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-whether-the-key-is-loaded">21. Check Whether the Key Is Loaded</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-you-need-to-run-ssh-t-git-github-com-every-time">22. Do You Need to Run <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-T</span> <span class="pre">git@github.com</span></code> Every Time?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#in-normal-daily-use">In normal daily use</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daily-workflow-summary">23. Daily Workflow Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-mental-model">24. Recommended Mental Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-notes">25. Final Notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#good-security-habits">Good security habits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-learning-ssh-is-valuable">Why learning SSH is valuable</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-reference">26. Command Reference</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forking-a-repository">Forking a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-git-locally-vs-github">Using Git Locally vs GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-command">Pull Command</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-workflow-connect-local-folder-to-github-repository">📓 Git Workflow: Connect Local Folder to GitHub Repository</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-local-folder">💻 Step 1: Create Local Folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-initialize-git">⚙️ Step 2: Initialize Git</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-files">📄 Step 3: Add Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-files">➕ Step 4: Stage Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-commit">📝 Step 5: Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-connect-to-github">🔗 Step 6: Connect to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-check-remote">🔍 Step 7: Check Remote</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-push">🚀 Step 8: Push</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-archaeology-example-notebook">Git Archaeology Example Notebook</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-working-branch-from-networkx-2-6-3">Step 1: Create a working branch from networkx-2.6.3</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-search-for-the-text-in-the-repository">Step 2: Search for the text in the repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-annotate-the-file">Step 4: Annotate the file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-search-inside-the-annotate-output">Step 5: Search inside the annotate output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-inspect-the-relevant-commit">Step 6: Inspect the relevant commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-create-a-branch-from-that-historical-commit">Step 7: Create a branch from that historical commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-example-demonstrates">What this example demonstrates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-summary">Command Summary</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

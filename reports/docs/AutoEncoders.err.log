@@ -26,8 +26,9 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['import numpy as np', 'from matplotlib import pyplot as plt', 'from tqdm import trange', '', 'from sklearn.decomposition import PCA']
-...
-['from torchvision.datasets.cifar import CIFAR10', '', 'torch.manual_seed(0)', '', "device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')"]
+net = Network().to(device)
+
+results = train_classifier(net, trainloader, testloader, n_epochs=30)
+plot_history(results)
 -------------------
 
