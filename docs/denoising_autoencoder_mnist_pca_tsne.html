@@ -181,6 +181,16 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+
+<li class="toctree-l1"><a class="reference internal" href="github2.html">Git and GitHub: A Structured Learning Notebook</a></li>
+
+
+
+
+
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
 
 
@@ -654,13 +664,13 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2787 | test loss: 0.2379
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2785 | test loss: 0.2364
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2038 | test loss: 0.1691
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2025 | test loss: 0.1694
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1609 | test loss: 0.1527
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1618 | test loss: 0.1548
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
@@ -668,38 +678,100 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
 Traceback (most recent call last):
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
     exitcode = _main(fd, parent_sentinel)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
-    exitcode = _main(fd, parent_sentinel)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
     self = reduction.pickle.load(from_parent)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/__init__.py&quot;, line 10, in &lt;module&gt;
     self = reduction.pickle.load(from_parent)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/__init__.py&quot;, line 10, in &lt;module&gt;
     from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils  # usort:skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 2, in &lt;module&gt;
     from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils  # usort:skip
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 17, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 17, in &lt;module&gt;
-    from . import detection, optical_flow, quantization, segmentation, video
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1027, in _find_and_load
-    from . import detection, optical_flow, quantization, segmentation, video
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/quantization/__init__.py&quot;, line 1, in &lt;module&gt;
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1006, in _find_and_load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 688, in _load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 879, in exec_module
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 975, in get_code
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 1074, in get_data
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 2, in &lt;module&gt;
+    from .convnext import *
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/convnext.py&quot;, line 9, in &lt;module&gt;
+    from .convnext import *
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/convnext.py&quot;, line 9, in &lt;module&gt;
+    from ..ops.misc import Conv2dNormActivation, Permute
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/__init__.py&quot;, line 23, in &lt;module&gt;
+    from ..ops.misc import Conv2dNormActivation, Permute
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/__init__.py&quot;, line 23, in &lt;module&gt;
+    from .poolers import MultiScaleRoIAlign
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/poolers.py&quot;, line 10, in &lt;module&gt;
+    from .poolers import MultiScaleRoIAlign
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/poolers.py&quot;, line 10, in &lt;module&gt;
+    from .roi_align import roi_align
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/roi_align.py&quot;, line 7, in &lt;module&gt;
+    from .roi_align import roi_align
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/roi_align.py&quot;, line 7, in &lt;module&gt;
+    from torch._dynamo.utils import is_compile_supported
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/__init__.py&quot;, line 13, in &lt;module&gt;
+    from torch._dynamo.utils import is_compile_supported
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/__init__.py&quot;, line 13, in &lt;module&gt;
+    from . import (
+    from . import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/aot_compile.py&quot;, line 15, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/aot_compile.py&quot;, line 15, in &lt;module&gt;
+    from . import convert_frame
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/convert_frame.py&quot;, line 57, in &lt;module&gt;
+    from . import convert_frame
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/convert_frame.py&quot;, line 57, in &lt;module&gt;
+    from torch._dynamo.symbolic_convert import TensorifyState
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/symbolic_convert.py&quot;, line 59, in &lt;module&gt;
+    from torch._dynamo.symbolic_convert import TensorifyState
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/symbolic_convert.py&quot;, line 59, in &lt;module&gt;
+    from . import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/trace_rules.py&quot;, line 58, in &lt;module&gt;
+    from . import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/trace_rules.py&quot;, line 58, in &lt;module&gt;
+    from .variables import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/__init__.py&quot;, line 19, in &lt;module&gt;
+    from .variables import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/__init__.py&quot;, line 19, in &lt;module&gt;
+    from .base import VariableTracker
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/base.py&quot;, line 650, in &lt;module&gt;
+    from .base import VariableTracker
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/base.py&quot;, line 650, in &lt;module&gt;
+    from . import builder
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/builder.py&quot;, line 75, in &lt;module&gt;
+    from . import builder
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/variables/builder.py&quot;, line 75, in &lt;module&gt;
+    from torch.nn.utils._expanded_weights import ExpandedWeight
+    from torch.nn.utils._expanded_weights import ExpandedWeight
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/__init__.py&quot;, line 1, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/__init__.py&quot;, line 1, in &lt;module&gt;
+    from .conv_expanded_weights import ConvPerSampleGrad
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/conv_expanded_weights.py&quot;, line 11, in &lt;module&gt;
+    from .conv_expanded_weights import ConvPerSampleGrad
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/conv_expanded_weights.py&quot;, line 11, in &lt;module&gt;
+    from .conv_utils import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/conv_utils.py&quot;, line 7, in &lt;module&gt;
+    from .conv_utils import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/conv_utils.py&quot;, line 7, in &lt;module&gt;
+    from .expanded_weights_utils import (
+    from .expanded_weights_utils import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/expanded_weights_utils.py&quot;, line 6, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/expanded_weights_utils.py&quot;, line 6, in &lt;module&gt;
+    from .expanded_weights_impl import ExpandedWeight
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/expanded_weights_impl.py&quot;, line 104, in &lt;module&gt;
+    from .expanded_weights_impl import ExpandedWeight
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/utils/_expanded_weights/expanded_weights_impl.py&quot;, line 104, in &lt;module&gt;
+    class ExpandedWeight(torch.Tensor):
+    class ExpandedWeight(torch.Tensor):
+KeyboardInterrupt
 KeyboardInterrupt
 Traceback (most recent call last):
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_75877/2208291953.py&quot;, line 5, in &lt;module&gt;
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_80047/2208291953.py&quot;, line 5, in &lt;module&gt;
     train_loss = run_epoch(model, train_loader, train=True, sigma=sigma)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_75877/489305300.py&quot;, line 8, in run_epoch
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_80047/489305300.py&quot;, line 8, in run_epoch
     for x, _ in loader:
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
     data = self._next_data()
@@ -746,7 +818,7 @@ Traceback (most recent call last):
     for modname, module in sys.modules.copy().items():
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
     _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 75894) is killed by signal: Terminated: 15. 
+RuntimeError: DataLoader worker (pid 80067) is killed by signal: Terminated: 15. 
 </pre></div>
 </div>
 </div>

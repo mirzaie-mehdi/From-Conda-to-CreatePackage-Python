@@ -179,6 +179,16 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+
+<li class="toctree-l1"><a class="reference internal" href="github2.html">Git and GitHub: A Structured Learning Notebook</a></li>
+
+
+
+
+
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
 
 
@@ -534,6 +544,248 @@ Zahra Rahmani & Farzan Rahmani
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrossEntropyLoss</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">models</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets.mnist</span><span class="w"> </span><span class="kn">import</span> <span class="n">MNIST</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets.cifar</span><span class="w"> </span><span class="kn">import</span> <span class="n">CIFAR10</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Don&#39;t re-order these, we need to load the _C extension (done when importing</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># .extensions) before entering _meta_registrations.</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.extension</span><span class="w"> </span><span class="kn">import</span> <span class="n">_HAS_OPS</span>  <span class="c1"># usort:skip</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">_meta_registrations</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">utils</span>  <span class="c1"># usort:skip</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>  <span class="c1"># noqa: F401</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.alexnet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.convnext</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.densenet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.efficientnet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">convnext</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">Tensor</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..ops.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conv2dNormActivation</span><span class="p">,</span> <span class="n">Permute</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..ops.stochastic_depth</span><span class="w"> </span><span class="kn">import</span> <span class="n">StochasticDepth</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..transforms._presets</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageClassification</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">ops</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">23</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.giou_loss</span><span class="w"> </span><span class="kn">import</span> <span class="n">generalized_box_iou_loss</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conv2dNormActivation</span><span class="p">,</span> <span class="n">Conv3dNormActivation</span><span class="p">,</span> <span class="n">FrozenBatchNorm2d</span><span class="p">,</span> <span class="n">MLP</span><span class="p">,</span> <span class="n">Permute</span><span class="p">,</span> <span class="n">SqueezeExcitation</span>
+<span class="ne">---&gt; </span><span class="mi">23</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.poolers</span><span class="w"> </span><span class="kn">import</span> <span class="n">MultiScaleRoIAlign</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.ps_roi_align</span><span class="w"> </span><span class="kn">import</span> <span class="n">ps_roi_align</span><span class="p">,</span> <span class="n">PSRoIAlign</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.ps_roi_pool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ps_roi_pool</span><span class="p">,</span> <span class="n">PSRoIPool</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">ops</span><span class="o">/</span><span class="n">poolers</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.ops.boxes</span><span class="w"> </span><span class="kn">import</span> <span class="n">box_area</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_log_api_usage_once</span>
+<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.roi_align</span><span class="w"> </span><span class="kn">import</span> <span class="n">roi_align</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># copying result_idx_in_level to a specific index in result[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="c1"># is not supported by ONNX tracing yet.</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="c1"># _onnx_merge_levels() is an implementation supported by ONNX</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># that merges the levels to the right indices</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">unused</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">def</span><span class="w"> </span><span class="nf">_onnx_merge_levels</span><span class="p">(</span><span class="n">levels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">unmerged_results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">ops</span><span class="o">/</span><span class="n">roi_align</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">7</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">torch.fx</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">Tensor</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_compile_supported</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.jit.annotations</span><span class="w"> </span><span class="kn">import</span> <span class="n">BroadcastingList2</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.modules.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_pair</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">13</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="sd"> TorchDynamo is a Python-level JIT compiler designed to make unmodified PyTorch programs faster.</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="sd"> TorchDynamo hooks into the frame evaluation API in CPython (PEP 523) to dynamically modify Python</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span><span class="sd"> seamlessly optimize PyTorch programs, including those using modern Python features.</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">aot_compile</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">config</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">convert_frame</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">eval_frame</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">functional_export</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">resume_execution</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.backends.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">list_backends</span><span class="p">,</span> <span class="n">lookup_backend</span><span class="p">,</span> <span class="n">register_backend</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.callback</span><span class="w"> </span><span class="kn">import</span> <span class="n">callback_handler</span><span class="p">,</span> <span class="n">on_compile_end</span><span class="p">,</span> <span class="n">on_compile_start</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">aot_compile</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">15</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">import</span><span class="w"> </span><span class="nn">torch.fx</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.precompile_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrecompileContext</span>
+<span class="ne">---&gt; </span><span class="mi">15</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_frame</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.hooks</span><span class="w"> </span><span class="kn">import</span> <span class="n">Hooks</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">convert_frame</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">57</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.callback</span><span class="w"> </span><span class="kn">import</span> <span class="n">CallbackTrigger</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.distributed</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_compile_pg</span>
+<span class="ne">---&gt; </span><span class="mi">57</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._dynamo.symbolic_convert</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorifyState</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._guards</span><span class="w"> </span><span class="kn">import</span> <span class="n">compile_context</span><span class="p">,</span> <span class="n">CompileContext</span><span class="p">,</span> <span class="n">CompileId</span><span class="p">,</span> <span class="n">tracing</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch._logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">structured</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">symbolic_convert</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">59</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.fx.experimental.symbolic_shapes</span><span class="w"> </span><span class="kn">import</span> <span class="n">guard_bool</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils._functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache_method</span>
+<span class="ne">---&gt; </span><span class="mi">59</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="n">config</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="n">exc</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="n">graph_break_hints</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span>     <span class="n">logging</span> <span class="k">as</span> <span class="n">torchdynamo_logging</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span>     <span class="n">trace_rules</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span>     <span class="n">variables</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">66</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.bytecode_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span>     <span class="n">get_indexof</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span>     <span class="n">JUMP_OPNAMES</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="n">livevars_analysis</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span>     <span class="n">propagate_line_nums</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">73</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.bytecode_transformation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">74</span>     <span class="n">cleaned_instructions</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span>     <span class="n">create_binary_slice</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span>     <span class="n">unique_id</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span> <span class="p">)</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">trace_rules</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">58</span>
+<span class="g g-Whitespace">     </span><span class="mi">50</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.resume_execution</span><span class="w"> </span><span class="kn">import</span> <span class="n">TORCH_DYNAMO_RESUME_IN_PREFIX</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span>     <span class="n">getfile</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span>     <span class="n">hashable</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="n">unwrap_if_wrapper</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">58</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="n">BuiltinVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="n">FunctionalCallVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="n">FunctorchHigherOrderVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>     <span class="n">LocalGeneratorFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span>     <span class="n">LocalGeneratorObjectVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">64</span>     <span class="n">NestedUserFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">65</span>     <span class="n">PolyfilledFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">66</span>     <span class="n">ReparametrizeModuleCallVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>     <span class="n">SkipFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span>     <span class="n">TorchInGraphFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span>     <span class="n">UserFunctionVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">70</span>     <span class="n">UserMethodVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableTracker</span>
+<span class="g g-Whitespace">     </span><span class="mi">75</span> <span class="n">np</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">19</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="sd"> This package implements variable tracking and symbolic execution capabilities for Dynamo,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="sd"> which are essential for converting Python code into FX graphs. It provides a comprehensive</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span><span class="sd"> allows Dynamo to accurately trace and optimize Python code while preserving its semantics.</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableTracker</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.builtin</span><span class="w"> </span><span class="kn">import</span> <span class="n">BuiltinVariable</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.constant</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConstantVariable</span><span class="p">,</span> <span class="n">EnumVariable</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">650</span>
+<span class="g g-Whitespace">    </span><span class="mi">646</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">647</span>         <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">typestr</span><span class="p">,</span> <span class="n">objs</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">650</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">builder</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">builder</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">94</span>
+<span class="g g-Whitespace">     </span><span class="mi">86</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..guards</span><span class="w"> </span><span class="kn">import</span> <span class="n">GuardBuilder</span><span class="p">,</span> <span class="n">install_guard</span><span class="p">,</span> <span class="n">make_dupe_guard</span>
+<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..pgo</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">88</span>     <span class="n">auto_dynamic</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">89</span>     <span class="n">auto_unset</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span>     <span class="n">process_automatic_dynamic</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">93</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">94</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..side_effects</span><span class="w"> </span><span class="kn">import</span> <span class="n">SideEffects</span>
+<span class="g g-Whitespace">     </span><span class="mi">95</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..source</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">96</span>     <span class="n">AttrProxySource</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>     <span class="n">AttrSource</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span>     <span class="n">UnspecializedNNModuleSource</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">126</span>     <span class="n">_extract_tensor_dict</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">127</span>     <span class="n">build_checkpoint_variable</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">157</span>     <span class="n">wrap_fake_exception</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">158</span> <span class="p">)</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">side_effects</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">43</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">graph_break_hints</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">variables</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.bytecode_transformation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>     <span class="n">bytecode_from_template</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="n">create_call_function</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>     <span class="n">create_call_method</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span>     <span class="n">create_instruction</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">43</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyCodegen</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">SideEffectsError</span><span class="p">,</span> <span class="n">unimplemented_v2</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.source</span><span class="w"> </span><span class="kn">import</span> <span class="n">GlobalSource</span><span class="p">,</span> <span class="n">LocalCellSource</span><span class="p">,</span> <span class="n">LocalSource</span><span class="p">,</span> <span class="n">Source</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">codegen</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">46</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValueMutationExisting</span><span class="p">,</span> <span class="n">VariableTracker</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.functions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span>     <span class="n">ContextlibContextManagerLocalGeneratorObjectVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span>     <span class="n">LocalGeneratorObjectVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">46</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.nn_module</span><span class="w"> </span><span class="kn">import</span> <span class="n">NNModuleVariable</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.tensor</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">48</span>     <span class="n">NumpyNdarrayVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span>     <span class="n">SymNodeVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="n">TensorVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">UnspecializedPythonVariable</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.variables.torch_function</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorWithTFOverrideVariable</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">nn_module</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">70</span>
+<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">typestr</span><span class="p">,</span> <span class="n">ValueMutationNew</span><span class="p">,</span> <span class="n">VariableTracker</span>
+<span class="g g-Whitespace">     </span><span class="mi">69</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">invoke_and_store_as_constant</span>
+<span class="ne">---&gt; </span><span class="mi">70</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.lazy</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyVariableTracker</span>
+<span class="g g-Whitespace">     </span><span class="mi">71</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.lists</span><span class="w"> </span><span class="kn">import</span> <span class="n">SliceVariable</span>
+<span class="g g-Whitespace">     </span><span class="mi">72</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.user_defined</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserDefinedObjectVariable</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">lazy</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_function_or_wrapper</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">VariableTracker</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.tensor</span><span class="w"> </span><span class="kn">import</span> <span class="n">SymNodeVariable</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">class</span><span class="w"> </span><span class="nc">LazyCache</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Container to cache the real VariableTracker&quot;&quot;&quot;</span>
+
+<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torch</span><span class="o">/</span><span class="n">_dynamo</span><span class="o">/</span><span class="n">variables</span><span class="o">/</span><span class="n">tensor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">45</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.fx.experimental.symbolic_shapes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span>     <span class="n">guard_scalar</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>     <span class="n">GuardOnDataDependentSymNode</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span>     <span class="n">SymTypes</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils._python_dispatch</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_traceable_wrapper_subclass</span>
+<span class="ne">---&gt; </span><span class="mi">45</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">graph_break_hints</span><span class="p">,</span> <span class="n">variables</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.._trace_wrapped_higher_order_op</span><span class="w"> </span><span class="kn">import</span> <span class="n">trace_wrapped</span>
+<span class="g g-Whitespace">     </span><span class="mi">47</span> <span class="kn">from</span><span class="w"> </span><span class="nn">..exc</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">48</span>     <span class="n">unimplemented_v2</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">49</span>     <span class="n">UnknownPropertiesDuringBackwardTrace</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="n">UserError</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">UserErrorType</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="p">)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:224,</span> in <span class="ni">_lock_unlock_module</span><span class="nt">(name)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:110,</span> in <span class="ni">acquire</span><span class="nt">(self)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="visualization-functions">
@@ -857,113 +1109,10 @@ Zahra Rahmani & Farzan Rahmani
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                    | 0/30 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 95.02% | Test Accuracy 94.85% : 100%|█| 30/30 [01:24&lt;00:00,  2
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 31.55% | Test Accuracy 58.70% :   0%|  | 0/30 [00:03&lt;?, ?it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 31.55% | Test Accuracy 58.70% :   3%| | 1/30 [00:03&lt;01:32,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 69.07% | Test Accuracy 76.58% :   3%| | 1/30 [00:06&lt;01:32,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 69.07% | Test Accuracy 76.58% :   7%| | 2/30 [00:06&lt;01:28,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 78.84% | Test Accuracy 82.21% :   7%| | 2/30 [00:09&lt;01:28,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 78.84% | Test Accuracy 82.21% :  10%| | 3/30 [00:09&lt;01:25,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 83.48% | Test Accuracy 85.55% :  10%| | 3/30 [00:12&lt;01:25,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 83.48% | Test Accuracy 85.55% :  13%|▏| 4/30 [00:12&lt;01:21,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 86.18% | Test Accuracy 87.00% :  13%|▏| 4/30 [00:15&lt;01:21,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 86.18% | Test Accuracy 87.00% :  17%|▏| 5/30 [00:15&lt;01:18,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 87.58% | Test Accuracy 87.90% :  17%|▏| 5/30 [00:18&lt;01:18,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 87.58% | Test Accuracy 87.90% :  20%|▏| 6/30 [00:18&lt;01:15,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.28% | Test Accuracy 88.60% :  20%|▏| 6/30 [00:21&lt;01:15,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.28% | Test Accuracy 88.60% :  23%|▏| 7/30 [00:21&lt;01:11,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.73% | Test Accuracy 89.20% :  23%|▏| 7/30 [00:25&lt;01:11,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.73% | Test Accuracy 89.20% :  27%|▎| 8/30 [00:25&lt;01:08,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  27%|▎| 8/30 [00:28&lt;01:08,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  30%|▎| 9/30 [00:28&lt;01:05,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  30%|▎| 9/30 [00:29&lt;01:09,  3.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">results</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">,</span> <span class="n">testloader</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">plot_history</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-
-<span class="nn">Cell In[5], line 40,</span> in <span class="ni">train_classifier</span><span class="nt">(model, train_dataloader, test_dataloader, n_epochs, device)</span>
-<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pbar</span> <span class="o">:=</span> <span class="n">trange</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">)):</span>
-<span class="ne">---&gt; </span><span class="mi">40</span>     <span class="n">train_loss</span><span class="p">,</span> <span class="n">train_acc</span> <span class="o">=</span> <span class="n">classifier_train_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">41</span>     <span class="n">history</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">),</span> <span class="n">history</span><span class="p">[</span><span class="s1">&#39;train_acc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span>     <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">classifier_test_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_dataloader</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
-
-<span class="nn">Cell In[5], line 11,</span> in <span class="ni">classifier_train_step</span><span class="nt">(model, dataloader, loss_fn, optimizer, device)</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">train_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="n">train_acc</span> <span class="o">+=</span> <span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_compile.py:53,</span> in <span class="ni">_disable_dynamo.&lt;locals&gt;.inner</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">     </span><span class="mi">50</span>     <span class="n">disable_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">disable</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">recursive</span><span class="p">,</span> <span class="n">wrapping</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span>     <span class="n">fn</span><span class="o">.</span><span class="n">__dynamo_disable</span> <span class="o">=</span> <span class="n">disable_fn</span>  <span class="c1"># type: ignore[attr-defined]</span>
-<span class="ne">---&gt; </span><span class="mi">53</span> <span class="k">return</span> <span class="n">disable_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/eval_frame.py:1042,</span> in <span class="ni">DisableContext.__call__.&lt;locals&gt;._fn</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1040</span> <span class="n">prior</span> <span class="o">=</span> <span class="n">set_eval_frame</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1041</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1042</span>     <span class="n">_maybe_set_eval_frame</span><span class="p">(</span><span class="n">_callback_from_stance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1043</span>     <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1044</span>         <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/eval_frame.py:204,</span> in <span class="ni">_callback_from_stance</span><span class="nt">(callback)</span>
-<span class="g g-Whitespace">    </span><span class="mi">201</span> <span class="k">def</span><span class="w"> </span><span class="nf">_callback_from_stance</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">DynamoCallback</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DynamoCallback</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="k">if</span> <span class="n">_stance</span><span class="o">.</span><span class="n">stance</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">203</span>         <span class="c1"># force_backend</span>
-<span class="ne">--&gt; </span><span class="mi">204</span>         <span class="k">if</span> <span class="n">_stance</span><span class="o">.</span><span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">callback</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">205</span>             <span class="n">callback</span> <span class="o">=</span> <span class="n">_create_wrapped_callback</span><span class="p">(</span><span class="n">get_compiler_fn</span><span class="p">(</span><span class="n">_stance</span><span class="o">.</span><span class="n">backend</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">207</span>         <span class="k">return</span> <span class="n">callback</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
+<img alt="../_images/d7efa3e7c292cc0e4e03806d558297c1bfd70914c24b591cd4149b6fbc70be01.png" src="../_images/d7efa3e7c292cc0e4e03806d558297c1bfd70914c24b591cd4149b6fbc70be01.png" />
 </div>
 </div>
 <p>To get a better sense of our training, we plot the confusion matrix for the test dataset.</p>
