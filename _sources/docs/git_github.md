@@ -129,6 +129,7 @@ To compare changes, use:
 git diff
 ```
 
+:::{`git diff` variations}
 ### 1. Basic meaning; unstaged changes
 
 This shows changes that are **not staged yet**.
@@ -176,11 +177,11 @@ git diff file.txt
 ``` bash
 git diff --name-only
 ```
+:::
 
 ##  Configure Git with `git config`
 
-Git uses configuration settings such as your name, email, editor, pager
-behavior, and aliases.
+Git uses configuration settings such as your name, email, editor, pager behavior, and aliases.
 
 ### Set your identity
 
@@ -190,6 +191,9 @@ git config --global user.email "you@example.com"
 ```
 
 These values appear in your commits.
+
+
+:::{`git config`variations}
 
 ### View all configuration
 
@@ -224,8 +228,7 @@ git config --global alias.cm commit
 ```
 :::
 
-::: {#3922b3c6-2d23-48f6-8369-8892cc301fb2 .cell .markdown}
-## 8. Git Configuration Levels {#8-git-configuration-levels}
+##  Git Configuration Levels 
 
 Git supports three configuration levels:
 
@@ -241,12 +244,10 @@ If the same setting exists in multiple places, the order is:
 local > global > system
 ```
 
-This means local settings override global settings, and global settings
-override system settings.
-:::
+This means local settings override global settings, and global settings override system settings.
 
-::: {#4527f3be-469a-45c4-89c0-b20d75d99629 .cell .markdown}
-## 9. Show Configuration Sources {#9-show-configuration-sources}
+
+##  Show Configuration Sources 
 
 To see both the configuration values and where they come from, use:
 
@@ -264,12 +265,10 @@ file:.git/config           core.repositoryformatversion=0
 
 ### Why this is useful
 
-This helps you debug configuration problems. For example, if the wrong
-email is used in commits, you can find out exactly which file defined
+This helps you debug configuration problems. For example, if the wrong email is used in commits, you can find out exactly which file defined
 it.
-:::
 
-::: {#2160e7ff-abef-460b-8b06-400ba37dc66f .cell .markdown}
+
 ## 10. Disabling Git Pagers {#10-disabling-git-pagers}
 
 Git often uses a pager such as `less` to display long output. For

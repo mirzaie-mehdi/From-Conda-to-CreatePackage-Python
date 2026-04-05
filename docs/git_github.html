@@ -440,25 +440,18 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-meaning-unstaged-changes">1. Basic meaning; unstaged changes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-changes">2. Staged changes</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-with-the-latest-commit">3. Compare with the latest commit</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-two-commits">4. Compare two commits</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-one-file">5. Compare one file</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-only-file-names">.6 Show only file names</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-all-configuration">View all configuration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-one-specific-value">View one specific value</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-default-editor">Set the default editor</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-color-output">Enable color output</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-aliases">Create aliases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">Git Configuration Levels</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">Show Configuration Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
 </ul>
 </li>
 </ul>
@@ -596,56 +589,59 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
 </pre></div>
 </div>
-<section id="basic-meaning-unstaged-changes">
-<h3>1. Basic meaning; unstaged changes<a class="headerlink" href="#basic-meaning-unstaged-changes" title="Permalink to this heading">#</a></h3>
-<p>This shows changes that are <strong>not staged yet</strong>.</p>
-</section>
-<section id="id1">
-<h3>Example<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
-<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">- console.log(&quot;Hello&quot;);</span>
-<span class="gi">+ console.log(&quot;Hello World&quot;);</span>
+<div class="highlight-{`git notranslate"><div class="highlight"><pre><span></span>### 1. Basic meaning; unstaged changes
+
+This shows changes that are **not staged yet**.
+
+### Example
+
+``` diff
+- console.log(&quot;Hello&quot;);
++ console.log(&quot;Hello World&quot;);
+```
+
+
+#### 2. Staged changes
+
+``` bash
+git diff --staged
+```
+
+or
+
+``` bash
+git diff --cached
+```
+
+#### 3. Compare with the latest commit
+
+``` bash
+git diff HEAD
+```
+
+#### 4. Compare two commits
+
+``` bash
+git diff commit1 commit2
+```
+
+#### 5. Compare one file
+
+``` bash
+git diff file.txt
+```
+
+#### .6 Show only file names
+
+``` bash
+git diff --name-only
+```
 </pre></div>
 </div>
-<section id="staged-changes">
-<h4>2. Staged changes<a class="headerlink" href="#staged-changes" title="Permalink to this heading">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
-</pre></div>
-</div>
-<p>or</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--cached
-</pre></div>
-</div>
-</section>
-<section id="compare-with-the-latest-commit">
-<h4>3. Compare with the latest commit<a class="headerlink" href="#compare-with-the-latest-commit" title="Permalink to this heading">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>HEAD
-</pre></div>
-</div>
-</section>
-<section id="compare-two-commits">
-<h4>4. Compare two commits<a class="headerlink" href="#compare-two-commits" title="Permalink to this heading">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
-</pre></div>
-</div>
-</section>
-<section id="compare-one-file">
-<h4>5. Compare one file<a class="headerlink" href="#compare-one-file" title="Permalink to this heading">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>file.txt
-</pre></div>
-</div>
-</section>
-<section id="show-only-file-names">
-<h4>.6 Show only file names<a class="headerlink" href="#show-only-file-names" title="Permalink to this heading">#</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--name-only
-</pre></div>
-</div>
-</section>
-</section>
 </section>
 <section id="configure-git-with-git-config">
 <h2>Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-with-git-config" title="Permalink to this heading">#</a></h2>
-<p>Git uses configuration settings such as your name, email, editor, pager
-behavior, and aliases.</p>
+<p>Git uses configuration settings such as your name, email, editor, pager behavior, and aliases.</p>
 <section id="set-your-identity">
 <h3>Set your identity<a class="headerlink" href="#set-your-identity" title="Permalink to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
@@ -653,84 +649,81 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 </pre></div>
 </div>
 <p>These values appear in your commits.</p>
-</section>
-<section id="view-all-configuration">
-<h3>View all configuration<a class="headerlink" href="#view-all-configuration" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list
-</pre></div>
-</div>
-</section>
-<section id="view-one-specific-value">
-<h3>View one specific value<a class="headerlink" href="#view-one-specific-value" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>user.name
-</pre></div>
-</div>
-</section>
-<section id="set-the-default-editor">
-<h3>Set the default editor<a class="headerlink" href="#set-the-default-editor" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;code --wait&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="enable-color-output">
-<h3>Enable color output<a class="headerlink" href="#enable-color-output" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>color.ui<span class="w"> </span>auto
-</pre></div>
-</div>
-</section>
-<section id="create-aliases">
-<h3>Create aliases<a class="headerlink" href="#create-aliases" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.co<span class="w"> </span>checkout
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.br<span class="w"> </span>branch
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.cm<span class="w"> </span>commit
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#3922b3c6-2d23-48f6-8369-8892cc301fb2 .cell .markdown}
-## 8. Git Configuration Levels {#8-git-configuration-levels}
-
-Git supports three configuration levels:
-
--   `--system` → applies to the whole system
--   `--global` → applies to the current user
--   `--local` → applies only to the current repository
-
-### Priority
-
-If the same setting exists in multiple places, the order is:
-
-``` text
-local &gt; global &gt; system
-```
-
-This means local settings override global settings, and global settings
-override system settings.
-</pre></div>
-</div>
-<div class="highlight-{#4527f3be-469a-45c4-89c0-b20d75d99629 notranslate"><div class="highlight"><pre><span></span>## 9. Show Configuration Sources {#9-show-configuration-sources}
-
-To see both the configuration values and where they come from, use:
+<div class="highlight-{`git notranslate"><div class="highlight"><pre><span></span>
+### View all configuration
 
 ``` bash
-git config --list --show-origin
+git config --list
 ```
 
-### Example output
+### View one specific value
 
-``` text
-file:/etc/gitconfig        core.editor=vim
-file:/home/user/.gitconfig user.name=Ali
-file:.git/config           core.repositoryformatversion=0
+``` bash
+git config user.name
 ```
 
-### Why this is useful
+### Set the default editor
 
-This helps you debug configuration problems. For example, if the wrong
-email is used in commits, you can find out exactly which file defined
-it.
+``` bash
+git config --global core.editor &quot;code --wait&quot;
+```
+
+### Enable color output
+
+``` bash
+git config --global color.ui auto
+```
+
+### Create aliases
+
+``` bash
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.cm commit
+```
 </pre></div>
 </div>
-<div class="highlight-{#2160e7ff-abef-460b-8b06-400ba37dc66f notranslate"><div class="highlight"><pre><span></span>## 10. Disabling Git Pagers {#10-disabling-git-pagers}
+</section>
+</section>
+<section id="git-configuration-levels">
+<h2>Git Configuration Levels<a class="headerlink" href="#git-configuration-levels" title="Permalink to this heading">#</a></h2>
+<p>Git supports three configuration levels:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--system</span></code> → applies to the whole system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--global</span></code> → applies to the current user</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--local</span></code> → applies only to the current repository</p></li>
+</ul>
+<section id="priority">
+<h3>Priority<a class="headerlink" href="#priority" title="Permalink to this heading">#</a></h3>
+<p>If the same setting exists in multiple places, the order is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>local &gt; global &gt; system
+</pre></div>
+</div>
+<p>This means local settings override global settings, and global settings override system settings.</p>
+</section>
+</section>
+<section id="show-configuration-sources">
+<h2>Show Configuration Sources<a class="headerlink" href="#show-configuration-sources" title="Permalink to this heading">#</a></h2>
+<p>To see both the configuration values and where they come from, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
+</pre></div>
+</div>
+<section id="example-output">
+<h3>Example output<a class="headerlink" href="#example-output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>file:/etc/gitconfig        core.editor=vim
+file:/home/user/.gitconfig user.name=Ali
+file:.git/config           core.repositoryformatversion=0
+</pre></div>
+</div>
+</section>
+<section id="why-this-is-useful">
+<h3>Why this is useful<a class="headerlink" href="#why-this-is-useful" title="Permalink to this heading">#</a></h3>
+<p>This helps you debug configuration problems. For example, if the wrong
+email is used in commits, you can find out exactly which file defined
+it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#2160e7ff-abef-460b-8b06-400ba37dc66f .cell .markdown}
+## 10. Disabling Git Pagers {#10-disabling-git-pagers}
 
 Git often uses a pager such as `less` to display long output. For
 example, `git log` may open inside a scrollable interface.
@@ -5624,25 +5617,18 @@ git branch past-code 90544b4fa
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-meaning-unstaged-changes">1. Basic meaning; unstaged changes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Example</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#staged-changes">2. Staged changes</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-with-the-latest-commit">3. Compare with the latest commit</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-two-commits">4. Compare two commits</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-one-file">5. Compare one file</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-only-file-names">.6 Show only file names</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-all-configuration">View all configuration</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#view-one-specific-value">View one specific value</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-default-editor">Set the default editor</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-color-output">Enable color output</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-aliases">Create aliases</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">Git Configuration Levels</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">Show Configuration Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
 </ul>
 </li>
 </ul>
