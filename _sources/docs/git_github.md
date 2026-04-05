@@ -137,6 +137,8 @@ git config --global core.pager "less -FRX"
 
 This keeps the benefits of a pager while making it less intrusive.
 
+:::
+
 ## Initialize a Repository
 
 To turn a folder into a Git repository, go to the folder path and type
@@ -175,7 +177,7 @@ git commit -m "your message"
   
 :::
 
-### Example
+ **Example**
 
 ``` bash
 git add app.js
@@ -193,7 +195,7 @@ To see commit history, use:
 git log
 ```
 
-### What it shows
+**What it shows**
 
 For each commit, Git usually shows:
 
@@ -204,38 +206,39 @@ For each commit, Git usually shows:
 
 There are several ways to show the history of a project as follows:
 
-#### 1. One-line history
+:::{note}
+**One-line history**
 
 ``` bash
 git log --oneline
 ```
 
-#### 2. Graph view
+**Graph view**
 
 ``` bash
 git log --oneline --graph
 ```
 
-#### 3. Last 5 commits
+**Last 5 commits**
 
 ``` bash
 git log -n 5
 ```
 
-#### 4. Show full patch with each commit
+**Show full patch with each commit**
 
 ``` bash
 git log -p
 ```
 
-#### 5. Show history for one file
+**Show history for one file**
 
 ``` bash
 git log file.txt
 ```
+:::
 
-
-## Compare Changes with `git diff`
+**Compare Changes with `git diff`**
 
 To compare changes, use:
 

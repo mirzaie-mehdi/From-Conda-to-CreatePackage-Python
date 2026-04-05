@@ -424,22 +424,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-shows">What it shows</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-line-history">1. One-line history</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-view">2. Graph view</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#last-5-commits">3. Last 5 commits</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-full-patch-with-each-commit">4. Show full patch with each commit</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-history-for-one-file">5. Show history for one file</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
@@ -587,7 +575,10 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 </pre></div>
 </div>
 <p>This keeps the benefits of a pager while making it less intrusive.</p>
-<p class="rubric">Initialize a Repository</p>
+</div>
+</section>
+<section id="initialize-a-repository">
+<h2>Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
 <p>To turn a folder into a Git repository, go to the folder path and type
 the following command in the terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
@@ -603,7 +594,9 @@ the following command in the terminal:</p>
 <li><p>creates the initial branch with the name <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
 </ol>
 <p>This is cleaner than using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code> first and renaming the branch later.</p>
-<p class="rubric">Stage and Commit Changes</p>
+</section>
+<section id="stage-and-commit-changes">
+<h2>Stage and Commit Changes<a class="headerlink" href="#stage-and-commit-changes" title="Permalink to this heading">#</a></h2>
 <p>A common Git workflow looks like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your message&quot;</span>
@@ -616,15 +609,12 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;...&quot;</span></code> records those staged changes into Git history</p></li>
 </ul>
 </div>
-</div>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>app.js
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix login bug&quot;</span>
 </pre></div>
 </div>
 <p>This means the changes in <code class="docutils literal notranslate"><span class="pre">app.js</span></code> are now stored as a commit with the message <code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">login</span> <span class="pre">bug</span></code>.</p>
-</section>
 </section>
 <section id="view-commit-history-with-git-log">
 <h2>View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code><a class="headerlink" href="#view-commit-history-with-git-log" title="Permalink to this heading">#</a></h2>
@@ -632,8 +622,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
 </pre></div>
 </div>
-<section id="what-it-shows">
-<h3>What it shows<a class="headerlink" href="#what-it-shows" title="Permalink to this heading">#</a></h3>
+<p><strong>What it shows</strong></p>
 <p>For each commit, Git usually shows:</p>
 <ul class="simple">
 <li><p>commit hash</p></li>
@@ -642,40 +631,30 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p>commit message</p></li>
 </ul>
 <p>There are several ways to show the history of a project as follows:</p>
-<section id="one-line-history">
-<h4>1. One-line history<a class="headerlink" href="#one-line-history" title="Permalink to this heading">#</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>One-line history</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
 </pre></div>
 </div>
-</section>
-<section id="graph-view">
-<h4>2. Graph view<a class="headerlink" href="#graph-view" title="Permalink to this heading">#</a></h4>
+<p><strong>Graph view</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
 </pre></div>
 </div>
-</section>
-<section id="last-5-commits">
-<h4>3. Last 5 commits<a class="headerlink" href="#last-5-commits" title="Permalink to this heading">#</a></h4>
+<p><strong>Last 5 commits</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
 </pre></div>
 </div>
-</section>
-<section id="show-full-patch-with-each-commit">
-<h4>4. Show full patch with each commit<a class="headerlink" href="#show-full-patch-with-each-commit" title="Permalink to this heading">#</a></h4>
+<p><strong>Show full patch with each commit</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>-p
 </pre></div>
 </div>
-</section>
-<section id="show-history-for-one-file">
-<h4>5. Show history for one file<a class="headerlink" href="#show-history-for-one-file" title="Permalink to this heading">#</a></h4>
+<p><strong>Show history for one file</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>file.txt
 </pre></div>
 </div>
-</section>
-</section>
-</section>
-<section id="compare-changes-with-git-diff">
-<h2>Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code><a class="headerlink" href="#compare-changes-with-git-diff" title="Permalink to this heading">#</a></h2>
+</div>
+<p><strong>Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></strong></p>
 <p>To compare changes, use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
 </pre></div>
@@ -5554,22 +5533,10 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-shows">What it shows</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#one-line-history">1. One-line history</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-view">2. Graph view</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#last-5-commits">3. Last 5 commits</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-full-patch-with-each-commit">4. Show full patch with each commit</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#show-history-for-one-file">5. Show history for one file</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
