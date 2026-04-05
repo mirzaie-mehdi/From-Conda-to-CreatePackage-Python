@@ -1,25 +1,7 @@
----
-jupyter:
-  kernelspec:
-    display_name: Python 3 (ipykernel)
-    language: python
-    name: python3
-  language_info:
-    codemirror_mode:
-      name: ipython
-      version: 3
-    file_extension: .py
-    mimetype: text/x-python
-    name: python
-    nbconvert_exporter: python
-    pygments_lexer: ipython3
-    version: 3.10.15
-  nbformat: 4
-  nbformat_minor: 5
----
 
-::: {#6659523a-b81c-4c5f-ba73-ebd50467e417 .cell .markdown}
-# Git and GitHub
+
+
+# Git and GitHub 3
 
 This section discuss about:
 
@@ -33,7 +15,7 @@ This section discuss about:
 -   Testing SSH
 -   Understanding how public/private keys work
 -   When to run SSH tests
-:::
+
 
 ::: {#d516a195-cf06-4dc5-b932-93b4cac7c997 .cell .markdown}
 # What is Git?
