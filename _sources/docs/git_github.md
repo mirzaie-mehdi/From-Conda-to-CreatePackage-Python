@@ -1,25 +1,16 @@
+# Git and GitHub
 
+This chapter introduces Git and GitHub, two powerful tools that allow developers to track the full history of a project and efficiently manage version control, including the ability to revert to previous versions.
 
+---
 
-# Git and GitHub 3
+## Table of Contents
+- [What is Git?](#git)
 
-This section discuss about:
+---
 
--   What is Git?
--   Creating a GitHub account
--   Initializing Git repositories
--   Core Git commands
--   Configuring Git
--   Using SSH with GitHub
--   Generating SSH keys
--   Testing SSH
--   Understanding how public/private keys work
--   When to run SSH tests
-
-
-::: {#d516a195-cf06-4dc5-b932-93b4cac7c997 .cell .markdown}
 # What is Git?
-
+<a name="git"></a>
 **Git** is a version control system. It helps you:
 
 -   track changes in your files
@@ -29,12 +20,9 @@ This section discuss about:
 -   make new branches of your project and work there without affecting
     the main files of project.
 
-Git runs on your own computer. GitHub is an online platform that hosts
-Git repositories. In order to turn a floder into a Git repository, we do
+Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:
-:::
 
-::: {#94effc22-376c-4468-9db8-de90c5d5d286 .cell .markdown}
 ## Initialize a Repository
 
 To turn a folder into a Git repository, go to the folder path and type
@@ -49,16 +37,12 @@ If you want the default branch to be `main` immediately, use:
 ``` bash
 git init -b main
 ```
-
-### Meaning of `git init -b main`
-
-This command:
+The above command:
 
 1.  creates a new Git repository
 2.  creates the initial branch with the name `main`
 
-This is cleaner than using `git init` first and renaming the branch
-later.
+This is cleaner than using `git init` first and renaming the branch later.
 :::
 
 ::: {#4d8836a8-5052-4d01-b985-6600a51e2a2b .cell .markdown}

@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Git and GitHub 3 &#8212; From Conda to Create Package in Python</title>
+    <title>Git and GitHub &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -171,7 +171,8 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub3</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
 
 
@@ -395,7 +396,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -406,11 +409,27 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Git and GitHub 3</h1>
+    <h1>Git and GitHub</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -420,64 +439,52 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="git-and-github-3">
-<h1>Git and GitHub 3<a class="headerlink" href="#git-and-github-3" title="Permalink to this heading">#</a></h1>
-<p>This section discuss about:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="git-and-github">
+<h1>Git and GitHub<a class="headerlink" href="#git-and-github" title="Permalink to this heading">#</a></h1>
+<p>This chapter introduces Git and GitHub, two powerful tools that allow developers to track the full history of a project and efficiently manage version control, including the ability to revert to previous versions.</p>
+<hr class="docutils" />
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>What is Git?</p></li>
-<li><p>Creating a GitHub account</p></li>
-<li><p>Initializing Git repositories</p></li>
-<li><p>Core Git commands</p></li>
-<li><p>Configuring Git</p></li>
-<li><p>Using SSH with GitHub</p></li>
-<li><p>Generating SSH keys</p></li>
-<li><p>Testing SSH</p></li>
-<li><p>Understanding how public/private keys work</p></li>
-<li><p>When to run SSH tests</p></li>
+<li><p><span class="xref myst">What is Git?</span></p></li>
 </ul>
-<div class="highlight-{#d516a195-cf06-4dc5-b932-93b4cac7c997 notranslate"><div class="highlight"><pre><span></span># What is Git?
-
-**Git** is a version control system. It helps you:
-
--   track changes in your files
--   save project history
--   collaborate with others
--   restore older versions when needed
--   make new branches of your project and work there without affecting
-    the main files of project.
-
-Git runs on your own computer. GitHub is an online platform that hosts
-Git repositories. In order to turn a floder into a Git repository, we do
-as follows:
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="what-is-git">
+<h1>What is Git?<a class="headerlink" href="#what-is-git" title="Permalink to this heading">#</a></h1>
+<p><a name="git"></a>
+<strong>Git</strong> is a version control system. It helps you:</p>
+<ul class="simple">
+<li><p>track changes in your files</p></li>
+<li><p>save project history</p></li>
+<li><p>collaborate with others</p></li>
+<li><p>restore older versions when needed</p></li>
+<li><p>make new branches of your project and work there without affecting
+the main files of project.</p></li>
+</ul>
+<p>Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
+as follows:</p>
+<section id="initialize-a-repository">
+<h2>Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
+<p>To turn a folder into a Git repository, go to the folder path and type
+the following command in the terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
 </pre></div>
 </div>
-<div class="highlight-{#94effc22-376c-4468-9db8-de90c5d5d286 notranslate"><div class="highlight"><pre><span></span>## Initialize a Repository
-
-To turn a folder into a Git repository, go to the folder path and type
-the following command in the terminal:
-
-``` bash
-git init
-```
-
-If you want the default branch to be `main` immediately, use:
-
-``` bash
-git init -b main
-```
-
-### Meaning of `git init -b main`
-
-This command:
-
-1.  creates a new Git repository
-2.  creates the initial branch with the name `main`
-
-This is cleaner than using `git init` first and renaming the branch
-later.
+<p>If you want the default branch to be <code class="docutils literal notranslate"><span class="pre">main</span></code> immediately, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
 </pre></div>
 </div>
-<div class="highlight-{#4d8836a8-5052-4d01-b985-6600a51e2a2b notranslate"><div class="highlight"><pre><span></span>## 4. Stage and Commit Changes {#4-stage-and-commit-changes}
+<p>The above command:</p>
+<ol class="arabic simple">
+<li><p>creates a new Git repository</p></li>
+<li><p>creates the initial branch with the name <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ol>
+<p>This is cleaner than using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code> first and renaming the branch later.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#4d8836a8-5052-4d01-b985-6600a51e2a2b .cell .markdown}
+## 4. Stage and Commit Changes {#4-stage-and-commit-changes}
 
 A common Git workflow looks like this:
 
@@ -5512,6 +5519,7 @@ git branch past-code 90544b4fa
 </pre></div>
 </div>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -5567,6 +5575,29 @@ git branch past-code 90544b4fa
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of Contents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>

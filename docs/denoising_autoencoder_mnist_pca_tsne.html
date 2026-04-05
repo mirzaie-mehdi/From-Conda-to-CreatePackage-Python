@@ -173,7 +173,8 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
 
 
@@ -669,16 +670,16 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2757 | test loss: 0.2350
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2790 | test loss: 0.2349
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2039 | test loss: 0.1735
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2025 | test loss: 0.1713
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1625 | test loss: 0.1545
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1627 | test loss: 0.1542
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1515 | test loss: 0.1460
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1505 | test loss: 0.1451
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -690,18 +691,12 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
 <span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">test_loss</span>  <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span>  <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2"> | train loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | test loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="nn">Cell In[5], line 10,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
+<span class="nn">Cell In[5], line 9,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">total_loss</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span>
 <span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">x_noisy</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">x_noisy</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>         <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-
-<span class="nn">Cell In[4], line 2,</span> in <span class="ni">add_noise</span><span class="nt">(x, sigma)</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.35</span><span class="p">):</span>
-<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="n">noise</span> <span class="o">=</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">x_noisy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">noise</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">return</span> <span class="n">x_noisy</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
