@@ -454,6 +454,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -589,11 +596,11 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
 </pre></div>
 </div>
-<div class="highlight-{`git notranslate"><div class="highlight"><pre><span></span>### 1. Basic meaning; unstaged changes
+<div class="highlight-{**git notranslate"><div class="highlight"><pre><span></span>**Basic meaning; unstaged changes**
 
 This shows changes that are **not staged yet**.
 
-### Example
+Example
 
 ``` diff
 - console.log(&quot;Hello&quot;);
@@ -601,7 +608,7 @@ This shows changes that are **not staged yet**.
 ```
 
 
-#### 2. Staged changes
+**Staged changes**
 
 ``` bash
 git diff --staged
@@ -613,25 +620,25 @@ or
 git diff --cached
 ```
 
-#### 3. Compare with the latest commit
+**Compare with the latest commit**
 
 ``` bash
 git diff HEAD
 ```
 
-#### 4. Compare two commits
+**Compare two commits**
 
 ``` bash
 git diff commit1 commit2
 ```
 
-#### 5. Compare one file
+**Compare one file**
 
 ``` bash
 git diff file.txt
 ```
 
-#### .6 Show only file names
+**Show only file names**
 
 ``` bash
 git diff --name-only
@@ -718,55 +725,54 @@ file:.git/config           core.repositoryformatversion=0
 </section>
 <section id="why-this-is-useful">
 <h3>Why this is useful<a class="headerlink" href="#why-this-is-useful" title="Permalink to this heading">#</a></h3>
-<p>This helps you debug configuration problems. For example, if the wrong
-email is used in commits, you can find out exactly which file defined
+<p>This helps you debug configuration problems. For example, if the wrong email is used in commits, you can find out exactly which file defined
 it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#2160e7ff-abef-460b-8b06-400ba37dc66f .cell .markdown}
-## 10. Disabling Git Pagers {#10-disabling-git-pagers}
-
-Git often uses a pager such as `less` to display long output. For
-example, `git log` may open inside a scrollable interface.
-
-You can disable the pager for a specific command:
-
-``` bash
-git config --global pager.log off
-```
-
-This makes `git log` print directly in the terminal.
-
-### Other examples
-
-``` bash
-git config --global pager.diff off
-git config --global pager.show off
-git config --global pager.config off
-git config --global pager.stash off
-git config --global pager.help off
-git config --global pager.blame off
-git config --global pager.branch off
-git config --global pager.annotate off
-```
-
-### Effect
-
-This disables pagers for many common Git commands.
-
-### Advantage
-
--   simpler output
--   useful for scripts
--   easier for some beginners
-
-### Disadvantage
-
--   very long output can flood the terminal
--   searching inside output becomes harder
--   less convenient for large histories
+</section>
+</section>
+<section id="disabling-git-pagers">
+<h2>10. Disabling Git Pagers<a class="headerlink" href="#disabling-git-pagers" title="Permalink to this heading">#</a></h2>
+<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For
+example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
+<p>You can disable the pager for a specific command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
 </pre></div>
 </div>
-<div class="highlight-{#30f280e2-8418-4d6d-b505-0e77a98aee95 notranslate"><div class="highlight"><pre><span></span>## 11. A Better Pager Setup {#11-a-better-pager-setup}
+<p>This makes <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> print directly in the terminal.</p>
+<section id="other-examples">
+<h3>Other examples<a class="headerlink" href="#other-examples" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
+</pre></div>
+</div>
+</section>
+<section id="effect">
+<h3>Effect<a class="headerlink" href="#effect" title="Permalink to this heading">#</a></h3>
+<p>This disables pagers for many common Git commands.</p>
+</section>
+<section id="advantage">
+<h3>Advantage<a class="headerlink" href="#advantage" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>simpler output</p></li>
+<li><p>useful for scripts</p></li>
+<li><p>easier for some beginners</p></li>
+</ul>
+</section>
+<section id="disadvantage">
+<h3>Disadvantage<a class="headerlink" href="#disadvantage" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>very long output can flood the terminal</p></li>
+<li><p>searching inside output becomes harder</p></li>
+<li><p>less convenient for large histories</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#30f280e2-8418-4d6d-b505-0e77a98aee95 .cell .markdown}
+## 11. A Better Pager Setup {#11-a-better-pager-setup}
 
 Instead of disabling all pagers, many developers prefer a smarter pager
 configuration:
@@ -5629,6 +5635,13 @@ git branch past-code 90544b4fa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">Show Configuration Sources</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
 </ul>
 </li>
 </ul>

@@ -129,12 +129,13 @@ To compare changes, use:
 git diff
 ```
 
-:::{`git diff` variations}
-### 1. Basic meaning; unstaged changes
+:::{**git diff** variations}
+
+**Basic meaning; unstaged changes**
 
 This shows changes that are **not staged yet**.
 
-### Example
+Example
 
 ``` diff
 - console.log("Hello");
@@ -142,7 +143,7 @@ This shows changes that are **not staged yet**.
 ```
 
 
-#### 2. Staged changes
+**Staged changes**
 
 ``` bash
 git diff --staged
@@ -154,25 +155,25 @@ or
 git diff --cached
 ```
 
-#### 3. Compare with the latest commit
+**Compare with the latest commit**
 
 ``` bash
 git diff HEAD
 ```
 
-#### 4. Compare two commits
+**Compare two commits**
 
 ``` bash
 git diff commit1 commit2
 ```
 
-#### 5. Compare one file
+**Compare one file**
 
 ``` bash
 git diff file.txt
 ```
 
-#### .6 Show only file names
+**Show only file names**
 
 ``` bash
 git diff --name-only
@@ -269,7 +270,7 @@ This helps you debug configuration problems. For example, if the wrong email is 
 it.
 
 
-## 10. Disabling Git Pagers {#10-disabling-git-pagers}
+## 10. Disabling Git Pagers 
 
 Git often uses a pager such as `less` to display long output. For
 example, `git log` may open inside a scrollable interface.
