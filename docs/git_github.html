@@ -454,11 +454,16 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">Disabling Git Pagers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
 </li>
 </ul>
@@ -596,54 +601,52 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
 </pre></div>
 </div>
-<div class="highlight-{**git notranslate"><div class="highlight"><pre><span></span>**Basic meaning; unstaged changes**
-
-This shows changes that are **not staged yet**.
-
-Example
-
-``` diff
-- console.log(&quot;Hello&quot;);
-+ console.log(&quot;Hello World&quot;);
-```
-
-
-**Staged changes**
-
-``` bash
-git diff --staged
-```
-
-or
-
-``` bash
-git diff --cached
-```
-
-**Compare with the latest commit**
-
-``` bash
-git diff HEAD
-```
-
-**Compare two commits**
-
-``` bash
-git diff commit1 commit2
-```
-
-**Compare one file**
-
-``` bash
-git diff file.txt
-```
-
-**Show only file names**
-
-``` bash
-git diff --name-only
-```
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>there are <strong>git diff</strong> variations and options:</p>
+<ul class="simple">
+<li><p>Basic meaning; unstaged changes</p></li>
+</ul>
+<p>This shows changes that are <strong>not staged yet</strong>.</p>
+<p>Example</p>
+<div class="highlight-diff notranslate"><div class="highlight"><pre><span></span><span class="gd">- console.log(&quot;Hello&quot;);</span>
+<span class="gi">+ console.log(&quot;Hello World&quot;);</span>
 </pre></div>
+</div>
+<ul class="simple">
+<li><p>Staged changes</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--cached
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Compare with the latest commit</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>HEAD
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Compare two commits</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Compare one file</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>file.txt
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Show only file names</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--name-only
+</pre></div>
+</div>
 </div>
 </section>
 <section id="configure-git-with-git-config">
@@ -730,9 +733,8 @@ it.</p>
 </section>
 </section>
 <section id="disabling-git-pagers">
-<h2>10. Disabling Git Pagers<a class="headerlink" href="#disabling-git-pagers" title="Permalink to this heading">#</a></h2>
-<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For
-example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
+<h2>Disabling Git Pagers<a class="headerlink" href="#disabling-git-pagers" title="Permalink to this heading">#</a></h2>
+<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
 <p>You can disable the pager for a specific command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
 </pre></div>
@@ -770,40 +772,39 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <li><p>searching inside output becomes harder</p></li>
 <li><p>less convenient for large histories</p></li>
 </ul>
+</section>
+</section>
+<section id="a-better-pager-setup">
+<h2>A Better Pager Setup<a class="headerlink" href="#a-better-pager-setup" title="Permalink to this heading">#</a></h2>
+<p>Instead of disabling all pagers, many developers prefer a smarter pager configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
+</pre></div>
+</div>
+<p>This keeps the benefits of a pager while making it less intrusive.</p>
+</section>
+<section id="create-a-github-account">
+<h2>Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
+<p>To use GitHub effectively, the first step is to create a user account.</p>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Go to GitHub.</p></li>
+<li><p>Click <strong>Sign up</strong>.</p></li>
+<li><p>Enter:</p>
+<ul class="simple">
+<li><p>your email address</p></li>
+<li><p>a password</p></li>
+<li><p>a username</p></li>
+</ul>
+</li>
+<li><p>Verify your email address.</p></li>
+<li><p>Complete the sign-up process.</p></li>
+</ol>
+<p>After creating your account, you can create repositories, upload code,
+and connect Git on your computer to GitHub.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#30f280e2-8418-4d6d-b505-0e77a98aee95 .cell .markdown}
-## 11. A Better Pager Setup {#11-a-better-pager-setup}
-
-Instead of disabling all pagers, many developers prefer a smarter pager
-configuration:
-
-``` bash
-git config --global core.pager &quot;less -FRX&quot;
-```
-
-This keeps the benefits of a pager while making it less intrusive.
-</pre></div>
-</div>
-<div class="highlight-{#54f5cc10-8b22-4351-aec8-2a636dd31d43 notranslate"><div class="highlight"><pre><span></span>## Create a GitHub Account
-
-To use GitHub effectively, the first step is to create a user account.
-
-### Steps
-
-1.  Go to GitHub.
-2.  Click **Sign up**.
-3.  Enter:
-    -   your email address
-    -   a password
-    -   a username
-4.  Verify your email address.
-5.  Complete the sign-up process.
-
-After creating your account, you can create repositories, upload code,
-and connect Git on your computer to GitHub.
-</pre></div>
-</div>
-<div class="highlight-{#d7358f16-6d62-4c76-add4-0ca07bf62ec6 notranslate"><div class="highlight"><pre><span></span>## 12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}
+::: {#d7358f16-6d62-4c76-add4-0ca07bf62ec6 .cell .markdown}
+## 12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}
 
 There are two common ways to connect Git to GitHub:
 
@@ -5637,11 +5638,16 @@ git branch past-code 90544b4fa
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">10. Disabling Git Pagers</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">Disabling Git Pagers</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
 </li>
 </ul>

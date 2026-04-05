@@ -129,9 +129,11 @@ To compare changes, use:
 git diff
 ```
 
-:::{**git diff** variations}
+:::{note}
 
-**Basic meaning; unstaged changes**
+there are **git diff** variations and options:
+
+- Basic meaning; unstaged changes
 
 This shows changes that are **not staged yet**.
 
@@ -143,7 +145,7 @@ Example
 ```
 
 
-**Staged changes**
+- Staged changes
 
 ``` bash
 git diff --staged
@@ -154,26 +156,25 @@ or
 ``` bash
 git diff --cached
 ```
-
-**Compare with the latest commit**
+- Compare with the latest commit
 
 ``` bash
 git diff HEAD
 ```
 
-**Compare two commits**
+- Compare two commits
 
 ``` bash
 git diff commit1 commit2
 ```
 
-**Compare one file**
+- Compare one file
 
 ``` bash
 git diff file.txt
 ```
 
-**Show only file names**
+- Show only file names
 
 ``` bash
 git diff --name-only
@@ -270,10 +271,9 @@ This helps you debug configuration problems. For example, if the wrong email is 
 it.
 
 
-## 10. Disabling Git Pagers 
+## Disabling Git Pagers 
 
-Git often uses a pager such as `less` to display long output. For
-example, `git log` may open inside a scrollable interface.
+Git often uses a pager such as `less` to display long output. For example, `git log` may open inside a scrollable interface.
 
 You can disable the pager for a specific command:
 
@@ -311,22 +311,18 @@ This disables pagers for many common Git commands.
 -   very long output can flood the terminal
 -   searching inside output becomes harder
 -   less convenient for large histories
-:::
 
-::: {#30f280e2-8418-4d6d-b505-0e77a98aee95 .cell .markdown}
-## 11. A Better Pager Setup {#11-a-better-pager-setup}
 
-Instead of disabling all pagers, many developers prefer a smarter pager
-configuration:
+##  A Better Pager Setup
+
+Instead of disabling all pagers, many developers prefer a smarter pager configuration:
 
 ``` bash
 git config --global core.pager "less -FRX"
 ```
 
 This keeps the benefits of a pager while making it less intrusive.
-:::
 
-::: {#54f5cc10-8b22-4351-aec8-2a636dd31d43 .cell .markdown}
 ## Create a GitHub Account
 
 To use GitHub effectively, the first step is to create a user account.
