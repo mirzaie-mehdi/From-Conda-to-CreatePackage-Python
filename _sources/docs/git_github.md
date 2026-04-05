@@ -43,10 +43,9 @@ The above command:
 2.  creates the initial branch with the name `main`
 
 This is cleaner than using `git init` first and renaming the branch later.
-:::
 
-::: {#4d8836a8-5052-4d01-b985-6600a51e2a2b .cell .markdown}
-## 4. Stage and Commit Changes {#4-stage-and-commit-changes}
+
+## Stage and Commit Changes 
 
 A common Git workflow looks like this:
 
@@ -55,10 +54,12 @@ git add .
 git commit -m "your message"
 ```
 
-### Explanation
+:::{note}
 
 -   `git add .` stages the changes
 -   `git commit -m "..."` records those staged changes into Git history
+  
+:::
 
 ### Example
 
@@ -67,12 +68,10 @@ git add app.js
 git commit -m "Fix login bug"
 ```
 
-This means the changes in `app.js` are now stored as a commit with the
-message `Fix login bug`.
-:::
+This means the changes in `app.js` are now stored as a commit with the message `Fix login bug`.
 
-::: {#05213d49-2650-4247-9531-e359abfa0862 .cell .markdown}
-## 5. View Commit History with `git log` {#5-view-commit-history-with-git-log}
+
+## View Commit History with `git log` 
 
 To see commit history, use:
 
@@ -89,41 +88,40 @@ For each commit, Git usually shows:
 -   date
 -   commit message
 
-### Useful variations
+There are several ways to show the history of a project as follows:
 
-#### One-line history
+#### 1. One-line history
 
 ``` bash
 git log --oneline
 ```
 
-#### Graph view
+#### 2. Graph view
 
 ``` bash
 git log --oneline --graph
 ```
 
-#### Last 5 commits
+#### 3. Last 5 commits
 
 ``` bash
 git log -n 5
 ```
 
-#### Show full patch with each commit
+#### 4. Show full patch with each commit
 
 ``` bash
 git log -p
 ```
 
-#### Show history for one file
+#### 5. Show history for one file
 
 ``` bash
 git log file.txt
 ```
-:::
 
-::: {#08ac4b52-2419-41da-8a28-37110bddffc8 .cell .markdown}
-## 6. Compare Changes with `git diff` {#6-compare-changes-with-git-diff}
+
+## Compare Changes with `git diff`
 
 To compare changes, use:
 
@@ -131,26 +129,19 @@ To compare changes, use:
 git diff
 ```
 
-### Basic meaning
+### 1. Basic meaning; unstaged changes
 
 This shows changes that are **not staged yet**.
 
-### Example {#example}
+### Example
 
 ``` diff
 - console.log("Hello");
 + console.log("Hello World");
 ```
 
-### Common forms
 
-#### Unstaged changes
-
-``` bash
-git diff
-```
-
-#### Staged changes
+#### 2. Staged changes
 
 ``` bash
 git diff --staged
@@ -162,33 +153,31 @@ or
 git diff --cached
 ```
 
-#### Compare with the latest commit
+#### 3. Compare with the latest commit
 
 ``` bash
 git diff HEAD
 ```
 
-#### Compare two commits
+#### 4. Compare two commits
 
 ``` bash
 git diff commit1 commit2
 ```
 
-#### Compare one file
+#### 5. Compare one file
 
 ``` bash
 git diff file.txt
 ```
 
-#### Show only file names
+#### .6 Show only file names
 
 ``` bash
 git diff --name-only
 ```
-:::
 
-::: {#b33f142f-93f8-4205-932e-824729c7e68e .cell .markdown}
-## 7. Configure Git with `git config` {#7-configure-git-with-git-config}
+##  Configure Git with `git config`
 
 Git uses configuration settings such as your name, email, editor, pager
 behavior, and aliases.
