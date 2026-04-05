@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Pytorch with example &#8212; From Conda to Create Package in Python</title>
+    <title>Pytorch: An in troduction &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -207,7 +207,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pytorch with example</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pytorch: An in troduction</a></li>
+
+
+
 
 
 
@@ -434,7 +437,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Pytorch with example</h1>
+    <h1>Pytorch: An in troduction</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -444,8 +447,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pytorch with example</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pytorch: An in troduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-tensor-row-and-column-tensor">Vector tensor, row and column tensor</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-class-in-torch">Dataset class in torch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise2-smart-dataset">Exercise2: Smart Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#note">Note:</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loader-class">Data loader class</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#first-neural-network-the-simplset-case">First Neural Network: the simplset case</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sequential-in-neural-network">Sequential in Neural Network</a></li>
@@ -461,8 +467,36 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="pytorch-with-example">
-<h1>Pytorch with example<a class="headerlink" href="#pytorch-with-example" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="pytorch-an-in-troduction">
+<h1>Pytorch: An in troduction<a class="headerlink" href="#pytorch-an-in-troduction" title="Permalink to this heading">#</a></h1>
+<p>This section provide essential information and techniques to utilse pytorch for machine learning approaches.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The following command shows the CUDA version supported by the GPU driver. The GPU driver connects the GPU to the operating system.</span>
+<span class="c1"># First, install the GPU driver. Then (optionally) install CUDA. After that, use nvidia-smi to check the CUDA version supported by the driver, </span>
+<span class="c1"># and finally install PyTorch.</span>
+
+<span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+
+<span class="c1"># go to the pytorch.com to install pytorch</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># The following command shows the CUDA version supported by the GPU driver. The GPU driver connects the GPU to the operating system.</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># First, install the GPU driver. Then (optionally) install CUDA. After that, use nvidia-smi to check the CUDA version supported by the driver, </span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># and finally install PyTorch.</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">nvidia</span><span class="o">-</span><span class="n">smi</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># go to the pytorch.com to install pytorch</span>
+
+<span class="ne">NameError</span>: name &#39;nvidia&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -491,15 +525,22 @@ None
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#pip install torch torchvision torchaudio</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_cpu</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">x_cpu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.0442, 0.7527, 0.6623],
-        [0.1627, 0.2213, 0.9172],
-        [0.5550, 0.8767, 0.6968]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.5395, 0.9045, 0.6438],
+        [0.5079, 0.7671, 0.5273],
+        [0.0292, 0.8800, 0.8765]])
 </pre></div>
 </div>
 </div>
@@ -513,9 +554,98 @@ None
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.0442, 0.7527, 0.6623],
-        [0.1627, 0.2213, 0.9172],
-        [0.5550, 0.8767, 0.6968]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0.5395, 0.9045, 0.6438],
+        [0.5079, 0.7671, 0.5273],
+        [0.0292, 0.8800, 0.8765]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;mps&quot;</span><span class="p">)</span>  <span class="c1"># instead of &quot;cuda&quot;</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[-0.4039,  0.1722, -1.9797],
+        [ 0.1560,  0.5489, -1.9454],
+        [-1.2082,  0.6214,  1.4145]], device=&#39;mps:0&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pytorch version is: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CUDA available: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CUDA version is: </span><span class="si">{</span><span class="n">torch</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">cuda</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MPS available:&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MPS built:&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_built</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pytorch version is: 2.9.1
+CUDA available: False
+CUDA version is: None
+MPS available: True
+MPS built: True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="vector-tensor-row-and-column-tensor">
+<h1>Vector tensor, row and column tensor<a class="headerlink" href="#vector-tensor-row-and-column-tensor" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a is a vector: </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">]],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([1, 2, 3, 4, 5])
+a is a vector: torch.Size([5])
+torch.int64
+tensor([[1, 2, 3, 4, 5]])
+torch.Size([1, 5])
+torch.int64
+tensor([[1.],
+        [2.],
+        [3.],
+        [4.],
+        [5.]])
+torch.Size([5, 1])
+torch.float32
+tensor([[1., 3., 4., 5., 6.],
+        [2., 7., 5., 4., 3.]])
+torch.Size([2, 5])
+torch.float32
 </pre></div>
 </div>
 </div>
@@ -531,18 +661,89 @@ None
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[[ 0.2317, -0.0060,  1.5418, -1.8687],
-         [-0.6337, -0.2502,  0.0879, -0.6456],
-         [ 0.8506, -0.1195, -1.2299,  0.4529]],
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Changes the shape of a tensor without changing the order of data</span>
 
-        [[ 1.5103, -0.8127,  0.4694, -0.0138],
-         [-0.0087, -1.6513,  0.6207,  1.0647],
-         [-0.2315,  0.3580,  0.3744,  0.6021]]])
-torch.Size([2, 3, 4])
-torch.float32
-tensor([[1., 1., 1.],
-        [1., 1., 1.]])
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>   <span class="c1"># [0,1,2,3,4,5]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([[0, 1, 2],
+        [3, 4, 5]])
+torch.Size([2, 3])
+tensor([[0, 3],
+        [1, 4],
+        [2, 5]])
+torch.Size([3, 2])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changes the order of dimensions, not the data itself</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># (batch, channel, width)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([3, 2, 4])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If a tensor has dimensions like 1, squeeze() removes them.</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>   <span class="c1"># shape: (3,)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1, 3, 1, 5])
+torch.Size([3, 5])
+torch.Size([1, 3])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+
+<span class="c1">#value, index =  torch.max(x, dim =1)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.return_types.max(
+values=tensor([5, 6]),
+indices=tensor([1, 2]))
 </pre></div>
 </div>
 </div>
@@ -560,7 +761,7 @@ tensor([[1., 1., 1.],
 The other two methods, <strong>len</strong> and <strong>getitem</strong>, allow us to iterate over the dataset and access individual samples.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">TaxiDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
@@ -588,7 +789,11 @@ The other two methods, <strong>len</strong> and <strong>getitem</strong>, allow 
         
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TaxiDataset</span><span class="p">(</span><span class="s2">&quot;../data/train_taxi.csv&quot;</span><span class="p">,</span><span class="n">transform</span> <span class="o">=</span> <span class="n">normalize_features</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">TaxiDataset</span><span class="p">(</span><span class="s2">&quot;../data/train_taxi.csv&quot;</span><span class="p">,</span><span class="n">transform</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset size is </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># getitem make an instance like dataset to be iterable like a list, this would enable us to treat with instance dataset like a list.</span>
 <span class="n">feature</span><span class="p">,</span><span class="n">target</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample feature </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample target</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -597,13 +802,176 @@ The other two methods, <strong>len</strong> and <strong>getitem</strong>, allow 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset size is 26930
-Sample feature tensor([0.7826, 0.0000, 0.2857, 1.0000])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([18.,  0.,  2.,  7.])
+Dataset size is 26930
+Sample feature tensor([18.,  0.,  2.,  7.])
 Sample targettensor([3.])
 </pre></div>
 </div>
 </div>
 </div>
+<p>Exercise: Create a custom Dataset that:</p>
+<p>Separates features and targets
+Applies different transforms to each</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Taxi2</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">transformF</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">transformT</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;hour_of_day&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;row&quot;</span><span class="p">,</span><span class="s2">&quot;col&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;demand&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformF</span> <span class="o">=</span> <span class="n">transformF</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformT</span> <span class="o">=</span> <span class="n">transformT</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformT</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformT</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformF</span><span class="p">:</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformF</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">feature</span><span class="p">,</span> <span class="n">target</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_features</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">23</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">365</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">7</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">7</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normalize_target</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">/=</span> <span class="mi">100</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">Taxi2</span><span class="p">(</span><span class="s2">&quot;../data/train_taxi.csv&quot;</span><span class="p">,</span><span class="n">transformF</span> <span class="o">=</span> <span class="n">normalize_features</span><span class="p">,</span><span class="n">transformT</span> <span class="o">=</span> <span class="n">normalize_target</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset size is </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># getitem make an instance like dataset to be iterable like a list, this would enable us to treat with instance dataset like a list.</span>
+<span class="n">feature</span><span class="p">,</span><span class="n">target</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample feature </span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample target</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([18.,  0.,  2.,  7.])
+Dataset size is 26930
+Sample feature tensor([0.7826, 0.0000, 0.2857, 1.0000])
+Sample target0.029999999329447746
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="exercise2-smart-dataset">
+<h1>Exercise2: Smart Dataset<a class="headerlink" href="#exercise2-smart-dataset" title="Permalink to this heading">#</a></h1>
+<p>Build a custom Dataset that:</p>
+<ol class="arabic simple">
+<li><p>Normalizes features (once), and by row</p></li>
+<li><p>Returns (feature, target)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Taxi3</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">,</span> <span class="n">feature_norm_row</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">feature_norm_whole</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;hour_of_day&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;row&quot;</span><span class="p">,</span><span class="s2">&quot;col&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;demand&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normrow</span> <span class="o">=</span> <span class="n">feature_norm_row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normwhole</span> <span class="o">=</span> <span class="n">feature_norm_whole</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normwhole</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normwhole</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">idx</span><span class="p">):</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normrow</span><span class="p">:</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normrow</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+
+
+        <span class="k">return</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normal_once</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">23</span>
+    <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">356</span>
+    <span class="n">x</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">7</span>
+    <span class="n">x</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">7</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">normal_row</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">23</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="o">/=</span> <span class="mi">356</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="o">/=</span> <span class="mi">7</span>
+    <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">7</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+<span class="n">dataset3</span> <span class="o">=</span> <span class="n">Taxi3</span><span class="p">(</span><span class="s2">&quot;../data/train_taxi.csv&quot;</span><span class="p">,</span><span class="n">feature_norm_row</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span><span class="n">feature_norm_whole</span> <span class="o">=</span> <span class="n">normal_once</span><span class="p">)</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="n">dataset3</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">10</span><span class="p">][[</span><span class="s2">&quot;hour_of_day&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;raw values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">normalized tensor:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset3</span><span class="o">.</span><span class="n">features</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">dataset3</span> <span class="o">=</span> <span class="n">Taxi3</span><span class="p">(</span><span class="s2">&quot;../data/train_taxi.csv&quot;</span><span class="p">,</span><span class="n">feature_norm_row</span> <span class="o">=</span> <span class="n">normal_row</span> <span class="p">,</span><span class="n">feature_norm_whole</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="n">dataset3</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">10</span><span class="p">][[</span><span class="s2">&quot;hour_of_day&quot;</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="s2">&quot;col&quot;</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;raw values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">normalized tensor:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset3</span><span class="p">[</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>raw values:
+hour_of_day    18
+day             0
+row             2
+col             7
+Name: 10, dtype: int64
+
+normalized tensor:
+tensor([0.7826, 0.0000, 0.2857, 1.0000])
+raw values:
+hour_of_day    18
+day             0
+row             2
+col             7
+Name: 10, dtype: int64
+
+normalized tensor:
+(tensor([0.7826, 0.0000, 0.2857, 1.0000]), tensor([3.]))
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="note">
+<h1>Note:<a class="headerlink" href="#note" title="Permalink to this heading">#</a></h1>
+<p>Whole-dataset normalization (in <strong>init</strong>) is generally better for fixed scaling because it is faster and applied once, while row normalization (in <strong>getitem</strong>) is more flexible but less efficient.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="data-loader-class">
 <h1>Data loader class<a class="headerlink" href="#data-loader-class" title="Permalink to this heading">#</a></h1>
@@ -619,12 +987,12 @@ Sample targettensor([3.])
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span>
 
 <span class="n">batchsize</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="c1"># Get instance from dataloader class</span>
 <span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-
+<span class="c1"># since it is now iterable we can see its inside by using loop</span>
 <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,(</span><span class="n">batch_features</span><span class="p">,</span><span class="n">batch_targets</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">batch_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">batch_targets</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
-
     <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">batch_features</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">batch_targets</span><span class="p">)</span> 
@@ -634,71 +1002,43 @@ Sample targettensor([3.])
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([32, 4])
-torch.Size([32, 1])
-tensor([[0.9565, 0.0274, 0.5714, 0.7143],
-        [0.4348, 0.0219, 0.1429, 0.4286],
-        [0.1739, 0.0548, 0.5714, 0.2857],
-        [0.2174, 0.0603, 1.0000, 0.4286],
-        [0.3478, 0.0356, 0.7143, 1.0000],
-        [0.4348, 0.0192, 0.4286, 0.1429],
-        [0.0870, 0.0438, 1.0000, 1.0000],
-        [0.6522, 0.0356, 0.2857, 0.4286],
-        [0.3043, 0.0137, 0.7143, 0.0000],
-        [1.0000, 0.0712, 0.5714, 0.1429],
-        [0.6522, 0.0712, 0.8571, 0.5714],
-        [0.2609, 0.0274, 0.4286, 0.5714],
-        [0.9565, 0.0630, 1.0000, 0.4286],
-        [0.8696, 0.0274, 0.4286, 1.0000],
-        [0.4348, 0.0384, 0.7143, 0.7143],
-        [0.6087, 0.0274, 1.0000, 0.1429],
-        [0.5652, 0.0192, 0.1429, 0.4286],
-        [0.4348, 0.0082, 0.5714, 0.8571],
-        [0.5652, 0.0356, 1.0000, 1.0000],
-        [0.9130, 0.0795, 0.8571, 0.1429],
-        [0.2174, 0.0192, 0.1429, 0.2857],
-        [0.4783, 0.0438, 0.4286, 0.0000],
-        [0.5217, 0.0411, 0.7143, 0.0000],
-        [1.0000, 0.0000, 1.0000, 0.1429],
-        [0.9565, 0.0658, 0.5714, 0.0000],
-        [0.9130, 0.0822, 0.5714, 0.7143],
-        [0.0435, 0.0521, 0.7143, 0.4286],
-        [0.6957, 0.0548, 0.0000, 0.4286],
-        [0.5217, 0.0301, 0.8571, 0.1429],
-        [0.0870, 0.0356, 0.7143, 0.1429],
-        [0.6087, 0.0082, 0.8571, 0.7143],
-        [0.4783, 0.0301, 0.2857, 0.2857]])
-tensor([[   9.],
-        [  15.],
-        [   0.],
-        [   0.],
-        [  30.],
-        [  14.],
-        [   0.],
-        [  74.],
-        [   0.],
-        [   0.],
-        [  18.],
-        [   5.],
-        [  52.],
-        [  22.],
-        [  83.],
-        [   0.],
-        [  73.],
-        [ 292.],
-        [   0.],
-        [   0.],
-        [  37.],
-        [   0.],
-        [   0.],
-        [   0.],
-        [   0.],
-        [1076.],
-        [   8.],
-        [  77.],
-        [   9.],
-        [   0.],
-        [  96.],
-        [  31.]])
+torch.Size([32])
+tensor([[0.5652, 0.0466, 1.0000, 0.8571],
+        [0.2174, 0.0740, 0.1429, 0.5714],
+        [0.4348, 0.0521, 0.0000, 0.4286],
+        [0.5217, 0.0603, 0.0000, 0.7143],
+        [0.7391, 0.0521, 0.4286, 0.2857],
+        [0.4348, 0.0548, 0.0000, 0.0000],
+        [0.2609, 0.0110, 1.0000, 0.5714],
+        [0.9565, 0.0110, 0.2857, 0.0000],
+        [0.0000, 0.0384, 0.4286, 0.7143],
+        [0.3478, 0.0521, 1.0000, 1.0000],
+        [0.9565, 0.0822, 0.5714, 0.1429],
+        [0.6957, 0.0384, 0.8571, 0.0000],
+        [0.6957, 0.0055, 0.5714, 0.4286],
+        [0.6957, 0.0521, 0.2857, 0.8571],
+        [0.3913, 0.0247, 0.0000, 0.5714],
+        [0.9565, 0.0521, 0.2857, 0.1429],
+        [0.1304, 0.0082, 0.5714, 0.8571],
+        [0.9130, 0.0301, 1.0000, 0.7143],
+        [0.5217, 0.0301, 0.5714, 0.5714],
+        [0.2609, 0.0082, 0.4286, 0.4286],
+        [0.9565, 0.0027, 0.5714, 0.7143],
+        [0.2174, 0.0822, 0.7143, 0.1429],
+        [0.6957, 0.0685, 0.2857, 0.2857],
+        [0.8261, 0.0575, 1.0000, 0.4286],
+        [0.2174, 0.0356, 0.8571, 0.0000],
+        [0.9130, 0.0658, 0.0000, 0.5714],
+        [0.3913, 0.0411, 0.4286, 0.1429],
+        [0.6522, 0.0219, 0.1429, 0.2857],
+        [0.1304, 0.0493, 0.5714, 0.5714],
+        [0.3043, 0.0630, 0.4286, 0.5714],
+        [0.3043, 0.0164, 0.0000, 0.1429],
+        [0.8261, 0.0630, 0.1429, 0.1429]])
+tensor([0.0018, 0.0000, 0.0045, 0.0085, 0.0020, 0.0000, 0.0004, 0.0000, 0.0046,
+        0.0000, 0.0095, 0.0000, 0.0014, 0.0091, 0.0025, 0.0008, 0.0066, 0.0014,
+        0.0050, 0.0117, 0.0000, 0.0013, 0.0088, 0.0000, 0.0000, 0.0061, 0.0000,
+        0.0031, 0.0000, 0.0049, 0.0011, 0.0000])
 </pre></div>
 </div>
 </div>
@@ -773,7 +1113,7 @@ fc3.weight torch.Size([5, 10])
 fc3.bias torch.Size([5])
 output.weight torch.Size([1, 5])
 output.bias torch.Size([1])
-tensor([-0.1138], grad_fn=&lt;ViewBackward0&gt;)
+tensor([-0.4320], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -855,7 +1195,7 @@ ffblock.4.weight torch.Size([5, 10])
 ffblock.4.bias torch.Size([5])
 ffblock.6.weight torch.Size([1, 5])
 ffblock.6.bias torch.Size([1])
-tensor([0.3659], grad_fn=&lt;ViewBackward0&gt;)
+tensor([0.2577], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -878,7 +1218,128 @@ tensor([0.3659], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([-0.2152], grad_fn=&lt;ViewBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([0.1358], grad_fn=&lt;ViewBackward0&gt;)
+&lt;class &#39;__main__.Taxinn&#39;&gt;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;T_destination&#39;,
+ &#39;__annotations__&#39;,
+ &#39;__call__&#39;,
+ &#39;__class__&#39;,
+ &#39;__delattr__&#39;,
+ &#39;__dict__&#39;,
+ &#39;__dir__&#39;,
+ &#39;__doc__&#39;,
+ &#39;__eq__&#39;,
+ &#39;__format__&#39;,
+ &#39;__ge__&#39;,
+ &#39;__getattr__&#39;,
+ &#39;__getattribute__&#39;,
+ &#39;__getstate__&#39;,
+ &#39;__gt__&#39;,
+ &#39;__hash__&#39;,
+ &#39;__init__&#39;,
+ &#39;__init_subclass__&#39;,
+ &#39;__le__&#39;,
+ &#39;__lt__&#39;,
+ &#39;__module__&#39;,
+ &#39;__ne__&#39;,
+ &#39;__new__&#39;,
+ &#39;__reduce__&#39;,
+ &#39;__reduce_ex__&#39;,
+ &#39;__repr__&#39;,
+ &#39;__setattr__&#39;,
+ &#39;__setstate__&#39;,
+ &#39;__sizeof__&#39;,
+ &#39;__str__&#39;,
+ &#39;__subclasshook__&#39;,
+ &#39;__weakref__&#39;,
+ &#39;_apply&#39;,
+ &#39;_backward_hooks&#39;,
+ &#39;_backward_pre_hooks&#39;,
+ &#39;_buffers&#39;,
+ &#39;_call_impl&#39;,
+ &#39;_compiled_call_impl&#39;,
+ &#39;_forward_hooks&#39;,
+ &#39;_forward_hooks_always_called&#39;,
+ &#39;_forward_hooks_with_kwargs&#39;,
+ &#39;_forward_pre_hooks&#39;,
+ &#39;_forward_pre_hooks_with_kwargs&#39;,
+ &#39;_get_backward_hooks&#39;,
+ &#39;_get_backward_pre_hooks&#39;,
+ &#39;_get_name&#39;,
+ &#39;_is_full_backward_hook&#39;,
+ &#39;_load_from_state_dict&#39;,
+ &#39;_load_state_dict_post_hooks&#39;,
+ &#39;_load_state_dict_pre_hooks&#39;,
+ &#39;_maybe_warn_non_full_backward_hook&#39;,
+ &#39;_modules&#39;,
+ &#39;_named_members&#39;,
+ &#39;_non_persistent_buffers_set&#39;,
+ &#39;_parameters&#39;,
+ &#39;_register_load_state_dict_pre_hook&#39;,
+ &#39;_register_state_dict_hook&#39;,
+ &#39;_replicate_for_data_parallel&#39;,
+ &#39;_save_to_state_dict&#39;,
+ &#39;_slow_forward&#39;,
+ &#39;_state_dict_hooks&#39;,
+ &#39;_state_dict_pre_hooks&#39;,
+ &#39;_version&#39;,
+ &#39;_wrapped_call_impl&#39;,
+ &#39;add_module&#39;,
+ &#39;apply&#39;,
+ &#39;bfloat16&#39;,
+ &#39;buffers&#39;,
+ &#39;call_super_init&#39;,
+ &#39;children&#39;,
+ &#39;compile&#39;,
+ &#39;cpu&#39;,
+ &#39;cuda&#39;,
+ &#39;double&#39;,
+ &#39;dump_patches&#39;,
+ &#39;eval&#39;,
+ &#39;extra_repr&#39;,
+ &#39;ffblock&#39;,
+ &#39;float&#39;,
+ &#39;forward&#39;,
+ &#39;get_buffer&#39;,
+ &#39;get_extra_state&#39;,
+ &#39;get_parameter&#39;,
+ &#39;get_submodule&#39;,
+ &#39;half&#39;,
+ &#39;ipu&#39;,
+ &#39;load_state_dict&#39;,
+ &#39;modules&#39;,
+ &#39;mtia&#39;,
+ &#39;named_buffers&#39;,
+ &#39;named_children&#39;,
+ &#39;named_modules&#39;,
+ &#39;named_parameters&#39;,
+ &#39;parameters&#39;,
+ &#39;register_backward_hook&#39;,
+ &#39;register_buffer&#39;,
+ &#39;register_forward_hook&#39;,
+ &#39;register_forward_pre_hook&#39;,
+ &#39;register_full_backward_hook&#39;,
+ &#39;register_full_backward_pre_hook&#39;,
+ &#39;register_load_state_dict_post_hook&#39;,
+ &#39;register_load_state_dict_pre_hook&#39;,
+ &#39;register_module&#39;,
+ &#39;register_parameter&#39;,
+ &#39;register_state_dict_post_hook&#39;,
+ &#39;register_state_dict_pre_hook&#39;,
+ &#39;requires_grad_&#39;,
+ &#39;set_extra_state&#39;,
+ &#39;set_submodule&#39;,
+ &#39;share_memory&#39;,
+ &#39;state_dict&#39;,
+ &#39;to&#39;,
+ &#39;to_empty&#39;,
+ &#39;train&#39;,
+ &#39;training&#39;,
+ &#39;type&#39;,
+ &#39;xpu&#39;,
+ &#39;zero_grad&#39;]
 </pre></div>
 </div>
 </div>
@@ -961,35 +1422,25 @@ tensor([0.3659], grad_fn=&lt;ViewBackward0&gt;)
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epochs 1 
 -----------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 175.24452222580678
-Test loss is: 152.03938653749444
+Train avg loss: 175.9270909957167
+Test loss is: 152.0053015870456
 Epochs 2 
 -----------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 170.40398596585737
-Test loss is: 150.56273550453466
+Train avg loss: 170.44989455214062
+Test loss is: 150.54772909862862
 Epochs 3 
 -----------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.69565865263115
-Test loss is: 150.30171272480388
+Train avg loss: 169.69403831630999
+Test loss is: 150.29895554307066
 Epochs 4 
 -----------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.5640731098861
-Test loss is: 150.26296462418676
+Train avg loss: 169.57186176661992
+Test loss is: 150.26399244724738
 Epochs 5 
 -----------------------------------
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train avg loss: 169.65776691105305
-Test loss is: 150.25976128889457
-tensor([53.4945], grad_fn=&lt;ViewBackward0&gt;)
+Train avg loss: 169.54945642660965
+Test loss is: 150.2598086757277
+tensor([53.5241], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -1014,7 +1465,7 @@ tensor([53.4945], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([53.4945], grad_fn=&lt;ViewBackward0&gt;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor([53.5241], grad_fn=&lt;ViewBackward0&gt;)
 </pre></div>
 </div>
 </div>
@@ -1038,7 +1489,7 @@ tensor([53.4945], grad_fn=&lt;ViewBackward0&gt;)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device is: mps
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device is : mps
 True
 True
 </pre></div>
@@ -1134,8 +1585,11 @@ True
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pytorch with example</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Pytorch: An in troduction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-tensor-row-and-column-tensor">Vector tensor, row and column tensor</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-class-in-torch">Dataset class in torch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise2-smart-dataset">Exercise2: Smart Dataset</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#note">Note:</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loader-class">Data loader class</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#first-neural-network-the-simplset-case">First Neural Network: the simplset case</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#sequential-in-neural-network">Sequential in Neural Network</a></li>

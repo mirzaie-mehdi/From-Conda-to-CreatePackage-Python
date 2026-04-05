@@ -207,7 +207,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch with example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
 
 
 
@@ -517,6 +520,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-clean-everyday-local-workflow">10. A Clean Everyday Local Workflow</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-git-workflow-no-remote-connected">Local Git Workflow (No Remote Connected)</a></li>
 </ul>
 </li>
 </ul>
@@ -525,6 +529,30 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-remote-repositories-matter">11. Why Remote Repositories Matter</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-remotes-matter">Why Remotes Matter</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-distinction">Important Distinction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-an-existing-local-git-repository-to-github">Connecting an Existing Local Git Repository to GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">📌 Goal</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-repository-on-github">🧱 Step 1 — Create a Repository on GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-remote-to-your-local-repository">🔗 Step 2 — Add Remote to Your Local Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-verify-remote-connection">🔍 Step 3 — Verify Remote Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-push-your-code-to-github">🚀 Step 4 — Push Your Code to GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-just-happened">🧠 What just happened</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-issues">⚠️ Common Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-state">✅ Final State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-https-instead-of-ssh">📎 Alternative (HTTPS instead of SSH)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-a-repository-from-github">Cloning a Repository from GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">📌 Goal</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-copy-repository-url">📥 Step 1 — Copy Repository URL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-the-repository">🧱 Step 2 — Clone the Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-enter-the-project">📂 Step 3 — Enter the Project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-verify-remote-connection">🔍 Step 4 — Verify Remote Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-start-working">🚀 Step 5 — Start Working</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-git-clone-does-internally">🧠 What <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> does internally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">⚠️ Common Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-insight">✅ Key Insight</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-origin-push-and-pull">12. <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">origin</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, and <code class="docutils literal notranslate"><span class="pre">pull</span></code></a><ul class="nav section-nav flex-column">
@@ -532,14 +560,14 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-origin-usually-means">What <code class="docutils literal notranslate"><span class="pre">origin</span></code> Usually Means</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#push">Push</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull">Pull</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Why This Matters</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh">13. HTTPS vs SSH</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-guidance">General Guidance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Why This Matters</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-ssh-key">14. Creating an SSH Key</a><ul class="nav section-nav flex-column">
@@ -548,7 +576,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-github-verifies-your-private-key">15. How GitHub Verifies Your Private Key</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Key Takeaway</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-ssh-with-github">16. Testing SSH with GitHub</a><ul class="nav section-nav flex-column">
@@ -559,24 +587,24 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Part IV — GitHub Collaboration Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Part IV — GitHub Collaboration Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-main-collaboration-models">17. Two Main Collaboration Models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-workflow">1. Fork Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">2. Contributor Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-section-order-matters">Why This Section Order Matters</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">18. Fork Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">18. Fork Workflow</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-fork-workflow">Typical Fork Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-it">Why Use It?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Important Note</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow-without-fork">19. Contributor Workflow (Without Fork)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-contributor-workflow">Typical Contributor Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-differences-from-fork-workflow">Key Differences from Fork Workflow</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Important Note</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests-as-a-review-mechanism">20. Pull Requests as a Review Mechanism</a><ul class="nav section-nav flex-column">
@@ -586,12 +614,12 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#same-repository-pr">Same-Repository PR</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Key Takeaway</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Part V — Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Part V — Integration</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-integration-is-hard">21. Why Integration Is Hard</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">22. Merge</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristics-of-merge">Characteristics of Merge</a></li>
@@ -600,12 +628,12 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">23. Rebase</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristics-of-rebase">Characteristics of Rebase</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Important Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Important Rule</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-vs-rebase">24. Merge vs Rebase</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Merge</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Rebase</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-mental-model">Simple Mental Model</a></li>
 </ul>
 </li>
@@ -614,12 +642,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-flow">Merge Conflict Flow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-conflict-flow">Rebase Conflict Flow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-abort-commands">Useful Abort Commands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Key Takeaway</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Part VI — Undo, Recovery, and Selective Reuse</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Part VI — Undo, Recovery, and Selective Reuse</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-undo-tool">26. Choosing the Right Undo Tool</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
@@ -637,32 +665,32 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revert">28. <code class="docutils literal notranslate"><span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Why This Matters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore">29. <code class="docutils literal notranslate"><span class="pre">restore</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discard-local-changes-in-one-file">Discard local changes in one file</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-one-file">Unstage one file</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-from-a-specific-commit">Restore from a specific commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-amend">30. <code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">--amend</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-latest-message">Fix the latest message</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-forgotten-file-to-the-last-commit">Add a forgotten file to the last commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">Important Note</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id29">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id30">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick">31. <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-use-cases">Best Use Cases</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id29">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id31">Important Note</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id30">Part VII — Final Review</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id32">Part VII — Final Review</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-learning-order-recap">32. Recommended Learning Order Recap</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-order-works">Why This Order Works</a></li>
 </ul>
@@ -688,8 +716,14 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="git-and-github-a-structured-learning-notebook">
 <h1>Git and GitHub: A Structured Learning Notebook<a class="headerlink" href="#git-and-github-a-structured-learning-notebook" title="Permalink to this heading">#</a></h1>
-<p>This notebook reorganizes the Git and GitHub material into a cleaner, more teachable sequence.</p>
-<p>It is designed as a <strong>book-ready learning path</strong> that starts with the foundations of Git, then moves into branches, remotes, SSH, GitHub workflows, collaboration, integration, and advanced recovery tools.</p>
+<p>This sections adressess the Git and GitHub material for beginners.
+Git is all about keeping track of changes.</p>
+<p>Why do we need to keep track of versions?
+Problem: If you have to identify and find your code from 17 days ago, can you?
+Problem: Your code worked two days ago, but is giving an error now. You don’t know what you changed.
+Problem: You and your colleague want to work on the same code at the same time.
+Problem: Someone asks you about your results from 5 years ago. Can you get the same results now?
+Problem: You want to show someone a few lines from one of your projects.</p>
 <hr class="docutils" />
 <section id="how-to-use-this-notebook">
 <h2>How to Use This Notebook<a class="headerlink" href="#how-to-use-this-notebook" title="Permalink to this heading">#</a></h2>
@@ -803,6 +837,8 @@ Its job is to help you:</p>
 <section id="why-this-matters">
 <h3>Why This Matters<a class="headerlink" href="#why-this-matters" title="Permalink to this heading">#</a></h3>
 <p>If the learner does not understand that Git is fundamentally about <strong>history and snapshots</strong>, then later commands such as <code class="docutils literal notranslate"><span class="pre">log</span></code>, <code class="docutils literal notranslate"><span class="pre">branch</span></code>, <code class="docutils literal notranslate"><span class="pre">merge</span></code>, <code class="docutils literal notranslate"><span class="pre">rebase</span></code>, and <code class="docutils literal notranslate"><span class="pre">revert</span></code> feel random.</p>
+<p>If you want to see your configuration settings, you can use the command (<code class="docutils literal notranslate"><span class="pre">--show-origin</span></code>) means it shows the file where each setting is defined):</p>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--list</span> <span class="pre">--show-origin</span></code></p>
 </section>
 </section>
 <section id="working-tree-staging-area-and-commit-history">
@@ -911,16 +947,12 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <li><p>Git may open an editor you do not want</p></li>
 <li><p>behavior may differ across repositories</p></li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Your Name&quot;</span>
-<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="s2">&quot;you@example.com&quot;</span>
-<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">core</span><span class="o">.</span><span class="n">editor</span> <span class="s2">&quot;code --wait&quot;</span>
-<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">color</span><span class="o">.</span><span class="n">ui</span> <span class="n">auto</span>
-<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;code --wait&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>color.ui<span class="w"> </span>auto
+git<span class="w"> </span>config<span class="w"> </span>--list
 </pre></div>
-</div>
-</div>
 </div>
 </section>
 </section>
@@ -1068,8 +1100,7 @@ git<span class="w"> </span>diff<span class="w"> </span>HEAD
 </section>
 <section id="core-idea">
 <h3>Core Idea<a class="headerlink" href="#core-idea" title="Permalink to this heading">#</a></h3>
-<p>A branch is not a second full copy of the project.<br />
-It is a movable pointer into commit history.</p>
+<p>A branch is not a second full copy of the project.  It is a movable pointer into commit history.</p>
 </section>
 </section>
 <section id="git-branch-and-git-switch">
@@ -1135,13 +1166,17 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p>committing on a branch</p></li>
 <li><p>understanding that work stays isolated until integrated</p></li>
 </ul>
+</section>
+<section id="local-git-workflow-no-remote-connected">
+<h3>Local Git Workflow (No Remote Connected)<a class="headerlink" href="#local-git-workflow-no-remote-connected" title="Permalink to this heading">#</a></h3>
+<p>When a Git repository is not connected to a remote (e.g., GitHub), the entire workflow happens locally on your machine. You create or modify files, stage changes using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>, and record them with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>. You can organize work using branches (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span> <span class="pre">-c</span> <span class="pre">&lt;branch&gt;</span></code>), move between them (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code>), and integrate changes via merging (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code>). All history, experimentation, and version control remain isolated within your local repository, and no synchronization commands like <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> or <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> are required since there is no external repository involved.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>
-<span class="n">git</span> <span class="n">pull</span>
-<span class="n">git</span> <span class="n">switch</span> <span class="o">-</span><span class="n">c</span> <span class="n">fix</span><span class="o">/</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>
-<span class="n">git</span> <span class="n">add</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Fix typo in README&quot;</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">switch</span> <span class="n">main</span>  <span class="c1"># Go to the main branch on your local machine</span>
+<span class="n">git</span> <span class="n">pull</span>  <span class="c1"># Get all changes on the main branch of remote repo and update your main local</span>
+<span class="n">git</span> <span class="n">switch</span> <span class="o">-</span><span class="n">c</span> <span class="n">fix</span><span class="o">/</span><span class="n">readme</span><span class="o">-</span><span class="n">typo</span>  <span class="c1"># make a new branch and switch on it and then make your edition on README.md</span>
+<span class="n">git</span> <span class="n">add</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span> <span class="c1"># stage your changes on the fix/readme-typo branch</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;Fix typo in README&quot;</span> <span class="c1"># save changes with history</span>
 </pre></div>
 </div>
 </div>
@@ -1172,7 +1207,232 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p>remote GitHub repo = shared history online</p></li>
 </ul>
 </section>
+<section id="connecting-an-existing-local-git-repository-to-github">
+<h3>Connecting an Existing Local Git Repository to GitHub<a class="headerlink" href="#connecting-an-existing-local-git-repository-to-github" title="Permalink to this heading">#</a></h3>
+<section id="goal">
+<h4>📌 Goal<a class="headerlink" href="#goal" title="Permalink to this heading">#</a></h4>
+<p>You already have a local Git repository and want to:</p>
+<ol class="arabic simple">
+<li><p>Create a repository on GitHub</p></li>
+<li><p>Link (connect) it to your local repo</p></li>
+<li><p>Push your code to GitHub</p></li>
+</ol>
 </section>
+</section>
+<hr class="docutils" />
+<section id="step-1-create-a-repository-on-github">
+<h3>🧱 Step 1 — Create a Repository on GitHub<a class="headerlink" href="#step-1-create-a-repository-on-github" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Go to GitHub</p></li>
+<li><p>Click <strong>New repository</strong></p></li>
+<li><p>Choose a name (e.g., <code class="docutils literal notranslate"><span class="pre">my-project</span></code>)</p></li>
+<li><p><strong>Do NOT</strong> initialize with README, <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, or license</p></li>
+<li><p>Click <strong>Create repository</strong></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="step-2-add-remote-to-your-local-repository">
+<h3>🔗 Step 2 — Add Remote to Your Local Repository<a class="headerlink" href="#step-2-add-remote-to-your-local-repository" title="Permalink to this heading">#</a></h3>
+<p>In your terminal (inside your project folder):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:USERNAME/REPOSITORY.git
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:john/my-project.git
+</pre></div>
+</div>
+<p>✔ This connects your local repo → GitHub repo</p>
+</section>
+<hr class="docutils" />
+<section id="step-3-verify-remote-connection">
+<h3>🔍 Step 3 — Verify Remote Connection<a class="headerlink" href="#step-3-verify-remote-connection" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>fetch<span class="o">)</span>
+origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>push<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-4-push-your-code-to-github">
+<h3>🚀 Step 4 — Push Your Code to GitHub<a class="headerlink" href="#step-4-push-your-code-to-github" title="Permalink to this heading">#</a></h3>
+<p>If your main branch is <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<p>If it’s <code class="docutils literal notranslate"><span class="pre">master</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p>✔ <code class="docutils literal notranslate"><span class="pre">-u</span></code> sets upstream so future pushes are simpler:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-just-happened">
+<h3>🧠 What just happened<a class="headerlink" href="#what-just-happened" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>You created a remote repository on GitHub</p></li>
+<li><p>You linked it using <code class="docutils literal notranslate"><span class="pre">origin</span></code></p></li>
+<li><p>You uploaded your local commits to the remote</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="common-issues">
+<h3>⚠️ Common Issues<a class="headerlink" href="#common-issues" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>❌ <strong>Permission denied (publickey)</strong>
+→ SSH key not set up</p></li>
+<li><p>❌ <strong>Repository not found</strong>
+→ Wrong URL or repo name</p></li>
+<li><p>❌ <strong>Branch mismatch</strong>
+→ Use correct branch (<code class="docutils literal notranslate"><span class="pre">main</span></code> vs <code class="docutils literal notranslate"><span class="pre">master</span></code>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="final-state">
+<h3>✅ Final State<a class="headerlink" href="#final-state" title="Permalink to this heading">#</a></h3>
+<p>Your workflow now becomes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your message&quot;</span>
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>And to get updates:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="alternative-https-instead-of-ssh">
+<h3>📎 Alternative (HTTPS instead of SSH)<a class="headerlink" href="#alternative-https-instead-of-ssh" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/USERNAME/REPOSITORY.git
+</pre></div>
+</div>
+<p>Use this if SSH is not configured.</p>
+</section>
+<hr class="docutils" />
+<section id="cloning-a-repository-from-github">
+<h3>Cloning a Repository from GitHub<a class="headerlink" href="#cloning-a-repository-from-github" title="Permalink to this heading">#</a></h3>
+<section id="id10">
+<h4>📌 Goal<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h4>
+<p>You want to:</p>
+<ol class="arabic simple">
+<li><p>Copy an existing repository from GitHub</p></li>
+<li><p>Create a local version on your machine</p></li>
+<li><p>Start working on it</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-1-copy-repository-url">
+<h3>📥 Step 1 — Copy Repository URL<a class="headerlink" href="#step-1-copy-repository-url" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Go to the repository on GitHub</p></li>
+<li><p>Click <strong>Code</strong></p></li>
+<li><p>Copy one of the URLs:</p></li>
+</ol>
+<ul>
+<li><p>SSH (recommended if configured):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git@github.com:USERNAME/REPOSITORY.git
+</pre></div>
+</div>
+</li>
+<li><p>HTTPS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>https://github.com/USERNAME/REPOSITORY.git
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-2-clone-the-repository">
+<h3>🧱 Step 2 — Clone the Repository<a class="headerlink" href="#step-2-clone-the-repository" title="Permalink to this heading">#</a></h3>
+<p>In your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;repository-url&gt;
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:john/my-project.git
+</pre></div>
+</div>
+<p>✔ This will:</p>
+<ul class="simple">
+<li><p>Create a new folder (<code class="docutils literal notranslate"><span class="pre">my-project</span></code>)</p></li>
+<li><p>Download all files</p></li>
+<li><p>Copy full commit history</p></li>
+<li><p>Automatically connect to remote (<code class="docutils literal notranslate"><span class="pre">origin</span></code>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-3-enter-the-project">
+<h3>📂 Step 3 — Enter the Project<a class="headerlink" href="#step-3-enter-the-project" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>my-project
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-4-verify-remote-connection">
+<h3>🔍 Step 4 — Verify Remote Connection<a class="headerlink" href="#step-4-verify-remote-connection" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Expected:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>fetch<span class="o">)</span>
+origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>push<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="step-5-start-working">
+<h3>🚀 Step 5 — Start Working<a class="headerlink" href="#step-5-start-working" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your changes&quot;</span>
+git<span class="w"> </span>push
+</pre></div>
+</div>
+<p>To get updates from others:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="what-git-clone-does-internally">
+<h3>🧠 What <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> does internally<a class="headerlink" href="#what-git-clone-does-internally" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Initializes a new Git repository</p></li>
+<li><p>Sets <code class="docutils literal notranslate"><span class="pre">origin</span></code> to the remote repo</p></li>
+<li><p>Downloads all branches and commits</p></li>
+<li><p>Checks out the default branch (usually <code class="docutils literal notranslate"><span class="pre">main</span></code>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id11">
+<h3>⚠️ Common Issues<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>❌ <strong>Permission denied (publickey)</strong>
+→ SSH key not configured</p></li>
+<li><p>❌ <strong>Authentication failed (HTTPS)</strong>
+→ Need token/password</p></li>
+<li><p>❌ <strong>Repository not found</strong>
+→ Wrong URL or no access</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="key-insight">
+<h3>✅ Key Insight<a class="headerlink" href="#key-insight" title="Permalink to this heading">#</a></h3>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code>, cloning:</p>
+<ul class="simple">
+<li><p>✔ Automatically sets up remote</p></li>
+<li><p>✔ Brings full history</p></li>
+<li><p>✔ Is ready for collaboration immediately</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
 <section id="clone-origin-push-and-pull">
 <h2>12. <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">origin</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, and <code class="docutils literal notranslate"><span class="pre">pull</span></code><a class="headerlink" href="#clone-origin-push-and-pull" title="Permalink to this heading">#</a></h2>
 <section id="clone-a-remote-repository">
@@ -1201,8 +1461,8 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </pre></div>
 </div>
 </section>
-<section id="id10">
-<h3>Why This Matters<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<section id="id12">
+<h3>Why This Matters<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
 <p>A lot of GitHub confusion disappears once the learner understands:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> is just a remote name</p></li>
@@ -1246,8 +1506,8 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p>SSH avoids repeatedly typing credentials in many workflows</p></li>
 </ul>
 </section>
-<section id="id11">
-<h3>Why This Matters<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<section id="id13">
+<h3>Why This Matters<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
 <p>SSH is not a separate internet.<br />
 It is a secure communication method that works over the network.</p>
 </section>
@@ -1293,8 +1553,8 @@ It is a secure communication method that works over the network.</p>
 <li><p>your machine proves identity by signing that challenge with the <strong>private key</strong></p></li>
 <li><p>GitHub verifies the result using the stored <strong>public key</strong></p></li>
 </ol>
-<section id="id12">
-<h3>Key Takeaway<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<section id="id14">
+<h3>Key Takeaway<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
 <p>GitHub never needs your private key file.</p>
 </section>
 </section>
@@ -1329,8 +1589,8 @@ This is mainly a setup or debugging command.</p>
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="id13">
-<h1>Part IV — GitHub Collaboration Models<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="id15">
+<h1>Part IV — GitHub Collaboration Models<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h1>
 <section id="two-main-collaboration-models">
 <h2>17. Two Main Collaboration Models<a class="headerlink" href="#two-main-collaboration-models" title="Permalink to this heading">#</a></h2>
 <p>There are two major GitHub collaboration models:</p>
@@ -1347,8 +1607,8 @@ This is mainly a setup or debugging command.</p>
 <p>These two workflows should be taught together because they solve the same collaboration problem in two different permission contexts.</p>
 </section>
 </section>
-<section id="id14">
-<h2>18. Fork Workflow<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<section id="id16">
+<h2>18. Fork Workflow<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
 <p>A fork is a copy of a repository under your own GitHub account.</p>
 <section id="typical-fork-workflow">
 <h3>Typical Fork Workflow<a class="headerlink" href="#typical-fork-workflow" title="Permalink to this heading">#</a></h3>
@@ -1372,8 +1632,8 @@ This is mainly a setup or debugging command.</p>
 <li><p>you want a safe personal copy on GitHub</p></li>
 </ul>
 </section>
-<section id="id15">
-<h3>Important Note<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<section id="id17">
+<h3>Important Note<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
 <p>Forking gives you project history, but it does <strong>not</strong> automatically make you a contributor to the original repository.<br />
 Usually, contribution becomes official when a PR is accepted and merged upstream.</p>
 <div class="cell docutils container">
@@ -1408,8 +1668,8 @@ Usually, contribution becomes official when a PR is accepted and merged upstream
 <li><p>the branch usually lives in the main repo itself</p></li>
 </ul>
 </section>
-<section id="id16">
-<h3>Important Note<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<section id="id18">
+<h3>Important Note<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
 <p>Having write access does not mean you should push directly to <code class="docutils literal notranslate"><span class="pre">main</span></code>.<br />
 Professional teams often still require:</p>
 <ul class="simple">
@@ -1464,14 +1724,14 @@ It is also a collaboration and review mechanism.</p>
 </div>
 </section>
 </section>
-<section id="id17">
-<h3>Key Takeaway<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<section id="id19">
+<h3>Key Takeaway<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
 <p>The branch source differs, but the review purpose is similar.</p>
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="id18">
-<h1>Part V — Integration<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="id20">
+<h1>Part V — Integration<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h1>
 <section id="why-integration-is-hard">
 <h2>21. Why Integration Is Hard<a class="headerlink" href="#why-integration-is-hard" title="Permalink to this heading">#</a></h2>
 <p>As soon as multiple branches exist, integration becomes necessary.</p>
@@ -1530,8 +1790,8 @@ git<span class="w"> </span>rebase<span class="w"> </span>origin/main
 <li><p>often creates a cleaner linear history</p></li>
 </ul>
 </section>
-<section id="id19">
-<h3>Important Rule<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<section id="id21">
+<h3>Important Rule<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h3>
 <p>Do not casually rebase history that other people are already using.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1546,16 +1806,16 @@ git<span class="w"> </span>rebase<span class="w"> </span>origin/main
 </section>
 <section id="merge-vs-rebase">
 <h2>24. Merge vs Rebase<a class="headerlink" href="#merge-vs-rebase" title="Permalink to this heading">#</a></h2>
-<section id="id20">
-<h3>Merge<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
+<section id="id22">
+<h3>Merge<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>preserves branch topology</p></li>
 <li><p>safer for shared history</p></li>
 <li><p>may create noisier logs</p></li>
 </ul>
 </section>
-<section id="id21">
-<h3>Rebase<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h3>
+<section id="id23">
+<h3>Rebase<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>produces linear history</p></li>
 <li><p>cleaner visual result</p></li>
@@ -1612,8 +1872,8 @@ git<span class="w"> </span>rebase<span class="w"> </span>--abort
 </pre></div>
 </div>
 </section>
-<section id="id22">
-<h3>Key Takeaway<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h3>
+<section id="id24">
+<h3>Key Takeaway<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
 <p>Conflict resolution is not only a Git skill.<br />
 It is a code understanding skill.</p>
 <div class="cell docutils container">
@@ -1628,8 +1888,8 @@ It is a code understanding skill.</p>
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="id23">
-<h1>Part VI — Undo, Recovery, and Selective Reuse<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="id25">
+<h1>Part VI — Undo, Recovery, and Selective Reuse<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h1>
 <section id="choosing-the-right-undo-tool">
 <h2>26. Choosing the Right Undo Tool<a class="headerlink" href="#choosing-the-right-undo-tool" title="Permalink to this heading">#</a></h2>
 <p>Before using an undo-related command, ask:</p>
@@ -1699,12 +1959,12 @@ It is a code understanding skill.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
 </pre></div>
 </div>
-<section id="id24">
-<h3>Why This Matters<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
+<section id="id26">
+<h3>Why This Matters<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
 <p>Unlike <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code> does <strong>not</strong> remove the original commit from history.</p>
 </section>
-<section id="id25">
-<h3>Best Use Case<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h3>
+<section id="id27">
+<h3>Best Use Case<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h3>
 <p>Use <code class="docutils literal notranslate"><span class="pre">revert</span></code> when a bad commit is already shared and you want a safe audit trail.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1736,8 +1996,8 @@ It is a code understanding skill.</p>
 </pre></div>
 </div>
 </section>
-<section id="id26">
-<h3>Best Use Case<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
+<section id="id28">
+<h3>Best Use Case<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
 <p>Use <code class="docutils literal notranslate"><span class="pre">restore</span></code> when your goal is to fix file state without doing branch history surgery.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1766,12 +2026,12 @@ git<span class="w"> </span>commit<span class="w"> </span>--amend
 </pre></div>
 </div>
 </section>
-<section id="id27">
-<h3>Important Note<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h3>
+<section id="id29">
+<h3>Important Note<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h3>
 <p>Amend rewrites the last commit, so the hash changes.</p>
 </section>
-<section id="id28">
-<h3>Best Use Case<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
+<section id="id30">
+<h3>Best Use Case<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h3>
 <p>Use amend when the <strong>latest local commit</strong> needs a small correction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1804,8 +2064,8 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
 </pre></div>
 </div>
 </section>
-<section id="id29">
-<h3>Important Note<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h3>
+<section id="id31">
+<h3>Important Note<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h3>
 <p>Cherry-pick can also produce conflicts, and then you may need:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>--continue
 git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
@@ -1824,8 +2084,8 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </section>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="id30">
-<h1>Part VII — Final Review<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="id32">
+<h1>Part VII — Final Review<a class="headerlink" href="#id32" title="Permalink to this heading">#</a></h1>
 <section id="recommended-learning-order-recap">
 <h2>32. Recommended Learning Order Recap<a class="headerlink" href="#recommended-learning-order-recap" title="Permalink to this heading">#</a></h2>
 <p>A strong Git learning order is:</p>
@@ -2022,6 +2282,7 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-clean-everyday-local-workflow">10. A Clean Everyday Local Workflow</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-takeaway">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-git-workflow-no-remote-connected">Local Git Workflow (No Remote Connected)</a></li>
 </ul>
 </li>
 </ul>
@@ -2030,6 +2291,30 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-remote-repositories-matter">11. Why Remote Repositories Matter</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-remotes-matter">Why Remotes Matter</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-distinction">Important Distinction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-an-existing-local-git-repository-to-github">Connecting an Existing Local Git Repository to GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">📌 Goal</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-repository-on-github">🧱 Step 1 — Create a Repository on GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-add-remote-to-your-local-repository">🔗 Step 2 — Add Remote to Your Local Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-verify-remote-connection">🔍 Step 3 — Verify Remote Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-push-your-code-to-github">🚀 Step 4 — Push Your Code to GitHub</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-just-happened">🧠 What just happened</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-issues">⚠️ Common Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-state">✅ Final State</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-https-instead-of-ssh">📎 Alternative (HTTPS instead of SSH)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cloning-a-repository-from-github">Cloning a Repository from GitHub</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">📌 Goal</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-copy-repository-url">📥 Step 1 — Copy Repository URL</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-the-repository">🧱 Step 2 — Clone the Repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-enter-the-project">📂 Step 3 — Enter the Project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-verify-remote-connection">🔍 Step 4 — Verify Remote Connection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-start-working">🚀 Step 5 — Start Working</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-git-clone-does-internally">🧠 What <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> does internally</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">⚠️ Common Issues</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-insight">✅ Key Insight</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-origin-push-and-pull">12. <code class="docutils literal notranslate"><span class="pre">clone</span></code>, <code class="docutils literal notranslate"><span class="pre">origin</span></code>, <code class="docutils literal notranslate"><span class="pre">push</span></code>, and <code class="docutils literal notranslate"><span class="pre">pull</span></code></a><ul class="nav section-nav flex-column">
@@ -2037,14 +2322,14 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-origin-usually-means">What <code class="docutils literal notranslate"><span class="pre">origin</span></code> Usually Means</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#push">Push</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull">Pull</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Why This Matters</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh">13. HTTPS vs SSH</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#general-guidance">General Guidance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Why This Matters</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-ssh-key">14. Creating an SSH Key</a><ul class="nav section-nav flex-column">
@@ -2053,7 +2338,7 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-github-verifies-your-private-key">15. How GitHub Verifies Your Private Key</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Key Takeaway</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-ssh-with-github">16. Testing SSH with GitHub</a><ul class="nav section-nav flex-column">
@@ -2064,24 +2349,24 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Part IV — GitHub Collaboration Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Part IV — GitHub Collaboration Models</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-main-collaboration-models">17. Two Main Collaboration Models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-workflow">1. Fork Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">2. Contributor Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-section-order-matters">Why This Section Order Matters</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">18. Fork Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">18. Fork Workflow</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-fork-workflow">Typical Fork Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vocabulary">Vocabulary</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-use-it">Why Use It?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Important Note</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow-without-fork">19. Contributor Workflow (Without Fork)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-contributor-workflow">Typical Contributor Workflow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-differences-from-fork-workflow">Key Differences from Fork Workflow</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Important Note</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests-as-a-review-mechanism">20. Pull Requests as a Review Mechanism</a><ul class="nav section-nav flex-column">
@@ -2091,12 +2376,12 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#same-repository-pr">Same-Repository PR</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Key Takeaway</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Part V — Integration</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Part V — Integration</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-integration-is-hard">21. Why Integration Is Hard</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">22. Merge</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristics-of-merge">Characteristics of Merge</a></li>
@@ -2105,12 +2390,12 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase">23. Rebase</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristics-of-rebase">Characteristics of Rebase</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Important Rule</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Important Rule</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-vs-rebase">24. Merge vs Rebase</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Merge</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Rebase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Merge</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Rebase</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-mental-model">Simple Mental Model</a></li>
 </ul>
 </li>
@@ -2119,12 +2404,12 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-conflict-flow">Merge Conflict Flow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rebase-conflict-flow">Rebase Conflict Flow</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-abort-commands">Useful Abort Commands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Key Takeaway</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Key Takeaway</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Part VI — Undo, Recovery, and Selective Reuse</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Part VI — Undo, Recovery, and Selective Reuse</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-undo-tool">26. Choosing the Right Undo Tool</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
@@ -2142,32 +2427,32 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revert">28. <code class="docutils literal notranslate"><span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Why This Matters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Why This Matters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore">29. <code class="docutils literal notranslate"><span class="pre">restore</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discard-local-changes-in-one-file">Discard local changes in one file</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-one-file">Unstage one file</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-from-a-specific-commit">Restore from a specific commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-amend">30. <code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">--amend</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-latest-message">Fix the latest message</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-forgotten-file-to-the-last-commit">Add a forgotten file to the last commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">Important Note</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Best Use Case</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id29">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id30">Best Use Case</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick">31. <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#best-use-cases">Best Use Cases</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id29">Important Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id31">Important Note</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id30">Part VII — Final Review</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id32">Part VII — Final Review</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-learning-order-recap">32. Recommended Learning Order Recap</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-order-works">Why This Order Works</a></li>
 </ul>
