@@ -23,6 +23,120 @@ This chapter introduces Git and GitHub, two powerful tools that allow developers
 Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:
 
+##  Configure Git with `git config`
+
+Git uses configuration settings such as your name, email, editor, pager behavior, and aliases. The following commands uses to setup the configuration.
+
+:::{note}
+
+- **Set your identity**
+
+``` bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+These values appear in your commits.
+
+-  **View all configuration**
+
+``` bash
+git config --list
+```
+
+-  **View one specific value**
+
+``` bash
+git config user.name
+```
+
+- **Set the default editor**
+
+``` bash
+git config --global core.editor "code --wait"
+```
+
+- **Enable color output**
+
+``` bash
+git config --global color.ui auto
+```
+
+- **Create aliases**
+
+``` bash
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.cm commit
+```
+
+- **Git Configuration Levels** 
+
+Git supports three configuration levels:
+
+-   `--system` → applies to the whole system
+-   `--global` → applies to the current user
+-   `--local` → applies only to the current repository
+
+- **Priority**
+
+If the same setting exists in multiple places, the order is:
+
+``` text
+local > global > system
+```
+
+This means local settings override global settings, and global settings override system settings.
+
+
+- **Show Configuration Sources** 
+
+To see both the configuration values and where they come from, use:
+
+``` bash
+git config --list --show-origin
+```
+Example output
+
+``` text
+file:/etc/gitconfig        core.editor=vim
+file:/home/user/.gitconfig user.name=Ali
+file:.git/config           core.repositoryformatversion=0
+```
+-  **Disabling Git Pagers**
+
+Git often uses a pager such as `less` to display long output. For example, `git log` may open inside a scrollable interface.
+
+You can disable the pager for a specific command:
+
+``` bash
+git config --global pager.log off
+```
+
+This makes `git log` print directly in the terminal.
+
+- **Other examples**
+
+``` bash
+git config --global pager.diff off
+git config --global pager.show off
+git config --global pager.config off
+git config --global pager.stash off
+git config --global pager.help off
+git config --global pager.blame off
+git config --global pager.branch off
+git config --global pager.annotate off
+```
+
+- **A Better Pager Setup**
+
+Instead of disabling all pagers, many developers prefer a smarter pager configuration:
+
+``` bash
+git config --global core.pager "less -FRX"
+```
+
+This keeps the benefits of a pager while making it less intrusive.
+
 ## Initialize a Repository
 
 To turn a folder into a Git repository, go to the folder path and type
@@ -131,9 +245,9 @@ git diff
 
 :::{note}
 
-there are **git diff** variations and options:
+There are **git diff** variations and options:
 
-- Basic meaning; unstaged changes
+- **Basic meaning; unstaged changes**
 
 This shows changes that are **not staged yet**.
 
@@ -145,183 +259,40 @@ Example
 ```
 
 
-- Staged changes
+- **Staged changes**
 
 ``` bash
 git diff --staged
-```
 
 or
 
-``` bash
 git diff --cached
 ```
-- Compare with the latest commit
+- **Compare with the latest commit**
 
 ``` bash
 git diff HEAD
 ```
 
-- Compare two commits
+- **Compare two commits**
 
 ``` bash
 git diff commit1 commit2
 ```
 
-- Compare one file
+- **Compare one file**
 
 ``` bash
 git diff file.txt
 ```
 
-- Show only file names
+- **Show only file names**
 
 ``` bash
 git diff --name-only
 ```
 :::
 
-##  Configure Git with `git config`
-
-Git uses configuration settings such as your name, email, editor, pager behavior, and aliases.
-
-### Set your identity
-
-``` bash
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
-```
-
-These values appear in your commits.
-
-
-:::{`git config`variations}
-
-### View all configuration
-
-``` bash
-git config --list
-```
-
-### View one specific value
-
-``` bash
-git config user.name
-```
-
-### Set the default editor
-
-``` bash
-git config --global core.editor "code --wait"
-```
-
-### Enable color output
-
-``` bash
-git config --global color.ui auto
-```
-
-### Create aliases
-
-``` bash
-git config --global alias.co checkout
-git config --global alias.br branch
-git config --global alias.cm commit
-```
-:::
-
-##  Git Configuration Levels 
-
-Git supports three configuration levels:
-
--   `--system` → applies to the whole system
--   `--global` → applies to the current user
--   `--local` → applies only to the current repository
-
-### Priority
-
-If the same setting exists in multiple places, the order is:
-
-``` text
-local > global > system
-```
-
-This means local settings override global settings, and global settings override system settings.
-
-
-##  Show Configuration Sources 
-
-To see both the configuration values and where they come from, use:
-
-``` bash
-git config --list --show-origin
-```
-
-### Example output
-
-``` text
-file:/etc/gitconfig        core.editor=vim
-file:/home/user/.gitconfig user.name=Ali
-file:.git/config           core.repositoryformatversion=0
-```
-
-### Why this is useful
-
-This helps you debug configuration problems. For example, if the wrong email is used in commits, you can find out exactly which file defined
-it.
-
-
-## Disabling Git Pagers 
-
-Git often uses a pager such as `less` to display long output. For example, `git log` may open inside a scrollable interface.
-
-You can disable the pager for a specific command:
-
-``` bash
-git config --global pager.log off
-```
-
-This makes `git log` print directly in the terminal.
-
-### Other examples
-
-``` bash
-git config --global pager.diff off
-git config --global pager.show off
-git config --global pager.config off
-git config --global pager.stash off
-git config --global pager.help off
-git config --global pager.blame off
-git config --global pager.branch off
-git config --global pager.annotate off
-```
-
-### Effect
-
-This disables pagers for many common Git commands.
-
-### Advantage
-
--   simpler output
--   useful for scripts
--   easier for some beginners
-
-### Disadvantage
-
--   very long output can flood the terminal
--   searching inside output becomes harder
--   less convenient for large histories
-
-
-##  A Better Pager Setup
-
-Instead of disabling all pagers, many developers prefer a smarter pager configuration:
-
-``` bash
-git config --global core.pager "less -FRX"
-```
-
-This keeps the benefits of a pager while making it less intrusive.
 
 ## Create a GitHub Account
 

@@ -424,8 +424,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
@@ -441,27 +440,6 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">Git Configuration Levels</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">Show Configuration Sources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">Disabling Git Pagers</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">A Better Pager Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
@@ -506,8 +484,110 @@ the main files of project.</p></li>
 </ul>
 <p>Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:</p>
-<section id="initialize-a-repository">
-<h2>Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
+<section id="configure-git-with-git-config">
+<h2>Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-with-git-config" title="Permalink to this heading">#</a></h2>
+<p>Git uses configuration settings such as your name, email, editor, pager behavior, and aliases. The following commands uses to setup the configuration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><strong>Set your identity</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
+</pre></div>
+</div>
+<p>These values appear in your commits.</p>
+<ul class="simple">
+<li><p><strong>View all configuration</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>View one specific value</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>user.name
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Set the default editor</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;code --wait&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Enable color output</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>color.ui<span class="w"> </span>auto
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Create aliases</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.co<span class="w"> </span>checkout
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.br<span class="w"> </span>branch
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>alias.cm<span class="w"> </span>commit
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Git Configuration Levels</strong></p></li>
+</ul>
+<p>Git supports three configuration levels:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--system</span></code> → applies to the whole system</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--global</span></code> → applies to the current user</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--local</span></code> → applies only to the current repository</p></li>
+<li><p><strong>Priority</strong></p></li>
+</ul>
+<p>If the same setting exists in multiple places, the order is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>local &gt; global &gt; system
+</pre></div>
+</div>
+<p>This means local settings override global settings, and global settings override system settings.</p>
+<ul class="simple">
+<li><p><strong>Show Configuration Sources</strong></p></li>
+</ul>
+<p>To see both the configuration values and where they come from, use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
+</pre></div>
+</div>
+<p>Example output</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>file:/etc/gitconfig        core.editor=vim
+file:/home/user/.gitconfig user.name=Ali
+file:.git/config           core.repositoryformatversion=0
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Disabling Git Pagers</strong></p></li>
+</ul>
+<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
+<p>You can disable the pager for a specific command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
+</pre></div>
+</div>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> print directly in the terminal.</p>
+<ul class="simple">
+<li><p><strong>Other examples</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>A Better Pager Setup</strong></p></li>
+</ul>
+<p>Instead of disabling all pagers, many developers prefer a smarter pager configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
+</pre></div>
+</div>
+<p>This keeps the benefits of a pager while making it less intrusive.</p>
+<p class="rubric">Initialize a Repository</p>
 <p>To turn a folder into a Git repository, go to the folder path and type
 the following command in the terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
@@ -523,9 +603,7 @@ the following command in the terminal:</p>
 <li><p>creates the initial branch with the name <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
 </ol>
 <p>This is cleaner than using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code> first and renaming the branch later.</p>
-</section>
-<section id="stage-and-commit-changes">
-<h2>Stage and Commit Changes<a class="headerlink" href="#stage-and-commit-changes" title="Permalink to this heading">#</a></h2>
+<p class="rubric">Stage and Commit Changes</p>
 <p>A common Git workflow looks like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your message&quot;</span>
@@ -537,6 +615,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">.</span></code> stages the changes</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span> <span class="pre">&quot;...&quot;</span></code> records those staged changes into Git history</p></li>
 </ul>
+</div>
 </div>
 <section id="example">
 <h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
@@ -603,9 +682,9 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>there are <strong>git diff</strong> variations and options:</p>
+<p>There are <strong>git diff</strong> variations and options:</p>
 <ul class="simple">
-<li><p>Basic meaning; unstaged changes</p></li>
+<li><p><strong>Basic meaning; unstaged changes</strong></p></li>
 </ul>
 <p>This shows changes that are <strong>not staged yet</strong>.</p>
 <p>Example</p>
@@ -614,173 +693,40 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Staged changes</p></li>
+<li><p><strong>Staged changes</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
-</pre></div>
-</div>
-<p>or</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--cached
+
+or
+
+git<span class="w"> </span>diff<span class="w"> </span>--cached
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Compare with the latest commit</p></li>
+<li><p><strong>Compare with the latest commit</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>HEAD
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Compare two commits</p></li>
+<li><p><strong>Compare two commits</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Compare one file</p></li>
+<li><p><strong>Compare one file</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>file.txt
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Show only file names</p></li>
+<li><p><strong>Show only file names</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--name-only
 </pre></div>
 </div>
 </div>
-</section>
-<section id="configure-git-with-git-config">
-<h2>Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-with-git-config" title="Permalink to this heading">#</a></h2>
-<p>Git uses configuration settings such as your name, email, editor, pager behavior, and aliases.</p>
-<section id="set-your-identity">
-<h3>Set your identity<a class="headerlink" href="#set-your-identity" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
-</pre></div>
-</div>
-<p>These values appear in your commits.</p>
-<div class="highlight-{`git notranslate"><div class="highlight"><pre><span></span>
-### View all configuration
-
-``` bash
-git config --list
-```
-
-### View one specific value
-
-``` bash
-git config user.name
-```
-
-### Set the default editor
-
-``` bash
-git config --global core.editor &quot;code --wait&quot;
-```
-
-### Enable color output
-
-``` bash
-git config --global color.ui auto
-```
-
-### Create aliases
-
-``` bash
-git config --global alias.co checkout
-git config --global alias.br branch
-git config --global alias.cm commit
-```
-</pre></div>
-</div>
-</section>
-</section>
-<section id="git-configuration-levels">
-<h2>Git Configuration Levels<a class="headerlink" href="#git-configuration-levels" title="Permalink to this heading">#</a></h2>
-<p>Git supports three configuration levels:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--system</span></code> → applies to the whole system</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--global</span></code> → applies to the current user</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--local</span></code> → applies only to the current repository</p></li>
-</ul>
-<section id="priority">
-<h3>Priority<a class="headerlink" href="#priority" title="Permalink to this heading">#</a></h3>
-<p>If the same setting exists in multiple places, the order is:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>local &gt; global &gt; system
-</pre></div>
-</div>
-<p>This means local settings override global settings, and global settings override system settings.</p>
-</section>
-</section>
-<section id="show-configuration-sources">
-<h2>Show Configuration Sources<a class="headerlink" href="#show-configuration-sources" title="Permalink to this heading">#</a></h2>
-<p>To see both the configuration values and where they come from, use:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
-</pre></div>
-</div>
-<section id="example-output">
-<h3>Example output<a class="headerlink" href="#example-output" title="Permalink to this heading">#</a></h3>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>file:/etc/gitconfig        core.editor=vim
-file:/home/user/.gitconfig user.name=Ali
-file:.git/config           core.repositoryformatversion=0
-</pre></div>
-</div>
-</section>
-<section id="why-this-is-useful">
-<h3>Why this is useful<a class="headerlink" href="#why-this-is-useful" title="Permalink to this heading">#</a></h3>
-<p>This helps you debug configuration problems. For example, if the wrong email is used in commits, you can find out exactly which file defined
-it.</p>
-</section>
-</section>
-<section id="disabling-git-pagers">
-<h2>Disabling Git Pagers<a class="headerlink" href="#disabling-git-pagers" title="Permalink to this heading">#</a></h2>
-<p>Git often uses a pager such as <code class="docutils literal notranslate"><span class="pre">less</span></code> to display long output. For example, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> may open inside a scrollable interface.</p>
-<p>You can disable the pager for a specific command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
-</pre></div>
-</div>
-<p>This makes <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> print directly in the terminal.</p>
-<section id="other-examples">
-<h3>Other examples<a class="headerlink" href="#other-examples" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
-</pre></div>
-</div>
-</section>
-<section id="effect">
-<h3>Effect<a class="headerlink" href="#effect" title="Permalink to this heading">#</a></h3>
-<p>This disables pagers for many common Git commands.</p>
-</section>
-<section id="advantage">
-<h3>Advantage<a class="headerlink" href="#advantage" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>simpler output</p></li>
-<li><p>useful for scripts</p></li>
-<li><p>easier for some beginners</p></li>
-</ul>
-</section>
-<section id="disadvantage">
-<h3>Disadvantage<a class="headerlink" href="#disadvantage" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>very long output can flood the terminal</p></li>
-<li><p>searching inside output becomes harder</p></li>
-<li><p>less convenient for large histories</p></li>
-</ul>
-</section>
-</section>
-<section id="a-better-pager-setup">
-<h2>A Better Pager Setup<a class="headerlink" href="#a-better-pager-setup" title="Permalink to this heading">#</a></h2>
-<p>Instead of disabling all pagers, many developers prefer a smarter pager configuration:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
-</pre></div>
-</div>
-<p>This keeps the benefits of a pager while making it less intrusive.</p>
 </section>
 <section id="create-a-github-account">
 <h2>Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
@@ -5608,8 +5554,7 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
 </li>
@@ -5625,27 +5570,6 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-your-identity">Set your identity</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-configuration-levels">Git Configuration Levels</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#priority">Priority</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#show-configuration-sources">Show Configuration Sources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-output">Example output</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-useful">Why this is useful</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#disabling-git-pagers">Disabling Git Pagers</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#effect">Effect</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#advantage">Advantage</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disadvantage">Disadvantage</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">A Better Pager Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
 </ul>
