@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Git and GitHub: A Structured Learning Notebook" href="github2.html" />
-    <link rel="prev" title="SSH Basics" href="SSH.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="git_github.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -172,6 +172,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub</a></li>
+
 
 
 
@@ -447,13 +448,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">1. Create a GitHub Account</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">2. What Is Git?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">3. Initialize a Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-git-init-b-main">Meaning of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span> <span class="pre">-b</span> <span class="pre">main</span></code></a></li>
 </ul>
 </li>
@@ -514,6 +511,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">11. A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
@@ -1176,8 +1177,9 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="git-and-github">
 <h1>Git and GitHub<a class="headerlink" href="#git-and-github" title="Permalink to this heading">#</a></h1>
-<p>This notebook is a clean English write-up of the topics we discussed:</p>
+<p>This section discuss about:</p>
 <ul class="simple">
+<li><p>What is Git?</p></li>
 <li><p>Creating a GitHub account</p></li>
 <li><p>Initializing Git repositories</p></li>
 <li><p>Core Git commands</p></li>
@@ -1188,41 +1190,21 @@ document.write(`
 <li><p>Understanding how public/private keys work</p></li>
 <li><p>When to run SSH tests</p></li>
 </ul>
-<section id="create-a-github-account">
-<h2>1. Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
-<p>To use GitHub effectively, the first step is to create a user account.</p>
-<section id="steps">
-<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>Go to GitHub.</p></li>
-<li><p>Click <strong>Sign up</strong>.</p></li>
-<li><p>Enter:</p>
-<ul class="simple">
-<li><p>your email address</p></li>
-<li><p>a password</p></li>
-<li><p>a username</p></li>
-</ul>
-</li>
-<li><p>Verify your email address.</p></li>
-<li><p>Complete the sign-up process.</p></li>
-</ol>
-<p>After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.</p>
 </section>
-</section>
-<section id="what-is-git">
-<h2>2. What Is Git?<a class="headerlink" href="#what-is-git" title="Permalink to this heading">#</a></h2>
+<section class="tex2jax_ignore mathjax_ignore" id="what-is-git">
+<h1>What is Git?<a class="headerlink" href="#what-is-git" title="Permalink to this heading">#</a></h1>
 <p><strong>Git</strong> is a version control system. It helps you:</p>
 <ul class="simple">
 <li><p>track changes in your files</p></li>
 <li><p>save project history</p></li>
 <li><p>collaborate with others</p></li>
 <li><p>restore older versions when needed</p></li>
+<li><p>make new branches of your project and work there without affecting the main files of project.</p></li>
 </ul>
-<p>Git runs on your own computer. GitHub is an online platform that hosts Git repositories.</p>
-</section>
+<p>Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do as follows:</p>
 <section id="initialize-a-repository">
-<h2>3. Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
-<p>To turn a folder into a Git repository, use:</p>
+<h2>Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
+<p>To turn a folder into a Git repository, go to the folder path and type the following command in the terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
 </pre></div>
 </div>
@@ -1503,6 +1485,27 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 </pre></div>
 </div>
 <p>This keeps the benefits of a pager while making it less intrusive.</p>
+</section>
+<section id="create-a-github-account">
+<h2>Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
+<p>To use GitHub effectively, the first step is to create a user account.</p>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Go to GitHub.</p></li>
+<li><p>Click <strong>Sign up</strong>.</p></li>
+<li><p>Enter:</p>
+<ul class="simple">
+<li><p>your email address</p></li>
+<li><p>a password</p></li>
+<li><p>a username</p></li>
+</ul>
+</li>
+<li><p>Verify your email address.</p></li>
+<li><p>Complete the sign-up process.</p></li>
+</ol>
+<p>After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.</p>
+</section>
 </section>
 <section id="https-vs-ssh-for-github">
 <h2>12. HTTPS vs SSH for GitHub<a class="headerlink" href="#https-vs-ssh-for-github" title="Permalink to this heading">#</a></h2>
@@ -6011,12 +6014,12 @@ git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="SSH.html"
+       href="git_github.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">SSH Basics</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
       </div>
     </a>
     <a class="right-next"
@@ -6044,13 +6047,9 @@ git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">1. Create a GitHub Account</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">2. What Is Git?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">3. Initialize a Repository</a><ul class="nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Git and GitHub</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning-of-git-init-b-main">Meaning of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span> <span class="pre">-b</span> <span class="pre">main</span></code></a></li>
 </ul>
 </li>
@@ -6111,6 +6110,10 @@ git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-better-pager-setup">11. A Better Pager Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
