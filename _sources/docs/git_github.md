@@ -2287,8 +2287,7 @@ Examples:
 -   you want to bring one bug fix from one branch into another
 -   you want to discard local edits and go back to the committed state
 
-These are not rare situations. They are part of normal Git work. That is why `reset`, `revert`, `restore`, `amend`, and `cherry-pick` are
-core professional tools. A useful mental model is this:
+These are not rare situations. They are part of normal Git work. That is why `reset`, `revert`, `restore`, `amend`, and `cherry-pick` are core professional tools. A useful mental model is this:
 
 -   **reset** → move branch pointers and optionally unstage or discard changes
 -   **revert** → create a new commit that undoes an earlier commit
@@ -2296,101 +2295,39 @@ core professional tools. A useful mental model is this:
 -   **amend** → modify the most recent commit
 -   **cherry-pick** → apply one specific commit onto another branch
 
-### Another Useful Distinction
 
-Some commands primarily **rewrite local history**:
+Before using above undo commands well, remember that:
 
--   `reset`
--   `commit --amend`
+1. **Working Tree** is the actual files in your project directory.
 
-Some commands primarily **preserve history while undoing effects**:
+2. **Staging Area** is the set of changes prepared for the next commit.
 
--   `revert`
+3. **Commit History** is the already-recorded snapshots in Git.
 
-Some commands primarily **manipulate working tree or staging area
-state**:
 
--   `restore`
+---
+### `Git reset`
 
-Some commands **reuse existing work across branches**:
-
--   `cherry-pick`
-
-## 3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}
-
-Before using undo commands well, you need this model:
-
-### Working Tree
-
-The actual files in your project directory.
-
-### Staging Area
-
-The set of changes prepared for the next commit.
-
-### Commit History
-
-The already-recorded snapshots in Git.
-
-Many Git commands differ because they affect different layers.
-
-For example:
-
--   one command may only unstage files
--   another may change the working tree
--   another may move the branch pointer
--   another may add a brand-new commit
-
-That is why these commands can feel similar at first but behave very
-differently.
-
-## 4. `git reset`: Core Idea {#4-git-reset-core-idea}
-
-`git reset` is one of the most powerful and potentially dangerous Git
-commands.
-
-Its core purpose is to move **HEAD** and sometimes also affect:
+**`git reset`** is one of the most powerful and potentially dangerous Git commands. Its core purpose is to move **HEAD** and sometimes also affect:
 
 -   the staging area
 -   the working tree
 
-### Conceptual Meaning
-
-At a high level, `reset` says:
-
-> Move my current branch to a different commit, and possibly adjust
-> staged or working changes to match.
+`reset` says: Move my current branch to a different commit, and possibly adjust staged or working changes to match.
 
 Because of that, `reset` can be:
 
 -   very helpful
 -   very destructive if used carelessly
 
-## 5. Common Forms of `git reset` {#5-common-forms-of-git-reset}
-
-Three common modes are:
+Three common forms of `git reset` are:
 
 -   `--soft`
 -   `--mixed`
 -   `--hard`
 
-### `--soft` {#--soft}
+1. **`git reset --soft`**: Moves the branch pointer, but keeps changes staged.
 
-Moves the branch pointer, but keeps changes staged.
-
-### `--mixed` {#--mixed}
-
-Moves the branch pointer and unstages changes, but keeps file
-modifications in the working tree.
-
-### `--hard` {#--hard}
-
-Moves the branch pointer, unstages changes, and resets files in the
-working tree.
-
-This is the most dangerous form because it can discard local work.
-
-## 6. `git reset --soft` {#6-git-reset---soft}
 
 Example:
 
@@ -2403,7 +2340,7 @@ This means:
 -   move the current branch back by one commit
 -   keep the changes from that commit staged
 
-### Use Case
+**Use Case**
 
 You made a commit, but now want to:
 
@@ -2411,20 +2348,10 @@ You made a commit, but now want to:
 -   split the work differently
 -   recommit in a cleaner way
 
-This is useful when the commit itself was premature, but the content is
-still correct.
-:::
+This is useful when the commit itself was premature, but the content is still correct.
 
-::: {#a67a9dc3-4f22-4361-80ce-e05a0eaf2d08 .cell .code}
-``` python
-git reset --soft HEAD~1
-```
-:::
-
-::: {#fb1bd8cc-f7d3-4c81-bd52-9e919a8d5fa4 .cell .markdown}
-## 7. `git reset --mixed` {#7-git-reset---mixed}
-
-This is the default if you do not specify a mode.
+2. **`git reset --mixed`**: Moves the branch pointer and unstages changes, but keeps file
+modifications in the working tree. This is the default if you do not specify a mode.
 
 Example:
 
@@ -2444,20 +2371,12 @@ This means:
 -   keep file changes in your working directory
 -   unstage them
 
-### Use Case {#use-case}
+**Use Case**
 
 You want to undo a commit, but then re-stage the files more selectively.
-:::
 
-::: {#e31a3d6c-46d6-4517-ab9e-913da1759888 .cell .code}
-``` python
-git reset HEAD~1
-git reset --mixed HEAD~1
-```
-:::
-
-::: {#ce056674-9d3f-4dc3-a963-a7d8bf353620 .cell .markdown}
-## 8. `git reset --hard` {#8-git-reset---hard}
+3. **`git reset --hard`**: Moves the branch pointer, unstages changes, and resets files in the
+working tree. This is the most dangerous form because it can discard local work.
 
 Example:
 
@@ -2472,22 +2391,13 @@ This means:
 -   reset the working tree
 -   discard local changes that were part of that state transition
 
-### Important Warning {#important-warning}
-
-`--hard` can permanently destroy local work that is not otherwise
-recoverable through reflog or other advanced recovery methods.
-
+:::{warning}
+`--hard` can permanently destroy local work that is not otherwise recoverable through reflog or other advanced recovery methods.
 Use it only when you are sure.
 :::
 
-::: {#77986ca3-ff08-4f3c-86e6-c3c8f98f84da .cell .code}
-``` python
-git reset --hard HEAD~1
-```
-:::
-
-::: {#ac3788c3-fe14-411c-abf4-3d2260eea761 .cell .markdown}
-## 9. When Is `reset` Appropriate? {#9-when-is-reset-appropriate}
+:::{note}
+- **When Is `reset` Appropriate?**
 
 `reset` is most appropriate when:
 
@@ -2497,16 +2407,13 @@ git reset --hard HEAD~1
 -   you want to unstage files
 -   you want to discard local changes intentionally
 
-### Practical Rule
-
-`reset` is usually best for **local correction**.\
-It is more dangerous when the commits were already pushed and other
+`reset` is usually best for **local correction**. It is more dangerous when the commits were already pushed and other
 people may rely on them.
 
-## 10. Why `reset` Can Be Dangerous on Shared Branches {#10-why-reset-can-be-dangerous-on-shared-branches}
 
-If you use `reset` on commits that were already pushed to a shared
-branch:
+- **Why `reset` Can Be Dangerous on Shared Branches**
+
+If you use `reset` on commits that were already pushed to a shared branch:
 
 -   history changes
 -   commit IDs may disappear from the visible branch
@@ -2514,27 +2421,20 @@ branch:
 -   force-pushing may become necessary
 -   confusion and integration problems can follow
 
-### Safer Rule
 
-Use `reset` freely on your own local mistakes.\
-Use it very carefully on anything already shared.
+Use `reset` freely on your own local mistakes. Use it very carefully on anything already shared.
 
-## 11. `git revert`: Core Idea {#11-git-revert-core-idea}
 
-`git revert` is different from `reset`.
+:::
 
-Instead of moving history backward, `revert` creates a **new commit**
-that undoes the effect of an earlier commit.
+---
 
-### Conceptual Meaning {#conceptual-meaning}
+### `git revert`
 
-At a high level:
 
-> Keep the history, but add a new commit that reverses the change.
+`git revert` is different from `reset`. Instead of moving history backward, `revert` creates a **new commit** that undoes the effect of an earlier commit. Actually, it keeps the history, but add a new commit that reverses the change. This makes `revert` much safer for shared history.
 
-This makes `revert` much safer for shared history.
-
-## 12. Example of `git revert` {#12-example-of-git-revert}
+Example:
 
 ``` bash
 git revert abc1234
@@ -2546,20 +2446,13 @@ This tells Git:
 -   compute the inverse of its effect
 -   create a new commit applying that inverse
 
-### Result
+Result:
 
-The original commit remains in history.\
-The new revert commit records that its effects were undone.
-:::
+The original commit remains in history. The new revert commit records that its effects were undone.
 
-::: {#4803fbd8-6c9b-4a92-a5a0-e902327fcfd1 .cell .code}
-``` python
-git revert abc1234
-```
-:::
+:::{note}
 
-::: {#8634c86e-1b5d-474e-9b15-42a70ecb34cb .cell .markdown}
-## 13. When Should You Prefer `revert`? {#13-when-should-you-prefer-revert}
+**When Should You Prefer `revert`?**
 
 Prefer `revert` when:
 

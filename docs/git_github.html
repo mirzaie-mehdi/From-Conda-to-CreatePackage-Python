@@ -446,27 +446,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset"><code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea-4-git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset-5-common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft-6-git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert-12-example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
 </ul>
 </li>
 </ul>
@@ -2346,8 +2331,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li><p>you want to bring one bug fix from one branch into another</p></li>
 <li><p>you want to discard local edits and go back to the committed state</p></li>
 </ul>
-<p>These are not rare situations. They are part of normal Git work. That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are
-core professional tools. A useful mental model is this:</p>
+<p>These are not rare situations. They are part of normal Git work. That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are core professional tools. A useful mental model is this:</p>
 <ul class="simple">
 <li><p><strong>reset</strong> → move branch pointers and optionally unstage or discard changes</p></li>
 <li><p><strong>revert</strong> → create a new commit that undoes an earlier commit</p></li>
@@ -2355,103 +2339,35 @@ core professional tools. A useful mental model is this:</p>
 <li><p><strong>amend</strong> → modify the most recent commit</p></li>
 <li><p><strong>cherry-pick</strong> → apply one specific commit onto another branch</p></li>
 </ul>
-<section id="another-useful-distinction">
-<h3>Another Useful Distinction<a class="headerlink" href="#another-useful-distinction" title="Permalink to this heading">#</a></h3>
-<p>Some commands primarily <strong>rewrite local history</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">--amend</span></code></p></li>
-</ul>
-<p>Some commands primarily <strong>preserve history while undoing effects</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
-</ul>
-<p>Some commands primarily <strong>manipulate working tree or staging area
-state</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
-</ul>
-<p>Some commands <strong>reuse existing work across branches</strong>:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
-</ul>
-</section>
-</section>
-<section id="working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">
-<h2>3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}<a class="headerlink" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history" title="Permalink to this heading">#</a></h2>
-<p>Before using undo commands well, you need this model:</p>
-<section id="working-tree">
-<h3>Working Tree<a class="headerlink" href="#working-tree" title="Permalink to this heading">#</a></h3>
-<p>The actual files in your project directory.</p>
-</section>
-<section id="staging-area">
-<h3>Staging Area<a class="headerlink" href="#staging-area" title="Permalink to this heading">#</a></h3>
-<p>The set of changes prepared for the next commit.</p>
-</section>
-<section id="commit-history">
-<h3>Commit History<a class="headerlink" href="#commit-history" title="Permalink to this heading">#</a></h3>
-<p>The already-recorded snapshots in Git.</p>
-<p>Many Git commands differ because they affect different layers.</p>
-<p>For example:</p>
-<ul class="simple">
-<li><p>one command may only unstage files</p></li>
-<li><p>another may change the working tree</p></li>
-<li><p>another may move the branch pointer</p></li>
-<li><p>another may add a brand-new commit</p></li>
-</ul>
-<p>That is why these commands can feel similar at first but behave very
-differently.</p>
-</section>
-</section>
-<section id="git-reset-core-idea-4-git-reset-core-idea">
-<h2>4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}<a class="headerlink" href="#git-reset-core-idea-4-git-reset-core-idea" title="Permalink to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> is one of the most powerful and potentially dangerous Git
-commands.</p>
-<p>Its core purpose is to move <strong>HEAD</strong> and sometimes also affect:</p>
+<p>Before using above undo commands well, remember that:</p>
+<ol class="arabic simple">
+<li><p><strong>Working Tree</strong> is the actual files in your project directory.</p></li>
+<li><p><strong>Staging Area</strong> is the set of changes prepared for the next commit.</p></li>
+<li><p><strong>Commit History</strong> is the already-recorded snapshots in Git.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="git-reset">
+<h3><code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code><a class="headerlink" href="#git-reset" title="Permalink to this heading">#</a></h3>
+<p><strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></strong> is one of the most powerful and potentially dangerous Git commands. Its core purpose is to move <strong>HEAD</strong> and sometimes also affect:</p>
 <ul class="simple">
 <li><p>the staging area</p></li>
 <li><p>the working tree</p></li>
 </ul>
-<section id="conceptual-meaning">
-<h3>Conceptual Meaning<a class="headerlink" href="#conceptual-meaning" title="Permalink to this heading">#</a></h3>
-<p>At a high level, <code class="docutils literal notranslate"><span class="pre">reset</span></code> says:</p>
-<blockquote>
-<div><p>Move my current branch to a different commit, and possibly adjust
-staged or working changes to match.</p>
-</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code> says: Move my current branch to a different commit, and possibly adjust staged or working changes to match.</p>
 <p>Because of that, <code class="docutils literal notranslate"><span class="pre">reset</span></code> can be:</p>
 <ul class="simple">
 <li><p>very helpful</p></li>
 <li><p>very destructive if used carelessly</p></li>
 </ul>
-</section>
-</section>
-<section id="common-forms-of-git-reset-5-common-forms-of-git-reset">
-<h2>5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}<a class="headerlink" href="#common-forms-of-git-reset-5-common-forms-of-git-reset" title="Permalink to this heading">#</a></h2>
-<p>Three common modes are:</p>
+<p>Three common forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> are:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--soft</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--mixed</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">--hard</span></code></p></li>
 </ul>
-<section id="soft-soft">
-<h3><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}<a class="headerlink" href="#soft-soft" title="Permalink to this heading">#</a></h3>
-<p>Moves the branch pointer, but keeps changes staged.</p>
-</section>
-<section id="mixed-mixed">
-<h3><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}<a class="headerlink" href="#mixed-mixed" title="Permalink to this heading">#</a></h3>
-<p>Moves the branch pointer and unstages changes, but keeps file
-modifications in the working tree.</p>
-</section>
-<section id="hard-hard">
-<h3><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}<a class="headerlink" href="#hard-hard" title="Permalink to this heading">#</a></h3>
-<p>Moves the branch pointer, unstages changes, and resets files in the
-working tree.</p>
-<p>This is the most dangerous form because it can discard local work.</p>
-</section>
-</section>
-<section id="git-reset-soft-6-git-reset-soft">
-<h2>6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}<a class="headerlink" href="#git-reset-soft-6-git-reset-soft" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code></strong>: Moves the branch pointer, but keeps changes staged.</p></li>
+</ol>
 <p>Example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
 </pre></div>
@@ -2461,150 +2377,107 @@ working tree.</p>
 <li><p>move the current branch back by one commit</p></li>
 <li><p>keep the changes from that commit staged</p></li>
 </ul>
-<section id="use-case">
-<h3>Use Case<a class="headerlink" href="#use-case" title="Permalink to this heading">#</a></h3>
+<p><strong>Use Case</strong></p>
 <p>You made a commit, but now want to:</p>
 <ul class="simple">
 <li><p>rewrite the message</p></li>
 <li><p>split the work differently</p></li>
 <li><p>recommit in a cleaner way</p></li>
 </ul>
-<p>This is useful when the commit itself was premature, but the content is
-still correct.</p>
+<p>This is useful when the commit itself was premature, but the content is still correct.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code></strong>: Moves the branch pointer and unstages changes, but keeps file
+modifications in the working tree. This is the default if you do not specify a mode.</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>or explicitly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>move back one commit</p></li>
+<li><p>keep file changes in your working directory</p></li>
+<li><p>unstage them</p></li>
+</ul>
+<p><strong>Use Case</strong></p>
+<p>You want to undo a commit, but then re-stage the files more selectively.</p>
+<ol class="arabic simple" start="3">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code></strong>: Moves the branch pointer, unstages changes, and resets files in the
+working tree. This is the most dangerous form because it can discard local work.</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>move back one commit</p></li>
+<li><p>reset the staging area</p></li>
+<li><p>reset the working tree</p></li>
+<li><p>discard local changes that were part of that state transition</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">--hard</span></code> can permanently destroy local work that is not otherwise recoverable through reflog or other advanced recovery methods.
+Use it only when you are sure.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><strong>When Is <code class="docutils literal notranslate"><span class="pre">reset</span></code> Appropriate?</strong></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code> is most appropriate when:</p>
+<ul class="simple">
+<li><p>you are cleaning up <strong>local history</strong></p></li>
+<li><p>you have <strong>not safely shared</strong> the commits yet</p></li>
+<li><p>you want to rewrite or remove recent local commits</p></li>
+<li><p>you want to unstage files</p></li>
+<li><p>you want to discard local changes intentionally</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code> is usually best for <strong>local correction</strong>. It is more dangerous when the commits were already pushed and other
+people may rely on them.</p>
+<ul class="simple">
+<li><p><strong>Why <code class="docutils literal notranslate"><span class="pre">reset</span></code> Can Be Dangerous on Shared Branches</strong></p></li>
+</ul>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">reset</span></code> on commits that were already pushed to a shared branch:</p>
+<ul class="simple">
+<li><p>history changes</p></li>
+<li><p>commit IDs may disappear from the visible branch</p></li>
+<li><p>collaborators may still have the old history</p></li>
+<li><p>force-pushing may become necessary</p></li>
+<li><p>confusion and integration problems can follow</p></li>
+</ul>
+<p>Use <code class="docutils literal notranslate"><span class="pre">reset</span></code> freely on your own local mistakes. Use it very carefully on anything already shared.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="git-revert">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code><a class="headerlink" href="#git-revert" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> is different from <code class="docutils literal notranslate"><span class="pre">reset</span></code>. Instead of moving history backward, <code class="docutils literal notranslate"><span class="pre">revert</span></code> creates a <strong>new commit</strong> that undoes the effect of an earlier commit. Actually, it keeps the history, but add a new commit that reverses the change. This makes <code class="docutils literal notranslate"><span class="pre">revert</span></code> much safer for shared history.</p>
+</section>
+</section>
+<section id="example-of-git-revert-12-example-of-git-revert">
+<h2>12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}<a class="headerlink" href="#example-of-git-revert-12-example-of-git-revert" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
+</pre></div>
+</div>
+<p>This tells Git:</p>
+<ul class="simple">
+<li><p>find commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code></p></li>
+<li><p>compute the inverse of its effect</p></li>
+<li><p>create a new commit applying that inverse</p></li>
+</ul>
+<section id="result">
+<h3>Result<a class="headerlink" href="#result" title="Permalink to this heading">#</a></h3>
+<p>The original commit remains in history.<br />
+The new revert commit records that its effects were undone.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#a67a9dc3-4f22-4361-80ce-e05a0eaf2d08 .cell .code}
+::: {#4803fbd8-6c9b-4a92-a5a0-e902327fcfd1 .cell .code}
 ``` python
-git reset --soft HEAD~1
-```
-</pre></div>
-</div>
-<div class="highlight-{#fb1bd8cc-f7d3-4c81-bd52-9e919a8d5fa4 notranslate"><div class="highlight"><pre><span></span>## 7. `git reset --mixed` {#7-git-reset---mixed}
-
-This is the default if you do not specify a mode.
-
-Example:
-
-``` bash
-git reset HEAD~1
-```
-
-or explicitly:
-
-``` bash
-git reset --mixed HEAD~1
-```
-
-This means:
-
--   move back one commit
--   keep file changes in your working directory
--   unstage them
-
-### Use Case {#use-case}
-
-You want to undo a commit, but then re-stage the files more selectively.
-</pre></div>
-</div>
-<div class="highlight-{#e31a3d6c-46d6-4517-ab9e-913da1759888 notranslate"><div class="highlight"><pre><span></span>``` python
-git reset HEAD~1
-git reset --mixed HEAD~1
-```
-</pre></div>
-</div>
-<div class="highlight-{#ce056674-9d3f-4dc3-a963-a7d8bf353620 notranslate"><div class="highlight"><pre><span></span>## 8. `git reset --hard` {#8-git-reset---hard}
-
-Example:
-
-``` bash
-git reset --hard HEAD~1
-```
-
-This means:
-
--   move back one commit
--   reset the staging area
--   reset the working tree
--   discard local changes that were part of that state transition
-
-### Important Warning {#important-warning}
-
-`--hard` can permanently destroy local work that is not otherwise
-recoverable through reflog or other advanced recovery methods.
-
-Use it only when you are sure.
-</pre></div>
-</div>
-<div class="highlight-{#77986ca3-ff08-4f3c-86e6-c3c8f98f84da notranslate"><div class="highlight"><pre><span></span>``` python
-git reset --hard HEAD~1
-```
-</pre></div>
-</div>
-<div class="highlight-{#ac3788c3-fe14-411c-abf4-3d2260eea761 notranslate"><div class="highlight"><pre><span></span>## 9. When Is `reset` Appropriate? {#9-when-is-reset-appropriate}
-
-`reset` is most appropriate when:
-
--   you are cleaning up **local history**
--   you have **not safely shared** the commits yet
--   you want to rewrite or remove recent local commits
--   you want to unstage files
--   you want to discard local changes intentionally
-
-### Practical Rule
-
-`reset` is usually best for **local correction**.\
-It is more dangerous when the commits were already pushed and other
-people may rely on them.
-
-## 10. Why `reset` Can Be Dangerous on Shared Branches {#10-why-reset-can-be-dangerous-on-shared-branches}
-
-If you use `reset` on commits that were already pushed to a shared
-branch:
-
--   history changes
--   commit IDs may disappear from the visible branch
--   collaborators may still have the old history
--   force-pushing may become necessary
--   confusion and integration problems can follow
-
-### Safer Rule
-
-Use `reset` freely on your own local mistakes.\
-Use it very carefully on anything already shared.
-
-## 11. `git revert`: Core Idea {#11-git-revert-core-idea}
-
-`git revert` is different from `reset`.
-
-Instead of moving history backward, `revert` creates a **new commit**
-that undoes the effect of an earlier commit.
-
-### Conceptual Meaning {#conceptual-meaning}
-
-At a high level:
-
-&gt; Keep the history, but add a new commit that reverses the change.
-
-This makes `revert` much safer for shared history.
-
-## 12. Example of `git revert` {#12-example-of-git-revert}
-
-``` bash
-git revert abc1234
-```
-
-This tells Git:
-
--   find commit `abc1234`
--   compute the inverse of its effect
--   create a new commit applying that inverse
-
-### Result
-
-The original commit remains in history.\
-The new revert commit records that its effects were undone.
-</pre></div>
-</div>
-<div class="highlight-{#4803fbd8-6c9b-4a92-a5a0-e902327fcfd1 notranslate"><div class="highlight"><pre><span></span>``` python
 git revert abc1234
 ```
 </pre></div>
@@ -3953,27 +3826,12 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset"><code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea-4-git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset-5-common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft-6-git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert-12-example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
 </ul>
 </li>
 </ul>
