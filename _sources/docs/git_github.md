@@ -1402,7 +1402,6 @@ git rebase upstream/main
 Rebase rewrites your branch so it appears to start from the latest upstream state. This can make history cleaner, but it is conceptually more advanced than merge.
 
 
-
 #### Merge, Rebase, and Conflict Resolution
 
 This section adresses three critical Git topics:
@@ -1423,7 +1422,7 @@ changes from multiple branches. By the end of this section, you should be able t
 -   understand why conflicts happen
 -   use practical commands in real project scenarios
 
-**Why These Topics Matter**§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
+**Why These Topics Matter**
 
 As soon as more than one branch exists, integration becomes necessary.
 
@@ -1434,47 +1433,58 @@ Examples:
 -   your Pull Request is out of date
 -   two developers changed the same file in incompatible ways
 
-At that point, Git must combine histories and file changes.
+At that point, Git must combine histories and file changes. That is where **merge**, **rebase**, and **conflict resolution** become central.
 
-That is where **merge**, **rebase**, and **conflict resolution** become
-central.
-
-## 2. The Big Picture {#2-the-big-picture}
+**The Big Picture**
 
 There are two common ways to integrate branch histories:
 
-1.  **Merge**
-2.  **Rebase**
+1.  **Merge**: preserves the branching history and adds a merge commit
+2.  **Rebase**: rewrites the branch so it appears to start from a new base
 
-Both can bring one line of work together with another, but they do it
-differently.
+Neither is universally "better". The right choice depends on workflow, team preference, and whether the branch has already been shared.
 
-### High-Level Difference
+Imagine this simplified history.
 
--   **merge** preserves the branching history and adds a merge commit
--   **rebase** rewrites the branch so it appears to start from a new
-    base
+**Before Integration**
 
-Neither is universally "better."\
-The right choice depends on workflow, team preference, and whether the
-branch has already been shared.
+``` 
+A---B---C   main
+     \
+      D---E   feature
+```
 
-## 3. What Is a Merge? {#3-what-is-a-merge}
+**After Merge**
 
-A **merge** combines the histories of two branches.
+``` 
+A---B---C--------M   main
+     \          /
+      D---E----/    feature
+```
 
-Suppose you have:
+`M` is a merge commit.
+
+**After Rebase**
+
+``` 
+A---B---C---D'---E'   feature
+```
+
+The rebased commits `D'` and `E'` are new versions of the original commits `D` and `E`.
+
+
+**What Is a Merge?**
+
+A **merge** combines the histories of two branches. Suppose you have:
 
 -   `main`
--   `feature/login`
+-   `feature`
 
-You worked on `feature/login`, and now you want those changes in `main`.
-
-A common workflow is:
+You worked on `feature`, and now you want those changes in `main`. A common workflow is:
 
 ``` bash
 git switch main
-git merge feature/login
+git merge feature
 ```
 
 Git then attempts to combine the histories.
@@ -1484,278 +1494,70 @@ If it succeeds without conflict:
 -   your work is integrated into `main`
 -   Git may create a **merge commit**
 -   the branch structure remains visible in history
-:::
 
-::: {#8f2b1296-cb7f-4c09-a342-54c368734871 .cell .code}
-``` python
-git switch main
-git merge feature/login
-```
-:::
 
-::: {#c0f9029d-a277-4447-931c-35ad435318a8 .cell .markdown}
-## 4. What Does Merge Preserve? {#4-what-does-merge-preserve}
+**What Is a Rebase?**
 
-Merge is often appreciated because it preserves the historical fact
-that:
-
--   work diverged
--   work happened on a side branch
--   that branch was later combined
-
-So the history may show a branch shape instead of a perfectly straight
-line.
-
-This can be useful because:
-
--   it reflects real development flow
--   it preserves context
--   it avoids rewriting existing commits
-
-## 5. What Is a Rebase? {#5-what-is-a-rebase}
-
-A **rebase** moves a branch so that it is replayed on top of another
-base.
+A **rebase** moves a branch so that it is replayed on top of another base.
 
 Suppose this happened:
 
 -   `main` moved ahead
--   your `feature/login` branch was created earlier
+-   your `feature` branch was created earlier
 -   you now want your branch to sit on top of the latest `main`
 
 You might run:
 
 ``` bash
-git switch feature/login
+git switch feature
 git fetch origin
-git rebase origin/main
+git rebase origin
 ```
 
-Git then takes the commits from `feature/login` and **reapplies** them
-one by one on top of the newer base.
-:::
+Git then takes the commits from `feature` and **reapplies** them one by one on top of the newer base.
 
-::: {#dd79ef60-f88a-40e1-a4df-036366264669 .cell .code}
-``` python
-git switch feature/login
-git fetch origin
-git rebase origin/main
-```
-:::
 
-::: {#d7d1ddcc-032a-4622-b702-9c35d7f6022a .cell .markdown}
-## 6. What Does Rebase Change? {#6-what-does-rebase-change}
+**Typical Rebase Workflow for a Feature Branch**
 
-Rebase changes commit history.
-
-That is because Git is not merely "attaching" the old commits to a new
-base.\
-It is usually **re-creating** them.
-
-So after a rebase:
-
--   commit IDs change
--   the branch history becomes more linear
--   the development path may look cleaner
--   but the original branch topology is no longer preserved in the same
-    way
-
-## 7. Merge vs Rebase: Conceptual Comparison {#7-merge-vs-rebase-conceptual-comparison}
-
-### Merge
-
--   combines branches
--   usually creates a merge commit
--   preserves branch structure
--   does not rewrite existing commits
-
-### Rebase
-
--   reapplies commits on a new base
--   usually creates a linear history
--   rewrites commit history
--   changes commit hashes
-
-### One Useful Mental Model
-
--   **merge** = "bring histories together"
--   **rebase** = "move my branch so it looks like it started later"
-
-## 8. Example History Shapes {#8-example-history-shapes}
-
-Imagine this simplified history.
-
-### Before Integration
-
-``` text
-A---B---C   main
-     \
-      D---E   feature
-```
-
-### After Merge
-
-``` text
-A---B---C-------M   main
-     \         /
-      D---E----/    feature
-```
-
-`M` is a merge commit.
-
-### After Rebase
-
-``` text
-A---B---C---D'---E'   feature
-```
-
-The rebased commits `D'` and `E'` are new versions of the original
-commits `D` and `E`.
-
-## 9. Why Teams Choose Merge {#9-why-teams-choose-merge}
-
-A team may prefer **merge** because:
-
--   it is safer for shared history
--   it does not rewrite commits already pushed
--   it preserves the true branch story
--   it is easier to reason about for many teams
--   it works well in collaborative environments where branches are
-    already public
-
-Merge is often the conservative and collaboration-friendly option.
-
-## 10. Why Teams Choose Rebase {#10-why-teams-choose-rebase}
-
-A team may prefer **rebase** because:
-
--   it produces a cleaner, linear history
--   it reduces noisy merge commits
--   it can make `git log` easier to read
--   it keeps feature branches up to date before merging
--   some projects require a clean history for review
-
-Rebase is often favored in teams that care deeply about history hygiene
-and disciplined branch practices.
-
-## 11. Golden Rule of Rebase {#11-golden-rule-of-rebase}
-
-A very important rule:
-
-> Do not casually rebase commits that other people may already be using.
-
-Why?
-
-Because rebase rewrites history.
-
-If you rebase a shared public branch:
-
--   commit hashes change
--   others may still have the old commits
--   pulling and merging becomes confusing
--   collaboration can break or become messy
-
-### Safe Rule
-
-Rebase is safest when:
-
--   the branch is local to you
--   or the team explicitly agrees on the rebase workflow
-
-## 12. Typical Merge Workflow {#12-typical-merge-workflow}
-
-A common merge workflow after finishing a feature:
-
-``` bash
-git switch main
-git pull
-git merge feature/login
-git push origin main
-```
-
-### What Happens?
-
-1.  move to `main`
-2.  update local `main`
-3.  merge the feature branch into `main`
-4.  push the integrated result
-:::
-
-::: {#580111bc-70d9-4bf9-891b-d958f6165364 .cell .code}
-``` python
-git switch main
-git pull
-git merge feature/login
-git push origin main
-```
-:::
-
-::: {#64428ae3-ae80-4887-9554-494ae7cf76d5 .cell .markdown}
-## 13. Typical Rebase Workflow for a Feature Branch {#13-typical-rebase-workflow-for-a-feature-branch}
-
-Suppose your branch is behind `main` and you want to update it before
-opening or finalizing a PR.
+Suppose your branch is behind `main` and you want to update it before opening or finalizing a PR.
 
 ``` bash
 git fetch origin
-git switch feature/login
+git switch feature
 git rebase origin/main
 ```
 
 Then, if the branch was already pushed before, you may need:
 
 ``` bash
-git push --force-with-lease origin feature/login
+git push --force-with-lease origin feature
 ```
 
-### Why `--force-with-lease`?
+Because after rebase, the branch history changed. A normal push may be rejected.
 
-Because after rebase, the branch history changed.\
-A normal push may be rejected.
+`--force-with-lease` is safer than plain `--force` because it checks that the remote state is what you expect before overwriting it.
 
-`--force-with-lease` is safer than plain `--force` because it checks
-that the remote state is what you expect before overwriting it.
-:::
-
-::: {#1a601ac5-c7a0-4593-a60d-aebadeccce0a .cell .code}
-``` python
+``` bash
 git fetch origin
-git switch feature/login
+git switch feature
 git rebase origin/main
-git push --force-with-lease origin feature/login
+git push --force-with-lease origin feature
 ```
-:::
 
-::: {#dc2402f8-63a8-4605-8125-e6081d91c799 .cell .markdown}
-## 14. What Is a Conflict? {#14-what-is-a-conflict}
+**What Is a Conflict?**
 
-A **conflict** happens when Git cannot automatically decide how to
-combine changes.
-
+A **conflict** happens when Git cannot automatically decide how to combine changes.
 This usually happens when:
 
 -   two branches changed the same lines
 -   one branch deleted a file that another branch edited
 -   structural changes overlap in incompatible ways
+-   two developers edited the same code block
+-   branch A renamed or deleted something that branch B still uses
+-   the code evolved in two directions simultaneously
+-   a long-lived branch fell far behind `main`
 
-Git is very good at automatic merging, but it cannot safely guess human
-intent in every case.
-
-## 15. Why Conflicts Happen {#15-why-conflicts-happen}
-
-Conflicts are not signs that Git is broken.\
-They are signs that Git found overlapping changes and needs human
-judgment.
-
-Typical reasons:
-
-1.  two developers edited the same code block
-2.  branch A renamed or deleted something that branch B still uses
-3.  the code evolved in two directions simultaneously
-4.  a long-lived branch fell far behind `main`
-
-The longer a branch lives without syncing, the more likely conflicts
-become.
+Git is very good at automatic merging, but it cannot safely guess human intent in every case. The longer a branch lives without syncing, the more likely conflicts become.
 
 ## 16. Example of a Conflict {#16-example-of-a-conflict}
 

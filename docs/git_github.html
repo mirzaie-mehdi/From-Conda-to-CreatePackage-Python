@@ -438,17 +438,18 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-collaboration-models">GitHub Collaboration Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter-1-why-these-topics-matter">1. Why These Topics Matter {#1-why-these-topics-matter}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture-2-the-big-picture">2. The Big Picture {#2-the-big-picture}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge-3-what-is-a-merge">3. What Is a Merge? {#3-what-is-a-merge}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict-16-example-of-a-conflict">16. Example of a Conflict {#16-example-of-a-conflict}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge-18-conflict-during-merge">18. Conflict During Merge {#18-conflict-during-merge}</a></li>
 </ul>
 </li>
 </ul>
@@ -1629,24 +1630,16 @@ git<span class="w"> </span>rebase<span class="w"> </span>upstream/main
 </div>
 <p><strong>Why Rebase?</strong></p>
 <p>Rebase rewrites your branch so it appears to start from the latest upstream state. This can make history cleaner, but it is conceptually more advanced than merge.</p>
-</section>
 <section id="merge-rebase-and-conflict-resolution">
-<h3>Merge, Rebase, and Conflict Resolution<a class="headerlink" href="#merge-rebase-and-conflict-resolution" title="Permalink to this heading">#</a></h3>
+<h4>Merge, Rebase, and Conflict Resolution<a class="headerlink" href="#merge-rebase-and-conflict-resolution" title="Permalink to this heading">#</a></h4>
 <p>This section adresses three critical Git topics:</p>
 <ul class="simple">
 <li><p><strong>merge</strong></p></li>
 <li><p><strong>rebase</strong></p></li>
 <li><p><strong>conflict resolution</strong></p></li>
 </ul>
-<p>These concepts are essential after learning branching, forks, and Pull
-Requests, because real collaboration almost always involves integrating
-changes from multiple branches.</p>
-</section>
-</section>
-<hr class="docutils" />
-<section id="learning-goals-learning-goals">
-<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
-<p>By the end of this section, you should be able to:</p>
+<p>These concepts are essential after learning branching, forks, and Pull Requests, because real collaboration almost always involves integrating
+changes from multiple branches. By the end of this section, you should be able to:</p>
 <ul class="simple">
 <li><p>explain what <strong>merge</strong> does</p></li>
 <li><p>explain what <strong>rebase</strong> does</p></li>
@@ -1657,9 +1650,7 @@ changes from multiple branches.</p>
 <li><p>understand why conflicts happen</p></li>
 <li><p>use practical commands in real project scenarios</p></li>
 </ul>
-</section>
-<section id="why-these-topics-matter-1-why-these-topics-matter">
-<h2>1. Why These Topics Matter {#1-why-these-topics-matter}<a class="headerlink" href="#why-these-topics-matter-1-why-these-topics-matter" title="Permalink to this heading">#</a></h2>
+<p><strong>Why These Topics Matter</strong></p>
 <p>As soon as more than one branch exists, integration becomes necessary.</p>
 <p>Examples:</p>
 <ul class="simple">
@@ -1668,43 +1659,42 @@ changes from multiple branches.</p>
 <li><p>your Pull Request is out of date</p></li>
 <li><p>two developers changed the same file in incompatible ways</p></li>
 </ul>
-<p>At that point, Git must combine histories and file changes.</p>
-<p>That is where <strong>merge</strong>, <strong>rebase</strong>, and <strong>conflict resolution</strong> become
-central.</p>
-</section>
-<section id="the-big-picture-2-the-big-picture">
-<h2>2. The Big Picture {#2-the-big-picture}<a class="headerlink" href="#the-big-picture-2-the-big-picture" title="Permalink to this heading">#</a></h2>
+<p>At that point, Git must combine histories and file changes. That is where <strong>merge</strong>, <strong>rebase</strong>, and <strong>conflict resolution</strong> become central.</p>
+<p><strong>The Big Picture</strong></p>
 <p>There are two common ways to integrate branch histories:</p>
 <ol class="arabic simple">
-<li><p><strong>Merge</strong></p></li>
-<li><p><strong>Rebase</strong></p></li>
+<li><p><strong>Merge</strong>: preserves the branching history and adds a merge commit</p></li>
+<li><p><strong>Rebase</strong>: rewrites the branch so it appears to start from a new base</p></li>
 </ol>
-<p>Both can bring one line of work together with another, but they do it
-differently.</p>
-<section id="high-level-difference">
-<h3>High-Level Difference<a class="headerlink" href="#high-level-difference" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>merge</strong> preserves the branching history and adds a merge commit</p></li>
-<li><p><strong>rebase</strong> rewrites the branch so it appears to start from a new
-base</p></li>
-</ul>
-<p>Neither is universally “better.”<br />
-The right choice depends on workflow, team preference, and whether the
-branch has already been shared.</p>
-</section>
-</section>
-<section id="what-is-a-merge-3-what-is-a-merge">
-<h2>3. What Is a Merge? {#3-what-is-a-merge}<a class="headerlink" href="#what-is-a-merge-3-what-is-a-merge" title="Permalink to this heading">#</a></h2>
-<p>A <strong>merge</strong> combines the histories of two branches.</p>
-<p>Suppose you have:</p>
+<p>Neither is universally “better”. The right choice depends on workflow, team preference, and whether the branch has already been shared.</p>
+<p>Imagine this simplified history.</p>
+<p><strong>Before Integration</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">---</span><span class="n">B</span><span class="o">---</span><span class="n">C</span>   <span class="n">main</span>
+     \
+      <span class="n">D</span><span class="o">---</span><span class="n">E</span>   <span class="n">feature</span>
+</pre></div>
+</div>
+<p><strong>After Merge</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">---</span><span class="n">B</span><span class="o">---</span><span class="n">C</span><span class="o">--------</span><span class="n">M</span>   <span class="n">main</span>
+     \          <span class="o">/</span>
+      <span class="n">D</span><span class="o">---</span><span class="n">E</span><span class="o">----/</span>    <span class="n">feature</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">M</span></code> is a merge commit.</p>
+<p><strong>After Rebase</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">---</span><span class="n">B</span><span class="o">---</span><span class="n">C</span><span class="o">---</span><span class="n">D</span><span class="s1">&#39;---E&#39;</span>   <span class="n">feature</span>
+</pre></div>
+</div>
+<p>The rebased commits <code class="docutils literal notranslate"><span class="pre">D'</span></code> and <code class="docutils literal notranslate"><span class="pre">E'</span></code> are new versions of the original commits <code class="docutils literal notranslate"><span class="pre">D</span></code> and <code class="docutils literal notranslate"><span class="pre">E</span></code>.</p>
+<p><strong>What Is a Merge?</strong></p>
+<p>A <strong>merge</strong> combines the histories of two branches. Suppose you have:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">feature/login</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code></p></li>
 </ul>
-<p>You worked on <code class="docutils literal notranslate"><span class="pre">feature/login</span></code>, and now you want those changes in <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
-<p>A common workflow is:</p>
+<p>You worked on <code class="docutils literal notranslate"><span class="pre">feature</span></code>, and now you want those changes in <code class="docutils literal notranslate"><span class="pre">main</span></code>. A common workflow is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
-git<span class="w"> </span>merge<span class="w"> </span>feature/login
+git<span class="w"> </span>merge<span class="w"> </span>feature
 </pre></div>
 </div>
 <p>Git then attempts to combine the histories.</p>
@@ -1714,344 +1704,118 @@ git<span class="w"> </span>merge<span class="w"> </span>feature/login
 <li><p>Git may create a <strong>merge commit</strong></p></li>
 <li><p>the branch structure remains visible in history</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#8f2b1296-cb7f-4c09-a342-54c368734871 .cell .code}
-``` python
-git switch main
-git merge feature/login
-```
+<p><strong>What Is a Rebase?</strong></p>
+<p>A <strong>rebase</strong> moves a branch so that it is replayed on top of another base.</p>
+<p>Suppose this happened:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code> moved ahead</p></li>
+<li><p>your <code class="docutils literal notranslate"><span class="pre">feature</span></code> branch was created earlier</p></li>
+<li><p>you now want your branch to sit on top of the latest <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+<p>You might run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>rebase<span class="w"> </span>origin
 </pre></div>
 </div>
-<div class="highlight-{#c0f9029d-a277-4447-931c-35ad435318a8 notranslate"><div class="highlight"><pre><span></span>## 4. What Does Merge Preserve? {#4-what-does-merge-preserve}
-
-Merge is often appreciated because it preserves the historical fact
-that:
-
--   work diverged
--   work happened on a side branch
--   that branch was later combined
-
-So the history may show a branch shape instead of a perfectly straight
-line.
-
-This can be useful because:
-
--   it reflects real development flow
--   it preserves context
--   it avoids rewriting existing commits
-
-## 5. What Is a Rebase? {#5-what-is-a-rebase}
-
-A **rebase** moves a branch so that it is replayed on top of another
-base.
-
-Suppose this happened:
-
--   `main` moved ahead
--   your `feature/login` branch was created earlier
--   you now want your branch to sit on top of the latest `main`
-
-You might run:
-
-``` bash
-git switch feature/login
-git fetch origin
-git rebase origin/main
-```
-
-Git then takes the commits from `feature/login` and **reapplies** them
-one by one on top of the newer base.
+<p>Git then takes the commits from <code class="docutils literal notranslate"><span class="pre">feature</span></code> and <strong>reapplies</strong> them one by one on top of the newer base.</p>
+<p><strong>Typical Rebase Workflow for a Feature Branch</strong></p>
+<p>Suppose your branch is behind <code class="docutils literal notranslate"><span class="pre">main</span></code> and you want to update it before opening or finalizing a PR.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>switch<span class="w"> </span>feature
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
 </pre></div>
 </div>
-<div class="highlight-{#dd79ef60-f88a-40e1-a4df-036366264669 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch feature/login
-git fetch origin
-git rebase origin/main
-```
+<p>Then, if the branch was already pushed before, you may need:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>--force-with-lease<span class="w"> </span>origin<span class="w"> </span>feature
 </pre></div>
 </div>
-<div class="highlight-{#d7d1ddcc-032a-4622-b702-9c35d7f6022a notranslate"><div class="highlight"><pre><span></span>## 6. What Does Rebase Change? {#6-what-does-rebase-change}
-
-Rebase changes commit history.
-
-That is because Git is not merely &quot;attaching&quot; the old commits to a new
-base.\
-It is usually **re-creating** them.
-
-So after a rebase:
-
--   commit IDs change
--   the branch history becomes more linear
--   the development path may look cleaner
--   but the original branch topology is no longer preserved in the same
-    way
-
-## 7. Merge vs Rebase: Conceptual Comparison {#7-merge-vs-rebase-conceptual-comparison}
-
-### Merge
-
--   combines branches
--   usually creates a merge commit
--   preserves branch structure
--   does not rewrite existing commits
-
-### Rebase
-
--   reapplies commits on a new base
--   usually creates a linear history
--   rewrites commit history
--   changes commit hashes
-
-### One Useful Mental Model
-
--   **merge** = &quot;bring histories together&quot;
--   **rebase** = &quot;move my branch so it looks like it started later&quot;
-
-## 8. Example History Shapes {#8-example-history-shapes}
-
-Imagine this simplified history.
-
-### Before Integration
-
-``` text
-A---B---C   main
-     \
-      D---E   feature
-```
-
-### After Merge
-
-``` text
-A---B---C-------M   main
-     \         /
-      D---E----/    feature
-```
-
-`M` is a merge commit.
-
-### After Rebase
-
-``` text
-A---B---C---D&#39;---E&#39;   feature
-```
-
-The rebased commits `D&#39;` and `E&#39;` are new versions of the original
-commits `D` and `E`.
-
-## 9. Why Teams Choose Merge {#9-why-teams-choose-merge}
-
-A team may prefer **merge** because:
-
--   it is safer for shared history
--   it does not rewrite commits already pushed
--   it preserves the true branch story
--   it is easier to reason about for many teams
--   it works well in collaborative environments where branches are
-    already public
-
-Merge is often the conservative and collaboration-friendly option.
-
-## 10. Why Teams Choose Rebase {#10-why-teams-choose-rebase}
-
-A team may prefer **rebase** because:
-
--   it produces a cleaner, linear history
--   it reduces noisy merge commits
--   it can make `git log` easier to read
--   it keeps feature branches up to date before merging
--   some projects require a clean history for review
-
-Rebase is often favored in teams that care deeply about history hygiene
-and disciplined branch practices.
-
-## 11. Golden Rule of Rebase {#11-golden-rule-of-rebase}
-
-A very important rule:
-
-&gt; Do not casually rebase commits that other people may already be using.
-
-Why?
-
-Because rebase rewrites history.
-
-If you rebase a shared public branch:
-
--   commit hashes change
--   others may still have the old commits
--   pulling and merging becomes confusing
--   collaboration can break or become messy
-
-### Safe Rule
-
-Rebase is safest when:
-
--   the branch is local to you
--   or the team explicitly agrees on the rebase workflow
-
-## 12. Typical Merge Workflow {#12-typical-merge-workflow}
-
-A common merge workflow after finishing a feature:
-
-``` bash
-git switch main
-git pull
-git merge feature/login
-git push origin main
-```
-
-### What Happens?
-
-1.  move to `main`
-2.  update local `main`
-3.  merge the feature branch into `main`
-4.  push the integrated result
+<p>Because after rebase, the branch history changed. A normal push may be rejected.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--force-with-lease</span></code> is safer than plain <code class="docutils literal notranslate"><span class="pre">--force</span></code> because it checks that the remote state is what you expect before overwriting it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>switch<span class="w"> </span>feature
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
+git<span class="w"> </span>push<span class="w"> </span>--force-with-lease<span class="w"> </span>origin<span class="w"> </span>feature
 </pre></div>
 </div>
-<div class="highlight-{#580111bc-70d9-4bf9-891b-d958f6165364 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch main
-git pull
-git merge feature/login
-git push origin main
-```
+<p><strong>What Is a Conflict?</strong></p>
+<p>A <strong>conflict</strong> happens when Git cannot automatically decide how to combine changes.
+This usually happens when:</p>
+<ul class="simple">
+<li><p>two branches changed the same lines</p></li>
+<li><p>one branch deleted a file that another branch edited</p></li>
+<li><p>structural changes overlap in incompatible ways</p></li>
+<li><p>two developers edited the same code block</p></li>
+<li><p>branch A renamed or deleted something that branch B still uses</p></li>
+<li><p>the code evolved in two directions simultaneously</p></li>
+<li><p>a long-lived branch fell far behind <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+<p>Git is very good at automatic merging, but it cannot safely guess human intent in every case. The longer a branch lives without syncing, the more likely conflicts become.</p>
+</section>
+</section>
+</section>
+<section id="example-of-a-conflict-16-example-of-a-conflict">
+<h2>16. Example of a Conflict {#16-example-of-a-conflict}<a class="headerlink" href="#example-of-a-conflict-16-example-of-a-conflict" title="Permalink to this heading">#</a></h2>
+<p>Imagine <code class="docutils literal notranslate"><span class="pre">main</span></code> has:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#64428ae3-ae80-4887-9554-494ae7cf76d5 notranslate"><div class="highlight"><pre><span></span>## 13. Typical Rebase Workflow for a Feature Branch {#13-typical-rebase-workflow-for-a-feature-branch}
-
-Suppose your branch is behind `main` and you want to update it before
-opening or finalizing a PR.
-
-``` bash
-git fetch origin
-git switch feature/login
-git rebase origin/main
-```
-
-Then, if the branch was already pushed before, you may need:
-
-``` bash
-git push --force-with-lease origin feature/login
-```
-
-### Why `--force-with-lease`?
-
-Because after rebase, the branch history changed.\
-A normal push may be rejected.
-
-`--force-with-lease` is safer than plain `--force` because it checks
-that the remote state is what you expect before overwriting it.
+<p>And your feature branch changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hello, user&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#1a601ac5-c7a0-4593-a60d-aebadeccce0a notranslate"><div class="highlight"><pre><span></span>``` python
-git fetch origin
-git switch feature/login
-git rebase origin/main
-git push --force-with-lease origin feature/login
-```
+<p>But meanwhile <code class="docutils literal notranslate"><span class="pre">main</span></code> changed it to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Hi&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#dc2402f8-63a8-4605-8125-e6081d91c799 notranslate"><div class="highlight"><pre><span></span>## 14. What Is a Conflict? {#14-what-is-a-conflict}
-
-A **conflict** happens when Git cannot automatically decide how to
-combine changes.
-
-This usually happens when:
-
--   two branches changed the same lines
--   one branch deleted a file that another branch edited
--   structural changes overlap in incompatible ways
-
-Git is very good at automatic merging, but it cannot safely guess human
-intent in every case.
-
-## 15. Why Conflicts Happen {#15-why-conflicts-happen}
-
-Conflicts are not signs that Git is broken.\
-They are signs that Git found overlapping changes and needs human
-judgment.
-
-Typical reasons:
-
-1.  two developers edited the same code block
-2.  branch A renamed or deleted something that branch B still uses
-3.  the code evolved in two directions simultaneously
-4.  a long-lived branch fell far behind `main`
-
-The longer a branch lives without syncing, the more likely conflicts
-become.
-
-## 16. Example of a Conflict {#16-example-of-a-conflict}
-
-Imagine `main` has:
-
-``` python
-def greet():
-    return &quot;Hello&quot;
-```
-
-And your feature branch changed it to:
-
-``` python
-def greet():
-    return &quot;Hello, user&quot;
-```
-
-But meanwhile `main` changed it to:
-
-``` python
-def greet():
-    return &quot;Hi&quot;
-```
-
-Git now sees that the same lines were changed differently.
-
-It cannot confidently choose one, so it reports a conflict.
-
-## 17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}
-
-When a conflict happens, Git inserts markers into the file, such as:
-
-``` text
-&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<p>Git now sees that the same lines were changed differently.</p>
+<p>It cannot confidently choose one, so it reports a conflict.</p>
+</section>
+<section id="how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">
+<h2>17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}<a class="headerlink" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files" title="Permalink to this heading">#</a></h2>
+<p>When a conflict happens, Git inserts markers into the file, such as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 return &quot;Hi&quot;
 =======
 return &quot;Hello, user&quot;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login
-```
-
-### Meaning
-
--   `&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD`\
-    the current branch\&#39;s version
-
--   `=======`\
-    separator
-
--   `&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login`\
-    the incoming branch\&#39;s version
-
-You must edit the file manually and remove these markers.
-
-## 18. Conflict During Merge {#18-conflict-during-merge}
-
-If a conflict happens during merge:
-
-``` bash
-git switch main
-git merge feature/login
-```
-
-Git may stop and tell you which files are conflicted.
-
-Then the normal process is:
-
-1.  open conflicted files
-2.  decide the correct final content
-3.  remove conflict markers
-4.  stage the resolved files
-5.  complete the merge
 </pre></div>
 </div>
-<div class="highlight-{#a1c20e4f-fa0e-40fc-9777-94fa2cc1892d notranslate"><div class="highlight"><pre><span></span>``` python
+<section id="meaning">
+<h3>Meaning<a class="headerlink" href="#meaning" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="pre">HEAD</span></code><br />
+the current branch’s version</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">=======</span></code><br />
+separator</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="pre">feature/login</span></code><br />
+the incoming branch’s version</p></li>
+</ul>
+<p>You must edit the file manually and remove these markers.</p>
+</section>
+</section>
+<section id="conflict-during-merge-18-conflict-during-merge">
+<h2>18. Conflict During Merge {#18-conflict-during-merge}<a class="headerlink" href="#conflict-during-merge-18-conflict-during-merge" title="Permalink to this heading">#</a></h2>
+<p>If a conflict happens during merge:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+</pre></div>
+</div>
+<p>Git may stop and tell you which files are conflicted.</p>
+<p>Then the normal process is:</p>
+<ol class="arabic simple">
+<li><p>open conflicted files</p></li>
+<li><p>decide the correct final content</p></li>
+<li><p>remove conflict markers</p></li>
+<li><p>stage the resolved files</p></li>
+<li><p>complete the merge</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#a1c20e4f-fa0e-40fc-9777-94fa2cc1892d .cell .code}
+``` python
 git switch main
 git merge feature/login
 ```
@@ -5095,17 +4859,18 @@ git branch past-code 90544b4fa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-collaboration-models">GitHub Collaboration Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter-1-why-these-topics-matter">1. Why These Topics Matter {#1-why-these-topics-matter}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture-2-the-big-picture">2. The Big Picture {#2-the-big-picture}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge-3-what-is-a-merge">3. What Is a Merge? {#3-what-is-a-merge}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict-16-example-of-a-conflict">16. Example of a Conflict {#16-example-of-a-conflict}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge-18-conflict-during-merge">18. Conflict During Merge {#18-conflict-during-merge}</a></li>
 </ul>
 </li>
 </ul>
