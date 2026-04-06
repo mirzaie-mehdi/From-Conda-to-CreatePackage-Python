@@ -1067,47 +1067,32 @@ In a fork-based contribution workflow, the normal order is:
 Fork on GitHub → Clone to your computer
 ```
 
+So first you create the fork online, and then you clone **your fork** locally.
 
+**Do We Get the Full History After Forking?**
 
-## 3.
-### 
-
-So first you create the fork online, and then you clone **your fork**
-locally.
-
-## 4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}
-
-Yes. In normal GitHub usage, a fork preserves the repository history.
-
-That means your fork contains:
+Yes. In normal GitHub usage, a fork preserves the repository history. That means your fork contains:
 
 -   commits
 -   branches and references relevant to the forked project
 -   tags (depending on repository state and hosting behavior)
 -   the complete evolution of the project
 
-So conceptually, you inherit the project history.
+So conceptually, you inherit the project history. However, **having the history does not automatically make you a contributor** to the original project.
 
-However, **having the history does not automatically make you a
-contributor** to the original project.
+**Are You a Contributor Just Because You Forked?**
 
-## 5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}
-
-No.
-
-Forking a repository means:
+No. Forking a repository means:
 
 -   you now have your own copy of the project
 -   you can work on it independently
 -   you can propose changes
 
-But it does **not** mean that you are already a contributor to the
-original repository.
+But it does **not** mean that you are already a contributor to the original repository.
 
-### When Are You Usually Considered a Contributor?
+**When Are You Usually Considered a Contributor?**
 
-In practice, you become a contributor when your changes are accepted
-into the original project, usually by:
+In practice, you become a contributor when your changes are accepted into the original project, usually by:
 
 -   opening a Pull Request
 -   having it reviewed
@@ -1115,11 +1100,9 @@ into the original project, usually by:
 
 So this statement is accurate:
 
-> You may have the full repository history in your fork, but you are not
-> yet a contributor to the original project until your contribution is
-> accepted there.
+**You may have the full repository history in your fork, but you are not yet a contributor to the original project until your contribution is accepted there.**
 
-## 6. The Full Fork Workflow {#6-the-full-fork-workflow}
+**The Full Fork Workflow**
 
 Here is the standard end-to-end workflow:
 
@@ -1129,7 +1112,7 @@ Fork → Clone → Add upstream → Create branch → Edit → Commit → Push �
 
 We will now go through each part carefully.
 
-## 7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}
+- **Step 1: Fork the Repository on GitHub**
 
 On GitHub:
 
@@ -1144,7 +1127,7 @@ Example:
 
 At this point, you have your own GitHub-hosted copy of the project.
 
-## 8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}
+- **Step 2: Clone Your Fork Locally**
 
 After forking, clone **your fork**, not the upstream repository.
 
@@ -1155,11 +1138,9 @@ cd PROJECT
 
 Now your local repository is connected to your fork as `origin`.
 
-## 9. Step 3: Add the Original Repository as `upstream` {#9-step-3-add-the-original-repository-as-upstream}
+- **Step 3: Add the Original Repository as `upstream`**
 
-This is a very important step.
-
-You usually want two remotes:
+This is a very important step. You usually want two remotes:
 
 -   `origin` → your fork
 -   `upstream` → the original repository
@@ -1176,42 +1157,27 @@ Then verify your remotes:
 git remote -v
 ```
 
-Expected idea:
+Expected result:
 
 ``` text
 origin    git@github.com:YOUR_USERNAME/PROJECT.git
 upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 ```
 
-### Why Is `upstream` Important?
+**Why Is `upstream` Important?**
 
-Because the original project keeps moving forward.
-
-If you only work with your fork and never sync from upstream:
+Because the original project keeps moving forward. If you only work with your fork and never sync from upstream:
 
 -   your fork becomes outdated
 -   your branch may drift away from the current project state
 -   your Pull Request may become harder to review or merge
-:::
 
-::: {#eff35328-b6cc-4237-9417-60cb46baeb8b .cell .code}
-``` python
-git clone git@github.com:YOUR_USERNAME/PROJECT.git
-cd PROJECT
 
-git remote add upstream git@github.com:ORIGINAL_OWNER/PROJECT.git
-git remote -v
-```
-:::
+- **Step 4: Create a New Branch for Your Change**
 
-::: {#9ffe7e58-85c3-43e2-998d-7e07d949cebc .cell .markdown}
-## 10. Step 4: Create a New Branch for Your Change {#10-step-4-create-a-new-branch-for-your-change}
+You should **not** usually work directly on `main` for a contribution. Instead, create a branch for each separate change.
 
-You should **not** usually work directly on `main` for a contribution.
-
-Instead, create a branch for each separate change.
-
-### Why?
+**Why?**
 
 Because branches help you:
 
@@ -1220,7 +1186,7 @@ Because branches help you:
 -   open focused Pull Requests
 -   revise one change without mixing it with another
 
-### Recommended Command
+**Recommended Command**
 
 ``` bash
 git switch -c fix-readme-typo
@@ -1231,77 +1197,7 @@ This command does two things at once:
 1.  creates a new branch named `fix-readme-typo`
 2.  switches to that branch immediately
 
-## 11. Where Do `git branch` and `git switch` Fit In? {#11-where-do-git-branch-and-git-switch-fit-in}
-
-These two commands are very important in the fork workflow.
-
-### `git branch`
-
-Used to:
-
--   list branches
--   create branches
--   delete branches
-
-Examples:
-
-``` bash
-git branch
-git branch fix-readme-typo
-```
-
-If you run:
-
-``` bash
-git branch fix-readme-typo
-```
-
-it creates the branch, but does **not** move you into it.
-
-### `git switch`
-
-Used to move between branches.
-
-Examples:
-
-``` bash
-git switch main
-git switch fix-readme-typo
-```
-
-### Best Combined Form
-
-``` bash
-git switch -c fix-readme-typo
-```
-
-This is usually the cleanest modern command for contribution work.
-
-### Comparison with Older Syntax
-
-Older style:
-
-``` bash
-git checkout -b fix-readme-typo
-```
-
-Modern clearer style:
-
-``` bash
-git switch -c fix-readme-typo
-```
-:::
-
-::: {#03e166d4-2b99-4a1b-85a3-71c86c7856b5 .cell .code}
-``` python
-git branch
-git switch -c fix-readme-typo
-git branch
-```
-:::
-
-::: {#76aa5817-dcff-473e-a7e2-c9a6ca2fbba5 .cell .markdown}
-## 12. Step 5: Make Your Changes {#12-step-5-make-your-changes}
+- **Step 5: Make Your Changes**
 
 Now edit the project files.
 
@@ -1315,7 +1211,7 @@ Examples:
 
 At this point, your changes are only on your local branch.
 
-## 13. Step 6: Stage and Commit the Changes {#13-step-6-stage-and-commit-the-changes}
+- **Stage and Commit the Changes**
 
 After editing, stage and commit your work.
 
@@ -1324,7 +1220,7 @@ git add .
 git commit -m "Fix typo in installation guide"
 ```
 
-### Good Commit Message Advice
+**Good Commit Message Advice**
 
 A good commit message is:
 
@@ -1343,17 +1239,8 @@ Avoid vague messages like:
 -   `update`
 -   `change stuff`
 -   `fix`
-:::
 
-::: {#5156d28a-c9c7-4638-8d61-25de0d83cd8f .cell .code}
-``` python
-git add .
-git commit -m "Fix typo in installation guide"
-```
-:::
-
-::: {#e7cb9ebb-3211-4cc8-9c25-20d83c28c854 .cell .markdown}
-## 14. Step 7: Push the Branch to Your Fork {#14-step-7-push-the-branch-to-your-fork}
+- **Step 7: Push the Branch to Your Fork**
 
 Now push your branch to `origin`, which is your fork.
 
@@ -1362,43 +1249,28 @@ git push origin fix-readme-typo
 ```
 
 This sends your branch to GitHub under **your fork**.
-:::
 
-::: {#f377c8dd-82fc-4298-9cc3-8fb4bd055f1d .cell .code}
-``` python
-git push origin fix-readme-typo
-```
-:::
+- **Step 8: Open a Pull Request**
 
-::: {#944f7313-d6b3-44ae-805c-e62cdbe41cc2 .cell .markdown}
-## 15. Step 8: Open a Pull Request {#15-step-8-open-a-pull-request}
+This is the key step. A **Pull Request (PR)** is a request asking the maintainers of the original project to review and potentially merge your changes.
 
-This is the key step.
-
-A **Pull Request (PR)** is a request asking the maintainers of the
-original project to review and potentially merge your changes.
-
-### Meaning of a Pull Request
+**Meaning of a Pull Request**
 
 A Pull Request is basically saying:
 
-> I made these changes in my branch. Please review them and merge them
-> into the main project if they are acceptable.
+**I made these changes in my branch. Please review them and merge them into the main project if they are acceptable.**
 
-### Typical Direction
+**Typical Direction**
 
 ``` text
 your fork / your branch  →  upstream / main
 ```
-
 Example:
 
 -   source: `your-username:fix-readme-typo`
 -   target: `original-owner:main`
-:::
 
-::: {#db81306b-af06-4da6-8d3c-ec20c1bd7592 .cell .markdown}
-## 16. How to Create a Pull Request on GitHub {#16-how-to-create-a-pull-request-on-github}
+**How to Create a Pull Request on GitHub**
 
 Typical steps:
 
@@ -1412,25 +1284,12 @@ Typical steps:
 8.  write a helpful description
 9.  submit the Pull Request
 
-### Good PR Title
+**Good PR Title**
 
 -   `Fix typo in installation guide`
 -   `Add missing null check in login flow`
 
-### Good PR Description Should Explain
-
--   what changed
--   why it changed
--   any special context reviewers should know
--   how to test it, if relevant
-:::
-
-::: {#1b85457d-875e-494c-b1e5-7fb3945db2dd .cell .markdown}
-## 17. Professional Pull Request Writing {#17-professional-pull-request-writing}
-
-A strong Pull Request is not just code. It is also communication.
-
-### A Good PR Usually Includes
+**Good PR Description Should Explain**
 
 -   **Problem**: What issue are you solving?
 -   **Change**: What did you modify?
@@ -1438,9 +1297,10 @@ A strong Pull Request is not just code. It is also communication.
 -   **Testing**: How did you verify it?
 -   **Scope**: Is this a small focused change or a broader change?
 
-### Example PR Description
 
-``` text
+Example PR Description
+
+``` bash
 ## Summary
 This PR fixes a typo in the installation section of the README.
 
@@ -1452,11 +1312,8 @@ No code changes were made. Documentation reviewed manually.
 ```
 
 This helps maintainers review quickly and confidently.
-:::
 
-::: {#a8072aa8-d14d-4526-b09a-dd8c02628094 .cell .markdown}
-## 18. What Happens After You Open a PR? {#18-what-happens-after-you-open-a-pr}
-
+**What Happens After You Open a PR?**
 After you submit the Pull Request, several things may happen:
 
 1.  **Maintainers review it**
@@ -1470,17 +1327,11 @@ After you submit the Pull Request, several things may happen:
 5.  **Maintainers may merge it**
 6.  In some cases, they may close it without merging
 
-This is normal. A closed PR is not necessarily a failure. Sometimes it
-simply means the project chose a different direction.
-:::
+This is normal. A closed PR is not necessarily a failure. Sometimes it simply means the project chose a different direction.
 
-::: {#858b4079-be05-423b-812d-5fad66dbdb8f .cell .markdown}
-## 19. What If Reviewers Request Changes? {#19-what-if-reviewers-request-changes}
+**What If Reviewers Request Changes?**
 
-This is very common and completely normal.
-
-You do **not** usually create a new Pull Request for small requested
-changes.
+This is very common and completely normal. You do **not** usually create a new Pull Request for small requested changes.
 
 Instead, you:
 
@@ -1497,24 +1348,16 @@ git commit -m "Address review comments"
 git push origin fix-readme-typo
 ```
 
-When you push to the same branch, the existing Pull Request updates
-automatically.
-:::
+When you push to the same branch, the existing Pull Request updates automatically.
 
-::: {#f8e5eb68-ad8f-47e8-b9cc-eb8159700851 .cell .code}
-``` python
+``` bash
 git add .
 git commit -m "Address review comments"
 git push origin fix-readme-typo
 ```
-:::
+**Why Branches Matter So Much for Pull Requests**
 
-::: {#8080e696-4039-443e-9572-9ad056122e5c .cell .markdown}
-## 20. Why Branches Matter So Much for Pull Requests {#20-why-branches-matter-so-much-for-pull-requests}
-
-Branches are central to PR workflows.
-
-A Pull Request is typically tied to:
+Branches are central to PR workflows. A Pull Request is typically tied to:
 
 -   one source branch
 -   one target branch
@@ -1526,26 +1369,11 @@ Because of this, branches give you:
 -   better rollback options
 -   less risk of mixing unrelated changes
 
-### Best Practice
+:::{note}
+**Keeping Your Fork Up to Date**
+The upstream repository changes over time. If you do not sync your fork, you can end up working on an old base.
 
-Create one branch per topic, fix, or feature.
-
-Examples:
-
--   `fix-readme-typo`
--   `docs-installation-update`
--   `bugfix-login-timeout`
--   `feature-export-csv`
-:::
-
-::: {#b8ec7434-125d-4af6-856a-16684a8bdca9 .cell .markdown}
-## 21. Keeping Your Fork Up to Date {#21-keeping-your-fork-up-to-date}
-
-The upstream repository changes over time.
-
-If you do not sync your fork, you can end up working on an old base.
-
-### Common Sync Workflow
+Common Sync Workflow is
 
 ``` bash
 git fetch upstream
@@ -1553,8 +1381,6 @@ git switch main
 git merge upstream/main
 git push origin main
 ```
-
-### What This Does {#what-this-does}
 
 -   `git fetch upstream`\
     downloads the latest state from the original project
@@ -1567,18 +1393,10 @@ git push origin main
 
 -   `git push origin main`\
     updates your fork\'s `main` on GitHub
+
 :::
 
-::: {#944ddbf0-4084-44e7-a0d0-fe3803a02325 .cell .code}
-``` python
-git fetch upstream
-git switch main
-git merge upstream/main
-git push origin main
-```
-:::
 
-::: {#932e07d4-fa43-4e08-aa4c-e3d9bb4ce629 .cell .markdown}
 ## 22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}
 
 Some projects prefer a cleaner linear history and may encourage

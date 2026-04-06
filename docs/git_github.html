@@ -441,20 +441,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
 </ul>
 </li>
 </ul>
@@ -1352,68 +1341,42 @@ You are contributing from outside the main organization or team.</p></li>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork on GitHub → Clone to your computer
 </pre></div>
 </div>
-</section>
-</section>
-<section id="id1">
-<h2>3.<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
-<section id="id2">
-<h3><a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
-<p>So first you create the fork online, and then you clone <strong>your fork</strong>
-locally.</p>
-</section>
-</section>
-<section id="do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">
-<h2>4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}<a class="headerlink" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking" title="Permalink to this heading">#</a></h2>
-<p>Yes. In normal GitHub usage, a fork preserves the repository history.</p>
-<p>That means your fork contains:</p>
+<p>So first you create the fork online, and then you clone <strong>your fork</strong> locally.</p>
+<p><strong>Do We Get the Full History After Forking?</strong></p>
+<p>Yes. In normal GitHub usage, a fork preserves the repository history. That means your fork contains:</p>
 <ul class="simple">
 <li><p>commits</p></li>
 <li><p>branches and references relevant to the forked project</p></li>
 <li><p>tags (depending on repository state and hosting behavior)</p></li>
 <li><p>the complete evolution of the project</p></li>
 </ul>
-<p>So conceptually, you inherit the project history.</p>
-<p>However, <strong>having the history does not automatically make you a
-contributor</strong> to the original project.</p>
-</section>
-<section id="are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">
-<h2>5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}<a class="headerlink" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked" title="Permalink to this heading">#</a></h2>
-<p>No.</p>
-<p>Forking a repository means:</p>
+<p>So conceptually, you inherit the project history. However, <strong>having the history does not automatically make you a contributor</strong> to the original project.</p>
+<p><strong>Are You a Contributor Just Because You Forked?</strong></p>
+<p>No. Forking a repository means:</p>
 <ul class="simple">
 <li><p>you now have your own copy of the project</p></li>
 <li><p>you can work on it independently</p></li>
 <li><p>you can propose changes</p></li>
 </ul>
-<p>But it does <strong>not</strong> mean that you are already a contributor to the
-original repository.</p>
-<section id="when-are-you-usually-considered-a-contributor">
-<h3>When Are You Usually Considered a Contributor?<a class="headerlink" href="#when-are-you-usually-considered-a-contributor" title="Permalink to this heading">#</a></h3>
-<p>In practice, you become a contributor when your changes are accepted
-into the original project, usually by:</p>
+<p>But it does <strong>not</strong> mean that you are already a contributor to the original repository.</p>
+<p><strong>When Are You Usually Considered a Contributor?</strong></p>
+<p>In practice, you become a contributor when your changes are accepted into the original project, usually by:</p>
 <ul class="simple">
 <li><p>opening a Pull Request</p></li>
 <li><p>having it reviewed</p></li>
 <li><p>and getting it merged</p></li>
 </ul>
 <p>So this statement is accurate:</p>
-<blockquote>
-<div><p>You may have the full repository history in your fork, but you are not
-yet a contributor to the original project until your contribution is
-accepted there.</p>
-</div></blockquote>
-</section>
-</section>
-<section id="the-full-fork-workflow-6-the-full-fork-workflow">
-<h2>6. The Full Fork Workflow {#6-the-full-fork-workflow}<a class="headerlink" href="#the-full-fork-workflow-6-the-full-fork-workflow" title="Permalink to this heading">#</a></h2>
+<p><strong>You may have the full repository history in your fork, but you are not yet a contributor to the original project until your contribution is accepted there.</strong></p>
+<p><strong>The Full Fork Workflow</strong></p>
 <p>Here is the standard end-to-end workflow:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
 </pre></div>
 </div>
 <p>We will now go through each part carefully.</p>
-</section>
-<section id="step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">
-<h2>7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}<a class="headerlink" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Step 1: Fork the Repository on GitHub</strong></p></li>
+</ul>
 <p>On GitHub:</p>
 <ol class="arabic simple">
 <li><p>open the original repository</p></li>
@@ -1426,20 +1389,19 @@ accepted there.</p>
 <li><p>fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
 </ul>
 <p>At this point, you have your own GitHub-hosted copy of the project.</p>
-</section>
-<section id="step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">
-<h2>8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}<a class="headerlink" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Step 2: Clone Your Fork Locally</strong></p></li>
+</ul>
 <p>After forking, clone <strong>your fork</strong>, not the upstream repository.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/PROJECT.git
 <span class="nb">cd</span><span class="w"> </span>PROJECT
 </pre></div>
 </div>
 <p>Now your local repository is connected to your fork as <code class="docutils literal notranslate"><span class="pre">origin</span></code>.</p>
-</section>
-<section id="step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">
-<h2>9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}<a class="headerlink" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream" title="Permalink to this heading">#</a></h2>
-<p>This is a very important step.</p>
-<p>You usually want two remotes:</p>
+<ul class="simple">
+<li><p><strong>Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code></strong></p></li>
+</ul>
+<p>This is a very important step. You usually want two remotes:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> → your fork</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> → the original repository</p></li>
@@ -1452,419 +1414,240 @@ accepted there.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
 </pre></div>
 </div>
-<p>Expected idea:</p>
+<p>Expected result:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>origin    git@github.com:YOUR_USERNAME/PROJECT.git
 upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 </pre></div>
 </div>
-<section id="why-is-upstream-important">
-<h3>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?<a class="headerlink" href="#why-is-upstream-important" title="Permalink to this heading">#</a></h3>
-<p>Because the original project keeps moving forward.</p>
-<p>If you only work with your fork and never sync from upstream:</p>
+<p><strong>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</strong></p>
+<p>Because the original project keeps moving forward. If you only work with your fork and never sync from upstream:</p>
 <ul class="simple">
 <li><p>your fork becomes outdated</p></li>
 <li><p>your branch may drift away from the current project state</p></li>
 <li><p>your Pull Request may become harder to review or merge</p></li>
+<li><p><strong>Step 4: Create a New Branch for Your Change</strong></p></li>
+</ul>
+<p>You should <strong>not</strong> usually work directly on <code class="docutils literal notranslate"><span class="pre">main</span></code> for a contribution. Instead, create a branch for each separate change.</p>
+<p><strong>Why?</strong></p>
+<p>Because branches help you:</p>
+<ul class="simple">
+<li><p>isolate your work</p></li>
+<li><p>keep <code class="docutils literal notranslate"><span class="pre">main</span></code> clean</p></li>
+<li><p>open focused Pull Requests</p></li>
+<li><p>revise one change without mixing it with another</p></li>
+</ul>
+<p><strong>Recommended Command</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>This command does two things at once:</p>
+<ol class="arabic simple">
+<li><p>creates a new branch named <code class="docutils literal notranslate"><span class="pre">fix-readme-typo</span></code></p></li>
+<li><p>switches to that branch immediately</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Step 5: Make Your Changes</strong></p></li>
+</ul>
+<p>Now edit the project files.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>fix a typo</p></li>
+<li><p>improve documentation</p></li>
+<li><p>add a small feature</p></li>
+<li><p>refactor a function</p></li>
+<li><p>update tests</p></li>
+</ul>
+<p>At this point, your changes are only on your local branch.</p>
+<ul class="simple">
+<li><p><strong>Stage and Commit the Changes</strong></p></li>
+</ul>
+<p>After editing, stage and commit your work.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix typo in installation guide&quot;</span>
+</pre></div>
+</div>
+<p><strong>Good Commit Message Advice</strong></p>
+<p>A good commit message is:</p>
+<ul class="simple">
+<li><p>specific</p></li>
+<li><p>short</p></li>
+<li><p>action-oriented</p></li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">typo</span> <span class="pre">in</span> <span class="pre">README</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">validation</span> <span class="pre">for</span> <span class="pre">email</span> <span class="pre">field</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Improve</span> <span class="pre">setup</span> <span class="pre">instructions</span> <span class="pre">for</span> <span class="pre">macOS</span></code></p></li>
+</ul>
+<p>Avoid vague messages like:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">update</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">change</span> <span class="pre">stuff</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix</span></code></p></li>
+<li><p><strong>Step 7: Push the Branch to Your Fork</strong></p></li>
+</ul>
+<p>Now push your branch to <code class="docutils literal notranslate"><span class="pre">origin</span></code>, which is your fork.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>This sends your branch to GitHub under <strong>your fork</strong>.</p>
+<ul class="simple">
+<li><p><strong>Step 8: Open a Pull Request</strong></p></li>
+</ul>
+<p>This is the key step. A <strong>Pull Request (PR)</strong> is a request asking the maintainers of the original project to review and potentially merge your changes.</p>
+<p><strong>Meaning of a Pull Request</strong></p>
+<p>A Pull Request is basically saying:</p>
+<p><strong>I made these changes in my branch. Please review them and merge them into the main project if they are acceptable.</strong></p>
+<p><strong>Typical Direction</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>your fork / your branch  →  upstream / main
+</pre></div>
+</div>
+<p>Example:</p>
+<ul class="simple">
+<li><p>source: <code class="docutils literal notranslate"><span class="pre">your-username:fix-readme-typo</span></code></p></li>
+<li><p>target: <code class="docutils literal notranslate"><span class="pre">original-owner:main</span></code></p></li>
+</ul>
+<p><strong>How to Create a Pull Request on GitHub</strong></p>
+<p>Typical steps:</p>
+<ol class="arabic simple">
+<li><p>push your branch to your fork</p></li>
+<li><p>go to your fork on GitHub</p></li>
+<li><p>GitHub often shows a <strong>Compare &amp; pull request</strong> button</p></li>
+<li><p>click it</p></li>
+<li><p>confirm the base repository and base branch</p></li>
+<li><p>confirm your source branch</p></li>
+<li><p>write a clear title</p></li>
+<li><p>write a helpful description</p></li>
+<li><p>submit the Pull Request</p></li>
+</ol>
+<p><strong>Good PR Title</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Fix</span> <span class="pre">typo</span> <span class="pre">in</span> <span class="pre">installation</span> <span class="pre">guide</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">missing</span> <span class="pre">null</span> <span class="pre">check</span> <span class="pre">in</span> <span class="pre">login</span> <span class="pre">flow</span></code></p></li>
+</ul>
+<p><strong>Good PR Description Should Explain</strong></p>
+<ul class="simple">
+<li><p><strong>Problem</strong>: What issue are you solving?</p></li>
+<li><p><strong>Change</strong>: What did you modify?</p></li>
+<li><p><strong>Reasoning</strong>: Why is this the right change?</p></li>
+<li><p><strong>Testing</strong>: How did you verify it?</p></li>
+<li><p><strong>Scope</strong>: Is this a small focused change or a broader change?</p></li>
+</ul>
+<p>Example PR Description</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">## Summary</span>
+This<span class="w"> </span>PR<span class="w"> </span>fixes<span class="w"> </span>a<span class="w"> </span>typo<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>installation<span class="w"> </span>section<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>README.
+
+<span class="c1">## Details</span>
+The<span class="w"> </span><span class="nb">command</span><span class="w"> </span>name<span class="w"> </span>was<span class="w"> </span>missing<span class="w"> </span>a<span class="w"> </span>dash,<span class="w"> </span>which<span class="w"> </span>could<span class="w"> </span>confuse<span class="w"> </span>new<span class="w"> </span>users.
+
+<span class="c1">## Testing</span>
+No<span class="w"> </span>code<span class="w"> </span>changes<span class="w"> </span>were<span class="w"> </span>made.<span class="w"> </span>Documentation<span class="w"> </span>reviewed<span class="w"> </span>manually.
+</pre></div>
+</div>
+<p>This helps maintainers review quickly and confidently.</p>
+<p><strong>What Happens After You Open a PR?</strong>
+After you submit the Pull Request, several things may happen:</p>
+<ol class="arabic simple">
+<li><p><strong>Maintainers review it</strong></p></li>
+<li><p><strong>Automated checks may run</strong></p>
+<ul class="simple">
+<li><p>tests</p></li>
+<li><p>formatting</p></li>
+<li><p>linting</p></li>
+<li><p>CI pipelines</p></li>
+</ul>
+</li>
+<li><p><strong>Reviewers may approve it</strong></p></li>
+<li><p><strong>Reviewers may request changes</strong></p></li>
+<li><p><strong>Maintainers may merge it</strong></p></li>
+<li><p>In some cases, they may close it without merging</p></li>
+</ol>
+<p>This is normal. A closed PR is not necessarily a failure. Sometimes it simply means the project chose a different direction.</p>
+<p><strong>What If Reviewers Request Changes?</strong></p>
+<p>This is very common and completely normal. You do <strong>not</strong> usually create a new Pull Request for small requested changes.</p>
+<p>Instead, you:</p>
+<ol class="arabic simple">
+<li><p>stay on the same branch</p></li>
+<li><p>make the requested updates</p></li>
+<li><p>commit the new changes</p></li>
+<li><p>push again to the same branch</p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Address review comments&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p>When you push to the same branch, the existing Pull Request updates automatically.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Address review comments&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
+</pre></div>
+</div>
+<p><strong>Why Branches Matter So Much for Pull Requests</strong></p>
+<p>Branches are central to PR workflows. A Pull Request is typically tied to:</p>
+<ul class="simple">
+<li><p>one source branch</p></li>
+<li><p>one target branch</p></li>
+</ul>
+<p>Because of this, branches give you:</p>
+<ul class="simple">
+<li><p>clean separation of work</p></li>
+<li><p>easier review</p></li>
+<li><p>better rollback options</p></li>
+<li><p>less risk of mixing unrelated changes</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Keeping Your Fork Up to Date</strong>
+The upstream repository changes over time. If you do not sync your fork, you can end up working on an old base.</p>
+<p>Common Sync Workflow is</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>upstream/main
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">upstream</span></code><br />
+downloads the latest state from the original project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span> <span class="pre">main</span></code><br />
+returns you to your local main branch</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">upstream/main</span></code><br />
+brings upstream changes into your local main</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">main</span></code><br />
+updates your fork’s <code class="docutils literal notranslate"><span class="pre">main</span></code> on GitHub</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">
+<h2>22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}<a class="headerlink" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge" title="Permalink to this heading">#</a></h2>
+<p>Some projects prefer a cleaner linear history and may encourage
+<code class="docutils literal notranslate"><span class="pre">rebase</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
+git<span class="w"> </span>switch<span class="w"> </span>my-feature
+git<span class="w"> </span>rebase<span class="w"> </span>upstream/main
+</pre></div>
+</div>
+<section id="why-rebase">
+<h3>Why Rebase?<a class="headerlink" href="#why-rebase" title="Permalink to this heading">#</a></h3>
+<p>Rebase rewrites your branch so it appears to start from the latest
+upstream state.</p>
+<p>This can make history cleaner, but it is conceptually more advanced than
+merge.</p>
+</section>
+<section id="practical-advice-for-learners">
+<h3>Practical Advice for Learners<a class="headerlink" href="#practical-advice-for-learners" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>understand <code class="docutils literal notranslate"><span class="pre">merge</span></code> first</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">rebase</span></code> when the project workflow expects it</p></li>
+<li><p>read the contribution guide of the repository</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#eff35328-b6cc-4237-9417-60cb46baeb8b .cell .code}
+::: {#af4b09cc-61f5-4a02-a47f-652a6aa76ea0 .cell .code}
 ``` python
-git clone git@github.com:YOUR_USERNAME/PROJECT.git
-cd PROJECT
-
-git remote add upstream git@github.com:ORIGINAL_OWNER/PROJECT.git
-git remote -v
-```
-</pre></div>
-</div>
-<div class="highlight-{#9ffe7e58-85c3-43e2-998d-7e07d949cebc notranslate"><div class="highlight"><pre><span></span>## 10. Step 4: Create a New Branch for Your Change {#10-step-4-create-a-new-branch-for-your-change}
-
-You should **not** usually work directly on `main` for a contribution.
-
-Instead, create a branch for each separate change.
-
-### Why?
-
-Because branches help you:
-
--   isolate your work
--   keep `main` clean
--   open focused Pull Requests
--   revise one change without mixing it with another
-
-### Recommended Command
-
-``` bash
-git switch -c fix-readme-typo
-```
-
-This command does two things at once:
-
-1.  creates a new branch named `fix-readme-typo`
-2.  switches to that branch immediately
-
-## 11. Where Do `git branch` and `git switch` Fit In? {#11-where-do-git-branch-and-git-switch-fit-in}
-
-These two commands are very important in the fork workflow.
-
-### `git branch`
-
-Used to:
-
--   list branches
--   create branches
--   delete branches
-
-Examples:
-
-``` bash
-git branch
-git branch fix-readme-typo
-```
-
-If you run:
-
-``` bash
-git branch fix-readme-typo
-```
-
-it creates the branch, but does **not** move you into it.
-
-### `git switch`
-
-Used to move between branches.
-
-Examples:
-
-``` bash
-git switch main
-git switch fix-readme-typo
-```
-
-### Best Combined Form
-
-``` bash
-git switch -c fix-readme-typo
-```
-
-This is usually the cleanest modern command for contribution work.
-
-### Comparison with Older Syntax
-
-Older style:
-
-``` bash
-git checkout -b fix-readme-typo
-```
-
-Modern clearer style:
-
-``` bash
-git switch -c fix-readme-typo
-```
-</pre></div>
-</div>
-<div class="highlight-{#03e166d4-2b99-4a1b-85a3-71c86c7856b5 notranslate"><div class="highlight"><pre><span></span>``` python
-git branch
-git switch -c fix-readme-typo
-git branch
-```
-</pre></div>
-</div>
-<div class="highlight-{#76aa5817-dcff-473e-a7e2-c9a6ca2fbba5 notranslate"><div class="highlight"><pre><span></span>## 12. Step 5: Make Your Changes {#12-step-5-make-your-changes}
-
-Now edit the project files.
-
-Examples:
-
--   fix a typo
--   improve documentation
--   add a small feature
--   refactor a function
--   update tests
-
-At this point, your changes are only on your local branch.
-
-## 13. Step 6: Stage and Commit the Changes {#13-step-6-stage-and-commit-the-changes}
-
-After editing, stage and commit your work.
-
-``` bash
-git add .
-git commit -m &quot;Fix typo in installation guide&quot;
-```
-
-### Good Commit Message Advice
-
-A good commit message is:
-
--   specific
--   short
--   action-oriented
-
-Examples:
-
--   `Fix typo in README`
--   `Add validation for email field`
--   `Improve setup instructions for macOS`
-
-Avoid vague messages like:
-
--   `update`
--   `change stuff`
--   `fix`
-</pre></div>
-</div>
-<div class="highlight-{#5156d28a-c9c7-4638-8d61-25de0d83cd8f notranslate"><div class="highlight"><pre><span></span>``` python
-git add .
-git commit -m &quot;Fix typo in installation guide&quot;
-```
-</pre></div>
-</div>
-<div class="highlight-{#e7cb9ebb-3211-4cc8-9c25-20d83c28c854 notranslate"><div class="highlight"><pre><span></span>## 14. Step 7: Push the Branch to Your Fork {#14-step-7-push-the-branch-to-your-fork}
-
-Now push your branch to `origin`, which is your fork.
-
-``` bash
-git push origin fix-readme-typo
-```
-
-This sends your branch to GitHub under **your fork**.
-</pre></div>
-</div>
-<div class="highlight-{#f377c8dd-82fc-4298-9cc3-8fb4bd055f1d notranslate"><div class="highlight"><pre><span></span>``` python
-git push origin fix-readme-typo
-```
-</pre></div>
-</div>
-<div class="highlight-{#944f7313-d6b3-44ae-805c-e62cdbe41cc2 notranslate"><div class="highlight"><pre><span></span>## 15. Step 8: Open a Pull Request {#15-step-8-open-a-pull-request}
-
-This is the key step.
-
-A **Pull Request (PR)** is a request asking the maintainers of the
-original project to review and potentially merge your changes.
-
-### Meaning of a Pull Request
-
-A Pull Request is basically saying:
-
-&gt; I made these changes in my branch. Please review them and merge them
-&gt; into the main project if they are acceptable.
-
-### Typical Direction
-
-``` text
-your fork / your branch  →  upstream / main
-```
-
-Example:
-
--   source: `your-username:fix-readme-typo`
--   target: `original-owner:main`
-</pre></div>
-</div>
-<div class="highlight-{#db81306b-af06-4da6-8d3c-ec20c1bd7592 notranslate"><div class="highlight"><pre><span></span>## 16. How to Create a Pull Request on GitHub {#16-how-to-create-a-pull-request-on-github}
-
-Typical steps:
-
-1.  push your branch to your fork
-2.  go to your fork on GitHub
-3.  GitHub often shows a **Compare &amp; pull request** button
-4.  click it
-5.  confirm the base repository and base branch
-6.  confirm your source branch
-7.  write a clear title
-8.  write a helpful description
-9.  submit the Pull Request
-
-### Good PR Title
-
--   `Fix typo in installation guide`
--   `Add missing null check in login flow`
-
-### Good PR Description Should Explain
-
--   what changed
--   why it changed
--   any special context reviewers should know
--   how to test it, if relevant
-</pre></div>
-</div>
-<div class="highlight-{#1b85457d-875e-494c-b1e5-7fb3945db2dd notranslate"><div class="highlight"><pre><span></span>## 17. Professional Pull Request Writing {#17-professional-pull-request-writing}
-
-A strong Pull Request is not just code. It is also communication.
-
-### A Good PR Usually Includes
-
--   **Problem**: What issue are you solving?
--   **Change**: What did you modify?
--   **Reasoning**: Why is this the right change?
--   **Testing**: How did you verify it?
--   **Scope**: Is this a small focused change or a broader change?
-
-### Example PR Description
-
-``` text
-## Summary
-This PR fixes a typo in the installation section of the README.
-
-## Details
-The command name was missing a dash, which could confuse new users.
-
-## Testing
-No code changes were made. Documentation reviewed manually.
-```
-
-This helps maintainers review quickly and confidently.
-</pre></div>
-</div>
-<div class="highlight-{#a8072aa8-d14d-4526-b09a-dd8c02628094 notranslate"><div class="highlight"><pre><span></span>## 18. What Happens After You Open a PR? {#18-what-happens-after-you-open-a-pr}
-
-After you submit the Pull Request, several things may happen:
-
-1.  **Maintainers review it**
-2.  **Automated checks may run**
-    -   tests
-    -   formatting
-    -   linting
-    -   CI pipelines
-3.  **Reviewers may approve it**
-4.  **Reviewers may request changes**
-5.  **Maintainers may merge it**
-6.  In some cases, they may close it without merging
-
-This is normal. A closed PR is not necessarily a failure. Sometimes it
-simply means the project chose a different direction.
-</pre></div>
-</div>
-<div class="highlight-{#858b4079-be05-423b-812d-5fad66dbdb8f notranslate"><div class="highlight"><pre><span></span>## 19. What If Reviewers Request Changes? {#19-what-if-reviewers-request-changes}
-
-This is very common and completely normal.
-
-You do **not** usually create a new Pull Request for small requested
-changes.
-
-Instead, you:
-
-1.  stay on the same branch
-2.  make the requested updates
-3.  commit the new changes
-4.  push again to the same branch
-
-Example:
-
-``` bash
-git add .
-git commit -m &quot;Address review comments&quot;
-git push origin fix-readme-typo
-```
-
-When you push to the same branch, the existing Pull Request updates
-automatically.
-</pre></div>
-</div>
-<div class="highlight-{#f8e5eb68-ad8f-47e8-b9cc-eb8159700851 notranslate"><div class="highlight"><pre><span></span>``` python
-git add .
-git commit -m &quot;Address review comments&quot;
-git push origin fix-readme-typo
-```
-</pre></div>
-</div>
-<div class="highlight-{#8080e696-4039-443e-9572-9ad056122e5c notranslate"><div class="highlight"><pre><span></span>## 20. Why Branches Matter So Much for Pull Requests {#20-why-branches-matter-so-much-for-pull-requests}
-
-Branches are central to PR workflows.
-
-A Pull Request is typically tied to:
-
--   one source branch
--   one target branch
-
-Because of this, branches give you:
-
--   clean separation of work
--   easier review
--   better rollback options
--   less risk of mixing unrelated changes
-
-### Best Practice
-
-Create one branch per topic, fix, or feature.
-
-Examples:
-
--   `fix-readme-typo`
--   `docs-installation-update`
--   `bugfix-login-timeout`
--   `feature-export-csv`
-</pre></div>
-</div>
-<div class="highlight-{#b8ec7434-125d-4af6-856a-16684a8bdca9 notranslate"><div class="highlight"><pre><span></span>## 21. Keeping Your Fork Up to Date {#21-keeping-your-fork-up-to-date}
-
-The upstream repository changes over time.
-
-If you do not sync your fork, you can end up working on an old base.
-
-### Common Sync Workflow
-
-``` bash
-git fetch upstream
-git switch main
-git merge upstream/main
-git push origin main
-```
-
-### What This Does {#what-this-does}
-
--   `git fetch upstream`\
-    downloads the latest state from the original project
-
--   `git switch main`\
-    returns you to your local main branch
-
--   `git merge upstream/main`\
-    brings upstream changes into your local main
-
--   `git push origin main`\
-    updates your fork\&#39;s `main` on GitHub
-</pre></div>
-</div>
-<div class="highlight-{#944ddbf0-4084-44e7-a0d0-fe3803a02325 notranslate"><div class="highlight"><pre><span></span>``` python
-git fetch upstream
-git switch main
-git merge upstream/main
-git push origin main
-```
-</pre></div>
-</div>
-<div class="highlight-{#932e07d4-fa43-4e08-aa4c-e3d9bb4ce629 notranslate"><div class="highlight"><pre><span></span>## 22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}
-
-Some projects prefer a cleaner linear history and may encourage
-`rebase`.
-
-Example:
-
-``` bash
-git fetch upstream
-git switch my-feature
-git rebase upstream/main
-```
-
-### Why Rebase?
-
-Rebase rewrites your branch so it appears to start from the latest
-upstream state.
-
-This can make history cleaner, but it is conceptually more advanced than
-merge.
-
-### Practical Advice for Learners
-
--   understand `merge` first
--   use `rebase` when the project workflow expects it
--   read the contribution guide of the repository
-</pre></div>
-</div>
-<div class="highlight-{#af4b09cc-61f5-4a02-a47f-652a6aa76ea0 notranslate"><div class="highlight"><pre><span></span>``` python
 git fetch upstream
 git switch my-feature
 git rebase upstream/main
@@ -5572,20 +5355,9 @@ git branch past-code 90544b4fa
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
 </ul>
 </li>
 </ul>
