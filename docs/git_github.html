@@ -174,6 +174,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub</a></li>
 
 
+
 <li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
 
 
@@ -442,22 +443,38 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick">Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-based-workflow">Fork-Based Workflow</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">Contributor Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter-1-why-these-commands-matter">1. Why These Commands Matter {#1-why-these-commands-matter}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map-2-a-high-level-map">2. A High-Level Map {#2-a-high-level-map}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-why">Why? {#why}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-contributor-workflow-4-high-level-contributor-workflow">4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea-4-git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset-5-common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft-6-git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1946,14 +1963,10 @@ Big mixed commits make conflict analysis much harder.</p></li>
 </ul>
 </section>
 </section>
-</section>
 <section id="contributor">
-<h2>Contributor<a class="headerlink" href="#contributor" title="Permalink to this heading">#</a></h2>
-<p>This section is for the case where you are already a <strong>contributor</strong> or
-team member and have <strong>write access</strong> to the main repository. In this
-situation, the workflow is usually different from the fork-based
-open-source workflow.</p>
-<p>Instead of:</p>
+<h3>Contributor<a class="headerlink" href="#contributor" title="Permalink to this heading">#</a></h3>
+<p>This section is for the case where you are already a <strong>contributor</strong> or team member and have <strong>write access</strong> to the main repository. In this
+situation, the workflow is usually different from the fork-based open-source workflow. Instead of:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Branch → Push to your fork → Pull Request
 </pre></div>
 </div>
@@ -1966,10 +1979,6 @@ open-source workflow.</p>
 </pre></div>
 </div>
 <p>depending on team policy.</p>
-</section>
-<hr class="docutils" />
-<section id="learning-goals-learning-goals">
-<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
 <p>By the end of this section, you should be able to:</p>
 <ul class="simple">
 <li><p>understand how contributor workflow differs from fork workflow</p></li>
@@ -1981,35 +1990,25 @@ open-source workflow.</p>
 <li><p>understand when direct pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> are discouraged</p></li>
 <li><p>work safely in a collaborative team environment</p></li>
 </ul>
-</section>
-<section id="what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">
-<h2>1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}<a class="headerlink" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor" title="Permalink to this heading">#</a></h2>
-<p>When you are a <strong>contributor with write access</strong>, you no longer need
-your own fork in order to propose changes.</p>
-<p>That is the key difference.</p>
-<section id="fork-based-workflow">
-<h3>Fork-Based Workflow<a class="headerlink" href="#fork-based-workflow" title="Permalink to this heading">#</a></h3>
+<p><strong>What Changes When You Are a Contributor?</strong></p>
+<p>When you are a <strong>contributor with write access</strong>, you no longer need your own fork in order to propose changes.
+That is the key difference.</p>
+<p><strong>Fork-Based Workflow</strong></p>
 <p>Used when:</p>
 <ul class="simple">
 <li><p>you do <strong>not</strong> have write access</p></li>
 <li><p>you contribute from outside the core team</p></li>
 <li><p>you submit changes through your own fork</p></li>
 </ul>
-</section>
-<section id="contributor-workflow">
-<h3>Contributor Workflow<a class="headerlink" href="#contributor-workflow" title="Permalink to this heading">#</a></h3>
+<p><strong>Contributor Workflow</strong></p>
 <p>Used when:</p>
 <ul class="simple">
 <li><p>you <strong>do</strong> have write access</p></li>
 <li><p>you are part of the organization or trusted team</p></li>
 <li><p>you can push branches directly to the main repository</p></li>
 </ul>
-<p>So if you are already a contributor, the repository itself can usually
-act as the shared collaboration space.</p>
-</section>
-</section>
-<section id="do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">
-<h2>2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}<a class="headerlink" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests" title="Permalink to this heading">#</a></h2>
+<p>So if you are already a contributor, the repository itself can usually act as the shared collaboration space.</p>
+<p><strong>Do Contributors Still Use Pull Requests?</strong></p>
 <p>Very often, yes.</p>
 <p>Having write access does <strong>not</strong> always mean:</p>
 <ul class="simple">
@@ -2025,9 +2024,8 @@ act as the shared collaboration space.</p>
 <li><p>wait for review</p></li>
 <li><p>merge only after approval</p></li>
 </ul>
-<section id="why-why">
-<h3>Why? {#why}<a class="headerlink" href="#why-why" title="Permalink to this heading">#</a></h3>
-<p>Because Pull Requests are not only about permissions.<br />
+<p>Why?</p>
+<p>Because Pull Requests are not only about permissions.
 They are also about:</p>
 <ul class="simple">
 <li><p>review quality</p></li>
@@ -2036,858 +2034,475 @@ They are also about:</p>
 <li><p>documentation of why a change happened</p></li>
 <li><p>protecting the stability of <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
 </ul>
-</section>
-</section>
-<section id="when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">
-<h2>3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}<a class="headerlink" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed" title="Permalink to this heading">#</a></h2>
-<p>A fork is usually unnecessary when:</p>
-<ul class="simple">
-<li><p>you are already on the project team</p></li>
-<li><p>you have write access to the main repository</p></li>
-<li><p>your organization expects branch-based collaboration inside the same
-repo</p></li>
-</ul>
-<p>In that case, the normal pattern is:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>main repository → feature branch → PR into main
-</pre></div>
-</div>
-<p>There is no extra GitHub copy under your personal account.</p>
-</section>
-<section id="high-level-contributor-workflow-4-high-level-contributor-workflow">
-<h2>4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}<a class="headerlink" href="#high-level-contributor-workflow-4-high-level-contributor-workflow" title="Permalink to this heading">#</a></h2>
+<p><strong>High-Level Contributor Workflow</strong></p>
 <p>A common contributor workflow looks like this:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Clone main repository → Create feature branch → Edit → Commit → Push branch → Open Pull Request → Review → Merge
 </pre></div>
 </div>
-<p>This is similar to the fork workflow, but the difference is where the
-branch lives:</p>
+<p>This is similar to the fork workflow, but the difference is where the branch lives:</p>
 <ul class="simple">
 <li><p>in fork workflow, the branch lives in <strong>your fork</strong></p></li>
-<li><p>in contributor workflow, the branch lives in the <strong>main shared
-repository</strong></p></li>
+<li><p>in contributor workflow, the branch lives in the <strong>main shared repository</strong></p></li>
+<li><p><strong>Step 1: Clone the Main Repository</strong></p></li>
 </ul>
-</section>
-<section id="step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">
-<h2>5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}<a class="headerlink" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository" title="Permalink to this heading">#</a></h2>
-<p>Since you already have access, you normally clone the main repository
-directly.</p>
+<p>Since you already have access, you normally clone the main repository directly.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ORGANIZATION/PROJECT.git
 <span class="nb">cd</span><span class="w"> </span>PROJECT
 </pre></div>
 </div>
 <p>There is no need to fork first.</p>
 <p>Your <code class="docutils literal notranslate"><span class="pre">origin</span></code> now points directly to the shared repository.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#19383747-f002-4938-84ba-4ea23c984094 .cell .code}
-``` python
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-```
+<p><strong>Understanding <code class="docutils literal notranslate"><span class="pre">origin</span></code> in Contributor Workflow</strong></p>
+<p>In a fork-based workflow:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> usually points to your fork</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> points to the original repository</p></li>
+</ul>
+<p>But in a contributor workflow:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> usually points directly to the shared repository</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
 </pre></div>
 </div>
-<div class="highlight-{#3ad793e5-75e9-4f1e-8034-e6854133f6e5 notranslate"><div class="highlight"><pre><span></span>## 6. Understanding `origin` in Contributor Workflow {#6-understanding-origin-in-contributor-workflow}
-
-In a fork-based workflow:
-
--   `origin` usually points to your fork
--   `upstream` points to the original repository
-
-But in a contributor workflow:
-
--   `origin` usually points directly to the shared repository
-
-Example:
-
-``` bash
-git remote -v
-```
-
-Possible output:
-
-``` text
-origin  git@github.com:ORGANIZATION/PROJECT.git
-```
-
-In many cases, there is no need for an `upstream` remote at all, because
-you are already working directly with the main repository.
+<p>Possible output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>origin  git@github.com:ORGANIZATION/PROJECT.git
 </pre></div>
 </div>
-<div class="highlight-{#d4a3a98e-983e-48ee-8d1d-7fbef9bf7910 notranslate"><div class="highlight"><pre><span></span>``` python
-git remote -v
-```
+<p>In many cases, there is no need for an <code class="docutils literal notranslate"><span class="pre">upstream</span></code> remote at all, because you are already working directly with the main repository.</p>
+<ul class="simple">
+<li><p><strong>Step 2: Update Your Local Main Branch</strong></p></li>
+</ul>
+<p>Before starting new work, make sure your local <code class="docutils literal notranslate"><span class="pre">main</span></code> is up to date.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>pull
 </pre></div>
 </div>
-<div class="highlight-{#75e72c92-4242-4200-97fd-4cc3cb435cf1 notranslate"><div class="highlight"><pre><span></span>## 7. Step 2: Update Your Local Main Branch {#7-step-2-update-your-local-main-branch}
-
-Before starting new work, make sure your local `main` is up to date.
-
-``` bash
-git switch main
-git pull
-```
-
-This is important because you usually want to branch from the latest
-project state.
+<p>This is important because you usually want to branch from the latest project state.</p>
+<ul class="simple">
+<li><p><strong>Step 3: Create a Feature Branch</strong></p></li>
+</ul>
+<p>Even when you are a contributor, it is usually best <strong>not</strong> to work directly on <code class="docutils literal notranslate"><span class="pre">main</span></code>. Instead, create a focused branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>feature/improve-login-validation
 </pre></div>
 </div>
-<div class="highlight-{#32a3631a-c6c9-4ed0-ab3a-0b772dd0a9d1 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch main
-git pull
-```
+<p>or:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix/readme-typo
 </pre></div>
 </div>
-<div class="highlight-{#eec89204-91f4-42d9-b0e8-5ddf511f946e notranslate"><div class="highlight"><pre><span></span>## 8. Step 3: Create a Feature Branch {#8-step-3-create-a-feature-branch}
-
-Even when you are a contributor, it is usually best **not** to work
-directly on `main`.
-
-Instead, create a focused branch:
-
-``` bash
-git switch -c feature/improve-login-validation
-```
-
-or:
-
-``` bash
-git switch -c fix/readme-typo
-```
-
-### Why Branches Still Matter
-
-Branches let you:
-
--   isolate one change
--   keep `main` stable
--   make review easier
--   avoid mixing unrelated work
--   simplify rollback and debugging
+<p><strong>Why Branches Still Matter</strong></p>
+<p>Branches let you:</p>
+<ul class="simple">
+<li><p>isolate one change</p></li>
+<li><p>keep <code class="docutils literal notranslate"><span class="pre">main</span></code> stable</p></li>
+<li><p>make review easier</p></li>
+<li><p>avoid mixing unrelated work</p></li>
+<li><p>simplify rollback and debugging</p></li>
+</ul>
+<p><strong>Should Contributors Push Directly to <code class="docutils literal notranslate"><span class="pre">main</span></code>?</strong></p>
+<p>Usually, no.</p>
+<p>Even if technically allowed, many teams discourage or forbid direct
+pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p><strong>Why Direct Pushes Are Risky</strong></p>
+<p>They can:</p>
+<ul class="simple">
+<li><p>bypass code review</p></li>
+<li><p>skip discussion</p></li>
+<li><p>introduce unstable code</p></li>
+<li><p>make auditing harder</p></li>
+<li><p>break CI expectations</p></li>
+<li><p>surprise teammates</p></li>
+</ul>
+<p><strong>Better Practice</strong></p>
+<p>Use:</p>
+<ul class="simple">
+<li><p>short-lived feature branches</p></li>
+<li><p>Pull Requests</p></li>
+<li><p>review gates</p></li>
+<li><p>protected branch rules</p></li>
+</ul>
+<p>In modern team workflows, <code class="docutils literal notranslate"><span class="pre">main</span></code> is often protected specifically to prevent accidental direct pushes.</p>
+<p><strong>Protected Branches</strong></p>
+<p>Many GitHub repositories use <strong>protected branches</strong>.</p>
+<p>A protected branch may require:</p>
+<ul class="simple">
+<li><p>Pull Request before merge</p></li>
+<li><p>at least one approval</p></li>
+<li><p>passing CI checks</p></li>
+<li><p>resolved conversations</p></li>
+<li><p>linear history</p></li>
+<li><p>no force-pushes</p></li>
+<li><p>no direct pushes</p></li>
+</ul>
+<p>This means that even contributors with write access still follow a formal workflow.
+So contributor status gives you <strong>access</strong>, but not necessarily unrestricted freedom.</p>
+<ul class="simple">
+<li><p><strong>Step 4: Make Changes and Commit</strong></p></li>
+</ul>
+<p>After creating your branch, edit the necessary files and commit your work.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Improve login validation for empty email input&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#a459bf3e-e074-4dff-a231-a9989cc3bcb0 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch -c feature/improve-login-validation
-```
+<p><strong>Good Commit Message Advice</strong></p>
+<p>Strong commit messages are:</p>
+<ul class="simple">
+<li><p>clear</p></li>
+<li><p>focused</p></li>
+<li><p>action-based</p></li>
+<li><p>easy for reviewers to understand</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Improve login validation for empty email input&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#cb528d4e-9cc2-4cd7-a5a8-5f071832d65d notranslate"><div class="highlight"><pre><span></span>## 9. Should Contributors Push Directly to `main`? {#9-should-contributors-push-directly-to-main}
-
-Usually, no.
-
-Even if technically allowed, many teams discourage or forbid direct
-pushes to `main`.
-
-### Why Direct Pushes Are Risky
-
-They can:
-
--   bypass code review
--   skip discussion
--   introduce unstable code
--   make auditing harder
--   break CI expectations
--   surprise teammates
-
-### Better Practice
-
-Use:
-
--   short-lived feature branches
--   Pull Requests
--   review gates
--   protected branch rules
-
-In modern team workflows, `main` is often protected specifically to
-prevent accidental direct pushes.
-
-## 10. Protected Branches {#10-protected-branches}
-
-Many GitHub repositories use **protected branches**.
-
-A protected branch may require:
-
--   Pull Request before merge
--   at least one approval
--   passing CI checks
--   resolved conversations
--   linear history
--   no force-pushes
--   no direct pushes
-
-This means that even contributors with write access still follow a
-formal workflow.
-
-So contributor status gives you **access**, but not necessarily
-unrestricted freedom.
-
-## 11. Step 4: Make Changes and Commit {#11-step-4-make-changes-and-commit}
-
-After creating your branch, edit the necessary files and commit your
-work.
-
-``` bash
-git add .
-git commit -m &quot;Improve login validation for empty email input&quot;
-```
-
-### Good Commit Message Advice {#good-commit-message-advice}
-
-Strong commit messages are:
-
--   clear
--   focused
--   action-based
--   easy for reviewers to understand
+<ul class="simple">
+<li><p><strong>Step 5: Push Your Branch to the Shared Repository</strong></p></li>
+</ul>
+<p>Now push your branch to the main shared repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>feature/improve-login-validation
 </pre></div>
 </div>
-<div class="highlight-{#eb1c3da9-adc7-4614-849c-6830eb0643a0 notranslate"><div class="highlight"><pre><span></span>``` python
-git add .
-git commit -m &quot;Improve login validation for empty email input&quot;
-```
+<p>This is a major difference from the fork workflow.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>In Fork Workflow</strong></p>
+<p>You push to:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>your fork
 </pre></div>
 </div>
-<div class="highlight-{#5b4971a1-afc0-443a-8969-da4335c5b77e notranslate"><div class="highlight"><pre><span></span>## 12. Step 5: Push Your Branch to the Shared Repository {#12-step-5-push-your-branch-to-the-shared-repository}
-
-Now push your branch to the main shared repository:
-
-``` bash
-git push origin feature/improve-login-validation
-```
-
-This is a major difference from the fork workflow.
-
-### In Fork Workflow
-
-You push to:
-
-``` text
-your fork
-```
-
-### In Contributor Workflow
-
-You push to:
-
-``` text
-the main repository itself
-```
+<p><strong>In Contributor Workflow</strong></p>
+<p>You push to:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>the main repository itself
 </pre></div>
 </div>
-<div class="highlight-{#a2603ed0-f70f-42fd-912f-4dd8957ef106 notranslate"><div class="highlight"><pre><span></span>``` python
-git push origin feature/improve-login-validation
-```
-</pre></div>
 </div>
-<div class="highlight-{#cdfe6fbe-b285-44a9-9ec9-64437db4dd76 notranslate"><div class="highlight"><pre><span></span>## 13. Step 6: Open a Pull Request from the Same Repository {#13-step-6-open-a-pull-request-from-the-same-repository}
-
-Now create a Pull Request.
-
-In this case, both the source branch and target branch are usually in
-the **same repository**.
-
-Example direction:
-
-``` text
-ORGANIZATION/PROJECT:feature/improve-login-validation
+<ul class="simple">
+<li><p><strong>Step 6: Open a Pull Request from the Same Repository</strong></p></li>
+</ul>
+<p>Now create a Pull Request. In this case, both the source branch and target branch are usually in the <strong>same repository</strong>.</p>
+<p>Example direction:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ORGANIZATION/PROJECT:feature/improve-login-validation
     →
 ORGANIZATION/PROJECT:main
-```
-
-This is different from the fork model, where the source branch lives in
-your fork.
-
-## 14. Why PRs Still Matter for Contributors {#14-why-prs-still-matter-for-contributors}
-
-A Pull Request is useful even when both branches are in the same
-repository.
-
-PRs provide:
-
--   peer review
--   architectural feedback
--   CI validation
--   historical record of discussion
--   visibility for teammates
--   a checkpoint before code reaches `main`
-
-In strong engineering teams, the Pull Request is a collaboration tool,
-not just a permission workaround.
-
-## 15. Same-Repository PR vs Fork PR {#15-same-repository-pr-vs-fork-pr}
-
-### Fork PR
-
-``` text
-your-username/PROJECT:my-branch
+</pre></div>
+</div>
+<p>This is different from the fork model, where the source branch lives in your fork.</p>
+<p><strong>Why PRs Still Matter for Contributors</strong></p>
+<p>A Pull Request is useful even when both branches are in the same repository.</p>
+<p>PRs provide:</p>
+<ul class="simple">
+<li><p>peer review</p></li>
+<li><p>architectural feedback</p></li>
+<li><p>CI validation</p></li>
+<li><p>historical record of discussion</p></li>
+<li><p>visibility for teammates</p></li>
+<li><p>a checkpoint before code reaches <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+<p>In strong engineering teams, the Pull Request is a collaboration tool, not just a permission workaround.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Same-Repository PR vs Fork PR</strong></p>
+<p><strong>Fork PR</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>your-username/PROJECT:my-branch
     →
 ORIGINAL_OWNER/PROJECT:main
-```
-
-### Contributor PR
-
-``` text
-ORGANIZATION/PROJECT:my-branch
+</pre></div>
+</div>
+<p><strong>Contributor PR</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>ORGANIZATION/PROJECT:my-branch
     →
 ORGANIZATION/PROJECT:main
-```
-
-### Key Difference
-
-The branch source lives in a different place:
-
--   fork PR → branch in your fork
--   contributor PR → branch in the main repository
-
-## 16. Team Naming Conventions for Branches {#16-team-naming-conventions-for-branches}
-
-Professional teams often use naming conventions such as:
-
--   `feature/add-export-button`
--   `fix/login-timeout`
--   `docs/update-installation-guide`
--   `refactor/auth-service`
--   `test/add-user-service-tests`
-
-These names help reviewers understand branch intent quickly.
-
-## 17. Typical Contributor Workflow Example {#17-typical-contributor-workflow-example}
-
-Let us imagine you are part of the team and want to fix a bug.
-
-### Steps {#steps}
-
-1.  clone the main repository
-2.  switch to `main`
-3.  pull latest changes
-4.  create branch `fix/login-timeout`
-5.  make your changes
-6.  commit
-7.  push branch to `origin`
-8.  open Pull Request
-9.  address review comments
-10. merge after approval
 </pre></div>
 </div>
-<div class="highlight-{#7c98600a-e144-4cc7-a47c-f45214d87ed3 notranslate"><div class="highlight"><pre><span></span>``` python
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-git switch main
-git pull
-git switch -c fix/login-timeout
-git add .
-git commit -m &quot;Fix login timeout handling&quot;
-git push origin fix/login-timeout
-```
+<p><strong>Key Difference</strong></p>
+<p>The branch source lives in a different place:</p>
+<ul class="simple">
+<li><p>fork PR → branch in your fork</p></li>
+<li><p>contributor PR → branch in the main repository</p></li>
+</ul>
+</div>
+<p><strong>Team Naming Conventions for Branches</strong></p>
+<p>Professional teams often use naming conventions such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/add-export-button</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix/login-timeout</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs/update-installation-guide</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">refactor/auth-service</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test/add-user-service-tests</span></code></p></li>
+</ul>
+<p>These names help reviewers understand branch intent quickly.</p>
+<hr class="docutils" />
+<p><strong>Typical Contributor Workflow Example</strong></p>
+<p>Let us imagine you are part of the team and want to fix a bug.</p>
+<p><strong>Steps</strong></p>
+<ol class="arabic simple">
+<li><p>clone the main repository</p></li>
+<li><p>switch to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>pull latest changes</p></li>
+<li><p>create branch <code class="docutils literal notranslate"><span class="pre">fix/login-timeout</span></code></p></li>
+<li><p>make your changes</p></li>
+<li><p>commit</p></li>
+<li><p>push branch to <code class="docutils literal notranslate"><span class="pre">origin</span></code></p></li>
+<li><p>open Pull Request</p></li>
+<li><p>address review comments</p></li>
+<li><p>merge after approval</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ORGANIZATION/PROJECT.git
+<span class="nb">cd</span><span class="w"> </span>PROJECT
+git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>fix/login-timeout
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix login timeout handling&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix/login-timeout
 </pre></div>
 </div>
-<div class="highlight-{#63049cbf-4cfa-4f3f-931c-600578de8f75 notranslate"><div class="highlight"><pre><span></span>## 18. What If Reviewers Request Changes? {#18-what-if-reviewers-request-changes}
-
-Just like in fork workflow, you usually stay on the same branch.
-
-Example:
-
-``` bash
-git add .
-git commit -m &quot;Address review comments&quot;
-git push origin fix/login-timeout
-```
-
-The Pull Request updates automatically because it is tracking that same
-branch.
+<hr class="docutils" />
+<p><strong>What If Reviewers Request Changes?</strong></p>
+<p>Just like in fork workflow, you usually stay on the same branch.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Address review comments&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix/login-timeout
 </pre></div>
 </div>
-<div class="highlight-{#1bb50297-6971-4e04-a84a-07dc3fe6d01e notranslate"><div class="highlight"><pre><span></span>``` python
-git add .
-git commit -m &quot;Address review comments&quot;
-git push origin fix/login-timeout
-```
+<p>The Pull Request updates automatically because it is tracking that same branch.</p>
+<p><strong>Syncing Your Branch with Main</strong></p>
+<p>While your Pull Request is open, <code class="docutils literal notranslate"><span class="pre">main</span></code> may move forward. You may need to update your branch.</p>
+<ul class="simple">
+<li><p>Option A: Merge <code class="docutils literal notranslate"><span class="pre">main</span></code> into your branch</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>fix/login-timeout
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>merge<span class="w"> </span>origin/main
 </pre></div>
 </div>
-<div class="highlight-{#e8996ac1-34e8-442a-af6e-358d2425ac8f notranslate"><div class="highlight"><pre><span></span>## 19. Syncing Your Branch with Main {#19-syncing-your-branch-with-main}
-
-While your Pull Request is open, `main` may move forward.
-
-You may need to update your branch.
-
-### Option A: Merge `main` into your branch
-
-``` bash
-git switch fix/login-timeout
-git fetch origin
-git merge origin/main
-```
-
-### Option B: Rebase onto `main`
-
-``` bash
-git switch fix/login-timeout
-git fetch origin
-git rebase origin/main
-```
-
-Which option to use depends on team policy.
+<ul class="simple">
+<li><p>Option B: Rebase onto <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>fix/login-timeout
+git<span class="w"> </span>fetch<span class="w"> </span>origin
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
 </pre></div>
 </div>
-<div class="highlight-{#80b45246-4d90-4a31-a2b2-f67b274b7f12 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch fix/login-timeout
-git fetch origin
-git merge origin/main
-```
+<p>Which option to use depends on team policy.</p>
+<p><strong>What If the Team Allows Direct Pushes?</strong></p>
+<p>Some small teams or personal team projects do allow direct pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code>. That workflow might look like:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>pull
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Small update&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
-<div class="highlight-{#d13c7c07-39fd-4072-b296-0da50ac94ad2 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch fix/login-timeout
-git fetch origin
-git rebase origin/main
-```
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Even if allowed, direct pushes are usually best reserved for:</p>
+<ul class="simple">
+<li><p>tiny low-risk changes</p></li>
+<li><p>emergency hotfixes</p></li>
+<li><p>trusted internal workflows</p></li>
+<li><p>solo-maintainer repositories</p></li>
+</ul>
+<p>For most collaborative work, feature branches and PRs are still safer.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Common Mistakes Contributors Make</strong></p>
+<ol class="arabic simple">
+<li><p>Working directly on <code class="docutils literal notranslate"><span class="pre">main</span></code>. This increases risk and reduces review quality.</p></li>
+<li><p>Pushing half-finished work to shared branches without clarity. Teammates may review unstable code too early.</p></li>
+<li><p>Opening giant PRs. Smaller changes are easier to review and merge.</p></li>
+<li><p>Ignoring branch naming conventions. This makes the shared repository harder to navigate.</p></li>
+<li><p>Forgetting to pull before creating a branch. You may branch from outdated <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p>Rebasing shared team branches carelessly. If others use the same branch, history rewriting becomes dangerous.</p></li>
+</ol>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="professional-guide-to-reset-revert-restore-amend-and-cherry-pick">
+<h1>Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick<a class="headerlink" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h1>
+<p>This section is on five highly practical Git topics:</p>
+<ul class="simple">
+<li><p><strong>reset</strong></p></li>
+<li><p><strong>revert</strong></p></li>
+<li><p><strong>restore</strong></p></li>
+<li><p><strong>amend</strong></p></li>
+<li><p><strong>cherry-pick</strong></p></li>
+</ul>
+<p>These commands are essential once a learner understands commits,
+branches, merges, rebases, and Pull Requests.</p>
+<p>They help answer real-world questions such as:</p>
+<ul class="simple">
+<li><p>How do I undo something safely?</p></li>
+<li><p>How do I fix the last commit?</p></li>
+<li><p>How do I restore a file?</p></li>
+<li><p>How do I move one specific commit to another branch?</p></li>
+<li><p>When should I rewrite history, and when should I preserve it?</p></li>
+</ul>
+<hr class="docutils" />
+<section id="learning-goals-learning-goals">
+<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain the difference between <strong>reset</strong> and <strong>revert</strong></p></li>
+<li><p>understand the purpose of <strong>restore</strong></p></li>
+<li><p>amend the most recent commit safely</p></li>
+<li><p>move a specific commit with <strong>cherry-pick</strong></p></li>
+<li><p>choose the correct tool depending on whether history should be
+rewritten or preserved</p></li>
+<li><p>avoid common mistakes when undoing or reusing work</p></li>
+</ul>
+</section>
+<section id="why-these-commands-matter-1-why-these-commands-matter">
+<h2>1. Why These Commands Matter {#1-why-these-commands-matter}<a class="headerlink" href="#why-these-commands-matter-1-why-these-commands-matter" title="Permalink to this heading">#</a></h2>
+<p>In real Git usage, people often need to correct mistakes.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>you committed too early</p></li>
+<li><p>you forgot to include one file in the last commit</p></li>
+<li><p>you want to undo a bad commit without deleting history</p></li>
+<li><p>you accidentally staged the wrong file</p></li>
+<li><p>you want to bring one bug fix from one branch into another</p></li>
+<li><p>you want to discard local edits and go back to the committed state</p></li>
+</ul>
+<p>These are not rare situations. They are part of normal Git work.</p>
+<p>That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are
+core professional tools.</p>
+</section>
+<section id="a-high-level-map-2-a-high-level-map">
+<h2>2. A High-Level Map {#2-a-high-level-map}<a class="headerlink" href="#a-high-level-map-2-a-high-level-map" title="Permalink to this heading">#</a></h2>
+<p>A useful mental model is this:</p>
+<ul class="simple">
+<li><p><strong>reset</strong> → move branch pointers and optionally unstage or discard
+changes</p></li>
+<li><p><strong>revert</strong> → create a new commit that undoes an earlier commit</p></li>
+<li><p><strong>restore</strong> → restore file contents or unstage changes</p></li>
+<li><p><strong>amend</strong> → modify the most recent commit</p></li>
+<li><p><strong>cherry-pick</strong> → apply one specific commit onto another branch</p></li>
+</ul>
+<section id="another-useful-distinction">
+<h3>Another Useful Distinction<a class="headerlink" href="#another-useful-distinction" title="Permalink to this heading">#</a></h3>
+<p>Some commands primarily <strong>rewrite local history</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">--amend</span></code></p></li>
+</ul>
+<p>Some commands primarily <strong>preserve history while undoing effects</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+</ul>
+<p>Some commands primarily <strong>manipulate working tree or staging area
+state</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
+</ul>
+<p>Some commands <strong>reuse existing work across branches</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">
+<h2>3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}<a class="headerlink" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history" title="Permalink to this heading">#</a></h2>
+<p>Before using undo commands well, you need this model:</p>
+<section id="working-tree">
+<h3>Working Tree<a class="headerlink" href="#working-tree" title="Permalink to this heading">#</a></h3>
+<p>The actual files in your project directory.</p>
+</section>
+<section id="staging-area">
+<h3>Staging Area<a class="headerlink" href="#staging-area" title="Permalink to this heading">#</a></h3>
+<p>The set of changes prepared for the next commit.</p>
+</section>
+<section id="commit-history">
+<h3>Commit History<a class="headerlink" href="#commit-history" title="Permalink to this heading">#</a></h3>
+<p>The already-recorded snapshots in Git.</p>
+<p>Many Git commands differ because they affect different layers.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><p>one command may only unstage files</p></li>
+<li><p>another may change the working tree</p></li>
+<li><p>another may move the branch pointer</p></li>
+<li><p>another may add a brand-new commit</p></li>
+</ul>
+<p>That is why these commands can feel similar at first but behave very
+differently.</p>
+</section>
+</section>
+<section id="git-reset-core-idea-4-git-reset-core-idea">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}<a class="headerlink" href="#git-reset-core-idea-4-git-reset-core-idea" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> is one of the most powerful and potentially dangerous Git
+commands.</p>
+<p>Its core purpose is to move <strong>HEAD</strong> and sometimes also affect:</p>
+<ul class="simple">
+<li><p>the staging area</p></li>
+<li><p>the working tree</p></li>
+</ul>
+<section id="conceptual-meaning">
+<h3>Conceptual Meaning<a class="headerlink" href="#conceptual-meaning" title="Permalink to this heading">#</a></h3>
+<p>At a high level, <code class="docutils literal notranslate"><span class="pre">reset</span></code> says:</p>
+<blockquote>
+<div><p>Move my current branch to a different commit, and possibly adjust
+staged or working changes to match.</p>
+</div></blockquote>
+<p>Because of that, <code class="docutils literal notranslate"><span class="pre">reset</span></code> can be:</p>
+<ul class="simple">
+<li><p>very helpful</p></li>
+<li><p>very destructive if used carelessly</p></li>
+</ul>
+</section>
+</section>
+<section id="common-forms-of-git-reset-5-common-forms-of-git-reset">
+<h2>5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}<a class="headerlink" href="#common-forms-of-git-reset-5-common-forms-of-git-reset" title="Permalink to this heading">#</a></h2>
+<p>Three common modes are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--soft</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--mixed</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--hard</span></code></p></li>
+</ul>
+<section id="soft-soft">
+<h3><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}<a class="headerlink" href="#soft-soft" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer, but keeps changes staged.</p>
+</section>
+<section id="mixed-mixed">
+<h3><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}<a class="headerlink" href="#mixed-mixed" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer and unstages changes, but keeps file
+modifications in the working tree.</p>
+</section>
+<section id="hard-hard">
+<h3><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}<a class="headerlink" href="#hard-hard" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer, unstages changes, and resets files in the
+working tree.</p>
+<p>This is the most dangerous form because it can discard local work.</p>
+</section>
+</section>
+<section id="git-reset-soft-6-git-reset-soft">
+<h2>6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}<a class="headerlink" href="#git-reset-soft-6-git-reset-soft" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
 </pre></div>
 </div>
-<div class="highlight-{#c12d3416-6389-4ae7-bc90-dcfb18e820cc notranslate"><div class="highlight"><pre><span></span>## 20. What If the Team Allows Direct Pushes? {#20-what-if-the-team-allows-direct-pushes}
-
-Some small teams or personal team projects do allow direct pushes to
-`main`.
-
-That workflow might look like:
-
-``` bash
-git switch main
-git pull
-git add .
-git commit -m &quot;Small update&quot;
-git push origin main
-```
-
-### Important Warning
-
-Even if allowed, direct pushes are usually best reserved for:
-
--   tiny low-risk changes
--   emergency hotfixes
--   trusted internal workflows
--   solo-maintainer repositories
-
-For most collaborative work, feature branches and PRs are still safer.
-</pre></div>
-</div>
-<div class="highlight-{#22892d50-f3f1-471a-a8eb-df6f7e62087c notranslate"><div class="highlight"><pre><span></span>``` python
-git switch main
-git pull
-git add .
-git commit -m &quot;Small update&quot;
-git push origin main
-```
-</pre></div>
-</div>
-<div class="highlight-{#9f988b68-18fa-4fdb-a45a-07d808e61f5d notranslate"><div class="highlight"><pre><span></span>## 21. Contributor Workflow and Code Review Culture {#21-contributor-workflow-and-code-review-culture}
-
-Being a contributor is not only a permission issue.\
-It is also a professional responsibility.
-
-A strong contributor usually:
-
--   keeps branches focused
--   writes understandable commit messages
--   respects review comments
--   runs tests before pushing
--   updates stale branches
--   avoids mixing unrelated changes
--   understands team standards and repository rules
-
-So contributor access should be paired with disciplined workflow habits.
-
-## 22. Protected Main + Contributor Branches = Common Professional Pattern {#22-protected-main--contributor-branches--common-professional-pattern}
-
-A very common modern setup is:
-
--   contributors have write access
--   `main` is protected
--   contributors can create branches
--   contributors push those branches to the same repo
--   PR review is required
--   CI must pass before merge
-
-This combination gives teams the best of both worlds:
-
--   easy collaboration
--   strong quality control
-
-## 23. Contributor Workflow vs Fork Workflow: Side-by-Side {#23-contributor-workflow-vs-fork-workflow-side-by-side}
-
-### Fork Workflow
-
-Used when you do not have write access.
-
-``` text
-Fork → Clone fork → Create branch → Push to fork → PR to upstream
-```
-
-### Contributor Workflow {#contributor-workflow}
-
-Used when you have write access.
-
-``` text
-Clone main repo → Create branch → Push to same repo → PR to main
-```
-
-### Main Conceptual Difference
-
-The technical Git operations are similar.
-
-The main difference is:
-
--   where `origin` points
--   where the branch is pushed
--   whether a fork exists at all
-
-## 24. Common Mistakes Contributors Make {#24-common-mistakes-contributors-make}
-
-### 1. Working directly on `main` {#1-working-directly-on-main}
-
-This increases risk and reduces review quality.
-
-### 2. Pushing half-finished work to shared branches without clarity {#2-pushing-half-finished-work-to-shared-branches-without-clarity}
-
-Teammates may review unstable code too early.
-
-### 3. Opening giant PRs {#3-opening-giant-prs}
-
-Smaller changes are easier to review and merge.
-
-### 4. Ignoring branch naming conventions {#4-ignoring-branch-naming-conventions}
-
-This makes the shared repository harder to navigate.
-
-### 5. Forgetting to pull before creating a branch {#5-forgetting-to-pull-before-creating-a-branch}
-
-You may branch from outdated `main`.
-
-### 6. Rebasing shared team branches carelessly {#6-rebasing-shared-team-branches-carelessly}
-
-If others use the same branch, history rewriting becomes dangerous.
-
-## 25. Suggested Best Practices for Contributors {#25-suggested-best-practices-for-contributors}
-
-1.  always update `main` before branching\
-2.  create one branch per topic or fix\
-3.  use clear names for branches\
-4.  commit logically, not randomly\
-5.  open Pull Requests early enough for review\
-6.  keep PRs focused and readable\
-7.  merge or rebase from `main` regularly if the branch stays open\
-8.  follow repository rules and templates\
-9.  do not treat write access as permission to skip discipline\
-10. protect `main` whenever possible
-
-## 26. Complete Example: Contributor Fixing a Bug {#26-complete-example-contributor-fixing-a-bug}
-
-Suppose you are on the core team of a project and want to fix a timeout
-bug.
-
-### Workflow
-
-``` bash
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-git switch main
-git pull
-git switch -c fix/login-timeout
-# edit files
-git add .
-git commit -m &quot;Fix login timeout handling&quot;
-git push origin fix/login-timeout
-```
-
-Then on GitHub:
-
--   open a Pull Request from `fix/login-timeout` into `main`
--   wait for CI and review
--   make requested updates if needed
--   merge after approval
-</pre></div>
-</div>
-<div class="highlight-{#010d8fd4-9011-4702-b355-9b19784807cb notranslate"><div class="highlight"><pre><span></span>``` python
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-git switch main
-git pull
-git switch -c fix/login-timeout
-git add .
-git commit -m &quot;Fix login timeout handling&quot;
-git push origin fix/login-timeout
-```
-</pre></div>
-</div>
-<div class="highlight-{#c86e9002-cb16-4cf2-be42-e394e67e842c notranslate"><div class="highlight"><pre><span></span>## 27. Quick Reference Commands {#27-quick-reference-commands}
-
-### Clone main repository
-
-``` bash
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-```
-
-### Update main
-
-``` bash
-git switch main
-git pull
-```
-
-### Create branch
-
-``` bash
-git switch -c feature/my-change
-```
-
-### Commit changes
-
-``` bash
-git add .
-git commit -m &quot;Describe your change&quot;
-```
-
-### Push branch {#push-branch}
-
-``` bash
-git push origin feature/my-change
-```
-
-### Update branch with main using merge
-
-``` bash
-git fetch origin
-git switch feature/my-change
-git merge origin/main
-```
-
-### Update branch with main using rebase
-
-``` bash
-git fetch origin
-git switch feature/my-change
-git rebase origin/main
-```
-
-## 28. Final Summary {#28-final-summary}
-
-When you are already a **contributor with write access**, you usually do
-**not** need a fork.
-
-The standard workflow becomes:
-
-``` text
-Clone main repository → Create branch → Commit → Push branch → Pull Request
-```
-
-Key ideas:
-
--   write access removes the need for a fork
--   it does not remove the value of branches or Pull Requests
--   direct pushes to `main` are often discouraged
--   professional teams often combine contributor access with protected
-    branches
--   contributor workflow is about collaboration discipline, not just
-    permissions
-
-## 29. Suggested Practice Exercises {#29-suggested-practice-exercises}
-
-1.  clone a repository where you have write access
-2.  update your local `main`
-3.  create a branch called `docs/test-contributor-flow`
-4.  make a small documentation change
-5.  commit the change
-6.  push the branch to the shared repository
-7.  draft a Pull Request from that branch into `main`
-8.  optionally simulate a review update by making one more commit and
-    pushing again
-
-This practice will make the contributor workflow feel natural and
-distinct from the fork workflow.
-</pre></div>
-</div>
-<div class="highlight-{#0db059fd-5112-4b32-a413-a1d8bd3bc80c notranslate"><div class="highlight"><pre><span></span># Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick
-
-This section is on five highly practical Git topics:
-
--   **reset**
--   **revert**
--   **restore**
--   **amend**
--   **cherry-pick**
-
-These commands are essential once a learner understands commits,
-branches, merges, rebases, and Pull Requests.
-
-They help answer real-world questions such as:
-
--   How do I undo something safely?
--   How do I fix the last commit?
--   How do I restore a file?
--   How do I move one specific commit to another branch?
--   When should I rewrite history, and when should I preserve it?
-
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
-
-By the end of this section, you should be able to:
-
--   explain the difference between **reset** and **revert**
--   understand the purpose of **restore**
--   amend the most recent commit safely
--   move a specific commit with **cherry-pick**
--   choose the correct tool depending on whether history should be
-    rewritten or preserved
--   avoid common mistakes when undoing or reusing work
-
-## 1. Why These Commands Matter {#1-why-these-commands-matter}
-
-In real Git usage, people often need to correct mistakes.
-
-Examples:
-
--   you committed too early
--   you forgot to include one file in the last commit
--   you want to undo a bad commit without deleting history
--   you accidentally staged the wrong file
--   you want to bring one bug fix from one branch into another
--   you want to discard local edits and go back to the committed state
-
-These are not rare situations. They are part of normal Git work.
-
-That is why `reset`, `revert`, `restore`, `amend`, and `cherry-pick` are
-core professional tools.
-
-## 2. A High-Level Map {#2-a-high-level-map}
-
-A useful mental model is this:
-
--   **reset** → move branch pointers and optionally unstage or discard
-    changes
--   **revert** → create a new commit that undoes an earlier commit
--   **restore** → restore file contents or unstage changes
--   **amend** → modify the most recent commit
--   **cherry-pick** → apply one specific commit onto another branch
-
-### Another Useful Distinction
-
-Some commands primarily **rewrite local history**:
-
--   `reset`
--   `commit --amend`
-
-Some commands primarily **preserve history while undoing effects**:
-
--   `revert`
-
-Some commands primarily **manipulate working tree or staging area
-state**:
-
--   `restore`
-
-Some commands **reuse existing work across branches**:
-
--   `cherry-pick`
-
-## 3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}
-
-Before using undo commands well, you need this model:
-
-### Working Tree
-
-The actual files in your project directory.
-
-### Staging Area
-
-The set of changes prepared for the next commit.
-
-### Commit History
-
-The already-recorded snapshots in Git.
-
-Many Git commands differ because they affect different layers.
-
-For example:
-
--   one command may only unstage files
--   another may change the working tree
--   another may move the branch pointer
--   another may add a brand-new commit
-
-That is why these commands can feel similar at first but behave very
-differently.
-
-## 4. `git reset`: Core Idea {#4-git-reset-core-idea}
-
-`git reset` is one of the most powerful and potentially dangerous Git
-commands.
-
-Its core purpose is to move **HEAD** and sometimes also affect:
-
--   the staging area
--   the working tree
-
-### Conceptual Meaning
-
-At a high level, `reset` says:
-
-&gt; Move my current branch to a different commit, and possibly adjust
-&gt; staged or working changes to match.
-
-Because of that, `reset` can be:
-
--   very helpful
--   very destructive if used carelessly
-
-## 5. Common Forms of `git reset` {#5-common-forms-of-git-reset}
-
-Three common modes are:
-
--   `--soft`
--   `--mixed`
--   `--hard`
-
-### `--soft` {#--soft}
-
-Moves the branch pointer, but keeps changes staged.
-
-### `--mixed` {#--mixed}
-
-Moves the branch pointer and unstages changes, but keeps file
-modifications in the working tree.
-
-### `--hard` {#--hard}
-
-Moves the branch pointer, unstages changes, and resets files in the
-working tree.
-
-This is the most dangerous form because it can discard local work.
-
-## 6. `git reset --soft` {#6-git-reset---soft}
-
-Example:
-
-``` bash
-git reset --soft HEAD~1
-```
-
-This means:
-
--   move the current branch back by one commit
--   keep the changes from that commit staged
-
-### Use Case
-
-You made a commit, but now want to:
-
--   rewrite the message
--   split the work differently
--   recommit in a cleaner way
-
-This is useful when the commit itself was premature, but the content is
-still correct.
-</pre></div>
-</div>
-<div class="highlight-{#a67a9dc3-4f22-4361-80ce-e05a0eaf2d08 notranslate"><div class="highlight"><pre><span></span>``` python
+<p>This means:</p>
+<ul class="simple">
+<li><p>move the current branch back by one commit</p></li>
+<li><p>keep the changes from that commit staged</p></li>
+</ul>
+<section id="use-case">
+<h3>Use Case<a class="headerlink" href="#use-case" title="Permalink to this heading">#</a></h3>
+<p>You made a commit, but now want to:</p>
+<ul class="simple">
+<li><p>rewrite the message</p></li>
+<li><p>split the work differently</p></li>
+<li><p>recommit in a cleaner way</p></li>
+</ul>
+<p>This is useful when the commit itself was premature, but the content is
+still correct.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#a67a9dc3-4f22-4361-80ce-e05a0eaf2d08 .cell .code}
+``` python
 git reset --soft HEAD~1
 ```
 </pre></div>
@@ -4275,6 +3890,7 @@ git branch past-code 90544b4fa
 </div>
 </section>
 </section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -4362,22 +3978,38 @@ git branch past-code 90544b4fa
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick">Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-based-workflow">Fork-Based Workflow</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">Contributor Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter-1-why-these-commands-matter">1. Why These Commands Matter {#1-why-these-commands-matter}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map-2-a-high-level-map">2. A High-Level Map {#2-a-high-level-map}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-why">Why? {#why}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history-3-working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History {#3-working-tree-staging-area-and-commit-history}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-contributor-workflow-4-high-level-contributor-workflow">4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea-4-git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea {#4-git-reset-core-idea}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset-5-common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> {#5-common-forms-of-git-reset}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft-soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code> {#–soft}</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code> {#–mixed}</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard-hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code> {#–hard}</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft-6-git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code> {#6-git-reset—soft}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

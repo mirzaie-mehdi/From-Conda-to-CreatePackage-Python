@@ -1790,14 +1790,10 @@ This is often offered in GitHub Pull Requests.
 -   squash merge compresses branch history at integration time
 
 
-## Contributor
+### Contributor
 
-This section is for the case where you are already a **contributor** or
-team member and have **write access** to the main repository. In this
-situation, the workflow is usually different from the fork-based
-open-source workflow.
-
-Instead of:
+This section is for the case where you are already a **contributor** or team member and have **write access** to the main repository. In this
+situation, the workflow is usually different from the fork-based open-source workflow. Instead of:
 
 ``` text
 Fork → Clone → Branch → Push to your fork → Pull Request
@@ -1817,9 +1813,6 @@ Clone main repository → Create branch → Commit → Push branch → Merge dir
 
 depending on team policy.
 
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
 
 By the end of this section, you should be able to:
 
@@ -1832,14 +1825,12 @@ By the end of this section, you should be able to:
 -   understand when direct pushes to `main` are discouraged
 -   work safely in a collaborative team environment
 
-## 1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}
+**What Changes When You Are a Contributor?**
 
-When you are a **contributor with write access**, you no longer need
-your own fork in order to propose changes.
-
+When you are a **contributor with write access**, you no longer need your own fork in order to propose changes.
 That is the key difference.
 
-### Fork-Based Workflow
+**Fork-Based Workflow**
 
 Used when:
 
@@ -1847,7 +1838,7 @@ Used when:
 -   you contribute from outside the core team
 -   you submit changes through your own fork
 
-### Contributor Workflow
+**Contributor Workflow**
 
 Used when:
 
@@ -1855,10 +1846,9 @@ Used when:
 -   you are part of the organization or trusted team
 -   you can push branches directly to the main repository
 
-So if you are already a contributor, the repository itself can usually
-act as the shared collaboration space.
+So if you are already a contributor, the repository itself can usually act as the shared collaboration space.
 
-## 2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}
+**Do Contributors Still Use Pull Requests?**
 
 Very often, yes.
 
@@ -1876,9 +1866,9 @@ In many professional teams, even contributors with write access still:
 -   wait for review
 -   merge only after approval
 
-### Why? {#why}
+Why?
 
-Because Pull Requests are not only about permissions.\
+Because Pull Requests are not only about permissions.
 They are also about:
 
 -   review quality
@@ -1887,24 +1877,7 @@ They are also about:
 -   documentation of why a change happened
 -   protecting the stability of `main`
 
-## 3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}
-
-A fork is usually unnecessary when:
-
--   you are already on the project team
--   you have write access to the main repository
--   your organization expects branch-based collaboration inside the same
-    repo
-
-In that case, the normal pattern is:
-
-``` text
-main repository → feature branch → PR into main
-```
-
-There is no extra GitHub copy under your personal account.
-
-## 4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}
+**High-Level Contributor Workflow**
 
 A common contributor workflow looks like this:
 
@@ -1912,17 +1885,14 @@ A common contributor workflow looks like this:
 Clone main repository → Create feature branch → Edit → Commit → Push branch → Open Pull Request → Review → Merge
 ```
 
-This is similar to the fork workflow, but the difference is where the
-branch lives:
+This is similar to the fork workflow, but the difference is where the branch lives:
 
 -   in fork workflow, the branch lives in **your fork**
--   in contributor workflow, the branch lives in the **main shared
-    repository**
+-   in contributor workflow, the branch lives in the **main shared repository**
 
-## 5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}
+- **Step 1: Clone the Main Repository**
 
-Since you already have access, you normally clone the main repository
-directly.
+Since you already have access, you normally clone the main repository directly.
 
 ``` bash
 git clone git@github.com:ORGANIZATION/PROJECT.git
@@ -1932,17 +1902,8 @@ cd PROJECT
 There is no need to fork first.
 
 Your `origin` now points directly to the shared repository.
-:::
 
-::: {#19383747-f002-4938-84ba-4ea23c984094 .cell .code}
-``` python
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-```
-:::
-
-::: {#3ad793e5-75e9-4f1e-8034-e6854133f6e5 .cell .markdown}
-## 6. Understanding `origin` in Contributor Workflow {#6-understanding-origin-in-contributor-workflow}
+**Understanding `origin` in Contributor Workflow**
 
 In a fork-based workflow:
 
@@ -1965,18 +1926,9 @@ Possible output:
 origin  git@github.com:ORGANIZATION/PROJECT.git
 ```
 
-In many cases, there is no need for an `upstream` remote at all, because
-you are already working directly with the main repository.
-:::
+In many cases, there is no need for an `upstream` remote at all, because you are already working directly with the main repository.
 
-::: {#d4a3a98e-983e-48ee-8d1d-7fbef9bf7910 .cell .code}
-``` python
-git remote -v
-```
-:::
-
-::: {#75e72c92-4242-4200-97fd-4cc3cb435cf1 .cell .markdown}
-## 7. Step 2: Update Your Local Main Branch {#7-step-2-update-your-local-main-branch}
+- **Step 2: Update Your Local Main Branch**
 
 Before starting new work, make sure your local `main` is up to date.
 
@@ -1985,24 +1937,11 @@ git switch main
 git pull
 ```
 
-This is important because you usually want to branch from the latest
-project state.
-:::
+This is important because you usually want to branch from the latest project state.
 
-::: {#32a3631a-c6c9-4ed0-ab3a-0b772dd0a9d1 .cell .code}
-``` python
-git switch main
-git pull
-```
-:::
+- **Step 3: Create a Feature Branch**
 
-::: {#eec89204-91f4-42d9-b0e8-5ddf511f946e .cell .markdown}
-## 8. Step 3: Create a Feature Branch {#8-step-3-create-a-feature-branch}
-
-Even when you are a contributor, it is usually best **not** to work
-directly on `main`.
-
-Instead, create a focused branch:
+Even when you are a contributor, it is usually best **not** to work directly on `main`. Instead, create a focused branch:
 
 ``` bash
 git switch -c feature/improve-login-validation
@@ -2014,7 +1953,7 @@ or:
 git switch -c fix/readme-typo
 ```
 
-### Why Branches Still Matter
+**Why Branches Still Matter**
 
 Branches let you:
 
@@ -2023,23 +1962,15 @@ Branches let you:
 -   make review easier
 -   avoid mixing unrelated work
 -   simplify rollback and debugging
-:::
 
-::: {#a459bf3e-e074-4dff-a231-a9989cc3bcb0 .cell .code}
-``` python
-git switch -c feature/improve-login-validation
-```
-:::
-
-::: {#cb528d4e-9cc2-4cd7-a5a8-5f071832d65d .cell .markdown}
-## 9. Should Contributors Push Directly to `main`? {#9-should-contributors-push-directly-to-main}
+**Should Contributors Push Directly to `main`?**
 
 Usually, no.
 
 Even if technically allowed, many teams discourage or forbid direct
 pushes to `main`.
 
-### Why Direct Pushes Are Risky
+**Why Direct Pushes Are Risky**
 
 They can:
 
@@ -2050,7 +1981,7 @@ They can:
 -   break CI expectations
 -   surprise teammates
 
-### Better Practice
+**Better Practice**
 
 Use:
 
@@ -2059,10 +1990,9 @@ Use:
 -   review gates
 -   protected branch rules
 
-In modern team workflows, `main` is often protected specifically to
-prevent accidental direct pushes.
+In modern team workflows, `main` is often protected specifically to prevent accidental direct pushes.
 
-## 10. Protected Branches {#10-protected-branches}
+**Protected Branches**
 
 Many GitHub repositories use **protected branches**.
 
@@ -2076,23 +2006,19 @@ A protected branch may require:
 -   no force-pushes
 -   no direct pushes
 
-This means that even contributors with write access still follow a
-formal workflow.
+This means that even contributors with write access still follow a formal workflow.
+So contributor status gives you **access**, but not necessarily unrestricted freedom.
 
-So contributor status gives you **access**, but not necessarily
-unrestricted freedom.
+- **Step 4: Make Changes and Commit**
 
-## 11. Step 4: Make Changes and Commit {#11-step-4-make-changes-and-commit}
-
-After creating your branch, edit the necessary files and commit your
-work.
+After creating your branch, edit the necessary files and commit your work.
 
 ``` bash
 git add .
 git commit -m "Improve login validation for empty email input"
 ```
 
-### Good Commit Message Advice {#good-commit-message-advice}
+**Good Commit Message Advice**
 
 Strong commit messages are:
 
@@ -2100,17 +2026,13 @@ Strong commit messages are:
 -   focused
 -   action-based
 -   easy for reviewers to understand
-:::
 
-::: {#eb1c3da9-adc7-4614-849c-6830eb0643a0 .cell .code}
-``` python
+``` bash
 git add .
 git commit -m "Improve login validation for empty email input"
 ```
-:::
 
-::: {#5b4971a1-afc0-443a-8969-da4335c5b77e .cell .markdown}
-## 12. Step 5: Push Your Branch to the Shared Repository {#12-step-5-push-your-branch-to-the-shared-repository}
+- **Step 5: Push Your Branch to the Shared Repository**
 
 Now push your branch to the main shared repository:
 
@@ -2120,7 +2042,9 @@ git push origin feature/improve-login-validation
 
 This is a major difference from the fork workflow.
 
-### In Fork Workflow
+:::{note}
+
+**In Fork Workflow**
 
 You push to:
 
@@ -2128,7 +2052,7 @@ You push to:
 your fork
 ```
 
-### In Contributor Workflow
+**In Contributor Workflow**
 
 You push to:
 
@@ -2137,19 +2061,10 @@ the main repository itself
 ```
 :::
 
-::: {#a2603ed0-f70f-42fd-912f-4dd8957ef106 .cell .code}
-``` python
-git push origin feature/improve-login-validation
-```
-:::
 
-::: {#cdfe6fbe-b285-44a9-9ec9-64437db4dd76 .cell .markdown}
-## 13. Step 6: Open a Pull Request from the Same Repository {#13-step-6-open-a-pull-request-from-the-same-repository}
-
-Now create a Pull Request.
-
-In this case, both the source branch and target branch are usually in
-the **same repository**.
+- **Step 6: Open a Pull Request from the Same Repository**
+  
+Now create a Pull Request. In this case, both the source branch and target branch are usually in the **same repository**.
 
 Example direction:
 
@@ -2159,13 +2074,11 @@ ORGANIZATION/PROJECT:feature/improve-login-validation
 ORGANIZATION/PROJECT:main
 ```
 
-This is different from the fork model, where the source branch lives in
-your fork.
+This is different from the fork model, where the source branch lives in your fork.
 
-## 14. Why PRs Still Matter for Contributors {#14-why-prs-still-matter-for-contributors}
+**Why PRs Still Matter for Contributors**
 
-A Pull Request is useful even when both branches are in the same
-repository.
+A Pull Request is useful even when both branches are in the same repository.
 
 PRs provide:
 
@@ -2176,12 +2089,12 @@ PRs provide:
 -   visibility for teammates
 -   a checkpoint before code reaches `main`
 
-In strong engineering teams, the Pull Request is a collaboration tool,
-not just a permission workaround.
+In strong engineering teams, the Pull Request is a collaboration tool, not just a permission workaround.
 
-## 15. Same-Repository PR vs Fork PR {#15-same-repository-pr-vs-fork-pr}
+:::{note}
+**Same-Repository PR vs Fork PR**
 
-### Fork PR
+**Fork PR**
 
 ``` text
 your-username/PROJECT:my-branch
@@ -2189,7 +2102,7 @@ your-username/PROJECT:my-branch
 ORIGINAL_OWNER/PROJECT:main
 ```
 
-### Contributor PR
+**Contributor PR**
 
 ``` text
 ORGANIZATION/PROJECT:my-branch
@@ -2197,14 +2110,16 @@ ORGANIZATION/PROJECT:my-branch
 ORGANIZATION/PROJECT:main
 ```
 
-### Key Difference
+**Key Difference**
 
 The branch source lives in a different place:
 
 -   fork PR → branch in your fork
 -   contributor PR → branch in the main repository
 
-## 16. Team Naming Conventions for Branches {#16-team-naming-conventions-for-branches}
+:::
+
+**Team Naming Conventions for Branches**
 
 Professional teams often use naming conventions such as:
 
@@ -2216,11 +2131,12 @@ Professional teams often use naming conventions such as:
 
 These names help reviewers understand branch intent quickly.
 
-## 17. Typical Contributor Workflow Example {#17-typical-contributor-workflow-example}
+---
+**Typical Contributor Workflow Example**
 
 Let us imagine you are part of the team and want to fix a bug.
 
-### Steps {#steps}
+**Steps**
 
 1.  clone the main repository
 2.  switch to `main`
@@ -2232,10 +2148,8 @@ Let us imagine you are part of the team and want to fix a bug.
 8.  open Pull Request
 9.  address review comments
 10. merge after approval
-:::
 
-::: {#7c98600a-e144-4cc7-a47c-f45214d87ed3 .cell .code}
-``` python
+``` bash
 git clone git@github.com:ORGANIZATION/PROJECT.git
 cd PROJECT
 git switch main
@@ -2245,10 +2159,9 @@ git add .
 git commit -m "Fix login timeout handling"
 git push origin fix/login-timeout
 ```
-:::
+---
 
-::: {#63049cbf-4cfa-4f3f-931c-600578de8f75 .cell .markdown}
-## 18. What If Reviewers Request Changes? {#18-what-if-reviewers-request-changes}
+**What If Reviewers Request Changes?**
 
 Just like in fork workflow, you usually stay on the same branch.
 
@@ -2260,26 +2173,13 @@ git commit -m "Address review comments"
 git push origin fix/login-timeout
 ```
 
-The Pull Request updates automatically because it is tracking that same
-branch.
-:::
+The Pull Request updates automatically because it is tracking that same branch.
 
-::: {#1bb50297-6971-4e04-a84a-07dc3fe6d01e .cell .code}
-``` python
-git add .
-git commit -m "Address review comments"
-git push origin fix/login-timeout
-```
-:::
+**Syncing Your Branch with Main**
 
-::: {#e8996ac1-34e8-442a-af6e-358d2425ac8f .cell .markdown}
-## 19. Syncing Your Branch with Main {#19-syncing-your-branch-with-main}
+While your Pull Request is open, `main` may move forward. You may need to update your branch.
 
-While your Pull Request is open, `main` may move forward.
-
-You may need to update your branch.
-
-### Option A: Merge `main` into your branch
+- Option A: Merge `main` into your branch
 
 ``` bash
 git switch fix/login-timeout
@@ -2287,7 +2187,7 @@ git fetch origin
 git merge origin/main
 ```
 
-### Option B: Rebase onto `main`
+- Option B: Rebase onto `main`
 
 ``` bash
 git switch fix/login-timeout
@@ -2296,31 +2196,10 @@ git rebase origin/main
 ```
 
 Which option to use depends on team policy.
-:::
 
-::: {#80b45246-4d90-4a31-a2b2-f67b274b7f12 .cell .code}
-``` python
-git switch fix/login-timeout
-git fetch origin
-git merge origin/main
-```
-:::
+**What If the Team Allows Direct Pushes?**
 
-::: {#d13c7c07-39fd-4072-b296-0da50ac94ad2 .cell .code}
-``` python
-git switch fix/login-timeout
-git fetch origin
-git rebase origin/main
-```
-:::
-
-::: {#c12d3416-6389-4ae7-bc90-dcfb18e820cc .cell .markdown}
-## 20. What If the Team Allows Direct Pushes? {#20-what-if-the-team-allows-direct-pushes}
-
-Some small teams or personal team projects do allow direct pushes to
-`main`.
-
-That workflow might look like:
+Some small teams or personal team projects do allow direct pushes to `main`. That workflow might look like:
 
 ``` bash
 git switch main
@@ -2330,7 +2209,7 @@ git commit -m "Small update"
 git push origin main
 ```
 
-### Important Warning
+:::{warning}
 
 Even if allowed, direct pushes are usually best reserved for:
 
@@ -2342,255 +2221,39 @@ Even if allowed, direct pushes are usually best reserved for:
 For most collaborative work, feature branches and PRs are still safer.
 :::
 
-::: {#22892d50-f3f1-471a-a8eb-df6f7e62087c .cell .code}
-``` python
-git switch main
-git pull
-git add .
-git commit -m "Small update"
-git push origin main
-```
+
+:::{warning}
+**Common Mistakes Contributors Make**
+
+1.  Working directly on `main`. This increases risk and reduces review quality.
+
+2. Pushing half-finished work to shared branches without clarity. Teammates may review unstable code too early.
+
+3. Opening giant PRs. Smaller changes are easier to review and merge.
+
+4. Ignoring branch naming conventions. This makes the shared repository harder to navigate.
+
+5. Forgetting to pull before creating a branch. You may branch from outdated `main`.
+
+6. Rebasing shared team branches carelessly. If others use the same branch, history rewriting becomes dangerous.
+
 :::
 
-::: {#9f988b68-18fa-4fdb-a45a-07d808e61f5d .cell .markdown}
-## 21. Contributor Workflow and Code Review Culture {#21-contributor-workflow-and-code-review-culture}
+:::{summary}
 
-Being a contributor is not only a permission issue.\
-It is also a professional responsibility.
-
-A strong contributor usually:
-
--   keeps branches focused
--   writes understandable commit messages
--   respects review comments
--   runs tests before pushing
--   updates stale branches
--   avoids mixing unrelated changes
--   understands team standards and repository rules
-
-So contributor access should be paired with disciplined workflow habits.
-
-## 22. Protected Main + Contributor Branches = Common Professional Pattern {#22-protected-main--contributor-branches--common-professional-pattern}
-
-A very common modern setup is:
-
--   contributors have write access
--   `main` is protected
--   contributors can create branches
--   contributors push those branches to the same repo
--   PR review is required
--   CI must pass before merge
-
-This combination gives teams the best of both worlds:
-
--   easy collaboration
--   strong quality control
-
-## 23. Contributor Workflow vs Fork Workflow: Side-by-Side {#23-contributor-workflow-vs-fork-workflow-side-by-side}
-
-### Fork Workflow
-
-Used when you do not have write access.
-
-``` text
-Fork → Clone fork → Create branch → Push to fork → PR to upstream
-```
-
-### Contributor Workflow {#contributor-workflow}
-
-Used when you have write access.
-
-``` text
-Clone main repo → Create branch → Push to same repo → PR to main
-```
-
-### Main Conceptual Difference
-
-The technical Git operations are similar.
-
-The main difference is:
-
--   where `origin` points
--   where the branch is pushed
--   whether a fork exists at all
-
-## 24. Common Mistakes Contributors Make {#24-common-mistakes-contributors-make}
-
-### 1. Working directly on `main` {#1-working-directly-on-main}
-
-This increases risk and reduces review quality.
-
-### 2. Pushing half-finished work to shared branches without clarity {#2-pushing-half-finished-work-to-shared-branches-without-clarity}
-
-Teammates may review unstable code too early.
-
-### 3. Opening giant PRs {#3-opening-giant-prs}
-
-Smaller changes are easier to review and merge.
-
-### 4. Ignoring branch naming conventions {#4-ignoring-branch-naming-conventions}
-
-This makes the shared repository harder to navigate.
-
-### 5. Forgetting to pull before creating a branch {#5-forgetting-to-pull-before-creating-a-branch}
-
-You may branch from outdated `main`.
-
-### 6. Rebasing shared team branches carelessly {#6-rebasing-shared-team-branches-carelessly}
-
-If others use the same branch, history rewriting becomes dangerous.
-
-## 25. Suggested Best Practices for Contributors {#25-suggested-best-practices-for-contributors}
-
-1.  always update `main` before branching\
-2.  create one branch per topic or fix\
-3.  use clear names for branches\
-4.  commit logically, not randomly\
-5.  open Pull Requests early enough for review\
-6.  keep PRs focused and readable\
-7.  merge or rebase from `main` regularly if the branch stays open\
-8.  follow repository rules and templates\
-9.  do not treat write access as permission to skip discipline\
+**Suggested Best Practices for Contributors** 
+1.  always update `main` before branching
+2.  create one branch per topic or fix
+3.  use clear names for branches
+4.  commit logically, not randomly
+5.  open Pull Requests early enough for review
+6.  keep PRs focused and readable
+7.  merge or rebase from `main` regularly if the branch stays open
+8.  follow repository rules and templates
+9.  do not treat write access as permission to skip discipline
 10. protect `main` whenever possible
 
-## 26. Complete Example: Contributor Fixing a Bug {#26-complete-example-contributor-fixing-a-bug}
-
-Suppose you are on the core team of a project and want to fix a timeout
-bug.
-
-### Workflow
-
-``` bash
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-git switch main
-git pull
-git switch -c fix/login-timeout
-# edit files
-git add .
-git commit -m "Fix login timeout handling"
-git push origin fix/login-timeout
-```
-
-Then on GitHub:
-
--   open a Pull Request from `fix/login-timeout` into `main`
--   wait for CI and review
--   make requested updates if needed
--   merge after approval
 :::
-
-::: {#010d8fd4-9011-4702-b355-9b19784807cb .cell .code}
-``` python
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-git switch main
-git pull
-git switch -c fix/login-timeout
-git add .
-git commit -m "Fix login timeout handling"
-git push origin fix/login-timeout
-```
-:::
-
-::: {#c86e9002-cb16-4cf2-be42-e394e67e842c .cell .markdown}
-## 27. Quick Reference Commands {#27-quick-reference-commands}
-
-### Clone main repository
-
-``` bash
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-```
-
-### Update main
-
-``` bash
-git switch main
-git pull
-```
-
-### Create branch
-
-``` bash
-git switch -c feature/my-change
-```
-
-### Commit changes
-
-``` bash
-git add .
-git commit -m "Describe your change"
-```
-
-### Push branch {#push-branch}
-
-``` bash
-git push origin feature/my-change
-```
-
-### Update branch with main using merge
-
-``` bash
-git fetch origin
-git switch feature/my-change
-git merge origin/main
-```
-
-### Update branch with main using rebase
-
-``` bash
-git fetch origin
-git switch feature/my-change
-git rebase origin/main
-```
-
-## 28. Final Summary {#28-final-summary}
-
-When you are already a **contributor with write access**, you usually do
-**not** need a fork.
-
-The standard workflow becomes:
-
-``` text
-Clone main repository → Create branch → Commit → Push branch → Pull Request
-```
-
-Key ideas:
-
--   write access removes the need for a fork
--   it does not remove the value of branches or Pull Requests
--   direct pushes to `main` are often discouraged
--   professional teams often combine contributor access with protected
-    branches
--   contributor workflow is about collaboration discipline, not just
-    permissions
-
-## 29. Suggested Practice Exercises {#29-suggested-practice-exercises}
-
-1.  clone a repository where you have write access
-2.  update your local `main`
-3.  create a branch called `docs/test-contributor-flow`
-4.  make a small documentation change
-5.  commit the change
-6.  push the branch to the shared repository
-7.  draft a Pull Request from that branch into `main`
-8.  optionally simulate a review update by making one more commit and
-    pushing again
-
-This practice will make the contributor workflow feel natural and
-distinct from the fork workflow.
-:::
-
-::: {#0db059fd-5112-4b32-a413-a1d8bd3bc80c .cell .markdown}
-
-
-
-
-
-
-
-
 
 # Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick
 
