@@ -439,13 +439,16 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-collaboration-models">GitHub Collaboration Models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter-1-why-these-topics-matter">1. Why These Topics Matter {#1-why-these-topics-matter}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture-2-the-big-picture">2. The Big Picture {#2-the-big-picture}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge-3-what-is-a-merge">3. What Is a Merge? {#3-what-is-a-merge}</a></li>
 </ul>
 </li>
 </ul>
@@ -1275,6 +1278,7 @@ ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 <h2>GitHub Collaboration Models<a class="headerlink" href="#github-collaboration-models" title="Permalink to this heading">#</a></h2>
 <p>There are two major GitHub collaboration models: <strong>Fork</strong> workflow and <strong>collaboration</strong> workfolw.  <strong>Fork</strong> Workflow
 used when you do <strong>not</strong> have write access to the main repository and <strong>Contributor</strong> Workflow used when you <strong>do</strong> have write access to the main repository.</p>
+<hr class="docutils" />
 <section id="fork">
 <h3>Fork<a class="headerlink" href="#fork" title="Permalink to this heading">#</a></h3>
 <p>A <strong>fork</strong> is a copy of a GitHub repository that is created under <strong>your own GitHub account</strong>. This is different from a local copy on your
@@ -1316,7 +1320,6 @@ changes.</p></li>
 You are contributing from outside the main organization or team.</p></li>
 </ol>
 <hr class="docutils" />
-<hr class="docutils" />
 <p><strong>When a Fork Is Usually Not Needed</strong></p>
 <p>If you are already a member of the project team and have write access, the team may prefer this workflow instead:</p>
 <ul class="simple">
@@ -1325,16 +1328,15 @@ You are contributing from outside the main organization or team.</p></li>
 <li><p>push your branch</p></li>
 <li><p>open a Pull Request from that branch</p></li>
 </ul>
-<p>In that case, no fork is necessary.</p>
 <hr class="docutils" />
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><em><strong>Fork vs Clone</strong></em></p>
 <p>These two concepts are related, but they are not the same.</p>
-<p><strong>Fork</strong></p>
-<p>A <strong>fork</strong> creates a copy of a repository on <strong>GitHub</strong> under your account.</p>
-<p><strong>Clone</strong></p>
-<p>A <strong>clone</strong> creates a copy of a repository on <strong>your local computer</strong>.</p>
+<ul class="simple">
+<li><p><strong>Fork</strong>: A <strong>fork</strong> creates a copy of a repository on <strong>GitHub</strong> under your account.</p></li>
+<li><p><strong>Clone</strong>: A <strong>clone</strong> creates a copy of a repository on <strong>your local computer</strong>.</p></li>
+</ul>
 </div>
 <p><strong>Standard Order</strong></p>
 <p>In a fork-based contribution workflow, the normal order is:</p>
@@ -1368,6 +1370,7 @@ You are contributing from outside the main organization or team.</p></li>
 </ul>
 <p>So this statement is accurate:</p>
 <p><strong>You may have the full repository history in your fork, but you are not yet a contributor to the original project until your contribution is accepted there.</strong></p>
+<hr class="docutils" />
 <p><strong>The Full Fork Workflow</strong></p>
 <p>Here is the standard end-to-end workflow:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
@@ -1421,10 +1424,12 @@ upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 </div>
 <p><strong>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</strong></p>
 <p>Because the original project keeps moving forward. If you only work with your fork and never sync from upstream:</p>
-<ul class="simple">
+<ol class="arabic simple">
 <li><p>your fork becomes outdated</p></li>
 <li><p>your branch may drift away from the current project state</p></li>
 <li><p>your Pull Request may become harder to review or merge</p></li>
+</ol>
+<ul class="simple">
 <li><p><strong>Step 4: Create a New Branch for Your Change</strong></p></li>
 </ul>
 <p>You should <strong>not</strong> usually work directly on <code class="docutils literal notranslate"><span class="pre">main</span></code> for a contribution. Instead, create a branch for each separate change.</p>
@@ -1484,7 +1489,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p><code class="docutils literal notranslate"><span class="pre">update</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">change</span> <span class="pre">stuff</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fix</span></code></p></li>
-<li><p><strong>Step 7: Push the Branch to Your Fork</strong></p></li>
+<li><p><strong>Step 6: Push the Branch to Your Fork</strong></p></li>
 </ul>
 <p>Now push your branch to <code class="docutils literal notranslate"><span class="pre">origin</span></code>, which is your fork.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
@@ -1492,7 +1497,7 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </div>
 <p>This sends your branch to GitHub under <strong>your fork</strong>.</p>
 <ul class="simple">
-<li><p><strong>Step 8: Open a Pull Request</strong></p></li>
+<li><p><strong>Step 7: Open a Pull Request</strong></p></li>
 </ul>
 <p>This is the key step. A <strong>Pull Request (PR)</strong> is a request asking the maintainers of the original project to review and potentially merge your changes.</p>
 <p><strong>Meaning of a Pull Request</strong></p>
@@ -1579,11 +1584,6 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </pre></div>
 </div>
 <p>When you push to the same branch, the existing Pull Request updates automatically.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Address review comments&quot;</span>
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>fix-readme-typo
-</pre></div>
-</div>
 <p><strong>Why Branches Matter So Much for Pull Requests</strong></p>
 <p>Branches are central to PR workflows. A Pull Request is typically tied to:</p>
 <ul class="simple">
@@ -1597,8 +1597,8 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li><p>better rollback options</p></li>
 <li><p>less risk of mixing unrelated changes</p></li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p><strong>Keeping Your Fork Up to Date</strong>
 The upstream repository changes over time. If you do not sync your fork, you can end up working on an old base.</p>
 <p>Common Sync Workflow is</p>
@@ -1619,372 +1619,104 @@ brings upstream changes into your local main</p></li>
 updates your fork’s <code class="docutils literal notranslate"><span class="pre">main</span></code> on GitHub</p></li>
 </ul>
 </div>
-</section>
-</section>
-<section id="alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">
-<h2>22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}<a class="headerlink" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge" title="Permalink to this heading">#</a></h2>
-<p>Some projects prefer a cleaner linear history and may encourage
-<code class="docutils literal notranslate"><span class="pre">rebase</span></code>.</p>
+<p><strong>Alternative: Rebase Instead of Merge</strong></p>
+<p>Some projects prefer a cleaner linear history and may encourage <code class="docutils literal notranslate"><span class="pre">rebase</span></code> instead of <code class="docutils literal notranslate"><span class="pre">merge</span></code>.</p>
 <p>Example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>fetch<span class="w"> </span>upstream
 git<span class="w"> </span>switch<span class="w"> </span>my-feature
 git<span class="w"> </span>rebase<span class="w"> </span>upstream/main
 </pre></div>
 </div>
-<section id="why-rebase">
-<h3>Why Rebase?<a class="headerlink" href="#why-rebase" title="Permalink to this heading">#</a></h3>
-<p>Rebase rewrites your branch so it appears to start from the latest
-upstream state.</p>
-<p>This can make history cleaner, but it is conceptually more advanced than
-merge.</p>
+<p><strong>Why Rebase?</strong></p>
+<p>Rebase rewrites your branch so it appears to start from the latest upstream state. This can make history cleaner, but it is conceptually more advanced than merge.</p>
 </section>
-<section id="practical-advice-for-learners">
-<h3>Practical Advice for Learners<a class="headerlink" href="#practical-advice-for-learners" title="Permalink to this heading">#</a></h3>
+<section id="merge-rebase-and-conflict-resolution">
+<h3>Merge, Rebase, and Conflict Resolution<a class="headerlink" href="#merge-rebase-and-conflict-resolution" title="Permalink to this heading">#</a></h3>
+<p>This section adresses three critical Git topics:</p>
 <ul class="simple">
-<li><p>understand <code class="docutils literal notranslate"><span class="pre">merge</span></code> first</p></li>
-<li><p>use <code class="docutils literal notranslate"><span class="pre">rebase</span></code> when the project workflow expects it</p></li>
-<li><p>read the contribution guide of the repository</p></li>
+<li><p><strong>merge</strong></p></li>
+<li><p><strong>rebase</strong></p></li>
+<li><p><strong>conflict resolution</strong></p></li>
+</ul>
+<p>These concepts are essential after learning branching, forks, and Pull
+Requests, because real collaboration almost always involves integrating
+changes from multiple branches.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="learning-goals-learning-goals">
+<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain what <strong>merge</strong> does</p></li>
+<li><p>explain what <strong>rebase</strong> does</p></li>
+<li><p>distinguish the workflows and history produced by each</p></li>
+<li><p>understand when a team may prefer <strong>merge</strong> or <strong>rebase</strong></p></li>
+<li><p>detect and resolve <strong>merge conflicts</strong></p></li>
+<li><p>continue or abort a merge or rebase safely</p></li>
+<li><p>understand why conflicts happen</p></li>
+<li><p>use practical commands in real project scenarios</p></li>
+</ul>
+</section>
+<section id="why-these-topics-matter-1-why-these-topics-matter">
+<h2>1. Why These Topics Matter {#1-why-these-topics-matter}<a class="headerlink" href="#why-these-topics-matter-1-why-these-topics-matter" title="Permalink to this heading">#</a></h2>
+<p>As soon as more than one branch exists, integration becomes necessary.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>you created a feature branch and now want to bring it into <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>the upstream repository moved forward while you were working</p></li>
+<li><p>your Pull Request is out of date</p></li>
+<li><p>two developers changed the same file in incompatible ways</p></li>
+</ul>
+<p>At that point, Git must combine histories and file changes.</p>
+<p>That is where <strong>merge</strong>, <strong>rebase</strong>, and <strong>conflict resolution</strong> become
+central.</p>
+</section>
+<section id="the-big-picture-2-the-big-picture">
+<h2>2. The Big Picture {#2-the-big-picture}<a class="headerlink" href="#the-big-picture-2-the-big-picture" title="Permalink to this heading">#</a></h2>
+<p>There are two common ways to integrate branch histories:</p>
+<ol class="arabic simple">
+<li><p><strong>Merge</strong></p></li>
+<li><p><strong>Rebase</strong></p></li>
+</ol>
+<p>Both can bring one line of work together with another, but they do it
+differently.</p>
+<section id="high-level-difference">
+<h3>High-Level Difference<a class="headerlink" href="#high-level-difference" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>merge</strong> preserves the branching history and adds a merge commit</p></li>
+<li><p><strong>rebase</strong> rewrites the branch so it appears to start from a new
+base</p></li>
+</ul>
+<p>Neither is universally “better.”<br />
+The right choice depends on workflow, team preference, and whether the
+branch has already been shared.</p>
+</section>
+</section>
+<section id="what-is-a-merge-3-what-is-a-merge">
+<h2>3. What Is a Merge? {#3-what-is-a-merge}<a class="headerlink" href="#what-is-a-merge-3-what-is-a-merge" title="Permalink to this heading">#</a></h2>
+<p>A <strong>merge</strong> combines the histories of two branches.</p>
+<p>Suppose you have:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature/login</span></code></p></li>
+</ul>
+<p>You worked on <code class="docutils literal notranslate"><span class="pre">feature/login</span></code>, and now you want those changes in <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p>A common workflow is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
+</pre></div>
+</div>
+<p>Git then attempts to combine the histories.</p>
+<p>If it succeeds without conflict:</p>
+<ul class="simple">
+<li><p>your work is integrated into <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>Git may create a <strong>merge commit</strong></p></li>
+<li><p>the branch structure remains visible in history</p></li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#af4b09cc-61f5-4a02-a47f-652a6aa76ea0 .cell .code}
+::: {#8f2b1296-cb7f-4c09-a342-54c368734871 .cell .code}
 ``` python
-git fetch upstream
-git switch my-feature
-git rebase upstream/main
-```
-</pre></div>
-</div>
-<div class="highlight-{#b04b852c-38ff-47c3-bddc-c540b71056d6 notranslate"><div class="highlight"><pre><span></span>## 23. Common Fork Workflow Scenarios {#23-common-fork-workflow-scenarios}
-
-### Scenario A: Small Documentation Fix
-
-This is the easiest contribution path.
-
-Example:
-
--   fork the repository
--   clone your fork
--   create branch `fix-docs-typo`
--   fix typo
--   commit
--   push
--   open PR
-
-### Scenario B: Feature Proposal
-
-This requires more communication.
-
-Often you should:
-
--   check existing issues
--   read the contribution guide
--   discuss the idea first if the project is strict about scope
--   then implement on a branch and submit a PR
-
-### Scenario C: Personal Long-Term Fork
-
-In this case, you may not intend to send changes back upstream. You
-still benefit from keeping `upstream` configured so you can selectively
-sync useful updates.
-</pre></div>
-</div>
-<div class="highlight-{#f169c873-af63-4c4c-bf8b-bbabcd3dc395 notranslate"><div class="highlight"><pre><span></span>## 24. Common Mistakes to Avoid {#24-common-mistakes-to-avoid}
-
-### 1. Working directly on `main` {#1-working-directly-on-main}
-
-This makes your contribution workflow messy.
-
-### 2. Forgetting to add `upstream` {#2-forgetting-to-add-upstream}
-
-Then syncing with the original project becomes harder.
-
-### 3. Creating giant PRs {#3-creating-giant-prs}
-
-Large PRs are harder to review and more likely to be delayed.
-
-### 4. Using vague commit messages {#4-using-vague-commit-messages}
-
-Reviewers need clarity.
-
-### 5. Mixing unrelated changes {#5-mixing-unrelated-changes}
-
-One PR should solve one focused problem when possible.
-
-### 6. Ignoring project guidelines {#6-ignoring-project-guidelines}
-
-Always check:
-
--   `CONTRIBUTING.md`
--   issue templates
--   PR templates
--   code style rules
-</pre></div>
-</div>
-<div class="highlight-{#4de68ff4-3ce8-4fc9-a3c4-027896491f92 notranslate"><div class="highlight"><pre><span></span>## 25. How Does This Relate to Being a Contributor? {#25-how-does-this-relate-to-being-a-contributor}
-
-This point is important enough to state clearly.
-
-### You are **not** a contributor merely because:
-
--   you forked the repository
--   you cloned it
--   you changed files in your copy
--   you pushed to your fork
-
-### You generally become a contributor to the original project when:
-
--   you submit a Pull Request
--   the project accepts it
--   the changes are merged into the original repository
-
-So the true contribution happens at the point where your work enters the
-upstream project.
-</pre></div>
-</div>
-<div class="highlight-{#881fc6c7-9c3b-48cc-87d2-85dd4137a595 notranslate"><div class="highlight"><pre><span></span>## 26. A Complete Example {#26-a-complete-example}
-
-Let us imagine you found a typo in the original repository\&#39;s README.
-
-### Step 1: Fork on GitHub
-
-You click **Fork**.
-
-### Step 2: Clone your fork
-
-``` bash
-git clone git@github.com:YOUR_USERNAME/project.git
-cd project
-```
-
-### Step 3: Add upstream
-
-``` bash
-git remote add upstream git@github.com:ORIGINAL_OWNER/project.git
-```
-
-### Step 4: Create branch
-
-``` bash
-git switch -c fix-readme-typo
-```
-
-### Step 5: Edit file
-
-You fix the typo in `README.md`.
-
-### Step 6: Commit
-
-``` bash
-git add README.md
-git commit -m &quot;Fix typo in README&quot;
-```
-
-### Step 7: Push
-
-``` bash
-git push origin fix-readme-typo
-```
-
-### Step 8: Open PR
-
-On GitHub, you create a Pull Request from:
-
--   `YOUR_USERNAME/fix-readme-typo`
--   into `ORIGINAL_OWNER/main`
-
-If maintainers approve and merge it, your change becomes part of the
-real project.
-</pre></div>
-</div>
-<div class="highlight-{#04d5c448-0032-4b4d-b9f5-5ed0e5aa7b76 notranslate"><div class="highlight"><pre><span></span>``` python
-git clone git@github.com:YOUR_USERNAME/project.git
-cd project
-git remote add upstream git@github.com:ORIGINAL_OWNER/project.git
-git switch -c fix-readme-typo
-git add README.md
-git commit -m &quot;Fix typo in README&quot;
-git push origin fix-readme-typo
-```
-</pre></div>
-</div>
-<div class="highlight-{#384051c6-31a1-401c-8e6f-bc76f860af2d notranslate"><div class="highlight"><pre><span></span>## 27. Quick Reference Commands {#27-quick-reference-commands}
-
-### Clone your fork
-
-``` bash
-git clone git@github.com:YOUR_USERNAME/PROJECT.git
-cd PROJECT
-```
-
-### Add upstream
-
-``` bash
-git remote add upstream git@github.com:ORIGINAL_OWNER/PROJECT.git
-git remote -v
-```
-
-### Create and switch to a branch
-
-``` bash
-git switch -c my-feature
-```
-
-### Stage and commit
-
-``` bash
-git add .
-git commit -m &quot;Describe your change&quot;
-```
-
-### Push branch
-
-``` bash
-git push origin my-feature
-```
-
-### Sync your fork
-
-``` bash
-git fetch upstream
-git switch main
-git merge upstream/main
-git push origin main
-```
-</pre></div>
-</div>
-<div class="highlight-{#d9ec8491-2ddb-42d5-8400-2064f3ebdef3 notranslate"><div class="highlight"><pre><span></span>## 28. Final Summary {#28-final-summary}
-
-A **fork** is your own GitHub-hosted copy of someone else\&#39;s repository.
-
-You typically use a fork when:
-
--   you do not have write access
--   you want to contribute safely
--   you want to work independently before proposing changes
-
-The professional workflow is:
-
-``` text
-Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request
-```
-
-Key ideas to remember:
-
--   a fork gives you a personal copy, not contributor status
--   contribution usually becomes official when your PR is merged
-    upstream
--   `git branch` and `git switch` are essential for clean PR workflows
--   branches should be focused and separate
--   Pull Requests are both technical and communicative
--   syncing with `upstream` keeps your fork healthy and current
-</pre></div>
-</div>
-<div class="highlight-{#cb547470-913e-4ff2-b61d-31f3b8d47ae5 notranslate"><div class="highlight"><pre><span></span>## 29. Suggested Practice Exercises {#29-suggested-practice-exercises}
-
-1.  Fork a small public repository.
-2.  Clone your fork locally.
-3.  Add the original repository as `upstream`.
-4.  Create a branch named `docs-example-change`.
-5.  Edit a documentation file.
-6.  Commit the change with a clear message.
-7.  Push the branch.
-8.  Draft a Pull Request description, even if you do not submit it.
-
-This practical repetition is the fastest way to internalize the
-workflow.
-</pre></div>
-</div>
-<div class="highlight-{#35487c18-dae4-4ee9-b565-34e6bd6cb82a notranslate"><div class="highlight"><pre><span></span># Professional Guide to Merge, Rebase, and Conflict Resolution
-
-This section adresses three critical Git topics:
-
--   **merge**
--   **rebase**
--   **conflict resolution**
-
-These concepts are essential after learning branching, forks, and Pull
-Requests, because real collaboration almost always involves integrating
-changes from multiple branches.
-
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
-
-By the end of this section, you should be able to:
-
--   explain what **merge** does
--   explain what **rebase** does
--   distinguish the workflows and history produced by each
--   understand when a team may prefer **merge** or **rebase**
--   detect and resolve **merge conflicts**
--   continue or abort a merge or rebase safely
--   understand why conflicts happen
--   use practical commands in real project scenarios
-
-## 1. Why These Topics Matter {#1-why-these-topics-matter}
-
-As soon as more than one branch exists, integration becomes necessary.
-
-Examples:
-
--   you created a feature branch and now want to bring it into `main`
--   the upstream repository moved forward while you were working
--   your Pull Request is out of date
--   two developers changed the same file in incompatible ways
-
-At that point, Git must combine histories and file changes.
-
-That is where **merge**, **rebase**, and **conflict resolution** become
-central.
-
-## 2. The Big Picture {#2-the-big-picture}
-
-There are two common ways to integrate branch histories:
-
-1.  **Merge**
-2.  **Rebase**
-
-Both can bring one line of work together with another, but they do it
-differently.
-
-### High-Level Difference
-
--   **merge** preserves the branching history and adds a merge commit
--   **rebase** rewrites the branch so it appears to start from a new
-    base
-
-Neither is universally &quot;better.&quot;\
-The right choice depends on workflow, team preference, and whether the
-branch has already been shared.
-
-## 3. What Is a Merge? {#3-what-is-a-merge}
-
-A **merge** combines the histories of two branches.
-
-Suppose you have:
-
--   `main`
--   `feature/login`
-
-You worked on `feature/login`, and now you want those changes in `main`.
-
-A common workflow is:
-
-``` bash
-git switch main
-git merge feature/login
-```
-
-Git then attempts to combine the histories.
-
-If it succeeds without conflict:
-
--   your work is integrated into `main`
--   Git may create a **merge commit**
--   the branch structure remains visible in history
-</pre></div>
-</div>
-<div class="highlight-{#8f2b1296-cb7f-4c09-a342-54c368734871 notranslate"><div class="highlight"><pre><span></span>``` python
 git switch main
 git merge feature/login
 ```
@@ -2928,7 +2660,19 @@ git log --oneline --graph --all
 ```
 </pre></div>
 </div>
-<div class="highlight-{#f01a61af-e613-4670-b33c-1bfc26e16c3e notranslate"><div class="highlight"><pre><span></span># Professional Guide to the Contributor Workflow (Without Fork)
+<div class="highlight-{#f01a61af-e613-4670-b33c-1bfc26e16c3e notranslate"><div class="highlight"><pre><span></span>
+
+
+
+
+
+
+
+
+
+
+
+# Professional Guide to the Contributor Workflow (Without Fork)
 
 This section is for the case where you are already a **contributor** or
 team member and have **write access** to the main repository. In this
@@ -5268,7 +5012,6 @@ git branch past-code 90544b4fa
 </div>
 </section>
 </section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -5353,13 +5096,16 @@ git branch past-code 90544b4fa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github-collaboration-models">GitHub Collaboration Models</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-rebase-and-conflict-resolution">Merge, Rebase, and Conflict Resolution</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alternative-rebase-instead-of-merge-22-alternative-rebase-instead-of-merge">22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-rebase">Why Rebase?</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-learners">Practical Advice for Learners</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-topics-matter-1-why-these-topics-matter">1. Why These Topics Matter {#1-why-these-topics-matter}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-big-picture-2-the-big-picture">2. The Big Picture {#2-the-big-picture}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-difference">High-Level Difference</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-merge-3-what-is-a-merge">3. What Is a Merge? {#3-what-is-a-merge}</a></li>
 </ul>
 </li>
 </ul>

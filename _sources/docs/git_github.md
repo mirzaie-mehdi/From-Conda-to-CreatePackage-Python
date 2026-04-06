@@ -979,7 +979,7 @@ Fetches and merges changes from the remote repository into your local branch Key
 There are two major GitHub collaboration models: **Fork** workflow and **collaboration** workfolw.  **Fork** Workflow
 used when you do **not** have write access to the main repository and **Contributor** Workflow used when you **do** have write access to the main repository.
 
-
+---
 ### Fork
 
 A **fork** is a copy of a GitHub repository that is created under **your own GitHub account**. This is different from a local copy on your
@@ -1028,7 +1028,6 @@ Forks are commonly used when you **do not have direct write access** to the orig
     You are contributing from outside the main organization or team.
 
 ---
----
 **When a Fork Is Usually Not Needed**
 
 If you are already a member of the project team and have write access, the team may prefer this workflow instead:
@@ -1038,10 +1037,7 @@ If you are already a member of the project team and have write access, the team 
 -   push your branch
 -   open a Pull Request from that branch
 
-In that case, no fork is necessary.
-
 ---
-
 
 :::{note}
 
@@ -1049,13 +1045,9 @@ In that case, no fork is necessary.
 
 These two concepts are related, but they are not the same.
 
-**Fork**
+- **Fork**: A **fork** creates a copy of a repository on **GitHub** under your account.
 
-A **fork** creates a copy of a repository on **GitHub** under your account.
-
-**Clone**
-
-A **clone** creates a copy of a repository on **your local computer**.
+- **Clone**: A **clone** creates a copy of a repository on **your local computer**.
 
 :::
 
@@ -1102,6 +1094,7 @@ So this statement is accurate:
 
 **You may have the full repository history in your fork, but you are not yet a contributor to the original project until your contribution is accepted there.**
 
+---
 **The Full Fork Workflow**
 
 Here is the standard end-to-end workflow:
@@ -1168,9 +1161,9 @@ upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 
 Because the original project keeps moving forward. If you only work with your fork and never sync from upstream:
 
--   your fork becomes outdated
--   your branch may drift away from the current project state
--   your Pull Request may become harder to review or merge
+1. your fork becomes outdated
+2. your branch may drift away from the current project state
+3. your Pull Request may become harder to review or merge
 
 
 - **Step 4: Create a New Branch for Your Change**
@@ -1240,7 +1233,7 @@ Avoid vague messages like:
 -   `change stuff`
 -   `fix`
 
-- **Step 7: Push the Branch to Your Fork**
+- **Step 6: Push the Branch to Your Fork**
 
 Now push your branch to `origin`, which is your fork.
 
@@ -1250,7 +1243,7 @@ git push origin fix-readme-typo
 
 This sends your branch to GitHub under **your fork**.
 
-- **Step 8: Open a Pull Request**
+- **Step 7: Open a Pull Request**
 
 This is the key step. A **Pull Request (PR)** is a request asking the maintainers of the original project to review and potentially merge your changes.
 
@@ -1350,11 +1343,6 @@ git push origin fix-readme-typo
 
 When you push to the same branch, the existing Pull Request updates automatically.
 
-``` bash
-git add .
-git commit -m "Address review comments"
-git push origin fix-readme-typo
-```
 **Why Branches Matter So Much for Pull Requests**
 
 Branches are central to PR workflows. A Pull Request is typically tied to:
@@ -1369,7 +1357,7 @@ Because of this, branches give you:
 -   better rollback options
 -   less risk of mixing unrelated changes
 
-:::{note}
+:::{warning}
 **Keeping Your Fork Up to Date**
 The upstream repository changes over time. If you do not sync your fork, you can end up working on an old base.
 
@@ -1397,10 +1385,9 @@ git push origin main
 :::
 
 
-## 22. Alternative: Rebase Instead of Merge {#22-alternative-rebase-instead-of-merge}
+**Alternative: Rebase Instead of Merge**
 
-Some projects prefer a cleaner linear history and may encourage
-`rebase`.
+Some projects prefer a cleaner linear history and may encourage `rebase` instead of `merge`.
 
 Example:
 
@@ -1410,279 +1397,13 @@ git switch my-feature
 git rebase upstream/main
 ```
 
-### Why Rebase?
+**Why Rebase?**
 
-Rebase rewrites your branch so it appears to start from the latest
-upstream state.
+Rebase rewrites your branch so it appears to start from the latest upstream state. This can make history cleaner, but it is conceptually more advanced than merge.
 
-This can make history cleaner, but it is conceptually more advanced than
-merge.
 
-### Practical Advice for Learners
 
--   understand `merge` first
--   use `rebase` when the project workflow expects it
--   read the contribution guide of the repository
-:::
-
-::: {#af4b09cc-61f5-4a02-a47f-652a6aa76ea0 .cell .code}
-``` python
-git fetch upstream
-git switch my-feature
-git rebase upstream/main
-```
-:::
-
-::: {#b04b852c-38ff-47c3-bddc-c540b71056d6 .cell .markdown}
-## 23. Common Fork Workflow Scenarios {#23-common-fork-workflow-scenarios}
-
-### Scenario A: Small Documentation Fix
-
-This is the easiest contribution path.
-
-Example:
-
--   fork the repository
--   clone your fork
--   create branch `fix-docs-typo`
--   fix typo
--   commit
--   push
--   open PR
-
-### Scenario B: Feature Proposal
-
-This requires more communication.
-
-Often you should:
-
--   check existing issues
--   read the contribution guide
--   discuss the idea first if the project is strict about scope
--   then implement on a branch and submit a PR
-
-### Scenario C: Personal Long-Term Fork
-
-In this case, you may not intend to send changes back upstream. You
-still benefit from keeping `upstream` configured so you can selectively
-sync useful updates.
-:::
-
-::: {#f169c873-af63-4c4c-bf8b-bbabcd3dc395 .cell .markdown}
-## 24. Common Mistakes to Avoid {#24-common-mistakes-to-avoid}
-
-### 1. Working directly on `main` {#1-working-directly-on-main}
-
-This makes your contribution workflow messy.
-
-### 2. Forgetting to add `upstream` {#2-forgetting-to-add-upstream}
-
-Then syncing with the original project becomes harder.
-
-### 3. Creating giant PRs {#3-creating-giant-prs}
-
-Large PRs are harder to review and more likely to be delayed.
-
-### 4. Using vague commit messages {#4-using-vague-commit-messages}
-
-Reviewers need clarity.
-
-### 5. Mixing unrelated changes {#5-mixing-unrelated-changes}
-
-One PR should solve one focused problem when possible.
-
-### 6. Ignoring project guidelines {#6-ignoring-project-guidelines}
-
-Always check:
-
--   `CONTRIBUTING.md`
--   issue templates
--   PR templates
--   code style rules
-:::
-
-::: {#4de68ff4-3ce8-4fc9-a3c4-027896491f92 .cell .markdown}
-## 25. How Does This Relate to Being a Contributor? {#25-how-does-this-relate-to-being-a-contributor}
-
-This point is important enough to state clearly.
-
-### You are **not** a contributor merely because:
-
--   you forked the repository
--   you cloned it
--   you changed files in your copy
--   you pushed to your fork
-
-### You generally become a contributor to the original project when:
-
--   you submit a Pull Request
--   the project accepts it
--   the changes are merged into the original repository
-
-So the true contribution happens at the point where your work enters the
-upstream project.
-:::
-
-::: {#881fc6c7-9c3b-48cc-87d2-85dd4137a595 .cell .markdown}
-## 26. A Complete Example {#26-a-complete-example}
-
-Let us imagine you found a typo in the original repository\'s README.
-
-### Step 1: Fork on GitHub
-
-You click **Fork**.
-
-### Step 2: Clone your fork
-
-``` bash
-git clone git@github.com:YOUR_USERNAME/project.git
-cd project
-```
-
-### Step 3: Add upstream
-
-``` bash
-git remote add upstream git@github.com:ORIGINAL_OWNER/project.git
-```
-
-### Step 4: Create branch
-
-``` bash
-git switch -c fix-readme-typo
-```
-
-### Step 5: Edit file
-
-You fix the typo in `README.md`.
-
-### Step 6: Commit
-
-``` bash
-git add README.md
-git commit -m "Fix typo in README"
-```
-
-### Step 7: Push
-
-``` bash
-git push origin fix-readme-typo
-```
-
-### Step 8: Open PR
-
-On GitHub, you create a Pull Request from:
-
--   `YOUR_USERNAME/fix-readme-typo`
--   into `ORIGINAL_OWNER/main`
-
-If maintainers approve and merge it, your change becomes part of the
-real project.
-:::
-
-::: {#04d5c448-0032-4b4d-b9f5-5ed0e5aa7b76 .cell .code}
-``` python
-git clone git@github.com:YOUR_USERNAME/project.git
-cd project
-git remote add upstream git@github.com:ORIGINAL_OWNER/project.git
-git switch -c fix-readme-typo
-git add README.md
-git commit -m "Fix typo in README"
-git push origin fix-readme-typo
-```
-:::
-
-::: {#384051c6-31a1-401c-8e6f-bc76f860af2d .cell .markdown}
-## 27. Quick Reference Commands {#27-quick-reference-commands}
-
-### Clone your fork
-
-``` bash
-git clone git@github.com:YOUR_USERNAME/PROJECT.git
-cd PROJECT
-```
-
-### Add upstream
-
-``` bash
-git remote add upstream git@github.com:ORIGINAL_OWNER/PROJECT.git
-git remote -v
-```
-
-### Create and switch to a branch
-
-``` bash
-git switch -c my-feature
-```
-
-### Stage and commit
-
-``` bash
-git add .
-git commit -m "Describe your change"
-```
-
-### Push branch
-
-``` bash
-git push origin my-feature
-```
-
-### Sync your fork
-
-``` bash
-git fetch upstream
-git switch main
-git merge upstream/main
-git push origin main
-```
-:::
-
-::: {#d9ec8491-2ddb-42d5-8400-2064f3ebdef3 .cell .markdown}
-## 28. Final Summary {#28-final-summary}
-
-A **fork** is your own GitHub-hosted copy of someone else\'s repository.
-
-You typically use a fork when:
-
--   you do not have write access
--   you want to contribute safely
--   you want to work independently before proposing changes
-
-The professional workflow is:
-
-``` text
-Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request
-```
-
-Key ideas to remember:
-
--   a fork gives you a personal copy, not contributor status
--   contribution usually becomes official when your PR is merged
-    upstream
--   `git branch` and `git switch` are essential for clean PR workflows
--   branches should be focused and separate
--   Pull Requests are both technical and communicative
--   syncing with `upstream` keeps your fork healthy and current
-:::
-
-::: {#cb547470-913e-4ff2-b61d-31f3b8d47ae5 .cell .markdown}
-## 29. Suggested Practice Exercises {#29-suggested-practice-exercises}
-
-1.  Fork a small public repository.
-2.  Clone your fork locally.
-3.  Add the original repository as `upstream`.
-4.  Create a branch named `docs-example-change`.
-5.  Edit a documentation file.
-6.  Commit the change with a clear message.
-7.  Push the branch.
-8.  Draft a Pull Request description, even if you do not submit it.
-
-This practical repetition is the fastest way to internalize the
-workflow.
-:::
-
-::: {#35487c18-dae4-4ee9-b565-34e6bd6cb82a .cell .markdown}
-# Professional Guide to Merge, Rebase, and Conflict Resolution
+#### Merge, Rebase, and Conflict Resolution
 
 This section adresses three critical Git topics:
 
@@ -1690,15 +1411,8 @@ This section adresses three critical Git topics:
 -   **rebase**
 -   **conflict resolution**
 
-These concepts are essential after learning branching, forks, and Pull
-Requests, because real collaboration almost always involves integrating
-changes from multiple branches.
-
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
-
-By the end of this section, you should be able to:
+These concepts are essential after learning branching, forks, and Pull Requests, because real collaboration almost always involves integrating
+changes from multiple branches. By the end of this section, you should be able to:
 
 -   explain what **merge** does
 -   explain what **rebase** does
@@ -1709,7 +1423,7 @@ By the end of this section, you should be able to:
 -   understand why conflicts happen
 -   use practical commands in real project scenarios
 
-## 1. Why These Topics Matter {#1-why-these-topics-matter}
+**Why These Topics Matter**§§§§§§§§§§§§§§§§§§§§§§§§§§§§§
 
 As soon as more than one branch exists, integration becomes necessary.
 
@@ -2742,6 +2456,18 @@ git log --oneline --graph --all
 :::
 
 ::: {#f01a61af-e613-4670-b33c-1bfc26e16c3e .cell .markdown}
+
+
+
+
+
+
+
+
+
+
+
+
 # Professional Guide to the Contributor Workflow (Without Fork)
 
 This section is for the case where you are already a **contributor** or
