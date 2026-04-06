@@ -482,7 +482,7 @@ git remote add origin git@github.com:john/my-project.git
 ✔ This connects your local repo → GitHub repo
 
 
-_ **🔍 Step 3 — Verify Remote Connection**
+- **🔍 Step 3 — Verify Remote Connection**
 
 ```bash
 git remote -v
@@ -545,72 +545,57 @@ git pull
 ```
 :::
 
-## 12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}
+##  HTTPS vs SSH for GitHub 
 
 There are two common ways to connect Git to GitHub:
 
-### HTTPS
+- **HTTPS**
 
 ``` bash
 git clone https://github.com/user/repo.git
 ```
-
-### SSH
-
-``` bash
-git clone git@github.com:user/repo.git
-```
-
-### HTTPS
-
 -   simpler to start with
 -   commonly available by default
 -   often uses a token for authentication
 
-### SSH
+- **SSH**
 
+``` bash
+git clone git@github.com:user/repo.git
+```
 -   very common on Linux and macOS
 -   excellent for repeated use
 -   avoids typing credentials repeatedly
 -   useful beyond Git, for server administration as well
 
 SSH is widely considered worth learning.
+
+
+**What Is SSH?**
+
+**SSH** stands for **Secure Shell**. It is a **secure network protocol** used to connect to remote systems over the internet.
+
+:::{note}
+**Important clarification**
+
+SSH is **not something separate from the internet**. It is a secure way of communicating **over** the internet.
+
+**Why SSH matters**
+
+Without encryption, data may be exposed. With SSH, communication is encrypted and authenticated.
 :::
 
-::: {#6e03b733-3779-4239-b870-02689213e6fd .cell .markdown}
-## 13. What Is SSH? {#13-what-is-ssh}
-
-**SSH** stands for **Secure Shell**.
-
-It is a **secure network protocol** used to connect to remote systems
-over the internet.
-
-### Important clarification
-
-SSH is **not something separate from the internet**.\
-It is a secure way of communicating **over** the internet.
-
-### Why SSH matters
-
-Without encryption, data may be exposed.\
-With SSH, communication is encrypted and authenticated.
-:::
-
-::: {#94d162f5-812c-4e35-aba5-73720546183a .cell .markdown}
-## 14. Generate SSH Keys {#14-generate-ssh-keys}
+**Generate SSH Keys**
 
 To use SSH with GitHub, you normally create an SSH key pair on your own
-computer.
+computer using the following commands:
 
-### Command
 
 ``` bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
-### What this does
-
-Your operating system creates two files:
+Then your operating system creates two files:
 
 -   **private key**
 -   **public key**
