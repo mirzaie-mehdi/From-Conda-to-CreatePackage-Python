@@ -404,7 +404,7 @@ git commit -m "Fix typo in README" # save changes with history
 :::
 
 ---
-# GitHub
+# What is GitHub
 <a name="github"></a>
 
 A local repository is enough for solo experimentation, but collaboration requires a shared remote repository.
@@ -928,7 +928,7 @@ ssh-add ~/.ssh/id_ed25519
 
 ## Git Clone
 
-If you have a remote repository on GitHub and want to create a copy of it on your local machine, this process is called **cloning*.
+If you have a remote repository on GitHub and want to create a copy of it on your local machine, this process is called **cloning**.
 
 Cloning downloads the entire repository, including its history, branches, and files, to your local environment. It also automatically connects your local repository to the remote repository.
 
@@ -971,42 +971,21 @@ Sends your local commits to the main branch on the remote repository
 ```bash
 git pull
 ```
-
 Fetches and merges changes from the remote repository into your local branch Key Concepts
+:::
+
+## GitHub Collaboration Models
+
+There are two major GitHub collaboration models: **Fork** workflow and **collaboration** workfolw.  **Fork** Workflow
+used when you do **not** have write access to the main repository and **Contributor** Workflow used when you **do** have write access to the main repository.
 
 
-## Git Forks and Pull Requests
+### Fork
 
-This section is about **Forks**, **Branches**, and **Pull Requests
-(PRs)** in Git and GitHub.
-
-It is designed for learners who already know the basics of Git and now
-want to understand the standard contribution workflow used in
-open-source and collaborative development.
-
-------------------------------------------------------------------------
-
-## Learning Goals
-
-By the end of this section, you should be able to:
-
--   explain what a **fork** is
--   distinguish **fork** from **clone**
--   understand when to use a **fork-based workflow**
--   use `git branch` and `git switch` correctly in this workflow
--   create and push a feature branch from your fork
--   open a **Pull Request**
--   respond to review comments and update the same PR
--   keep your fork synchronized with the original repository
--   understand what makes someone a **contributor**
-
-## 1. What Is a Fork? {#1-what-is-a-fork}
-
-A **fork** is a copy of a GitHub repository that is created under **your
-own GitHub account**. This is different from a local copy on your
+A **fork** is a copy of a GitHub repository that is created under **your own GitHub account**. This is different from a local copy on your
 computer. A fork lives on **GitHub**, not just on your machine.
 
-### Mental Model
+**Mental Model**
 
 Suppose there is an original repository:
 
@@ -1026,32 +1005,33 @@ So in a typical fork workflow:
 -   `upstream` = the original repository
 -   `origin` = your fork on GitHub
 
-## 2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}
+---
+**When Do We Use a Fork?**
 
-Forks are commonly used when you **do not have direct write access** to
-the original repository.
+Forks are commonly used when you **do not have direct write access** to the original repository.
 
-### Typical Cases
+**Typical Cases**
 
-1.  **Open-source contribution**\
+1.  **Open-source contribution**
     You want to improve a public project, but you are not part of the
     core team.
 
-2.  **Safe experimentation**\
+2.  **Safe experimentation**
     You want to try changes freely without affecting the original
     repository.
 
-3.  **Personal customization**\
+3.  **Personal customization**
     You want to maintain your own version of a project with custom
     changes.
 
-4.  **External collaboration**\
+4.  **External collaboration**
     You are contributing from outside the main organization or team.
 
-### When a Fork Is Usually Not Needed
+---
+---
+**When a Fork Is Usually Not Needed**
 
-If you are already a member of the project team and have write access,
-the team may prefer this workflow instead:
+If you are already a member of the project team and have write access, the team may prefer this workflow instead:
 
 -   clone the main repository directly
 -   create a branch inside that repository
@@ -1060,26 +1040,37 @@ the team may prefer this workflow instead:
 
 In that case, no fork is necessary.
 
-## 3. Fork vs Clone {#3-fork-vs-clone}
+---
+
+
+:::{note}
+
+***Fork vs Clone***
 
 These two concepts are related, but they are not the same.
 
-### Fork
+**Fork**
 
-A **fork** creates a copy of a repository on **GitHub** under your
-account.
+A **fork** creates a copy of a repository on **GitHub** under your account.
 
-### Clone
+**Clone**
 
 A **clone** creates a copy of a repository on **your local computer**.
 
-### Standard Order
+:::
+
+**Standard Order**
 
 In a fork-based contribution workflow, the normal order is:
 
 ``` text
 Fork on GitHub → Clone to your computer
 ```
+
+
+
+## 3.
+### 
 
 So first you create the fork online, and then you clone **your fork**
 locally.
