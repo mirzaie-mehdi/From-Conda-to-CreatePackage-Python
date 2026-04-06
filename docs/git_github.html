@@ -444,12 +444,20 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict-16-example-of-a-conflict">16. Example of a Conflict {#16-example-of-a-conflict}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-based-workflow">Fork-Based Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">Contributor Workflow</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge-18-conflict-during-merge">18. Conflict During Merge {#18-conflict-during-merge}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-why">Why? {#why}</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-contributor-workflow-4-high-level-contributor-workflow">4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}</a></li>
 </ul>
 </li>
 </ul>
@@ -1751,19 +1759,15 @@ This usually happens when:</p>
 <li><p>a long-lived branch fell far behind <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
 </ul>
 <p>Git is very good at automatic merging, but it cannot safely guess human intent in every case. The longer a branch lives without syncing, the more likely conflicts become.</p>
-</section>
-</section>
-</section>
-<section id="example-of-a-conflict-16-example-of-a-conflict">
-<h2>16. Example of a Conflict {#16-example-of-a-conflict}<a class="headerlink" href="#example-of-a-conflict-16-example-of-a-conflict" title="Permalink to this heading">#</a></h2>
+<p><strong>Example of a Conflict</strong></p>
 <p>Imagine <code class="docutils literal notranslate"><span class="pre">main</span></code> has:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s2">&quot;Hello&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>def<span class="w"> </span>greet<span class="o">()</span>:
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Hello&quot;</span>
 </pre></div>
 </div>
 <p>And your feature branch changed it to:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
-    <span class="k">return</span> <span class="s2">&quot;Hello, user&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>def<span class="w"> </span>greet<span class="o">()</span>:
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s2">&quot;Hello, user&quot;</span>
 </pre></div>
 </div>
 <p>But meanwhile <code class="docutils literal notranslate"><span class="pre">main</span></code> changed it to:</p>
@@ -1771,11 +1775,7 @@ This usually happens when:</p>
     <span class="k">return</span> <span class="s2">&quot;Hi&quot;</span>
 </pre></div>
 </div>
-<p>Git now sees that the same lines were changed differently.</p>
-<p>It cannot confidently choose one, so it reports a conflict.</p>
-</section>
-<section id="how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">
-<h2>17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}<a class="headerlink" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files" title="Permalink to this heading">#</a></h2>
+<p>Git now sees that the same lines were changed differently. It cannot confidently choose one, so it reports a conflict.</p>
 <p>When a conflict happens, Git inserts markers into the file, such as:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 return &quot;Hi&quot;
@@ -1784,8 +1784,7 @@ return &quot;Hello, user&quot;
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login
 </pre></div>
 </div>
-<section id="meaning">
-<h3>Meaning<a class="headerlink" href="#meaning" title="Permalink to this heading">#</a></h3>
+<p>That means</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span> <span class="pre">HEAD</span></code><br />
 the current branch’s version</p></li>
@@ -1794,14 +1793,10 @@ separator</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;&gt;&gt;&gt;&gt;</span> <span class="pre">feature/login</span></code><br />
 the incoming branch’s version</p></li>
 </ul>
-<p>You must edit the file manually and remove these markers.</p>
-</section>
-</section>
-<section id="conflict-during-merge-18-conflict-during-merge">
-<h2>18. Conflict During Merge {#18-conflict-during-merge}<a class="headerlink" href="#conflict-during-merge-18-conflict-during-merge" title="Permalink to this heading">#</a></h2>
-<p>If a conflict happens during merge:</p>
+<p>You must edit the file manually and remove these markers.
+If a conflict happens during merge:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
-git<span class="w"> </span>merge<span class="w"> </span>feature/login
+git<span class="w"> </span>merge<span class="w"> </span>feature
 </pre></div>
 </div>
 <p>Git may stop and tell you which files are conflicted.</p>
@@ -1813,774 +1808,278 @@ git<span class="w"> </span>merge<span class="w"> </span>feature/login
 <li><p>stage the resolved files</p></li>
 <li><p>complete the merge</p></li>
 </ol>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#a1c20e4f-fa0e-40fc-9777-94fa2cc1892d .cell .code}
-``` python
-git switch main
-git merge feature/login
-```
+<hr class="docutils" />
+<p><strong>Conflict During merge</strong>
+Here is the standard sequence.</p>
+<ul class="simple">
+<li><p><strong>Step 1:Attempt the merge</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>feature/login
 </pre></div>
 </div>
-<div class="highlight-{#567d5b74-903d-47f2-b9a3-7a348a628f53 notranslate"><div class="highlight"><pre><span></span>## 19. Conflict During Rebase {#19-conflict-during-rebase}
-
-If a conflict happens during rebase:
-
-``` bash
-git switch feature/login
-git rebase origin/main
-```
-
-Git stops at the conflicting commit.
-
-Then you:
-
-1.  open the conflicted files
-2.  resolve the conflict
-3.  stage the fixed files
-4.  continue the rebase
-
-Command:
-
-``` bash
-git add .
-git rebase --continue
-```
-
-If more conflicts appear, repeat the same process.
+<ul class="simple">
+<li><p><strong>Step 2: Check status</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
 </pre></div>
 </div>
-<div class="highlight-{#f7e79763-3406-4304-855e-d6167ef6934d notranslate"><div class="highlight"><pre><span></span>``` python
-git switch feature/login
-git rebase origin/main
-git add .
-git rebase --continue
-```
-</pre></div>
-</div>
-<div class="highlight-{#e4278834-5dad-4489-b680-9df9fd839310 notranslate"><div class="highlight"><pre><span></span>## 20. Merge Conflict Resolution: Step-by-Step {#20-merge-conflict-resolution-step-by-step}
-
-Here is the standard sequence.
-
-### Step 1: Attempt the merge
-
-``` bash
-git switch main
-git merge feature/login
-```
-
-### Step 2: Check status
-
-``` bash
-git status
-```
-
-Git shows which files are unmerged.
-
-### Step 3: Open each conflicted file
-
-Look for markers like:
-
-``` text
-&lt;&lt;&lt;&lt;&lt;&lt;&lt;
+<p>Git shows which files are unmerged.</p>
+<ul class="simple">
+<li><p><strong>Step 3: Open each conflicted file</strong></p></li>
+</ul>
+<p>Look for markers like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;&lt;&lt;&lt;&lt;&lt;&lt;
 =======
 &gt;&gt;&gt;&gt;&gt;&gt;&gt;
-```
-
-### Step 4: Edit to the correct final result
-
-Choose:
-
--   your version
--   their version
--   or a combination
-
-### Step 5: Stage resolved files
-
-``` bash
-git add path/to/file
-```
-
-### Step 6: Finish the merge
-
-If needed:
-
-``` bash
-git commit
-```
-
-Sometimes Git prepares the merge commit automatically after staging,
-depending on the conflict path and tooling.
 </pre></div>
 </div>
-<div class="highlight-{#bfc9c84f-3523-4653-b3c1-c29ca4c26b01 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch main
-git merge feature/login
-git status
-git add path/to/file
-git commit
-```
+<ul class="simple">
+<li><p><strong>Step 4: Edit to the correct final result</strong></p></li>
+</ul>
+<p>Choose:</p>
+<ul class="simple">
+<li><p>your version</p></li>
+<li><p>their version</p></li>
+<li><p>or a combination</p></li>
+<li><p><strong>Step 5: Stage resolved files</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>path/to/file
 </pre></div>
 </div>
-<div class="highlight-{#9c24c740-79db-4054-bcd2-a41c29296002 notranslate"><div class="highlight"><pre><span></span>## 21. Rebase Conflict Resolution: Step-by-Step {#21-rebase-conflict-resolution-step-by-step}
-
-### Step 1: Start the rebase
-
-``` bash
-git switch feature/login
-git rebase origin/main
-```
-
-### Step 2: Git stops on a conflict
-
-Check status:
-
-``` bash
-git status
-```
-
-### Step 3: Fix the file contents
-
-Remove markers and keep the correct result.
-
-### Step 4: Stage the resolved files
-
-``` bash
-git add path/to/file
-```
-
-### Step 5: Continue the rebase
-
-``` bash
-git rebase --continue
-```
-
-Git then moves to the next commit.\
-If another conflict appears, repeat.
-
-### Optional: Skip a problematic commit
-
-``` bash
-git rebase --skip
-```
-
-### Optional: Abort the whole rebase
-
-``` bash
-git rebase --abort
-```
+<ul class="simple">
+<li><p><strong>Step 6: Finish the merge</strong></p></li>
+</ul>
+<p>If needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit
 </pre></div>
 </div>
-<div class="highlight-{#e65ae029-9204-4953-b76f-cd45e9cbabc8 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch feature/login
-git rebase origin/main
-git status
-git add path/to/file
-git rebase --continue
-```
+<p>Sometimes Git prepares the merge commit automatically after staging, depending on the conflict path and tooling.</p>
+<p><strong>Abort a Merge</strong></p>
+<p>Sometimes you decide the current integration attempt is not worth continuing right now.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>merge<span class="w"> </span>--abort
 </pre></div>
 </div>
-<div class="highlight-{#5f72d6fa-7403-47b3-b039-68e39133ae81 notranslate"><div class="highlight"><pre><span></span>## 22. Aborting Merge or Rebase {#22-aborting-merge-or-rebase}
-
-Sometimes you decide the current integration attempt is not worth
-continuing right now.
-
-### Abort a Merge
-
-``` bash
-git merge --abort
-```
-
-This attempts to return the repository to the pre-merge state.
-
-### Abort a Rebase
-
-``` bash
-git rebase --abort
-```
-
-This attempts to restore the branch to how it looked before the rebase
-began.
-
-These commands are very important safety tools.
+<p>This attempts to return the repository to the pre-merge state.</p>
+<hr class="docutils" />
+<p><strong>Conflict During Rebase</strong></p>
+<p>If a conflict happens during rebase:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>feature/login
+git<span class="w"> </span>rebase<span class="w"> </span>origin/main
 </pre></div>
 </div>
-<div class="highlight-{#d9403db7-0fdc-4329-ae1f-91462ed51eeb notranslate"><div class="highlight"><pre><span></span>``` python
-git merge --abort
-git rebase --abort
-```
+<p>Git stops at the conflicting commit.</p>
+<p>Then you:</p>
+<ol class="arabic simple">
+<li><p>open the conflicted files</p></li>
+<li><p>resolve the conflict</p></li>
+<li><p>stage the fixed files</p></li>
+<li><p>continue the rebase</p></li>
+</ol>
+<p>Command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>rebase<span class="w"> </span>--continue
 </pre></div>
 </div>
-<div class="highlight-{#cd0c9fd9-e5b3-49a1-b03e-885f26eb92bf notranslate"><div class="highlight"><pre><span></span>## 23. Merge Conflict Example: Human Decision {#23-merge-conflict-example-human-decision}
-
-Suppose a file contains:
-
-``` python
-def connect():
-    timeout = 30
-    return timeout
-```
-
-In `main`, someone changed it to:
-
-``` python
-def connect():
-    timeout = 10
-    return timeout
-```
-
-In your branch, you changed it to:
-
-``` python
-def connect():
-    timeout = 60
-    return timeout
-```
-
-Git cannot decide whether the timeout should be `10` or `60`.
-
-A human must decide:
-
--   should the final value be `10`?
--   `60`?
--   another value entirely?
--   should logic be refactored?
-
-This shows why conflict resolution is a semantic task, not just a
-mechanical one.
-
-## 24. Useful Commands During Conflict Resolution {#24-useful-commands-during-conflict-resolution}
-
-### See current status
-
-``` bash
-git status
-```
-
-### See differences
-
-``` bash
-git diff
-```
-
-### See staged differences
-
-``` bash
-git diff --staged
-```
-
-### After resolving
-
-``` bash
-git add path/to/file
-```
-
-These are the core commands you will use repeatedly during conflict
-handling.
+<p>If more conflicts appear, repeat the same process.
+<strong>Optional: Skip a problematic commit</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--skip
 </pre></div>
 </div>
-<div class="highlight-{#67a6ff5f-fa51-4bf2-8b12-5727442ad2c7 notranslate"><div class="highlight"><pre><span></span>``` python
-git status
-git diff
-git diff --staged
-```
+<p><strong>Optional: Abort the whole rebase</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>rebase<span class="w"> </span>--abort
 </pre></div>
 </div>
-<div class="highlight-{#dd2b0445-b2b0-497c-88ab-cae4aca56a6a notranslate"><div class="highlight"><pre><span></span>## 25. Conflict Prevention Strategies {#25-conflict-prevention-strategies}
-
-You cannot eliminate all conflicts, but you can reduce them.
-
-### Good Practices
-
-1.  **Keep branches short-lived**\
-    Long-lived branches drift and conflict more.
-
-2.  **Sync frequently with main or upstream**
-
-    -   merge from main regularly
-    -   or rebase regularly if that is the team workflow
-
-3.  **Make smaller Pull Requests**\
-    Small focused changes are easier to integrate.
-
-4.  **Communicate with teammates**\
-    If two people plan to edit the same subsystem, coordinate early.
-
-5.  **Avoid giant unrelated commits**\
-    Big mixed commits make conflict analysis much harder.
-
-## 26. Merge or Rebase Before a Pull Request? {#26-merge-or-rebase-before-a-pull-request}
-
-This depends on the team.
-
-### Common Team Preferences
-
--   Some teams want you to **merge `main` into your feature branch**
--   Others want you to **rebase your feature branch onto `main`**
--   Some teams squash everything at merge time on GitHub
-
-### Correct Practical Rule
-
-Always check:
-
--   `CONTRIBUTING.md`
--   repository guidelines
--   maintainer expectations
-
-There is no universal rule that fits every project.
-
-## 27. What Is Squash Merge? {#27-what-is-squash-merge}
-
-A related concept is **squash merge**.
-
-Instead of preserving all commits from the feature branch, the branch is
-merged as **one single commit**.
-
-This is often offered in GitHub Pull Requests.
-
-### Why Teams Use It
-
--   cleaner history on `main`
--   less noise from many small &quot;work in progress&quot; commits
--   easier project history reading
-
-### Important Distinction
-
--   squash merge is not the same as rebase
--   rebase rewrites branch history before integration
--   squash merge compresses branch history at integration time
-
-## 28. Practical Merge vs Rebase Guidance {#28-practical-merge-vs-rebase-guidance}
-
-### Prefer Merge When
-
--   you want safety on shared branches
--   you do not want to rewrite history
--   the team values preserving the branch story
--   the branch is already public and collaborative
-
-### Prefer Rebase When
-
--   the branch is primarily yours
--   you want a cleaner linear history
--   the project expects rebased branches
--   you understand the implications of history rewriting
-
-### A Good Beginner Rule
-
--   learn **merge** first
--   then learn **rebase**
--   use **rebase carefully**
-
-## 29. Realistic Scenario 1: Updating a Feature Branch with Merge {#29-realistic-scenario-1-updating-a-feature-branch-with-merge}
-
-You started `feature/login` a week ago.\
-Meanwhile, `main` received new commits.
-
-You want to update your feature branch without rewriting history.
-
-One approach:
-
-``` bash
-git fetch origin
-git switch feature/login
-git merge origin/main
-```
-
-Pros:
-
--   simple
--   history-safe
--   no rewrite
-
-Cons:
-
--   branch history may become noisier
+<hr class="docutils" />
+<p><strong>Useful Commands During Conflict Resolution</strong></p>
+<ul class="simple">
+<li><p><strong>See current status</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
 </pre></div>
 </div>
-<div class="highlight-{#374fee6d-dd48-4541-9440-ad0913aae866 notranslate"><div class="highlight"><pre><span></span>``` python
-git fetch origin
-git switch feature/login
-git merge origin/main
-```
+<ul class="simple">
+<li><p><strong>See differences</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff
 </pre></div>
 </div>
-<div class="highlight-{#7a9662ea-8b64-407f-9be7-b0c8d841a3ae notranslate"><div class="highlight"><pre><span></span>## 30. Realistic Scenario 2: Updating a Feature Branch with Rebase {#30-realistic-scenario-2-updating-a-feature-branch-with-rebase}
-
-Same situation, but you want a cleaner branch history.
-
-``` bash
-git fetch origin
-git switch feature/login
-git rebase origin/main
-```
-
-Pros:
-
--   linear history
--   cleaner PR branch
-
-Cons:
-
--   rewrites commit history
--   may require force-push
--   must be used carefully if shared
+<ul class="simple">
+<li><p><strong>See staged differences</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>diff<span class="w"> </span>--staged
 </pre></div>
 </div>
-<div class="highlight-{#3e45953c-3929-4dfa-b85e-4e85ad8d7885 notranslate"><div class="highlight"><pre><span></span>``` python
-git fetch origin
-git switch feature/login
-git rebase origin/main
-git push --force-with-lease origin feature/login
-```
-</pre></div>
-</div>
-<div class="highlight-{#ba391743-aa15-468b-b16d-f3f4851df44a notranslate"><div class="highlight"><pre><span></span>## 31. Realistic Scenario 3: Conflict in a Pull Request {#31-realistic-scenario-3-conflict-in-a-pull-request}
-
-Suppose GitHub says:
-
-&gt; This branch has conflicts that must be resolved.
-
-That usually means your branch can no longer be cleanly merged into the
-target branch.
-
-A common local resolution workflow is:
-
-``` bash
-git fetch upstream
-git switch my-feature
-git rebase upstream/main
-```
-
-or, depending on team style:
-
-``` bash
-git fetch upstream
-git switch my-feature
-git merge upstream/main
-```
-
-Then:
-
--   resolve conflicts locally
--   run tests
--   commit or continue
--   push the updated branch
--   the PR updates automatically
-
-## 32. Visual Thinking: Conflict Is About Overlapping Intent {#32-visual-thinking-conflict-is-about-overlapping-intent}
-
-A conflict is not merely &quot;same file changed.&quot;
-
-Two branches can modify the same file without conflict if they touch
-different areas.
-
-Conflict is more about:
-
--   overlapping edits
--   incompatible structural changes
--   ambiguous final intent
-
-So conflict resolution requires understanding the code or text, not just
-knowing Git commands.
-
-## 33. Common Mistakes {#33-common-mistakes}
-
-### 1. Rebasing a shared branch without coordination {#1-rebasing-a-shared-branch-without-coordination}
-
-This confuses collaborators.
-
-### 2. Using `--force` carelessly {#2-using---force-carelessly}
-
-Prefer:
-
-``` bash
-git push --force-with-lease
-```
-
-### 3. Resolving conflicts mechanically without understanding the code {#3-resolving-conflicts-mechanically-without-understanding-the-code}
-
-This can introduce subtle bugs.
-
-### 4. Ignoring tests after conflict resolution {#4-ignoring-tests-after-conflict-resolution}
-
-Always verify behavior after integrating complex changes.
-
-### 5. Letting branches become stale {#5-letting-branches-become-stale}
-
-The longer you wait, the harder integration becomes.
-
-## 34. Safe Recovery Mindset {#34-safe-recovery-mindset}
-
-When Git reports a conflict, do not panic.
-
-A professional recovery mindset is:
-
-1.  read the status carefully
-2.  identify which branches are involved
-3.  inspect the conflicted files
-4.  decide the correct final code
-5.  stage only when truly resolved
-6.  continue or abort as needed
-7.  run tests after resolution
-
-Git is usually waiting for a human decision, not punishing you.
-
-## 35. Quick Reference Commands {#35-quick-reference-commands}
-
-### Merge a branch into main
-
-``` bash
-git switch main
-git merge feature-name
-```
-
-### Rebase a branch onto main
-
-``` bash
-git switch feature-name
-git fetch origin
-git rebase origin/main
-```
-
-### Continue rebase after resolving conflicts
-
-``` bash
-git add .
-git rebase --continue
-```
-
-### Abort a rebase {#abort-a-rebase}
-
-``` bash
-git rebase --abort
-```
-
-### Abort a merge {#abort-a-merge}
-
-``` bash
-git merge --abort
-```
-
-### Safer force push after rebase
-
-``` bash
-git push --force-with-lease origin feature-name
-```
-
-## 36. Final Summary {#36-final-summary}
-
-**Merge** and **rebase** are both integration tools, but they produce
-different histories.
-
-### Merge {#merge}
-
--   combines branches
--   preserves branch structure
--   does not rewrite history
--   often safer for shared collaboration
-
-### Rebase {#rebase}
-
--   replays commits on a new base
--   creates linear history
--   rewrites commit IDs
--   useful when used intentionally and carefully
-
-### Conflicts
-
--   happen when Git cannot choose between overlapping changes
--   must be resolved by understanding the intended final result
--   are normal in real teamwork
-
-The deeper lesson is this:
-
-&gt; Git integration is not only about commands. It is about managing
-&gt; history, collaboration, and code intent.
-
-## 37. Suggested Practice Exercises {#37-suggested-practice-exercises}
-
-1.  Create a repository with a `main` branch and a `feature` branch.
-2.  Modify the same line differently in both branches.
-3.  try `git merge` and resolve the conflict manually.
-4.  reset the repository and repeat using `git rebase`.
-5.  practice:
-    -   `git status`
-    -   `git diff`
-    -   `git merge --abort`
-    -   `git rebase --abort`
-    -   `git rebase --continue`
-6.  compare the final history using:
-
-``` bash
-git log --oneline --graph --all
-```
-
-That comparison is one of the fastest ways to truly understand the
-difference between merge and rebase.
-</pre></div>
-</div>
-<div class="highlight-{#9347ce20-aa62-419c-92aa-299b35972e71 notranslate"><div class="highlight"><pre><span></span>``` python
-git log --oneline --graph --all
-```
-</pre></div>
-</div>
-<div class="highlight-{#f01a61af-e613-4670-b33c-1bfc26e16c3e notranslate"><div class="highlight"><pre><span></span>
-
-
-
-
-
-
-
-
-
-
-
-# Professional Guide to the Contributor Workflow (Without Fork)
-
-This section is for the case where you are already a **contributor** or
-team member and have **write access** to the main repository. In this
+<p><strong>Conflict Prevention Strategies</strong></p>
+<p>You cannot eliminate all conflicts, but you can reduce them.</p>
+<p>Good Practices</p>
+<ol class="arabic simple">
+<li><p><strong>Keep branches short-lived</strong>
+Long-lived branches drift and conflict more.</p></li>
+<li><p><strong>Sync frequently with main or upstream</strong></p>
+<ul class="simple">
+<li><p>merge from main regularly</p></li>
+<li><p>or rebase regularly if that is the team workflow</p></li>
+</ul>
+</li>
+<li><p><strong>Make smaller Pull Requests</strong>
+Small focused changes are easier to integrate.</p></li>
+<li><p><strong>Communicate with teammates</strong>
+If two people plan to edit the same subsystem, coordinate early.</p></li>
+<li><p><strong>Avoid giant unrelated commits</strong>
+Big mixed commits make conflict analysis much harder.</p></li>
+</ol>
+<p><strong>What Is Squash Merge?</strong></p>
+<p>A related concept is <strong>squash merge</strong>. Instead of preserving all commits from the feature branch, the branch is merged as <strong>one single commit</strong>.</p>
+<p>This is often offered in GitHub Pull Requests.</p>
+<p><strong>Why Teams Use It</strong></p>
+<ul class="simple">
+<li><p>cleaner history on <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>less noise from many small “work in progress” commits</p></li>
+<li><p>easier project history reading</p></li>
+</ul>
+<p><strong>Important Distinction</strong></p>
+<ul class="simple">
+<li><p>squash merge is not the same as rebase</p></li>
+<li><p>rebase rewrites branch history before integration</p></li>
+<li><p>squash merge compresses branch history at integration time</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="contributor">
+<h2>Contributor<a class="headerlink" href="#contributor" title="Permalink to this heading">#</a></h2>
+<p>This section is for the case where you are already a <strong>contributor</strong> or
+team member and have <strong>write access</strong> to the main repository. In this
 situation, the workflow is usually different from the fork-based
-open-source workflow.
-
-Instead of:
-
-``` text
-Fork → Clone → Branch → Push to your fork → Pull Request
-```
-
-you often use:
-
-``` text
-Clone main repository → Create branch → Commit → Push branch → Pull Request
-```
-
-or, in some teams:
-
-``` text
-Clone main repository → Create branch → Commit → Push branch → Merge directly
-```
-
-depending on team policy.
-
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
-
-By the end of this section, you should be able to:
-
--   understand how contributor workflow differs from fork workflow
--   know when a fork is unnecessary
--   clone the main repository directly
--   create and manage contribution branches inside the main repository
--   push branches to the shared repository
--   open Pull Requests from a branch in the same repository
--   understand when direct pushes to `main` are discouraged
--   work safely in a collaborative team environment
-
-## 1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}
-
-When you are a **contributor with write access**, you no longer need
-your own fork in order to propose changes.
-
-That is the key difference.
-
-### Fork-Based Workflow
-
-Used when:
-
--   you do **not** have write access
--   you contribute from outside the core team
--   you submit changes through your own fork
-
-### Contributor Workflow
-
-Used when:
-
--   you **do** have write access
--   you are part of the organization or trusted team
--   you can push branches directly to the main repository
-
-So if you are already a contributor, the repository itself can usually
-act as the shared collaboration space.
-
-## 2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}
-
-Very often, yes.
-
-Having write access does **not** always mean:
-
--   push directly to `main`
--   merge without review
--   skip collaboration rules
-
-In many professional teams, even contributors with write access still:
-
--   create branches
--   push those branches to the shared repository
--   open Pull Requests
--   wait for review
--   merge only after approval
-
-### Why? {#why}
-
-Because Pull Requests are not only about permissions.\
-They are also about:
-
--   review quality
--   design discussion
--   CI checks
--   documentation of why a change happened
--   protecting the stability of `main`
-
-## 3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}
-
-A fork is usually unnecessary when:
-
--   you are already on the project team
--   you have write access to the main repository
--   your organization expects branch-based collaboration inside the same
-    repo
-
-In that case, the normal pattern is:
-
-``` text
-main repository → feature branch → PR into main
-```
-
-There is no extra GitHub copy under your personal account.
-
-## 4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}
-
-A common contributor workflow looks like this:
-
-``` text
-Clone main repository → Create feature branch → Edit → Commit → Push branch → Open Pull Request → Review → Merge
-```
-
-This is similar to the fork workflow, but the difference is where the
-branch lives:
-
--   in fork workflow, the branch lives in **your fork**
--   in contributor workflow, the branch lives in the **main shared
-    repository**
-
-## 5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}
-
-Since you already have access, you normally clone the main repository
-directly.
-
-``` bash
-git clone git@github.com:ORGANIZATION/PROJECT.git
-cd PROJECT
-```
-
-There is no need to fork first.
-
-Your `origin` now points directly to the shared repository.
+open-source workflow.</p>
+<p>Instead of:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Branch → Push to your fork → Pull Request
 </pre></div>
 </div>
-<div class="highlight-{#19383747-f002-4938-84ba-4ea23c984094 notranslate"><div class="highlight"><pre><span></span>``` python
+<p>you often use:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Clone main repository → Create branch → Commit → Push branch → Pull Request
+</pre></div>
+</div>
+<p>or, in some teams:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Clone main repository → Create branch → Commit → Push branch → Merge directly
+</pre></div>
+</div>
+<p>depending on team policy.</p>
+</section>
+<hr class="docutils" />
+<section id="learning-goals-learning-goals">
+<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>understand how contributor workflow differs from fork workflow</p></li>
+<li><p>know when a fork is unnecessary</p></li>
+<li><p>clone the main repository directly</p></li>
+<li><p>create and manage contribution branches inside the main repository</p></li>
+<li><p>push branches to the shared repository</p></li>
+<li><p>open Pull Requests from a branch in the same repository</p></li>
+<li><p>understand when direct pushes to <code class="docutils literal notranslate"><span class="pre">main</span></code> are discouraged</p></li>
+<li><p>work safely in a collaborative team environment</p></li>
+</ul>
+</section>
+<section id="what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">
+<h2>1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}<a class="headerlink" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor" title="Permalink to this heading">#</a></h2>
+<p>When you are a <strong>contributor with write access</strong>, you no longer need
+your own fork in order to propose changes.</p>
+<p>That is the key difference.</p>
+<section id="fork-based-workflow">
+<h3>Fork-Based Workflow<a class="headerlink" href="#fork-based-workflow" title="Permalink to this heading">#</a></h3>
+<p>Used when:</p>
+<ul class="simple">
+<li><p>you do <strong>not</strong> have write access</p></li>
+<li><p>you contribute from outside the core team</p></li>
+<li><p>you submit changes through your own fork</p></li>
+</ul>
+</section>
+<section id="contributor-workflow">
+<h3>Contributor Workflow<a class="headerlink" href="#contributor-workflow" title="Permalink to this heading">#</a></h3>
+<p>Used when:</p>
+<ul class="simple">
+<li><p>you <strong>do</strong> have write access</p></li>
+<li><p>you are part of the organization or trusted team</p></li>
+<li><p>you can push branches directly to the main repository</p></li>
+</ul>
+<p>So if you are already a contributor, the repository itself can usually
+act as the shared collaboration space.</p>
+</section>
+</section>
+<section id="do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">
+<h2>2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}<a class="headerlink" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests" title="Permalink to this heading">#</a></h2>
+<p>Very often, yes.</p>
+<p>Having write access does <strong>not</strong> always mean:</p>
+<ul class="simple">
+<li><p>push directly to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p>merge without review</p></li>
+<li><p>skip collaboration rules</p></li>
+</ul>
+<p>In many professional teams, even contributors with write access still:</p>
+<ul class="simple">
+<li><p>create branches</p></li>
+<li><p>push those branches to the shared repository</p></li>
+<li><p>open Pull Requests</p></li>
+<li><p>wait for review</p></li>
+<li><p>merge only after approval</p></li>
+</ul>
+<section id="why-why">
+<h3>Why? {#why}<a class="headerlink" href="#why-why" title="Permalink to this heading">#</a></h3>
+<p>Because Pull Requests are not only about permissions.<br />
+They are also about:</p>
+<ul class="simple">
+<li><p>review quality</p></li>
+<li><p>design discussion</p></li>
+<li><p>CI checks</p></li>
+<li><p>documentation of why a change happened</p></li>
+<li><p>protecting the stability of <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">
+<h2>3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}<a class="headerlink" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed" title="Permalink to this heading">#</a></h2>
+<p>A fork is usually unnecessary when:</p>
+<ul class="simple">
+<li><p>you are already on the project team</p></li>
+<li><p>you have write access to the main repository</p></li>
+<li><p>your organization expects branch-based collaboration inside the same
+repo</p></li>
+</ul>
+<p>In that case, the normal pattern is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>main repository → feature branch → PR into main
+</pre></div>
+</div>
+<p>There is no extra GitHub copy under your personal account.</p>
+</section>
+<section id="high-level-contributor-workflow-4-high-level-contributor-workflow">
+<h2>4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}<a class="headerlink" href="#high-level-contributor-workflow-4-high-level-contributor-workflow" title="Permalink to this heading">#</a></h2>
+<p>A common contributor workflow looks like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Clone main repository → Create feature branch → Edit → Commit → Push branch → Open Pull Request → Review → Merge
+</pre></div>
+</div>
+<p>This is similar to the fork workflow, but the difference is where the
+branch lives:</p>
+<ul class="simple">
+<li><p>in fork workflow, the branch lives in <strong>your fork</strong></p></li>
+<li><p>in contributor workflow, the branch lives in the <strong>main shared
+repository</strong></p></li>
+</ul>
+</section>
+<section id="step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">
+<h2>5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}<a class="headerlink" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository" title="Permalink to this heading">#</a></h2>
+<p>Since you already have access, you normally clone the main repository
+directly.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ORGANIZATION/PROJECT.git
+<span class="nb">cd</span><span class="w"> </span>PROJECT
+</pre></div>
+</div>
+<p>There is no need to fork first.</p>
+<p>Your <code class="docutils literal notranslate"><span class="pre">origin</span></code> now points directly to the shared repository.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#19383747-f002-4938-84ba-4ea23c984094 .cell .code}
+``` python
 git clone git@github.com:ORGANIZATION/PROJECT.git
 cd PROJECT
 ```
@@ -4865,12 +4364,20 @@ git branch past-code 90544b4fa
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-a-conflict-16-example-of-a-conflict">16. Example of a Conflict {#16-example-of-a-conflict}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-git-marks-conflicts-in-files-17-how-git-marks-conflicts-in-files">17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meaning">Meaning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changes-when-you-are-a-contributor-1-what-changes-when-you-are-a-contributor">1. What Changes When You Are a Contributor? {#1-what-changes-when-you-are-a-contributor}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-based-workflow">Fork-Based Workflow</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor-workflow">Contributor Workflow</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conflict-during-merge-18-conflict-during-merge">18. Conflict During Merge {#18-conflict-during-merge}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-contributors-still-use-pull-requests-2-do-contributors-still-use-pull-requests">2. Do Contributors Still Use Pull Requests? {#2-do-contributors-still-use-pull-requests}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-why">Why? {#why}</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-a-fork-usually-not-needed-3-when-is-a-fork-usually-not-needed">3. When Is a Fork Usually Not Needed? {#3-when-is-a-fork-usually-not-needed}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#high-level-contributor-workflow-4-high-level-contributor-workflow">4. High-Level Contributor Workflow {#4-high-level-contributor-workflow}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-clone-the-main-repository-5-step-1-clone-the-main-repository">5. Step 1: Clone the Main Repository {#5-step-1-clone-the-main-repository}</a></li>
 </ul>
 </li>
 </ul>

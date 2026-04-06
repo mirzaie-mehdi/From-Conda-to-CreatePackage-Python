@@ -1559,18 +1559,18 @@ This usually happens when:
 
 Git is very good at automatic merging, but it cannot safely guess human intent in every case. The longer a branch lives without syncing, the more likely conflicts become.
 
-## 16. Example of a Conflict {#16-example-of-a-conflict}
+**Example of a Conflict**
 
 Imagine `main` has:
 
-``` python
+``` bash
 def greet():
     return "Hello"
 ```
 
 And your feature branch changed it to:
 
-``` python
+``` bash
 def greet():
     return "Hello, user"
 ```
@@ -1582,11 +1582,7 @@ def greet():
     return "Hi"
 ```
 
-Git now sees that the same lines were changed differently.
-
-It cannot confidently choose one, so it reports a conflict.
-
-## 17. How Git Marks Conflicts in Files {#17-how-git-marks-conflicts-in-files}
+Git now sees that the same lines were changed differently. It cannot confidently choose one, so it reports a conflict.
 
 When a conflict happens, Git inserts markers into the file, such as:
 
@@ -1598,7 +1594,7 @@ return "Hello, user"
 >>>>>>> feature/login
 ```
 
-### Meaning
+That means
 
 -   `<<<<<<< HEAD`\
     the current branch\'s version
@@ -1610,14 +1606,11 @@ return "Hello, user"
     the incoming branch\'s version
 
 You must edit the file manually and remove these markers.
-
-## 18. Conflict During Merge {#18-conflict-during-merge}
-
 If a conflict happens during merge:
 
 ``` bash
 git switch main
-git merge feature/login
+git merge feature
 ```
 
 Git may stop and tell you which files are conflicted.
@@ -1629,17 +1622,74 @@ Then the normal process is:
 3.  remove conflict markers
 4.  stage the resolved files
 5.  complete the merge
-:::
 
-::: {#a1c20e4f-fa0e-40fc-9777-94fa2cc1892d .cell .code}
-``` python
+---
+**Conflict During merge**
+Here is the standard sequence.
+
+- **Step 1:Attempt the merge**
+
+``` bash
 git switch main
 git merge feature/login
 ```
-:::
 
-::: {#567d5b74-903d-47f2-b9a3-7a348a628f53 .cell .markdown}
-## 19. Conflict During Rebase {#19-conflict-during-rebase}
+- **Step 2: Check status**
+
+``` bash
+git status
+```
+
+Git shows which files are unmerged.
+
+- **Step 3: Open each conflicted file**
+
+Look for markers like:
+
+``` text
+<<<<<<<
+=======
+>>>>>>>
+```
+
+- **Step 4: Edit to the correct final result**
+
+Choose:
+
+-   your version
+-   their version
+-   or a combination
+
+- **Step 5: Stage resolved files**
+
+``` bash
+git add path/to/file
+```
+
+- **Step 6: Finish the merge**
+
+If needed:
+
+``` bash
+git commit
+```
+
+Sometimes Git prepares the merge commit automatically after staging, depending on the conflict path and tooling.
+
+
+**Abort a Merge**
+
+Sometimes you decide the current integration attempt is not worth continuing right now.
+
+
+``` bash
+git merge --abort
+```
+
+This attempts to return the repository to the pre-merge state.
+
+---
+**Conflict During Rebase**
 
 If a conflict happens during rebase:
 
@@ -1665,261 +1715,45 @@ git rebase --continue
 ```
 
 If more conflicts appear, repeat the same process.
-:::
-
-::: {#f7e79763-3406-4304-855e-d6167ef6934d .cell .code}
-``` python
-git switch feature/login
-git rebase origin/main
-git add .
-git rebase --continue
-```
-:::
-
-::: {#e4278834-5dad-4489-b680-9df9fd839310 .cell .markdown}
-## 20. Merge Conflict Resolution: Step-by-Step {#20-merge-conflict-resolution-step-by-step}
-
-Here is the standard sequence.
-
-### Step 1: Attempt the merge
-
-``` bash
-git switch main
-git merge feature/login
-```
-
-### Step 2: Check status
-
-``` bash
-git status
-```
-
-Git shows which files are unmerged.
-
-### Step 3: Open each conflicted file
-
-Look for markers like:
-
-``` text
-<<<<<<<
-=======
->>>>>>>
-```
-
-### Step 4: Edit to the correct final result
-
-Choose:
-
--   your version
--   their version
--   or a combination
-
-### Step 5: Stage resolved files
-
-``` bash
-git add path/to/file
-```
-
-### Step 6: Finish the merge
-
-If needed:
-
-``` bash
-git commit
-```
-
-Sometimes Git prepares the merge commit automatically after staging,
-depending on the conflict path and tooling.
-:::
-
-::: {#bfc9c84f-3523-4653-b3c1-c29ca4c26b01 .cell .code}
-``` python
-git switch main
-git merge feature/login
-git status
-git add path/to/file
-git commit
-```
-:::
-
-::: {#9c24c740-79db-4054-bcd2-a41c29296002 .cell .markdown}
-## 21. Rebase Conflict Resolution: Step-by-Step {#21-rebase-conflict-resolution-step-by-step}
-
-### Step 1: Start the rebase
-
-``` bash
-git switch feature/login
-git rebase origin/main
-```
-
-### Step 2: Git stops on a conflict
-
-Check status:
-
-``` bash
-git status
-```
-
-### Step 3: Fix the file contents
-
-Remove markers and keep the correct result.
-
-### Step 4: Stage the resolved files
-
-``` bash
-git add path/to/file
-```
-
-### Step 5: Continue the rebase
-
-``` bash
-git rebase --continue
-```
-
-Git then moves to the next commit.\
-If another conflict appears, repeat.
-
-### Optional: Skip a problematic commit
+**Optional: Skip a problematic commit**
 
 ``` bash
 git rebase --skip
 ```
 
-### Optional: Abort the whole rebase
+**Optional: Abort the whole rebase**
 
 ``` bash
 git rebase --abort
 ```
-:::
+---
+**Useful Commands During Conflict Resolution**
 
-::: {#e65ae029-9204-4953-b76f-cd45e9cbabc8 .cell .code}
-``` python
-git switch feature/login
-git rebase origin/main
-git status
-git add path/to/file
-git rebase --continue
-```
-:::
-
-::: {#5f72d6fa-7403-47b3-b039-68e39133ae81 .cell .markdown}
-## 22. Aborting Merge or Rebase {#22-aborting-merge-or-rebase}
-
-Sometimes you decide the current integration attempt is not worth
-continuing right now.
-
-### Abort a Merge
-
-``` bash
-git merge --abort
-```
-
-This attempts to return the repository to the pre-merge state.
-
-### Abort a Rebase
-
-``` bash
-git rebase --abort
-```
-
-This attempts to restore the branch to how it looked before the rebase
-began.
-
-These commands are very important safety tools.
-:::
-
-::: {#d9403db7-0fdc-4329-ae1f-91462ed51eeb .cell .code}
-``` python
-git merge --abort
-git rebase --abort
-```
-:::
-
-::: {#cd0c9fd9-e5b3-49a1-b03e-885f26eb92bf .cell .markdown}
-## 23. Merge Conflict Example: Human Decision {#23-merge-conflict-example-human-decision}
-
-Suppose a file contains:
-
-``` python
-def connect():
-    timeout = 30
-    return timeout
-```
-
-In `main`, someone changed it to:
-
-``` python
-def connect():
-    timeout = 10
-    return timeout
-```
-
-In your branch, you changed it to:
-
-``` python
-def connect():
-    timeout = 60
-    return timeout
-```
-
-Git cannot decide whether the timeout should be `10` or `60`.
-
-A human must decide:
-
--   should the final value be `10`?
--   `60`?
--   another value entirely?
--   should logic be refactored?
-
-This shows why conflict resolution is a semantic task, not just a
-mechanical one.
-
-## 24. Useful Commands During Conflict Resolution {#24-useful-commands-during-conflict-resolution}
-
-### See current status
+- **See current status**
 
 ``` bash
 git status
 ```
 
-### See differences
+- **See differences**
 
 ``` bash
 git diff
 ```
 
-### See staged differences
+- **See staged differences**
 
 ``` bash
 git diff --staged
 ```
 
-### After resolving
-
-``` bash
-git add path/to/file
-```
-
-These are the core commands you will use repeatedly during conflict
-handling.
-:::
-
-::: {#67a6ff5f-fa51-4bf2-8b12-5727442ad2c7 .cell .code}
-``` python
-git status
-git diff
-git diff --staged
-```
-:::
-
-::: {#dd2b0445-b2b0-497c-88ab-cae4aca56a6a .cell .markdown}
-## 25. Conflict Prevention Strategies {#25-conflict-prevention-strategies}
+**Conflict Prevention Strategies** 
 
 You cannot eliminate all conflicts, but you can reduce them.
 
-### Good Practices
+Good Practices
 
-1.  **Keep branches short-lived**\
+1.  **Keep branches short-lived**
     Long-lived branches drift and conflict more.
 
 2.  **Sync frequently with main or upstream**
@@ -1927,350 +1761,36 @@ You cannot eliminate all conflicts, but you can reduce them.
     -   merge from main regularly
     -   or rebase regularly if that is the team workflow
 
-3.  **Make smaller Pull Requests**\
+3.  **Make smaller Pull Requests**
     Small focused changes are easier to integrate.
 
-4.  **Communicate with teammates**\
+4.  **Communicate with teammates**
     If two people plan to edit the same subsystem, coordinate early.
 
-5.  **Avoid giant unrelated commits**\
+5.  **Avoid giant unrelated commits**
     Big mixed commits make conflict analysis much harder.
 
-## 26. Merge or Rebase Before a Pull Request? {#26-merge-or-rebase-before-a-pull-request}
 
-This depends on the team.
+**What Is Squash Merge?**
 
-### Common Team Preferences
-
--   Some teams want you to **merge `main` into your feature branch**
--   Others want you to **rebase your feature branch onto `main`**
--   Some teams squash everything at merge time on GitHub
-
-### Correct Practical Rule
-
-Always check:
-
--   `CONTRIBUTING.md`
--   repository guidelines
--   maintainer expectations
-
-There is no universal rule that fits every project.
-
-## 27. What Is Squash Merge? {#27-what-is-squash-merge}
-
-A related concept is **squash merge**.
-
-Instead of preserving all commits from the feature branch, the branch is
-merged as **one single commit**.
+A related concept is **squash merge**. Instead of preserving all commits from the feature branch, the branch is merged as **one single commit**.
 
 This is often offered in GitHub Pull Requests.
 
-### Why Teams Use It
+**Why Teams Use It**
 
 -   cleaner history on `main`
 -   less noise from many small "work in progress" commits
 -   easier project history reading
 
-### Important Distinction
+**Important Distinction**
 
 -   squash merge is not the same as rebase
 -   rebase rewrites branch history before integration
 -   squash merge compresses branch history at integration time
 
-## 28. Practical Merge vs Rebase Guidance {#28-practical-merge-vs-rebase-guidance}
 
-### Prefer Merge When
-
--   you want safety on shared branches
--   you do not want to rewrite history
--   the team values preserving the branch story
--   the branch is already public and collaborative
-
-### Prefer Rebase When
-
--   the branch is primarily yours
--   you want a cleaner linear history
--   the project expects rebased branches
--   you understand the implications of history rewriting
-
-### A Good Beginner Rule
-
--   learn **merge** first
--   then learn **rebase**
--   use **rebase carefully**
-
-## 29. Realistic Scenario 1: Updating a Feature Branch with Merge {#29-realistic-scenario-1-updating-a-feature-branch-with-merge}
-
-You started `feature/login` a week ago.\
-Meanwhile, `main` received new commits.
-
-You want to update your feature branch without rewriting history.
-
-One approach:
-
-``` bash
-git fetch origin
-git switch feature/login
-git merge origin/main
-```
-
-Pros:
-
--   simple
--   history-safe
--   no rewrite
-
-Cons:
-
--   branch history may become noisier
-:::
-
-::: {#374fee6d-dd48-4541-9440-ad0913aae866 .cell .code}
-``` python
-git fetch origin
-git switch feature/login
-git merge origin/main
-```
-:::
-
-::: {#7a9662ea-8b64-407f-9be7-b0c8d841a3ae .cell .markdown}
-## 30. Realistic Scenario 2: Updating a Feature Branch with Rebase {#30-realistic-scenario-2-updating-a-feature-branch-with-rebase}
-
-Same situation, but you want a cleaner branch history.
-
-``` bash
-git fetch origin
-git switch feature/login
-git rebase origin/main
-```
-
-Pros:
-
--   linear history
--   cleaner PR branch
-
-Cons:
-
--   rewrites commit history
--   may require force-push
--   must be used carefully if shared
-:::
-
-::: {#3e45953c-3929-4dfa-b85e-4e85ad8d7885 .cell .code}
-``` python
-git fetch origin
-git switch feature/login
-git rebase origin/main
-git push --force-with-lease origin feature/login
-```
-:::
-
-::: {#ba391743-aa15-468b-b16d-f3f4851df44a .cell .markdown}
-## 31. Realistic Scenario 3: Conflict in a Pull Request {#31-realistic-scenario-3-conflict-in-a-pull-request}
-
-Suppose GitHub says:
-
-> This branch has conflicts that must be resolved.
-
-That usually means your branch can no longer be cleanly merged into the
-target branch.
-
-A common local resolution workflow is:
-
-``` bash
-git fetch upstream
-git switch my-feature
-git rebase upstream/main
-```
-
-or, depending on team style:
-
-``` bash
-git fetch upstream
-git switch my-feature
-git merge upstream/main
-```
-
-Then:
-
--   resolve conflicts locally
--   run tests
--   commit or continue
--   push the updated branch
--   the PR updates automatically
-
-## 32. Visual Thinking: Conflict Is About Overlapping Intent {#32-visual-thinking-conflict-is-about-overlapping-intent}
-
-A conflict is not merely "same file changed."
-
-Two branches can modify the same file without conflict if they touch
-different areas.
-
-Conflict is more about:
-
--   overlapping edits
--   incompatible structural changes
--   ambiguous final intent
-
-So conflict resolution requires understanding the code or text, not just
-knowing Git commands.
-
-## 33. Common Mistakes {#33-common-mistakes}
-
-### 1. Rebasing a shared branch without coordination {#1-rebasing-a-shared-branch-without-coordination}
-
-This confuses collaborators.
-
-### 2. Using `--force` carelessly {#2-using---force-carelessly}
-
-Prefer:
-
-``` bash
-git push --force-with-lease
-```
-
-### 3. Resolving conflicts mechanically without understanding the code {#3-resolving-conflicts-mechanically-without-understanding-the-code}
-
-This can introduce subtle bugs.
-
-### 4. Ignoring tests after conflict resolution {#4-ignoring-tests-after-conflict-resolution}
-
-Always verify behavior after integrating complex changes.
-
-### 5. Letting branches become stale {#5-letting-branches-become-stale}
-
-The longer you wait, the harder integration becomes.
-
-## 34. Safe Recovery Mindset {#34-safe-recovery-mindset}
-
-When Git reports a conflict, do not panic.
-
-A professional recovery mindset is:
-
-1.  read the status carefully
-2.  identify which branches are involved
-3.  inspect the conflicted files
-4.  decide the correct final code
-5.  stage only when truly resolved
-6.  continue or abort as needed
-7.  run tests after resolution
-
-Git is usually waiting for a human decision, not punishing you.
-
-## 35. Quick Reference Commands {#35-quick-reference-commands}
-
-### Merge a branch into main
-
-``` bash
-git switch main
-git merge feature-name
-```
-
-### Rebase a branch onto main
-
-``` bash
-git switch feature-name
-git fetch origin
-git rebase origin/main
-```
-
-### Continue rebase after resolving conflicts
-
-``` bash
-git add .
-git rebase --continue
-```
-
-### Abort a rebase {#abort-a-rebase}
-
-``` bash
-git rebase --abort
-```
-
-### Abort a merge {#abort-a-merge}
-
-``` bash
-git merge --abort
-```
-
-### Safer force push after rebase
-
-``` bash
-git push --force-with-lease origin feature-name
-```
-
-## 36. Final Summary {#36-final-summary}
-
-**Merge** and **rebase** are both integration tools, but they produce
-different histories.
-
-### Merge {#merge}
-
--   combines branches
--   preserves branch structure
--   does not rewrite history
--   often safer for shared collaboration
-
-### Rebase {#rebase}
-
--   replays commits on a new base
--   creates linear history
--   rewrites commit IDs
--   useful when used intentionally and carefully
-
-### Conflicts
-
--   happen when Git cannot choose between overlapping changes
--   must be resolved by understanding the intended final result
--   are normal in real teamwork
-
-The deeper lesson is this:
-
-> Git integration is not only about commands. It is about managing
-> history, collaboration, and code intent.
-
-## 37. Suggested Practice Exercises {#37-suggested-practice-exercises}
-
-1.  Create a repository with a `main` branch and a `feature` branch.
-2.  Modify the same line differently in both branches.
-3.  try `git merge` and resolve the conflict manually.
-4.  reset the repository and repeat using `git rebase`.
-5.  practice:
-    -   `git status`
-    -   `git diff`
-    -   `git merge --abort`
-    -   `git rebase --abort`
-    -   `git rebase --continue`
-6.  compare the final history using:
-
-``` bash
-git log --oneline --graph --all
-```
-
-That comparison is one of the fastest ways to truly understand the
-difference between merge and rebase.
-:::
-
-::: {#9347ce20-aa62-419c-92aa-299b35972e71 .cell .code}
-``` python
-git log --oneline --graph --all
-```
-:::
-
-::: {#f01a61af-e613-4670-b33c-1bfc26e16c3e .cell .markdown}
-
-
-
-
-
-
-
-
-
-
-
-
-# Professional Guide to the Contributor Workflow (Without Fork)
+## Contributor
 
 This section is for the case where you are already a **contributor** or
 team member and have **write access** to the main repository. In this
@@ -3063,6 +2583,15 @@ distinct from the fork workflow.
 :::
 
 ::: {#0db059fd-5112-4b32-a413-a1d8bd3bc80c .cell .markdown}
+
+
+
+
+
+
+
+
+
 # Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick
 
 This section is on five highly practical Git topics:
