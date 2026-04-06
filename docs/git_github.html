@@ -434,8 +434,11 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github-12-https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">SSH</a></li>
 </ul>
 </li>
 </ul>
@@ -750,25 +753,25 @@ Here is the most commons commands for branching and switiching</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul class="simple">
-<li><p>List available branches on your project</p></li>
+<li><p><strong>List available branches on your project</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Create a new branch</p></li>
+<li><p><strong>Create a new branch</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>feature/login
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Switch to another branch</p></li>
+<li><p><strong>Switch to another branch</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>main<span class="w"> </span>feature/login
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Create and switch in one step</p></li>
+<li><p><strong>Create and switch in one step</strong></p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>-c<span class="w"> </span>feature/login
 </pre></div>
@@ -810,14 +813,38 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 </div>
 </section>
 </section>
+<hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="github">
 <h1>GitHub<a class="headerlink" href="#github" title="Permalink to this heading">#</a></h1>
 <p><a name="github"></a></p>
-<section id="create-a-github-account">
-<h2>Create a GitHub Account<a class="headerlink" href="#create-a-github-account" title="Permalink to this heading">#</a></h2>
+<p>A local repository is enough for solo experimentation, but collaboration requires a shared remote repository.
+GitHub provides that shared remote space.</p>
+<p><strong>Why Remotes Matter</strong></p>
+<p>They allow you to:</p>
+<ul class="simple">
+<li><p>back up your project online</p></li>
+<li><p>collaborate with teammates</p></li>
+<li><p>open Pull Requests</p></li>
+<li><p>fetch and push shared history</p></li>
+</ul>
+<p><strong>Important Distinction</strong></p>
+<ul class="simple">
+<li><p>local Git = history on your machine</p></li>
+<li><p>remote GitHub repo = shared history online</p></li>
+</ul>
+<p><strong>📌 Goal: Connecting an Existing Local Git Repository to GitHub</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You already have a local Git repository and want to:</p>
+<ol class="arabic simple">
+<li><p>Create a repository on GitHub</p></li>
+<li><p>Link (connect) it to your local repo</p></li>
+<li><p>Push your code to GitHub</p></li>
+</ol>
+</div>
+<p><strong>Create a GitHub Account</strong></p>
 <p>To use GitHub effectively, the first step is to create a user account.</p>
-<section id="steps">
-<h3>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">#</a></h3>
+<p><strong>Steps</strong></p>
 <ol class="arabic simple">
 <li><p>Go to GitHub.</p></li>
 <li><p>Click <strong>Sign up</strong>.</p></li>
@@ -831,58 +858,107 @@ git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </sp
 <li><p>Verify your email address.</p></li>
 <li><p>Complete the sign-up process.</p></li>
 </ol>
-<p>After creating your account, you can create repositories, upload code,
-and connect Git on your computer to GitHub.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#d7358f16-6d62-4c76-add4-0ca07bf62ec6 .cell .markdown}
-## 12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}
-
-There are two common ways to connect Git to GitHub:
-
-### HTTPS
-
-``` bash
-git clone https://github.com/user/repo.git
-```
-
-### SSH
-
-``` bash
-git clone git@github.com:user/repo.git
-```
-
-### HTTPS
-
--   simpler to start with
--   commonly available by default
--   often uses a token for authentication
-
-### SSH
-
--   very common on Linux and macOS
--   excellent for repeated use
--   avoids typing credentials repeatedly
--   useful beyond Git, for server administration as well
-
-SSH is widely considered worth learning.
+<p>After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.
+This is the standard pipeline for creating a repository and working on it on a daily basis.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><strong>🧱 Step 1 — Create a Repository on GitHub</strong></p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Go to GitHub</p></li>
+<li><p>Click <strong>New repository</strong></p></li>
+<li><p>Choose a name (e.g., <code class="docutils literal notranslate"><span class="pre">my-project</span></code>)</p></li>
+<li><p><strong>Do NOT</strong> initialize with README, <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code>, or license</p></li>
+<li><p>Click <strong>Create repository</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>🔗 Step 2 — Add Remote to Your Local Repository</strong></p></li>
+</ul>
+<p>In your terminal (inside your project folder):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:USERNAME/REPOSITORY.git
 </pre></div>
 </div>
-<div class="highlight-{#6e03b733-3779-4239-b870-02689213e6fd notranslate"><div class="highlight"><pre><span></span>## 13. What Is SSH? {#13-what-is-ssh}
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:john/my-project.git
+</pre></div>
+</div>
+<p>✔ This connects your local repo → GitHub repo</p>
+<p>_ <strong>🔍 Step 3 — Verify Remote Connection</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Expected output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>fetch<span class="o">)</span>
+origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class="w"> </span><span class="o">(</span>push<span class="o">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>🚀 Step 4 — Push Your Code to GitHub</strong></p></li>
+</ul>
+<p>If your main branch is <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<p>If it’s <code class="docutils literal notranslate"><span class="pre">master</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>master
+</pre></div>
+</div>
+<p>✔ <code class="docutils literal notranslate"><span class="pre">-u</span></code> sets upstream so future pushes are simpler:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push
+</pre></div>
+</div>
+</div>
+<section id="https-vs-ssh-for-github-12-https-vs-ssh-for-github">
+<h2>12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}<a class="headerlink" href="#https-vs-ssh-for-github-12-https-vs-ssh-for-github" title="Permalink to this heading">#</a></h2>
+<p>There are two common ways to connect Git to GitHub:</p>
+<section id="https">
+<h3>HTTPS<a class="headerlink" href="#https" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/user/repo.git
+</pre></div>
+</div>
+</section>
+<section id="ssh">
+<h3>SSH<a class="headerlink" href="#ssh" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:user/repo.git
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>HTTPS<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>simpler to start with</p></li>
+<li><p>commonly available by default</p></li>
+<li><p>often uses a token for authentication</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>SSH<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>very common on Linux and macOS</p></li>
+<li><p>excellent for repeated use</p></li>
+<li><p>avoids typing credentials repeatedly</p></li>
+<li><p>useful beyond Git, for server administration as well</p></li>
+</ul>
+<p>SSH is widely considered worth learning.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="p">:::</span> <span class="p">{</span><span class="c1">#6e03b733-3779-4239-b870-02689213e6fd .cell .markdown}</span>
+<span class="c1">## 13. What Is SSH? {#13-what-is-ssh}</span>
 
-**SSH** stands for **Secure Shell**.
+<span class="o">**</span><span class="n">SSH</span><span class="o">**</span> <span class="n">stands</span> <span class="k">for</span> <span class="o">**</span><span class="n">Secure</span> <span class="n">Shell</span><span class="o">**.</span>
 
-It is a **secure network protocol** used to connect to remote systems
-over the internet.
+<span class="n">It</span> <span class="ow">is</span> <span class="n">a</span> <span class="o">**</span><span class="n">secure</span> <span class="n">network</span> <span class="n">protocol</span><span class="o">**</span> <span class="n">used</span> <span class="n">to</span> <span class="n">connect</span> <span class="n">to</span> <span class="n">remote</span> <span class="n">systems</span>
+<span class="n">over</span> <span class="n">the</span> <span class="n">internet</span><span class="o">.</span>
 
-### Important clarification
+<span class="c1">### Important clarification</span>
 
-SSH is **not something separate from the internet**.\
-It is a secure way of communicating **over** the internet.
+<span class="n">SSH</span> <span class="ow">is</span> <span class="o">**</span><span class="ow">not</span> <span class="n">something</span> <span class="n">separate</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">internet</span><span class="o">**.</span>\
+<span class="n">It</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">secure</span> <span class="n">way</span> <span class="n">of</span> <span class="n">communicating</span> <span class="o">**</span><span class="n">over</span><span class="o">**</span> <span class="n">the</span> <span class="n">internet</span><span class="o">.</span>
 
-### Why SSH matters
+<span class="c1">### Why SSH matters</span>
 
-Without encryption, data may be exposed.\
-With SSH, communication is encrypted and authenticated.
+<span class="n">Without</span> <span class="n">encryption</span><span class="p">,</span> <span class="n">data</span> <span class="n">may</span> <span class="n">be</span> <span class="n">exposed</span><span class="o">.</span>\
+<span class="n">With</span> <span class="n">SSH</span><span class="p">,</span> <span class="n">communication</span> <span class="ow">is</span> <span class="n">encrypted</span> <span class="ow">and</span> <span class="n">authenticated</span><span class="o">.</span>
 </pre></div>
 </div>
 <div class="highlight-{#94d162f5-812c-4e35-aba5-73720546183a notranslate"><div class="highlight"><pre><span></span>## 14. Generate SSH Keys {#14-generate-ssh-keys}
@@ -5648,8 +5724,11 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-github-account">Create a GitHub Account</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#steps">Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github-12-https-vs-ssh-for-github">12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#https">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssh">SSH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">HTTPS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">SSH</a></li>
 </ul>
 </li>
 </ul>

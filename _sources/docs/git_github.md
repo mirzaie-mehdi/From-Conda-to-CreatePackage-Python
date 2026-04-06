@@ -334,22 +334,22 @@ A branch is not a second full copy of the project. It is a movable pointer into 
 Here is the most commons commands for branching and switiching
 
 :::{note}
-- List available branches on your project
+- **List available branches on your project**
 ```bash
 git branch
 ```
 
-- Create a new branch
+- **Create a new branch**
 ```bash
 git branch feature/login
 ```
 
-- Switch to another branch
+- **Switch to another branch**
 ```bash
 git switch main feature/login
 ```
 
-- Create and switch in one step
+- **Create and switch in one step**
 ```bash
 git switch -c feature/login
 ```
@@ -424,11 +424,23 @@ They allow you to:
 - local Git = history on your machine
 - remote GitHub repo = shared history online
 
-## Create a GitHub Account
+**📌 Goal: Connecting an Existing Local Git Repository to GitHub**
+
+:::{note}
+
+You already have a local Git repository and want to:
+
+1. Create a repository on GitHub
+2. Link (connect) it to your local repo
+3. Push your code to GitHub
+
+:::
+
+**Create a GitHub Account**
 
 To use GitHub effectively, the first step is to create a user account.
 
-### Steps
+**Steps**
 
 1.  Go to GitHub.
 2.  Click **Sign up**.
@@ -439,11 +451,100 @@ To use GitHub effectively, the first step is to create a user account.
 4.  Verify your email address.
 5.  Complete the sign-up process.
 
-After creating your account, you can create repositories, upload code,
-and connect Git on your computer to GitHub.
+After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.
+This is the standard pipeline for creating a repository and working on it on a daily basis.
+
+
+::: {note}
+- **🧱 Step 1 — Create a Repository on GitHub**
+
+1. Go to GitHub
+2. Click **New repository**
+3. Choose a name (e.g., `my-project`)
+4. **Do NOT** initialize with README, `.gitignore`, or license
+5. Click **Create repository**
+
+
+- **🔗 Step 2 — Add Remote to Your Local Repository**
+
+In your terminal (inside your project folder):
+
+```bash
+git remote add origin git@github.com:USERNAME/REPOSITORY.git
+```
+
+Example:
+
+```bash
+git remote add origin git@github.com:john/my-project.git
+```
+
+✔ This connects your local repo → GitHub repo
+
+
+_ **🔍 Step 3 — Verify Remote Connection**
+
+```bash
+git remote -v
+```
+
+Expected output:
+
+```bash
+origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
+origin  git@github.com:USERNAME/REPOSITORY.git (push)
+```
+
+- **🚀 Step 4 — Push Your Code to GitHub**
+
+If your main branch is `main`:
+
+```bash
+git push -u origin main
+```
+
+If it's `master`:
+
+```bash
+git push -u origin master
+```
+
+✔ `-u` sets upstream so future pushes are simpler:
+
+```bash
+git push
+```
 :::
 
-::: {#d7358f16-6d62-4c76-add4-0ca07bf62ec6 .cell .markdown}
+:::{warning}
+**⚠️ Common Issues**
+
+- ❌ **Permission denied (publickey)**
+  → SSH key not set up
+- ❌ **Repository not found**
+  → Wrong URL or repo name
+- ❌ **Branch mismatch**
+  → Use correct branch (`main` vs `master`)
+
+:::
+
+:::{summary}
+
+Your workflow now becomes:
+
+```bash
+git add .
+git commit -m "your message"
+git push
+```
+
+And to get updates:
+
+```bash
+git pull
+```
+:::
+
 ## 12. HTTPS vs SSH for GitHub {#12-https-vs-ssh-for-github}
 
 There are two common ways to connect Git to GitHub:
