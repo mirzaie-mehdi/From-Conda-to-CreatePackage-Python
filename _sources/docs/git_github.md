@@ -2461,48 +2461,50 @@ Prefer `revert` when:
 -   you want a clear audit trail
 -   you need to undo a change safely without rewriting history
 
-### Typical Professional Rule
+**Professional Rule:**
 
 -   **local mistake not yet shared** → often `reset`
 -   **shared bad commit** → often `revert`
 
-## 14. `reset` vs `revert` {#14-reset-vs-revert}
+:::{summarry}
+
+**`reset` vs `revert`**
 
 This distinction is fundamental.
 
-### `reset`
+**`reset`:**
 
 -   rewrites branch position
 -   can rewrite visible history
 -   best for local cleanup
 -   can be dangerous on shared branches
 
-### `revert`
+**`revert`:**
 
 -   does not remove the original commit
 -   adds a new undo commit
 -   safer for shared history
 -   leaves a clear record of what happened
 
-### Mental Shortcut
 
--   **reset** = "pretend the branch pointer moved back"
--   **revert** = "add a new commit that cancels an old one"
+**reset** = "pretend the branch pointer moved back"
 
-## 15. `git restore`: Core Idea {#15-git-restore-core-idea}
+**revert** = "add a new commit that cancels an old one"
+:::
 
-`git restore` was introduced to make certain file-level operations
-clearer.
+---
+
+### `git restore`
+
+`git restore` was introduced to make certain file-level operations clearer.
 
 It is mainly used to:
 
 -   restore file content in the working tree
 -   unstage files from the index
 
-It helps separate these actions from older overloaded `checkout`
-behavior.
+It helps separate these actions from older overloaded `checkout` behavior.
 
-## 16. Restore a File in the Working Tree {#16-restore-a-file-in-the-working-tree}
 
 Example:
 
@@ -2515,19 +2517,12 @@ This means:
 -   discard local modifications in `app.py`
 -   restore it from the current `HEAD` state
 
-### Use Case {#use-case}
+**Use Case**
 
-You edited a file locally and want to abandon those uncommitted edits.
-:::
+You edited a file locally and want to abandon those uncommitted edits. You accidentally staged a file and want to unstage it without losing the edit.
 
-::: {#cf0167f0-1595-4c1f-9237-0ef7cf466593 .cell .code}
-``` python
-git restore app.py
-```
-:::
 
-::: {#5ae2a60a-eaff-48fd-9dfc-3e666b2253dd .cell .markdown}
-## 17. Unstage a File with `restore` {#17-unstage-a-file-with-restore}
+1. **Unstage a File with `restore`**
 
 Example:
 
@@ -2540,21 +2535,8 @@ This means:
 -   remove `app.py` from the staging area
 -   keep the file changes in the working tree
 
-### Use Case {#use-case}
-
-You accidentally staged a file and want to unstage it without losing the
-edit.
-:::
-
-::: {#62776468-c5ce-4d43-af4b-d985c0944ed2 .cell .code}
-``` python
-git restore --staged app.py
-```
-:::
-
-::: {#1a2fb97e-f813-471d-b5aa-2472add410cf .cell .markdown}
-## 18. Restore from Another Source {#18-restore-from-another-source}
-
+2. **Restore from Another Source**
+   
 You can also restore a file from a particular commit.
 
 Example:
@@ -2568,21 +2550,12 @@ This means:
 -   take `README.md` as it existed in commit `abc1234`
 -   restore it into the working tree
 
-This is useful when you want one file from an earlier point without
-changing the whole branch history.
-:::
+This is useful when you want one file from an earlier point without changing the whole branch history.
 
-::: {#02a652b9-15fb-49e4-8ea1-b3c0667bf935 .cell .code}
-``` python
-git restore --source=abc1234 README.md
-```
-:::
+:::{note}
+**Why `restore` Is Useful**
 
-::: {#ac560565-f0b6-4975-826a-ca95c7a87c54 .cell .markdown}
-## 19. Why `restore` Is Useful {#19-why-restore-is-useful}
-
-`restore` is useful because it lets you think in terms of **file
-state**, not only commit history.
+`restore` is useful because it lets you think in terms of **file state**, not only commit history.
 
 It is especially helpful for:
 
@@ -2590,38 +2563,29 @@ It is especially helpful for:
 -   unstaging files cleanly
 -   restoring a single file from a chosen commit
 
-It is often safer and clearer than reaching for `reset` when your goal
-is only file-level correction.
+It is often safer and clearer than reaching for `reset` when your goal is only file-level correction.
+:::
 
-## 20. `git commit --amend`: Core Idea {#20-git-commit---amend-core-idea}
+---
 
-Amend changes the **most recent commit**.
+### `amend`
 
-It is commonly used when:
+`git commit --amend`: Changes the **most recent commit**. It is commonly used when:
 
 -   the last commit message is wrong
 -   you forgot to include one file
 -   you want to slightly adjust the most recent commit
 
-### Example {#example}
+Example:
 
 ``` bash
 git commit --amend
 ```
 
-Git opens the commit message editor and lets you replace the last commit
-with a new version.
-:::
+Git opens the commit message editor and lets you replace the last commit with a new version.
 
-::: {#cfb72ee6-18e7-4633-acfb-f9be287e4216 .cell .code}
-``` python
-git commit --amend
-```
-:::
-
-::: {#641c354e-edc8-4507-b481-9c058ad58d3f .cell .markdown}
-## 21. Amend the Last Commit Message {#21-amend-the-last-commit-message}
-
+1. **Amend the Last Commit Message**
+   
 Example:
 
 ``` bash
@@ -2630,44 +2594,26 @@ git commit --amend -m "Fix login validation for empty input"
 
 This replaces the latest commit message with a new one.
 
-### Important Note
+:::{note}
 
-Even changing only the message rewrites the commit.\
-That means the commit hash changes.
+Even changing only the message rewrites the commit. That means the commit hash changes.
+
 :::
 
-::: {#bf6b926e-8581-4ea5-b9d6-0911c01d0965 .cell .code}
-``` python
-git commit --amend -m "Fix login validation for empty input"
-```
-:::
-
-::: {#e77dd471-ca38-41af-a09c-a1efa5f77b7d .cell .markdown}
-## 22. Amend to Add a Forgotten File {#22-amend-to-add-a-forgotten-file}
-
+2. **Amend to Add a Forgotten File**
+   
 Suppose you made a commit but forgot one file.
 
-Workflow:
 
 ``` bash
 git add missing_file.py
 git commit --amend
 ```
 
-Now Git rebuilds the latest commit to include that file.
+Now Git rebuilds the latest commit to include that file. This is a very common and useful correction pattern.
 
-This is a very common and useful correction pattern.
-:::
-
-::: {#fe543d25-2fae-45e3-b037-cc19f81db047 .cell .code}
-``` python
-git add missing_file.py
-git commit --amend
-```
-:::
-
-::: {#d5cbafca-9528-41d0-8aa7-8d76e1c1f15e .cell .markdown}
-## 23. When Is Amend Safe? {#23-when-is-amend-safe}
+:::{note}
+**When Is Amend Safe?**
 
 Amend is safest when:
 
@@ -2675,7 +2621,9 @@ Amend is safest when:
 -   you have not pushed it yet
 -   nobody else is depending on that exact commit hash
 
-### Warning
+:::
+
+:::{warning}
 
 If you amend a commit that was already pushed:
 
@@ -2683,26 +2631,17 @@ If you amend a commit that was already pushed:
 -   force-push may be needed
 -   collaborators can be confused if they already used the old commit
 
-## 24. `git cherry-pick`: Core Idea {#24-git-cherry-pick-core-idea}
+:::
 
-`git cherry-pick` applies the effect of one specific commit onto your
-current branch.
+---
 
-### Conceptual Meaning {#conceptual-meaning}
+### `git cherry-pick`
 
-At a high level:
+`git cherry-pick` applies the effect of one specific commit onto your current branch. Take that commit over there, and replay its effect here. This is very useful when you do **not** want to merge a whole branch, but only want one particular change.
 
-> Take that commit over there, and replay its effect here.
+Example:
 
-This is very useful when you do **not** want to merge a whole branch,
-but only want one particular change.
-
-## 25. Example of `cherry-pick` {#25-example-of-cherry-pick}
-
-Suppose commit `abc1234` on another branch contains an important bug
-fix.
-
-You are on your current branch and run:
+Suppose commit `abc1234` on another branch contains an important bug fix. You are on your current branch and run:
 
 ``` bash
 git cherry-pick abc1234
@@ -2710,20 +2649,13 @@ git cherry-pick abc1234
 
 Git then attempts to apply that commit here as a new commit.
 
-### Result {#result}
+Result:
 
-You get the effect of the original commit, but the new branch history
-remains separate.
-:::
+You get the effect of the original commit, but the new branch history remains separate.
 
-::: {#3cfa6b51-06f7-4432-a0c5-d133d30d8ede .cell .code}
-``` python
-git cherry-pick abc1234
-```
-:::
+:::{note}
 
-::: {#a6d285fc-2088-4828-a256-bd412aae8987 .cell .markdown}
-## 26. When Is `cherry-pick` Useful? {#26-when-is-cherry-pick-useful}
+**When Is `cherry-pick` Useful?**
 
 Cherry-pick is useful when:
 
@@ -2732,10 +2664,8 @@ Cherry-pick is useful when:
 -   you are backporting a fix to a release branch
 -   you want to reuse a precise change selectively
 
-### Common Professional Scenario
 
-A bug is fixed on `main`, and the same fix is needed on a maintenance
-branch:
+A bug is fixed on `main`, and the same fix is needed on a maintenance branch:
 
 ``` bash
 git switch release/1.2
@@ -2743,21 +2673,11 @@ git cherry-pick abc1234
 ```
 :::
 
-::: {#7916bbaa-6eb5-4713-b2c1-0861ad839bcc .cell .code}
-``` python
-git switch release/1.2
-git cherry-pick abc1234
-```
-:::
 
-::: {#d15a8ab6-c13f-4559-991d-be0bd8b62cfa .cell .markdown}
-## 27. Cherry-Pick Can Also Conflict {#27-cherry-pick-can-also-conflict}
+:::{warning}
+**Cherry-Pick Can Also Conflict**
 
-Cherry-pick is not magic.\
-If the target branch differs too much, the commit may not apply cleanly.
-
-Then Git may stop with conflicts, and you resolve them similarly to
-merge or rebase conflicts:
+Cherry-pick is not magic. If the target branch differs too much, the commit may not apply cleanly. Then Git may stop with conflicts, and you resolve them similarly to merge or rebase conflicts:
 
 ``` bash
 git status
@@ -2772,72 +2692,71 @@ git cherry-pick --abort
 ```
 :::
 
-::: {#651d89a6-7a5a-4acc-8b89-fe1a8abc483a .cell .code}
-``` python
-git status
-git add .
-git cherry-pick --continue
-git cherry-pick --abort
-```
-:::
-
-::: {#468bca49-638c-4f1c-8672-af45fabfb474 .cell .markdown}
-## 28. Choosing the Right Tool {#28-choosing-the-right-tool}
+---
+:::{summary}
+**Choosing the Right Tool**
 
 A professional Git user learns to choose based on intent.
 
-### Use `reset` when:
+1. Use `reset` when:
 
 -   you want to rewrite recent local history
 -   you want to undo local commits before sharing
 -   you want to unstage or discard local state
 
-### Use `revert` when:
+2. Use `revert` when:
 
 -   a bad commit is already shared
 -   you want a safe undo with history preserved
 
-### Use `restore` when:
+3. Use `restore` when:
 
 -   you want to restore one file
 -   you want to unstage a file
 -   you want file-level correction without branch history surgery
 
-### Use `amend` when:
+4. Use `amend` when:
 
 -   you only need to fix the last commit
 
-### Use `cherry-pick` when:
+5. Use `cherry-pick` when:
 
 -   you want one specific commit on another branch
+  
+:::
 
-## 29. Common Mistakes {#29-common-mistakes}
+:::{warning}
+**Common Mistakes**
 
-### 1. Using `reset --hard` too casually {#1-using-reset---hard-too-casually}
+1. Using `reset --hard` too casually
 
 This can destroy local work.
 
-### 2. Using `reset` instead of `revert` on shared branches {#2-using-reset-instead-of-revert-on-shared-branches}
-
+2. Using `reset` instead of `revert` on shared branches
+   
 This can make collaboration messy.
 
-### 3. Forgetting that `amend` rewrites history {#3-forgetting-that-amend-rewrites-history}
-
+3. Forgetting that `amend` rewrites history
+   
 Even a message-only change creates a new commit hash.
 
-### 4. Cherry-picking large sequences without thinking {#4-cherry-picking-large-sequences-without-thinking}
-
+4. Cherry-picking large sequences without thinking
+   
 This can create duplicated or confusing history if done carelessly.
 
-### 5. Using history-rewriting commands after public sharing without coordination {#5-using-history-rewriting-commands-after-public-sharing-without-coordination}
+5. Using history-rewriting commands after public sharing without coordination
 
 This is one of the most common professional Git mistakes.
 
-## 30. Practical Scenario 1: Undo the Last Local Commit, Keep the Changes {#30-practical-scenario-1-undo-the-last-local-commit-keep-the-changes}
+:::
 
-You committed too early, but want to keep working.
+---
 
-A good option is:
+###  Practical Scenarios
+
+1.  ****Undo the Last Local Commit, Keep the Changes**
+   
+You committed too early, but want to keep working. A good option is:
 
 ``` bash
 git reset --mixed HEAD~1
@@ -2850,16 +2769,8 @@ Now:
 -   nothing is staged
 
 You can now stage files more selectively and recommit properly.
-:::
 
-::: {#03f1ad28-1737-4931-b1f0-dca57160abba .cell .code}
-``` python
-git reset --mixed HEAD~1
-```
-:::
-
-::: {#641a7532-dc9a-49e7-89a7-d8b1923f25e5 .cell .markdown}
-## 31. Practical Scenario 2: Undo a Shared Commit Safely {#31-practical-scenario-2-undo-a-shared-commit-safely}
+2. **Undo a Shared Commit Safely** 
 
 A bad commit is already on `main` and must be undone.
 
@@ -2869,22 +2780,11 @@ A safer option is:
 git revert abc1234
 ```
 
-This creates a new commit that reverses the earlier one.
+This creates a new commit that reverses the earlier one. This is the professional-safe pattern for shared history.
 
-This is the professional-safe pattern for shared history.
-:::
+3. **Remove a File from Staging** 
 
-::: {#eb8f77c6-36ef-47dd-a569-9fc594abb2c7 .cell .code}
-``` python
-git revert abc1234
-```
-:::
-
-::: {#55b36ac5-dbaa-4ee2-97cd-2d1e70f964eb .cell .markdown}
-## 32. Practical Scenario 3: Remove a File from Staging {#32-practical-scenario-3-remove-a-file-from-staging}
-
-You accidentally staged `config.local.json`, but you do not want it in
-the next commit.
+You accidentally staged `config.local.json`, but you do not want it in the next commit.
 
 Use:
 
@@ -2896,20 +2796,10 @@ Now:
 
 -   the file is unstaged
 -   your local edits remain
-:::
 
-::: {#6657179e-aef3-49c0-b37a-5a359bec41a7 .cell .code}
-``` python
-git restore --staged config.local.json
-```
-:::
+4. **Fix the Last Commit** 
 
-::: {#18ab30f3-6c3b-42c6-a2bc-6710d8f99e93 .cell .markdown}
-## 33. Practical Scenario 4: Fix the Last Commit {#33-practical-scenario-4-fix-the-last-commit}
-
-You committed, then realized the message is weak or one file is missing.
-
-A common correction is:
+You committed, then realized the message is weak or one file is missing. A common correction is:
 
 ``` bash
 git add forgotten_file.py
@@ -2917,173 +2807,50 @@ git commit --amend -m "Add validation and tests for empty email input"
 ```
 
 This replaces the previous final commit with a better version.
-:::
 
-::: {#ee488f67-5f7c-4dc0-b605-9099aa3bcafa .cell .code}
-``` python
-git add forgotten_file.py
-git commit --amend -m "Add validation and tests for empty email input"
-```
-:::
-
-::: {#aa0b7bf6-53d2-47ae-a544-c53eac8b4560 .cell .markdown}
-## 34. Practical Scenario 5: Backport a Fix to Another Branch {#34-practical-scenario-5-backport-a-fix-to-another-branch}
-
+5. **Backport a Fix to Another Branch**
+   
 Suppose `main` has a bug fix, but you also need it on `release/1.2`.
 
-Workflow:
 
 ``` bash
 git switch release/1.2
 git cherry-pick abc1234
 ```
 
-This applies only that selected fix to the release branch, without
-merging unrelated work from `main`.
-:::
+This applies only that selected fix to the release branch, without merging unrelated work from `main`.
 
-::: {#4c1aaff6-e9c3-49a1-b3ea-23d8c7f32df4 .cell .code}
-``` python
-git switch release/1.2
-git cherry-pick abc1234
-```
-:::
 
-::: {#4bb32931-b4b0-49e1-9114-c478f9c1baed .cell .markdown}
-## 35. A Useful Safety Principle {#35-a-useful-safety-principle}
+:::{summary}
+**A Useful Safety Principle**
 
 Before running an undo-related command, ask:
 
-### Question 1
+**Question 1**
 
 Do I want to **rewrite history**, or do I want to **preserve history**?
 
 -   rewrite history → maybe `reset` or `amend`
 -   preserve history → maybe `revert`
 
-### Question 2
+**Question 2**
 
 Am I changing a **file state**, or am I changing **commit history**?
 
 -   file state → maybe `restore`
 -   commit history → maybe `reset`, `revert`, `amend`, or `cherry-pick`
 
-### Question 3
+**Question 3**
 
 Has this already been shared with others?
 
 -   not shared → more freedom
 -   shared → prefer safer history-preserving choices
 
-## 36. Quick Comparison Table {#36-quick-comparison-table}
+:::
 
-### `reset` {#reset}
 
--   moves branch pointer
--   can affect staging and working tree
--   good for local cleanup
-
-### `revert` {#revert}
-
--   adds a new inverse commit
--   good for undoing shared commits safely
-
-### `restore`
-
--   restores files or unstages them
--   good for file-level corrections
-
-### `amend`
-
--   replaces the most recent commit
--   good for fixing the latest commit
-
-### `cherry-pick`
-
--   applies one specific commit onto current branch
--   good for selective reuse across branches
-
-## 37. Quick Reference Commands {#37-quick-reference-commands}
-
-### Undo last local commit, keep changes staged
-
-``` bash
-git reset --soft HEAD~1
-```
-
-### Undo last local commit, keep changes unstaged
-
-``` bash
-git reset --mixed HEAD~1
-```
-
-### Undo last local commit and discard changes
-
-``` bash
-git reset --hard HEAD~1
-```
-
-### Safely undo a shared commit
-
-``` bash
-git revert <commit>
-```
-
-### Discard local changes in one file
-
-``` bash
-git restore path/to/file
-```
-
-### Unstage one file
-
-``` bash
-git restore --staged path/to/file
-```
-
-### Fix the latest commit
-
-``` bash
-git commit --amend
-```
-
-### Move one commit to another branch
-
-``` bash
-git cherry-pick <commit>
-```
-
-## 38. Final Summary {#38-final-summary}
-
-These five commands solve different classes of Git problems.
-
-### `reset` {#reset-1}
-
-Use for local history cleanup and pointer movement.
-
-### `revert` {#revert-1}
-
-Use for safe undo in shared history.
-
-### `restore`
-
-Use for file-level restoration or unstaging.
-
-### `amend`
-
-Use to improve or correct the last commit.
-
-### `cherry-pick`
-
-Use to apply one specific commit somewhere else.
-
-The deeper lesson is this:
-
-> Good Git usage is not just knowing commands. It is knowing which layer
-> you intend to change: file state, staging state, branch history, or
-> shared history.
-
-## 39. Suggested Practice Exercises {#39-suggested-practice-exercises}
+**Exercises:** 
 
 1.  make two commits in a test repository
 2.  use `git reset --soft HEAD~1` and observe the staged state
@@ -3091,10 +2858,8 @@ The deeper lesson is this:
 4.  create a new commit and undo it with `git revert`
 5.  modify a file and discard changes using `git restore`
 6.  stage a file and unstage it using `git restore --staged`
-7.  make a commit with a bad message and fix it using
-    `git commit --amend`
-8.  create two branches and use `git cherry-pick` to move one fix from
-    one branch to another
+7.  make a commit with a bad message and fix it using `git commit --amend`
+8.  create two branches and use `git cherry-pick` to move one fix from one branch to another
 9.  compare histories using:
 
 ``` bash
@@ -3102,219 +2867,23 @@ git log --oneline --graph --all
 ```
 
 These exercises build intuition much faster than memorizing definitions.
-:::
 
-::: {#bfe57d3f-3b39-45ae-852b-5373cf3d9cbe .cell .code}
-``` python
-git log --oneline --graph --all
-```
-:::
-
-::: {#d0214bd7-f33f-4b15-8791-ce29b141029d .cell .markdown}
-# GitHub Notes
-
-## Forking a Repository
-
--   We should **fork** a repository of interest.
--   Forking allows us to:
-    -   Create our own copy of the repository
-    -   Modify its content and code independently
-    -   Experiment without affecting the original project
-
-------------------------------------------------------------------------
-
-## Using Git Locally vs GitHub
-
--   Git can be used **locally** on your system:
-    -   Useful when working with **sensitive datasets**
-    -   No need to upload data online
--   When using GitHub:
-    -   Use a `.gitignore` file to exclude sensitive or unnecessary
-        files
-    -   Helps keep the repository clean and secure
-
-------------------------------------------------------------------------
-
-## Pull Command
-
--   The **pull** command means:
-    -   Bringing changes from a **remote repository** into your local
-        branch
-    -   Or updating your branch with changes from another branch
-
-\`\`\`bash git pull
-:::
-
-::: {#25cd447a-2014-42fc-baab-22bf9b684a2c .cell .markdown}
-# Git Supplement Notebook: Finding the Right Commit and Debugging Regressions
-
-This section is a **supplement** to the linked Git section.\
-It focuses on the practical points we discussed **that are not
-explicitly covered inside the reset/revert/restore/amend/cherry-pick
-section itself**:
-
-1.  How to find the commit ID (hash) you need
-2.  How to refer to commits without memorizing full hashes
-3.  How to identify the exact commit where code stopped working
-4.  How to use `git bisect` to find the first bad commit efficiently
-
-Use this notebook as a hands-on companion after reading the main Git
-guide.
-
-## 1) How to get the commit number (commit hash) {#1-how-to-get-the-commit-number-commit-hash}
-
-Many Git commands need a target commit, for example:
-
--   `git revert <commit>`
--   `git reset --hard <commit>`
--   `git cherry-pick <commit>`
-
-In Git, the "commit number" is usually called the **commit hash** or
-**commit ID**.
-
-### Fast way to list commits
-
-``` bash
-git log --oneline
-```
-
-Example output:
-
-``` text
-a1b2c3d add login validation
-f6g7h8i fix navbar layout
-91ab234 initial API integration
-```
-
-Here:
-
--   `a1b2c3d`
--   `f6g7h8i`
--   `91ab234`
-
-are short commit hashes.
-
-You can usually use the short form as long as it is unique in your
-repository.
-
-## 2) Which log view should you use? {#2-which-log-view-should-you-use}
-
-### Basic history
-
-``` bash
-git log
-```
-
-Shows:
-
--   full commit hash
--   author
--   date
--   message
-
-### Short history
-
-``` bash
-git log --oneline
-```
-
-Best when you just want the commit IDs quickly.
-
-### Visual branch history
-
-``` bash
-git log --oneline --graph --all
-```
-
-Very useful when branches or merges are involved.
-
-Example mental picture:
-
-``` text
-* 8f4c2ab fix test on release branch
-| * c7d9120 add login retry
-| * 13bc991 refactor login flow
-|/
-* 91ab234 initial API integration
-```
-
-This helps you answer:
-
--   Which commit is newest?
--   Which branch introduced the change?
--   Which commit should I revert or cherry-pick?
-
-## 3) You do not always need the full commit hash {#3-you-do-not-always-need-the-full-commit-hash}
-
-Instead of typing a full hash, Git also lets you refer to recent commits
-relative to `HEAD`.
-
-`HEAD` means: **the commit I am currently on**.
-
-### Common relative references
-
--   `HEAD` → current commit
--   `HEAD~1` → one commit before current
--   `HEAD~2` → two commits before current
--   `HEAD~3` → three commits before current
-
-Examples:
-
-``` bash
-git reset --soft HEAD~1
-git reset --hard HEAD~2
-git show HEAD~3
-```
-
-This is useful when the bad change is recent and you just want to move
-back a few commits.
-
-## 4) When code worked before but is broken now {#4-when-code-worked-before-but-is-broken-now}
-
-This is a classic debugging situation:
-
--   an older commit worked
--   the current commit is broken
--   you want to know **exactly which commit introduced the problem**
-
-There are two approaches:
-
-### A. Manual checking {#a-manual-checking}
-
-You move between commits and test the code yourself.
-
-Example:
-
-``` bash
-git checkout <commit>
-```
-
-Then run your program or tests.
-
-If that commit is good, move forward.\
-If it is bad, move backward.
-
-This works, but it can be slow in repositories with many commits.
-
-### B. `git bisect` (recommended) {#b-git-bisect-recommended}
+### `git bisect`
 
 This is the professional way when you know:
 
 -   one commit that is definitely **good**
 -   one commit that is definitely **bad**
 
-Git then performs a binary search through history to find the first bad
-commit much faster.
+Git then performs a binary search through history to find the first bad commit much faster.
 
-## 5) `git bisect` step by step {#5-git-bisect-step-by-step}
-
-### Step 1: Start bisect
+- **Step 1: Start bisect**
 
 ``` bash
 git bisect start
 ```
 
-### Step 2: Mark the current state as bad
+- **Step 2: Mark the current state as bad**
 
 ``` bash
 git bisect bad
@@ -3322,7 +2891,7 @@ git bisect bad
 
 This usually means: "the version I am on right now is broken."
 
-### Step 3: Mark an older known-good commit
+- **Step 3: Mark an older known-good commit**
 
 ``` bash
 git bisect good <commit-id>
@@ -3330,7 +2899,7 @@ git bisect good <commit-id>
 
 Now Git chooses a commit in the middle.
 
-### Step 4: Test that commit
+- **Step 4: Test that commit**
 
 Run your program or your tests.
 
@@ -3729,9 +3298,3 @@ git annotate networkx/algorithms/threshold.py
 git show 90544b4fa
 git branch past-code 90544b4fa
 ```
-:::
-
-::: {#e5123f6f-2524-4186-9612-eddf9bf68518 .cell .code}
-``` python
-```
-:::

@@ -551,118 +551,6 @@ Zahra Rahmani & Farzan Rahmani
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrossEntropyLoss</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">models</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets.mnist</span><span class="w"> </span><span class="kn">import</span> <span class="n">MNIST</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets.cifar</span><span class="w"> </span><span class="kn">import</span> <span class="n">CIFAR10</span>
-
-<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Don&#39;t re-order these, we need to load the _C extension (done when importing</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># .extensions) before entering _meta_registrations.</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.extension</span><span class="w"> </span><span class="kn">import</span> <span class="n">_HAS_OPS</span>  <span class="c1"># usort:skip</span>
-<span class="ne">---&gt; </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">_meta_registrations</span><span class="p">,</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">io</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">ops</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">utils</span>  <span class="c1"># usort:skip</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span>  <span class="c1"># noqa: F401</span>
-
-<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">4</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.convnext</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.densenet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.efficientnet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.googlenet</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">.inception</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">File</span> <span class="o">~/</span><span class="n">miniforge3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">jupyterbook</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">torchvision</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">efficientnet</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1100</span>
-<span class="g g-Whitespace">   </span><span class="mi">1085</span>     <span class="n">inverted_residual_setting</span><span class="p">,</span> <span class="n">last_channel</span> <span class="o">=</span> <span class="n">_efficientnet_conf</span><span class="p">(</span><span class="s2">&quot;efficientnet_v2_m&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1086</span>     <span class="k">return</span> <span class="n">_efficientnet</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1087</span>         <span class="n">inverted_residual_setting</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1088</span>         <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;dropout&quot;</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1093</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1094</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1097</span> <span class="nd">@register_model</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1098</span> <span class="nd">@handle_legacy_interface</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;pretrained&quot;</span><span class="p">,</span> <span class="n">EfficientNet_V2_L_Weights</span><span class="o">.</span><span class="n">IMAGENET1K_V1</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1099</span> <span class="k">def</span><span class="w"> </span><span class="nf">efficientnet_v2_l</span><span class="p">(</span>
-<span class="ne">-&gt; </span><span class="mi">1100</span>     <span class="o">*</span><span class="p">,</span> <span class="n">weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EfficientNet_V2_L_Weights</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-<span class="g g-Whitespace">   </span><span class="mi">1101</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EfficientNet</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1102</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1103</span><span class="sd">     Constructs an EfficientNetV2-L architecture from</span>
-<span class="g g-Whitespace">   </span><span class="mi">1104</span><span class="sd">     `EfficientNetV2: Smaller Models and Faster Training &lt;https://arxiv.org/abs/2104.00298&gt;`_.</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1119</span><span class="sd">         :members:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1120</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1121</span>     <span class="n">weights</span> <span class="o">=</span> <span class="n">EfficientNet_V2_L_Weights</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:309,</span> in <span class="ni">_tp_cache.&lt;locals&gt;.decorator.&lt;locals&gt;.inner</span><span class="nt">(*args, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">306</span> <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">307</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">308</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">309</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">311</span>         <span class="k">pass</span>  <span class="c1"># All real errors (not unhashable args) are raised below.</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:403,</span> in <span class="ni">_SpecialForm.__getitem__</span><span class="nt">(self, parameters)</span>
-<span class="g g-Whitespace">    </span><span class="mi">401</span> <span class="nd">@_tp_cache</span>
-<span class="g g-Whitespace">    </span><span class="mi">402</span> <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">403</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:530,</span> in <span class="ni">Optional</span><span class="nt">(self, parameters)</span>
-<span class="g g-Whitespace">    </span><span class="mi">525</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Optional type.</span>
-<span class="g g-Whitespace">    </span><span class="mi">526</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">527</span><span class="sd"> Optional[X] is equivalent to Union[X, None].</span>
-<span class="g g-Whitespace">    </span><span class="mi">528</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">529</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">_type_check</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> requires a single type.&quot;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">530</span> <span class="k">return</span> <span class="n">Union</span><span class="p">[</span><span class="n">arg</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:309,</span> in <span class="ni">_tp_cache.&lt;locals&gt;.decorator.&lt;locals&gt;.inner</span><span class="nt">(*args, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">306</span> <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">307</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">308</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">309</span>         <span class="k">return</span> <span class="n">cached</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">310</span>     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">311</span>         <span class="k">pass</span>  <span class="c1"># All real errors (not unhashable args) are raised below.</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:403,</span> in <span class="ni">_SpecialForm.__getitem__</span><span class="nt">(self, parameters)</span>
-<span class="g g-Whitespace">    </span><span class="mi">401</span> <span class="nd">@_tp_cache</span>
-<span class="g g-Whitespace">    </span><span class="mi">402</span> <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">403</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:520,</span> in <span class="ni">Union</span><span class="nt">(self, parameters)</span>
-<span class="g g-Whitespace">    </span><span class="mi">518</span>     <span class="k">return</span> <span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">519</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">520</span>     <span class="k">return</span> <span class="n">_UnionGenericAlias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Optional&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">521</span> <span class="k">return</span> <span class="n">_UnionGenericAlias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:1019,</span> in <span class="ni">_GenericAlias.__init__</span><span class="nt">(self, origin, params, inst, name, _typevar_types, _paramspec_tvars)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1016</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">inst</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1017</span>              <span class="n">_typevar_types</span><span class="o">=</span><span class="n">TypeVar</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1018</span>              <span class="n">_paramspec_tvars</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1019</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">inst</span><span class="o">=</span><span class="n">inst</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1020</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1021</span>         <span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span><span class="p">,)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:950,</span> in <span class="ni">_BaseGenericAlias.__init__</span><span class="nt">(self, origin, inst, name)</span>
-<span class="g g-Whitespace">    </span><span class="mi">948</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inst</span> <span class="o">=</span> <span class="n">inst</span>
-<span class="g g-Whitespace">    </span><span class="mi">949</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-<span class="ne">--&gt; </span><span class="mi">950</span> <span class="bp">self</span><span class="o">.</span><span class="n">__origin__</span> <span class="o">=</span> <span class="n">origin</span>
-<span class="g g-Whitespace">    </span><span class="mi">951</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__slots__</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/typing.py:986,</span> in <span class="ni">_BaseGenericAlias.__setattr__</span><span class="nt">(self, attr, val)</span>
-<span class="g g-Whitespace">    </span><span class="mi">983</span>         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__origin__</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">984</span>     <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">986</span> <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">987</span>     <span class="k">if</span> <span class="n">_is_dunder</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="ow">or</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;_name&#39;</span><span class="p">,</span> <span class="s1">&#39;_inst&#39;</span><span class="p">,</span> <span class="s1">&#39;_nparams&#39;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">988</span>                                     <span class="s1">&#39;_typevar_types&#39;</span><span class="p">,</span> <span class="s1">&#39;_paramspec_tvars&#39;</span><span class="p">}:</span>
-<span class="g g-Whitespace">    </span><span class="mi">989</span>         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="visualization-functions">
@@ -986,10 +874,164 @@ Zahra Rahmani & Farzan Rahmani
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 95.02% | Test Accuracy 94.85% : 100%|█| 30/30 [01:24&lt;00:00,  2
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                        | 0/30 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<img alt="../_images/d7efa3e7c292cc0e4e03806d558297c1bfd70914c24b591cd4149b6fbc70be01.png" src="../_images/d7efa3e7c292cc0e4e03806d558297c1bfd70914c24b591cd4149b6fbc70be01.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 31.55% | Test Accuracy 58.70% :   0%|      | 0/30 [00:03&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 31.55% | Test Accuracy 58.70% :   3%| | 1/30 [00:03&lt;01:30,  3.12s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 69.07% | Test Accuracy 76.58% :   3%| | 1/30 [00:06&lt;01:30,  3.12s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 69.07% | Test Accuracy 76.58% :   7%| | 2/30 [00:06&lt;01:26,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 78.84% | Test Accuracy 82.21% :   7%| | 2/30 [00:09&lt;01:26,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 78.84% | Test Accuracy 82.21% :  10%| | 3/30 [00:09&lt;01:23,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 83.48% | Test Accuracy 85.55% :  10%| | 3/30 [00:12&lt;01:23,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 83.48% | Test Accuracy 85.55% :  13%|▏| 4/30 [00:12&lt;01:19,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 86.18% | Test Accuracy 87.00% :  13%|▏| 4/30 [00:15&lt;01:19,  3.08s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 86.18% | Test Accuracy 87.00% :  17%|▏| 5/30 [00:15&lt;01:16,  3.07s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 87.58% | Test Accuracy 87.90% :  17%|▏| 5/30 [00:18&lt;01:16,  3.07s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 87.58% | Test Accuracy 87.90% :  20%|▏| 6/30 [00:18&lt;01:14,  3.12s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.28% | Test Accuracy 88.60% :  20%|▏| 6/30 [00:21&lt;01:14,  3.12s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.28% | Test Accuracy 88.60% :  23%|▏| 7/30 [00:21&lt;01:11,  3.11s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.73% | Test Accuracy 89.20% :  23%|▏| 7/30 [00:24&lt;01:11,  3.11s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 88.73% | Test Accuracy 89.20% :  27%|▎| 8/30 [00:24&lt;01:08,  3.10s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  27%|▎| 8/30 [00:27&lt;01:08,  3.10s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  30%|▎| 9/30 [00:27&lt;01:04,  3.09s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Accuracy 89.18% | Test Accuracy 89.47% :  30%|▎| 9/30 [00:29&lt;01:09,  3.33s/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">net</span> <span class="o">=</span> <span class="n">Network</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">results</span> <span class="o">=</span> <span class="n">train_classifier</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">trainloader</span><span class="p">,</span> <span class="n">testloader</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">plot_history</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="nn">Cell In[5], line 40,</span> in <span class="ni">train_classifier</span><span class="nt">(model, train_dataloader, test_dataloader, n_epochs, device)</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span> <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="p">(</span><span class="n">pbar</span> <span class="o">:=</span> <span class="n">trange</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">)):</span>
+<span class="ne">---&gt; </span><span class="mi">40</span>     <span class="n">train_loss</span><span class="p">,</span> <span class="n">train_acc</span> <span class="o">=</span> <span class="n">classifier_train_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloader</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">41</span>     <span class="n">history</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">),</span> <span class="n">history</span><span class="p">[</span><span class="s1">&#39;train_acc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span>     <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">classifier_test_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_dataloader</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+<span class="nn">Cell In[5], line 7,</span> in <span class="ni">classifier_train_step</span><span class="nt">(model, dataloader, loss_fn, optimizer, device)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">7</span>     <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1775,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1773</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1774</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1775</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1786,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1781</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1784</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1785</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1786</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1788</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1789</span> <span class="n">called_always_called_hooks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="nn">Cell In[4], line 15,</span> in <span class="ni">Network.forward</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_hidden_layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">Cell In[4], line 12,</span> in <span class="ni">Network.last_hidden_layer</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="k">def</span><span class="w"> </span><span class="nf">last_hidden_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.</span>
+<span class="ne">---&gt; </span><span class="mi">12</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fe</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1775,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1773</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1774</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1775</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1786,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1781</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1784</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1785</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1786</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1788</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1789</span> <span class="n">called_always_called_hooks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/container.py:250,</span> in <span class="ni">Sequential.forward</span><span class="nt">(self, input)</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">247</span><span class="sd"> Runs the forward pass.</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span> <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">250</span>     <span class="nb">input</span> <span class="o">=</span> <span class="n">module</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">251</span> <span class="k">return</span> <span class="nb">input</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1775,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1773</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1774</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1775</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1786,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1781</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1784</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1785</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1786</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1788</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="g g-Whitespace">   </span><span class="mi">1789</span> <span class="n">called_always_called_hooks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/linear.py:134,</span> in <span class="ni">Linear.forward</span><span class="nt">(self, input)</span>
+<span class="g g-Whitespace">    </span><span class="mi">130</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">131</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">132</span><span class="sd">     Runs the forward pass.</span>
+<span class="g g-Whitespace">    </span><span class="mi">133</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">134</span>     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
 </div>
 </div>
 <p>To get a better sense of our training, we plot the confusion matrix for the test dataset.</p>

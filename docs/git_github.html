@@ -448,12 +448,40 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset"><code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-restore"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amend"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-cherry-pick"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenarios">Practical Scenarios</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert-12-example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step-5-git-bisect-step-by-step">5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect-6-real-example-of-git-bisect">6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary-10-quick-command-summary">10) Quick command summary {#10-quick-command-summary}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway-11-final-takeaway">11) Final takeaway {#11-final-takeaway}</a></li>
 </ul>
 </li>
 </ul>
@@ -2458,10 +2486,7 @@ people may rely on them.</p>
 <section id="git-revert">
 <h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code><a class="headerlink" href="#git-revert" title="Permalink to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> is different from <code class="docutils literal notranslate"><span class="pre">reset</span></code>. Instead of moving history backward, <code class="docutils literal notranslate"><span class="pre">revert</span></code> creates a <strong>new commit</strong> that undoes the effect of an earlier commit. Actually, it keeps the history, but add a new commit that reverses the change. This makes <code class="docutils literal notranslate"><span class="pre">revert</span></code> much safer for shared history.</p>
-</section>
-</section>
-<section id="example-of-git-revert-12-example-of-git-revert">
-<h2>12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}<a class="headerlink" href="#example-of-git-revert-12-example-of-git-revert" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
 </pre></div>
 </div>
@@ -2471,1081 +2496,518 @@ people may rely on them.</p>
 <li><p>compute the inverse of its effect</p></li>
 <li><p>create a new commit applying that inverse</p></li>
 </ul>
-<section id="result">
-<h3>Result<a class="headerlink" href="#result" title="Permalink to this heading">#</a></h3>
-<p>The original commit remains in history.<br />
-The new revert commit records that its effects were undone.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#4803fbd8-6c9b-4a92-a5a0-e902327fcfd1 .cell .code}
-``` python
-git revert abc1234
-```
+<p>Result:</p>
+<p>The original commit remains in history. The new revert commit records that its effects were undone.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>When Should You Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code>?</strong></p>
+<p>Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code> when:</p>
+<ul class="simple">
+<li><p>the bad commit was already pushed</p></li>
+<li><p>the branch is shared</p></li>
+<li><p>you want a clear audit trail</p></li>
+<li><p>you need to undo a change safely without rewriting history</p></li>
+</ul>
+<p><strong>Professional Rule:</strong></p>
+<ul class="simple">
+<li><p><strong>local mistake not yet shared</strong> → often <code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><strong>shared bad commit</strong> → often <code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="git-restore">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code><a class="headerlink" href="#git-restore" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code> was introduced to make certain file-level operations clearer.</p>
+<p>It is mainly used to:</p>
+<ul class="simple">
+<li><p>restore file content in the working tree</p></li>
+<li><p>unstage files from the index</p></li>
+</ul>
+<p>It helps separate these actions from older overloaded <code class="docutils literal notranslate"><span class="pre">checkout</span></code> behavior.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>app.py
 </pre></div>
 </div>
-<div class="highlight-{#8634c86e-1b5d-474e-9b15-42a70ecb34cb notranslate"><div class="highlight"><pre><span></span>## 13. When Should You Prefer `revert`? {#13-when-should-you-prefer-revert}
-
-Prefer `revert` when:
-
--   the bad commit was already pushed
--   the branch is shared
--   you want a clear audit trail
--   you need to undo a change safely without rewriting history
-
-### Typical Professional Rule
-
--   **local mistake not yet shared** → often `reset`
--   **shared bad commit** → often `revert`
-
-## 14. `reset` vs `revert` {#14-reset-vs-revert}
-
-This distinction is fundamental.
-
-### `reset`
-
--   rewrites branch position
--   can rewrite visible history
--   best for local cleanup
--   can be dangerous on shared branches
-
-### `revert`
-
--   does not remove the original commit
--   adds a new undo commit
--   safer for shared history
--   leaves a clear record of what happened
-
-### Mental Shortcut
-
--   **reset** = &quot;pretend the branch pointer moved back&quot;
--   **revert** = &quot;add a new commit that cancels an old one&quot;
-
-## 15. `git restore`: Core Idea {#15-git-restore-core-idea}
-
-`git restore` was introduced to make certain file-level operations
-clearer.
-
-It is mainly used to:
-
--   restore file content in the working tree
--   unstage files from the index
-
-It helps separate these actions from older overloaded `checkout`
-behavior.
-
-## 16. Restore a File in the Working Tree {#16-restore-a-file-in-the-working-tree}
-
-Example:
-
-``` bash
-git restore app.py
-```
-
-This means:
-
--   discard local modifications in `app.py`
--   restore it from the current `HEAD` state
-
-### Use Case {#use-case}
-
-You edited a file locally and want to abandon those uncommitted edits.
+<p>This means:</p>
+<ul class="simple">
+<li><p>discard local modifications in <code class="docutils literal notranslate"><span class="pre">app.py</span></code></p></li>
+<li><p>restore it from the current <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> state</p></li>
+</ul>
+<p><strong>Use Case</strong></p>
+<p>You edited a file locally and want to abandon those uncommitted edits. You accidentally staged a file and want to unstage it without losing the edit.</p>
+<ol class="arabic simple">
+<li><p><strong>Unstage a File with <code class="docutils literal notranslate"><span class="pre">restore</span></code></strong></p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>app.py
 </pre></div>
 </div>
-<div class="highlight-{#cf0167f0-1595-4c1f-9237-0ef7cf466593 notranslate"><div class="highlight"><pre><span></span>``` python
-git restore app.py
-```
+<p>This means:</p>
+<ul class="simple">
+<li><p>remove <code class="docutils literal notranslate"><span class="pre">app.py</span></code> from the staging area</p></li>
+<li><p>keep the file changes in the working tree</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Restore from Another Source</strong></p></li>
+</ol>
+<p>You can also restore a file from a particular commit.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--source<span class="o">=</span>abc1234<span class="w"> </span>README.md
 </pre></div>
 </div>
-<div class="highlight-{#5ae2a60a-eaff-48fd-9dfc-3e666b2253dd notranslate"><div class="highlight"><pre><span></span>## 17. Unstage a File with `restore` {#17-unstage-a-file-with-restore}
-
-Example:
-
-``` bash
-git restore --staged app.py
-```
-
-This means:
-
--   remove `app.py` from the staging area
--   keep the file changes in the working tree
-
-### Use Case {#use-case}
-
-You accidentally staged a file and want to unstage it without losing the
-edit.
+<p>This means:</p>
+<ul class="simple">
+<li><p>take <code class="docutils literal notranslate"><span class="pre">README.md</span></code> as it existed in commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code></p></li>
+<li><p>restore it into the working tree</p></li>
+</ul>
+<p>This is useful when you want one file from an earlier point without changing the whole branch history.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Why <code class="docutils literal notranslate"><span class="pre">restore</span></code> Is Useful</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">restore</span></code> is useful because it lets you think in terms of <strong>file state</strong>, not only commit history.</p>
+<p>It is especially helpful for:</p>
+<ul class="simple">
+<li><p>undoing accidental local edits</p></li>
+<li><p>unstaging files cleanly</p></li>
+<li><p>restoring a single file from a chosen commit</p></li>
+</ul>
+<p>It is often safer and clearer than reaching for <code class="docutils literal notranslate"><span class="pre">reset</span></code> when your goal is only file-level correction.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="amend">
+<h3><code class="docutils literal notranslate"><span class="pre">amend</span></code><a class="headerlink" href="#amend" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code>: Changes the <strong>most recent commit</strong>. It is commonly used when:</p>
+<ul class="simple">
+<li><p>the last commit message is wrong</p></li>
+<li><p>you forgot to include one file</p></li>
+<li><p>you want to slightly adjust the most recent commit</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
 </pre></div>
 </div>
-<div class="highlight-{#62776468-c5ce-4d43-af4b-d985c0944ed2 notranslate"><div class="highlight"><pre><span></span>``` python
-git restore --staged app.py
-```
+<p>Git opens the commit message editor and lets you replace the last commit with a new version.</p>
+<ol class="arabic simple">
+<li><p><strong>Amend the Last Commit Message</strong></p></li>
+</ol>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix login validation for empty input&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#1a2fb97e-f813-471d-b5aa-2472add410cf notranslate"><div class="highlight"><pre><span></span>## 18. Restore from Another Source {#18-restore-from-another-source}
-
-You can also restore a file from a particular commit.
-
-Example:
-
-``` bash
-git restore --source=abc1234 README.md
-```
-
-This means:
-
--   take `README.md` as it existed in commit `abc1234`
--   restore it into the working tree
-
-This is useful when you want one file from an earlier point without
-changing the whole branch history.
+<p>This replaces the latest commit message with a new one.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even changing only the message rewrites the commit. That means the commit hash changes.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Amend to Add a Forgotten File</strong></p></li>
+</ol>
+<p>Suppose you made a commit but forgot one file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>missing_file.py
+git<span class="w"> </span>commit<span class="w"> </span>--amend
 </pre></div>
 </div>
-<div class="highlight-{#02a652b9-15fb-49e4-8ea1-b3c0667bf935 notranslate"><div class="highlight"><pre><span></span>``` python
-git restore --source=abc1234 README.md
-```
+<p>Now Git rebuilds the latest commit to include that file. This is a very common and useful correction pattern.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>When Is Amend Safe?</strong></p>
+<p>Amend is safest when:</p>
+<ul class="simple">
+<li><p>the commit is still local</p></li>
+<li><p>you have not pushed it yet</p></li>
+<li><p>nobody else is depending on that exact commit hash</p></li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you amend a commit that was already pushed:</p>
+<ul class="simple">
+<li><p>the commit hash changes</p></li>
+<li><p>force-push may be needed</p></li>
+<li><p>collaborators can be confused if they already used the old commit</p></li>
+</ul>
+</div>
+</section>
+<hr class="docutils" />
+<section id="git-cherry-pick">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code><a class="headerlink" href="#git-cherry-pick" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> applies the effect of one specific commit onto your current branch. Take that commit over there, and replay its effect here. This is very useful when you do <strong>not</strong> want to merge a whole branch, but only want one particular change.</p>
+<p>Example:</p>
+<p>Suppose commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code> on another branch contains an important bug fix. You are on your current branch and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
 </pre></div>
 </div>
-<div class="highlight-{#ac560565-f0b6-4975-826a-ca95c7a87c54 notranslate"><div class="highlight"><pre><span></span>## 19. Why `restore` Is Useful {#19-why-restore-is-useful}
-
-`restore` is useful because it lets you think in terms of **file
-state**, not only commit history.
-
-It is especially helpful for:
-
--   undoing accidental local edits
--   unstaging files cleanly
--   restoring a single file from a chosen commit
-
-It is often safer and clearer than reaching for `reset` when your goal
-is only file-level correction.
-
-## 20. `git commit --amend`: Core Idea {#20-git-commit---amend-core-idea}
-
-Amend changes the **most recent commit**.
-
-It is commonly used when:
-
--   the last commit message is wrong
--   you forgot to include one file
--   you want to slightly adjust the most recent commit
-
-### Example {#example}
-
-``` bash
-git commit --amend
-```
-
-Git opens the commit message editor and lets you replace the last commit
-with a new version.
+<p>Git then attempts to apply that commit here as a new commit.</p>
+<p>Result:</p>
+<p>You get the effect of the original commit, but the new branch history remains separate.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>When Is <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> Useful?</strong></p>
+<p>Cherry-pick is useful when:</p>
+<ul class="simple">
+<li><p>one branch contains a bug fix you need elsewhere</p></li>
+<li><p>you want a single commit, not the whole branch history</p></li>
+<li><p>you are backporting a fix to a release branch</p></li>
+<li><p>you want to reuse a precise change selectively</p></li>
+</ul>
+<p>A bug is fixed on <code class="docutils literal notranslate"><span class="pre">main</span></code>, and the same fix is needed on a maintenance branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>release/1.2
+git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
 </pre></div>
 </div>
-<div class="highlight-{#cfb72ee6-18e7-4633-acfb-f9be287e4216 notranslate"><div class="highlight"><pre><span></span>``` python
-git commit --amend
-```
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Cherry-Pick Can Also Conflict</strong></p>
+<p>Cherry-pick is not magic. If the target branch differs too much, the commit may not apply cleanly. Then Git may stop with conflicts, and you resolve them similarly to merge or rebase conflicts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>cherry-pick<span class="w"> </span>--continue
 </pre></div>
 </div>
-<div class="highlight-{#641c354e-edc8-4507-b481-9c058ad58d3f notranslate"><div class="highlight"><pre><span></span>## 21. Amend the Last Commit Message {#21-amend-the-last-commit-message}
-
-Example:
-
-``` bash
-git commit --amend -m &quot;Fix login validation for empty input&quot;
-```
-
-This replaces the latest commit message with a new one.
-
-### Important Note
-
-Even changing only the message rewrites the commit.\
-That means the commit hash changes.
+<p>Or, if needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
 </pre></div>
 </div>
-<div class="highlight-{#bf6b926e-8581-4ea5-b9d6-0911c01d0965 notranslate"><div class="highlight"><pre><span></span>``` python
-git commit --amend -m &quot;Fix login validation for empty input&quot;
-```
+</div>
+<hr class="docutils" />
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Common Mistakes</strong></p>
+<ol class="arabic simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">--hard</span></code> too casually</p></li>
+</ol>
+<p>This can destroy local work.</p>
+<ol class="arabic simple" start="2">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">reset</span></code> instead of <code class="docutils literal notranslate"><span class="pre">revert</span></code> on shared branches</p></li>
+</ol>
+<p>This can make collaboration messy.</p>
+<ol class="arabic simple" start="3">
+<li><p>Forgetting that <code class="docutils literal notranslate"><span class="pre">amend</span></code> rewrites history</p></li>
+</ol>
+<p>Even a message-only change creates a new commit hash.</p>
+<ol class="arabic simple" start="4">
+<li><p>Cherry-picking large sequences without thinking</p></li>
+</ol>
+<p>This can create duplicated or confusing history if done carelessly.</p>
+<ol class="arabic simple" start="5">
+<li><p>Using history-rewriting commands after public sharing without coordination</p></li>
+</ol>
+<p>This is one of the most common professional Git mistakes.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="practical-scenarios">
+<h3>Practical Scenarios<a class="headerlink" href="#practical-scenarios" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>**<strong>Undo the Last Local Commit, Keep the Changes</strong></p></li>
+</ol>
+<p>You committed too early, but want to keep working. A good option is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
 </pre></div>
 </div>
-<div class="highlight-{#e77dd471-ca38-41af-a09c-a1efa5f77b7d notranslate"><div class="highlight"><pre><span></span>## 22. Amend to Add a Forgotten File {#22-amend-to-add-a-forgotten-file}
-
-Suppose you made a commit but forgot one file.
-
-Workflow:
-
-``` bash
-git add missing_file.py
-git commit --amend
-```
-
-Now Git rebuilds the latest commit to include that file.
-
-This is a very common and useful correction pattern.
+<p>Now:</p>
+<ul class="simple">
+<li><p>the commit is removed from visible branch history</p></li>
+<li><p>the file changes remain in your working tree</p></li>
+<li><p>nothing is staged</p></li>
+</ul>
+<p>You can now stage files more selectively and recommit properly.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Undo a Shared Commit Safely</strong></p></li>
+</ol>
+<p>A bad commit is already on <code class="docutils literal notranslate"><span class="pre">main</span></code> and must be undone.</p>
+<p>A safer option is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
 </pre></div>
 </div>
-<div class="highlight-{#fe543d25-2fae-45e3-b037-cc19f81db047 notranslate"><div class="highlight"><pre><span></span>``` python
-git add missing_file.py
-git commit --amend
-```
+<p>This creates a new commit that reverses the earlier one. This is the professional-safe pattern for shared history.</p>
+<ol class="arabic simple" start="3">
+<li><p><strong>Remove a File from Staging</strong></p></li>
+</ol>
+<p>You accidentally staged <code class="docutils literal notranslate"><span class="pre">config.local.json</span></code>, but you do not want it in the next commit.</p>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>config.local.json
 </pre></div>
 </div>
-<div class="highlight-{#d5cbafca-9528-41d0-8aa7-8d76e1c1f15e notranslate"><div class="highlight"><pre><span></span>## 23. When Is Amend Safe? {#23-when-is-amend-safe}
-
-Amend is safest when:
-
--   the commit is still local
--   you have not pushed it yet
--   nobody else is depending on that exact commit hash
-
-### Warning
-
-If you amend a commit that was already pushed:
-
--   the commit hash changes
--   force-push may be needed
--   collaborators can be confused if they already used the old commit
-
-## 24. `git cherry-pick`: Core Idea {#24-git-cherry-pick-core-idea}
-
-`git cherry-pick` applies the effect of one specific commit onto your
-current branch.
-
-### Conceptual Meaning {#conceptual-meaning}
-
-At a high level:
-
-&gt; Take that commit over there, and replay its effect here.
-
-This is very useful when you do **not** want to merge a whole branch,
-but only want one particular change.
-
-## 25. Example of `cherry-pick` {#25-example-of-cherry-pick}
-
-Suppose commit `abc1234` on another branch contains an important bug
-fix.
-
-You are on your current branch and run:
-
-``` bash
-git cherry-pick abc1234
-```
-
-Git then attempts to apply that commit here as a new commit.
-
-### Result {#result}
-
-You get the effect of the original commit, but the new branch history
-remains separate.
+<p>Now:</p>
+<ul class="simple">
+<li><p>the file is unstaged</p></li>
+<li><p>your local edits remain</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Fix the Last Commit</strong></p></li>
+</ol>
+<p>You committed, then realized the message is weak or one file is missing. A common correction is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>forgotten_file.py
+git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add validation and tests for empty email input&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-{#3cfa6b51-06f7-4432-a0c5-d133d30d8ede notranslate"><div class="highlight"><pre><span></span>``` python
-git cherry-pick abc1234
-```
+<p>This replaces the previous final commit with a better version.</p>
+<ol class="arabic simple" start="5">
+<li><p><strong>Backport a Fix to Another Branch</strong></p></li>
+</ol>
+<p>Suppose <code class="docutils literal notranslate"><span class="pre">main</span></code> has a bug fix, but you also need it on <code class="docutils literal notranslate"><span class="pre">release/1.2</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>release/1.2
+git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
 </pre></div>
 </div>
-<div class="highlight-{#a6d285fc-2088-4828-a256-bd412aae8987 notranslate"><div class="highlight"><pre><span></span>## 26. When Is `cherry-pick` Useful? {#26-when-is-cherry-pick-useful}
-
-Cherry-pick is useful when:
-
--   one branch contains a bug fix you need elsewhere
--   you want a single commit, not the whole branch history
--   you are backporting a fix to a release branch
--   you want to reuse a precise change selectively
-
-### Common Professional Scenario
-
-A bug is fixed on `main`, and the same fix is needed on a maintenance
-branch:
-
-``` bash
-git switch release/1.2
-git cherry-pick abc1234
-```
+<p>This applies only that selected fix to the release branch, without merging unrelated work from <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<p><strong>Exercises:</strong></p>
+<ol class="arabic simple">
+<li><p>make two commits in a test repository</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span> <span class="pre">HEAD~1</span></code> and observe the staged state</p></li>
+<li><p>repeat with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span> <span class="pre">HEAD~1</span></code></p></li>
+<li><p>create a new commit and undo it with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></p></li>
+<li><p>modify a file and discard changes using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code></p></li>
+<li><p>stage a file and unstage it using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span> <span class="pre">--staged</span></code></p></li>
+<li><p>make a commit with a bad message and fix it using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code></p></li>
+<li><p>create two branches and use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> to move one fix from one branch to another</p></li>
+<li><p>compare histories using:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
 </pre></div>
 </div>
-<div class="highlight-{#7916bbaa-6eb5-4713-b2c1-0861ad839bcc notranslate"><div class="highlight"><pre><span></span>``` python
-git switch release/1.2
-git cherry-pick abc1234
-```
+<p>These exercises build intuition much faster than memorizing definitions.</p>
+</section>
+<section id="git-bisect">
+<h3><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code><a class="headerlink" href="#git-bisect" title="Permalink to this heading">#</a></h3>
+<p>This is the professional way when you know:</p>
+<ul class="simple">
+<li><p>one commit that is definitely <strong>good</strong></p></li>
+<li><p>one commit that is definitely <strong>bad</strong></p></li>
+</ul>
+<p>Git then performs a binary search through history to find the first bad
+commit much faster.</p>
+</section>
+</section>
+<section id="git-bisect-step-by-step-5-git-bisect-step-by-step">
+<h2>5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}<a class="headerlink" href="#git-bisect-step-by-step-5-git-bisect-step-by-step" title="Permalink to this heading">#</a></h2>
+<section id="step-1-start-bisect">
+<h3>Step 1: Start bisect<a class="headerlink" href="#step-1-start-bisect" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
 </pre></div>
 </div>
-<div class="highlight-{#d15a8ab6-c13f-4559-991d-be0bd8b62cfa notranslate"><div class="highlight"><pre><span></span>## 27. Cherry-Pick Can Also Conflict {#27-cherry-pick-can-also-conflict}
-
-Cherry-pick is not magic.\
-If the target branch differs too much, the commit may not apply cleanly.
-
-Then Git may stop with conflicts, and you resolve them similarly to
-merge or rebase conflicts:
-
-``` bash
-git status
-git add .
-git cherry-pick --continue
-```
-
-Or, if needed:
-
-``` bash
-git cherry-pick --abort
-```
+</section>
+<section id="step-2-mark-the-current-state-as-bad">
+<h3>Step 2: Mark the current state as bad<a class="headerlink" href="#step-2-mark-the-current-state-as-bad" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
 </pre></div>
 </div>
-<div class="highlight-{#651d89a6-7a5a-4acc-8b89-fe1a8abc483a notranslate"><div class="highlight"><pre><span></span>``` python
-git status
-git add .
-git cherry-pick --continue
-git cherry-pick --abort
-```
+<p>This usually means: “the version I am on right now is broken.”</p>
+</section>
+<section id="step-3-mark-an-older-known-good-commit">
+<h3>Step 3: Mark an older known-good commit<a class="headerlink" href="#step-3-mark-an-older-known-good-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
 </pre></div>
 </div>
-<div class="highlight-{#468bca49-638c-4f1c-8672-af45fabfb474 notranslate"><div class="highlight"><pre><span></span>## 28. Choosing the Right Tool {#28-choosing-the-right-tool}
-
-A professional Git user learns to choose based on intent.
-
-### Use `reset` when:
-
--   you want to rewrite recent local history
--   you want to undo local commits before sharing
--   you want to unstage or discard local state
-
-### Use `revert` when:
-
--   a bad commit is already shared
--   you want a safe undo with history preserved
-
-### Use `restore` when:
-
--   you want to restore one file
--   you want to unstage a file
--   you want file-level correction without branch history surgery
-
-### Use `amend` when:
-
--   you only need to fix the last commit
-
-### Use `cherry-pick` when:
-
--   you want one specific commit on another branch
-
-## 29. Common Mistakes {#29-common-mistakes}
-
-### 1. Using `reset --hard` too casually {#1-using-reset---hard-too-casually}
-
-This can destroy local work.
-
-### 2. Using `reset` instead of `revert` on shared branches {#2-using-reset-instead-of-revert-on-shared-branches}
-
-This can make collaboration messy.
-
-### 3. Forgetting that `amend` rewrites history {#3-forgetting-that-amend-rewrites-history}
-
-Even a message-only change creates a new commit hash.
-
-### 4. Cherry-picking large sequences without thinking {#4-cherry-picking-large-sequences-without-thinking}
-
-This can create duplicated or confusing history if done carelessly.
-
-### 5. Using history-rewriting commands after public sharing without coordination {#5-using-history-rewriting-commands-after-public-sharing-without-coordination}
-
-This is one of the most common professional Git mistakes.
-
-## 30. Practical Scenario 1: Undo the Last Local Commit, Keep the Changes {#30-practical-scenario-1-undo-the-last-local-commit-keep-the-changes}
-
-You committed too early, but want to keep working.
-
-A good option is:
-
-``` bash
-git reset --mixed HEAD~1
-```
-
-Now:
-
--   the commit is removed from visible branch history
--   the file changes remain in your working tree
--   nothing is staged
-
-You can now stage files more selectively and recommit properly.
+<p>Now Git chooses a commit in the middle.</p>
+</section>
+<section id="step-4-test-that-commit">
+<h3>Step 4: Test that commit<a class="headerlink" href="#step-4-test-that-commit" title="Permalink to this heading">#</a></h3>
+<p>Run your program or your tests.</p>
+<ul>
+<li><p>If it works:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good
 </pre></div>
 </div>
-<div class="highlight-{#03f1ad28-1737-4931-b1f0-dca57160abba notranslate"><div class="highlight"><pre><span></span>``` python
-git reset --mixed HEAD~1
-```
+</li>
+<li><p>If it fails:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
 </pre></div>
 </div>
-<div class="highlight-{#641a7532-dc9a-49e7-89a7-d8b1923f25e5 notranslate"><div class="highlight"><pre><span></span>## 31. Practical Scenario 2: Undo a Shared Commit Safely {#31-practical-scenario-2-undo-a-shared-commit-safely}
-
-A bad commit is already on `main` and must be undone.
-
-A safer option is:
-
-``` bash
-git revert abc1234
-```
-
-This creates a new commit that reverses the earlier one.
-
-This is the professional-safe pattern for shared history.
+</li>
+</ul>
+<p>Git keeps narrowing the search until it prints something like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;commit-id&gt; is the first bad commit
 </pre></div>
 </div>
-<div class="highlight-{#eb8f77c6-36ef-47dd-a569-9fc594abb2c7 notranslate"><div class="highlight"><pre><span></span>``` python
-git revert abc1234
-```
+</section>
+</section>
+<section id="real-example-of-git-bisect-6-real-example-of-git-bisect">
+<h2>6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}<a class="headerlink" href="#real-example-of-git-bisect-6-real-example-of-git-bisect" title="Permalink to this heading">#</a></h2>
+<p>Suppose your history is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A - B - C - D - E - F
 </pre></div>
 </div>
-<div class="highlight-{#55b36ac5-dbaa-4ee2-97cd-2d1e70f964eb notranslate"><div class="highlight"><pre><span></span>## 32. Practical Scenario 3: Remove a File from Staging {#32-practical-scenario-3-remove-a-file-from-staging}
-
-You accidentally staged `config.local.json`, but you do not want it in
-the next commit.
-
-Use:
-
-``` bash
-git restore --staged config.local.json
-```
-
-Now:
-
--   the file is unstaged
--   your local edits remain
+<p>You know:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code> was still good</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">F</span></code> is bad</p></li>
+</ul>
+<p>You run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>B
 </pre></div>
 </div>
-<div class="highlight-{#6657179e-aef3-49c0-b37a-5a359bec41a7 notranslate"><div class="highlight"><pre><span></span>``` python
-git restore --staged config.local.json
-```
+<p>Git may test <code class="docutils literal notranslate"><span class="pre">D</span></code> first.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is good, then the bug must be in <code class="docutils literal notranslate"><span class="pre">E</span></code> or <code class="docutils literal notranslate"><span class="pre">F</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is bad, then the bug must be in <code class="docutils literal notranslate"><span class="pre">C</span></code> or <code class="docutils literal notranslate"><span class="pre">D</span></code></p></li>
+</ul>
+<p>So instead of checking every commit one by one, Git cuts the search
+space in half each time.</p>
+</section>
+<section id="if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">
+<h2>7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}<a class="headerlink" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger" title="Permalink to this heading">#</a></h2>
+<p>If your project has a command that returns success/failure, Git can
+automate the search.</p>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
+git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>npm<span class="w"> </span><span class="nb">test</span>
+git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>unittest
 </pre></div>
 </div>
-<div class="highlight-{#18ab30f3-6c3b-42c6-a2bc-6710d8f99e93 notranslate"><div class="highlight"><pre><span></span>## 33. Practical Scenario 4: Fix the Last Commit {#33-practical-scenario-4-fix-the-last-commit}
-
-You committed, then realized the message is weak or one file is missing.
-
-A common correction is:
-
-``` bash
-git add forgotten_file.py
-git commit --amend -m &quot;Add validation and tests for empty email input&quot;
-```
-
-This replaces the previous final commit with a better version.
+<p>In this mode:</p>
+<ul class="simple">
+<li><p>test passes → Git treats commit as good</p></li>
+<li><p>test fails → Git treats commit as bad</p></li>
+</ul>
+<p>This is one of the best tools for tracking down regressions.</p>
+</section>
+<section id="how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">
+<h2>8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}<a class="headerlink" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h2>
+<p>After you find the problematic commit, you can decide what to do:</p>
+<section id="if-the-bad-commit-was-already-shared">
+<h3>If the bad commit was already shared<a class="headerlink" href="#if-the-bad-commit-was-already-shared" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>&lt;bad-commit&gt;
 </pre></div>
 </div>
-<div class="highlight-{#ee488f67-5f7c-4dc0-b605-9099aa3bcafa notranslate"><div class="highlight"><pre><span></span>``` python
-git add forgotten_file.py
-git commit --amend -m &quot;Add validation and tests for empty email input&quot;
-```
+</section>
+<section id="if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">
+<h3>If the bad commit is only local and you want to rewrite history<a class="headerlink" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history" title="Permalink to this heading">#</a></h3>
+<p>Use one of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>&lt;target&gt;
+git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>&lt;target&gt;
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>&lt;target&gt;
 </pre></div>
 </div>
-<div class="highlight-{#aa0b7bf6-53d2-47ae-a544-c53eac8b4560 notranslate"><div class="highlight"><pre><span></span>## 34. Practical Scenario 5: Backport a Fix to Another Branch {#34-practical-scenario-5-backport-a-fix-to-another-branch}
-
-Suppose `main` has a bug fix, but you also need it on `release/1.2`.
-
-Workflow:
-
-``` bash
-git switch release/1.2
-git cherry-pick abc1234
-```
-
-This applies only that selected fix to the release branch, without
-merging unrelated work from `main`.
+</section>
+<section id="if-the-problem-is-just-one-file">
+<h3>If the problem is just one file<a class="headerlink" href="#if-the-problem-is-just-one-file" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>path/to/file
 </pre></div>
 </div>
-<div class="highlight-{#4c1aaff6-e9c3-49a1-b3ea-23d8c7f32df4 notranslate"><div class="highlight"><pre><span></span>``` python
-git switch release/1.2
-git cherry-pick abc1234
-```
+</section>
+<section id="if-the-issue-is-only-in-the-latest-commit-message-or-contents">
+<h3>If the issue is only in the latest commit message or contents<a class="headerlink" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
 </pre></div>
 </div>
-<div class="highlight-{#4bb32931-b4b0-49e1-9114-c478f9c1baed notranslate"><div class="highlight"><pre><span></span>## 35. A Useful Safety Principle {#35-a-useful-safety-principle}
-
-Before running an undo-related command, ask:
-
-### Question 1
-
-Do I want to **rewrite history**, or do I want to **preserve history**?
-
--   rewrite history → maybe `reset` or `amend`
--   preserve history → maybe `revert`
-
-### Question 2
-
-Am I changing a **file state**, or am I changing **commit history**?
-
--   file state → maybe `restore`
--   commit history → maybe `reset`, `revert`, `amend`, or `cherry-pick`
-
-### Question 3
-
-Has this already been shared with others?
-
--   not shared → more freedom
--   shared → prefer safer history-preserving choices
-
-## 36. Quick Comparison Table {#36-quick-comparison-table}
-
-### `reset` {#reset}
-
--   moves branch pointer
--   can affect staging and working tree
--   good for local cleanup
-
-### `revert` {#revert}
-
--   adds a new inverse commit
--   good for undoing shared commits safely
-
-### `restore`
-
--   restores files or unstages them
--   good for file-level corrections
-
-### `amend`
-
--   replaces the most recent commit
--   good for fixing the latest commit
-
-### `cherry-pick`
-
--   applies one specific commit onto current branch
--   good for selective reuse across branches
-
-## 37. Quick Reference Commands {#37-quick-reference-commands}
-
-### Undo last local commit, keep changes staged
-
-``` bash
-git reset --soft HEAD~1
-```
-
-### Undo last local commit, keep changes unstaged
-
-``` bash
-git reset --mixed HEAD~1
-```
-
-### Undo last local commit and discard changes
-
-``` bash
-git reset --hard HEAD~1
-```
-
-### Safely undo a shared commit
-
-``` bash
-git revert &lt;commit&gt;
-```
-
-### Discard local changes in one file
-
-``` bash
-git restore path/to/file
-```
-
-### Unstage one file
-
-``` bash
-git restore --staged path/to/file
-```
-
-### Fix the latest commit
-
-``` bash
-git commit --amend
-```
-
-### Move one commit to another branch
-
-``` bash
-git cherry-pick &lt;commit&gt;
-```
-
-## 38. Final Summary {#38-final-summary}
-
-These five commands solve different classes of Git problems.
-
-### `reset` {#reset-1}
-
-Use for local history cleanup and pointer movement.
-
-### `revert` {#revert-1}
-
-Use for safe undo in shared history.
-
-### `restore`
-
-Use for file-level restoration or unstaging.
-
-### `amend`
-
-Use to improve or correct the last commit.
-
-### `cherry-pick`
-
-Use to apply one specific commit somewhere else.
-
-The deeper lesson is this:
-
-&gt; Good Git usage is not just knowing commands. It is knowing which layer
-&gt; you intend to change: file state, staging state, branch history, or
-&gt; shared history.
-
-## 39. Suggested Practice Exercises {#39-suggested-practice-exercises}
-
-1.  make two commits in a test repository
-2.  use `git reset --soft HEAD~1` and observe the staged state
-3.  repeat with `git reset --mixed HEAD~1`
-4.  create a new commit and undo it with `git revert`
-5.  modify a file and discard changes using `git restore`
-6.  stage a file and unstage it using `git restore --staged`
-7.  make a commit with a bad message and fix it using
-    `git commit --amend`
-8.  create two branches and use `git cherry-pick` to move one fix from
-    one branch to another
-9.  compare histories using:
-
-``` bash
-git log --oneline --graph --all
-```
-
-These exercises build intuition much faster than memorizing definitions.
+</section>
+<section id="if-you-want-to-bring-a-good-fix-from-another-branch">
+<h3>If you want to bring a good fix from another branch<a class="headerlink" href="#if-you-want-to-bring-a-good-fix-from-another-branch" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;good-commit&gt;
 </pre></div>
 </div>
-<div class="highlight-{#bfe57d3f-3b39-45ae-852b-5373cf3d9cbe notranslate"><div class="highlight"><pre><span></span>``` python
-git log --oneline --graph --all
-```
+<p>So the missing skill is often not the command itself, but <strong>finding the
+correct commit first</strong>.</p>
+</section>
+</section>
+<section id="practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">
+<h2>9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}<a class="headerlink" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects" title="Permalink to this heading">#</a></h2>
+<p>When you suspect a regression:</p>
+<ol class="arabic">
+<li><p>Inspect history</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
 </pre></div>
 </div>
-<div class="highlight-{#d0214bd7-f33f-4b15-8791-ce29b141029d notranslate"><div class="highlight"><pre><span></span># GitHub Notes
-
-## Forking a Repository
-
--   We should **fork** a repository of interest.
--   Forking allows us to:
-    -   Create our own copy of the repository
-    -   Modify its content and code independently
-    -   Experiment without affecting the original project
-
-------------------------------------------------------------------------
-
-## Using Git Locally vs GitHub
-
--   Git can be used **locally** on your system:
-    -   Useful when working with **sensitive datasets**
-    -   No need to upload data online
--   When using GitHub:
-    -   Use a `.gitignore` file to exclude sensitive or unnecessary
-        files
-    -   Helps keep the repository clean and secure
-
-------------------------------------------------------------------------
-
-## Pull Command
-
--   The **pull** command means:
-    -   Bringing changes from a **remote repository** into your local
-        branch
-    -   Or updating your branch with changes from another branch
-
-\`\`\`bash git pull
+</li>
+<li><p>Identify:</p>
+<ul class="simple">
+<li><p>one known good commit</p></li>
+<li><p>one known bad commit</p></li>
+</ul>
+</li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;known-good-commit&gt;
 </pre></div>
 </div>
-<div class="highlight-{#25cd447a-2014-42fc-baab-22bf9b684a2c notranslate"><div class="highlight"><pre><span></span># Git Supplement Notebook: Finding the Right Commit and Debugging Regressions
-
-This section is a **supplement** to the linked Git section.\
-It focuses on the practical points we discussed **that are not
-explicitly covered inside the reset/revert/restore/amend/cherry-pick
-section itself**:
-
-1.  How to find the commit ID (hash) you need
-2.  How to refer to commits without memorizing full hashes
-3.  How to identify the exact commit where code stopped working
-4.  How to use `git bisect` to find the first bad commit efficiently
-
-Use this notebook as a hands-on companion after reading the main Git
-guide.
-
-## 1) How to get the commit number (commit hash) {#1-how-to-get-the-commit-number-commit-hash}
-
-Many Git commands need a target commit, for example:
-
--   `git revert &lt;commit&gt;`
--   `git reset --hard &lt;commit&gt;`
--   `git cherry-pick &lt;commit&gt;`
-
-In Git, the &quot;commit number&quot; is usually called the **commit hash** or
-**commit ID**.
-
-### Fast way to list commits
-
-``` bash
-git log --oneline
-```
-
-Example output:
-
-``` text
-a1b2c3d add login validation
-f6g7h8i fix navbar layout
-91ab234 initial API integration
-```
-
-Here:
-
--   `a1b2c3d`
--   `f6g7h8i`
--   `91ab234`
-
-are short commit hashes.
-
-You can usually use the short form as long as it is unique in your
-repository.
-
-## 2) Which log view should you use? {#2-which-log-view-should-you-use}
-
-### Basic history
-
-``` bash
-git log
-```
-
-Shows:
-
--   full commit hash
--   author
--   date
--   message
-
-### Short history
-
-``` bash
-git log --oneline
-```
-
-Best when you just want the commit IDs quickly.
-
-### Visual branch history
-
-``` bash
-git log --oneline --graph --all
-```
-
-Very useful when branches or merges are involved.
-
-Example mental picture:
-
-``` text
-* 8f4c2ab fix test on release branch
-| * c7d9120 add login retry
-| * 13bc991 refactor login flow
-|/
-* 91ab234 initial API integration
-```
-
-This helps you answer:
-
--   Which commit is newest?
--   Which branch introduced the change?
--   Which commit should I revert or cherry-pick?
-
-## 3) You do not always need the full commit hash {#3-you-do-not-always-need-the-full-commit-hash}
-
-Instead of typing a full hash, Git also lets you refer to recent commits
-relative to `HEAD`.
-
-`HEAD` means: **the commit I am currently on**.
-
-### Common relative references
-
--   `HEAD` → current commit
--   `HEAD~1` → one commit before current
--   `HEAD~2` → two commits before current
--   `HEAD~3` → three commits before current
-
-Examples:
-
-``` bash
-git reset --soft HEAD~1
-git reset --hard HEAD~2
-git show HEAD~3
-```
-
-This is useful when the bad change is recent and you just want to move
-back a few commits.
-
-## 4) When code worked before but is broken now {#4-when-code-worked-before-but-is-broken-now}
-
-This is a classic debugging situation:
-
--   an older commit worked
--   the current commit is broken
--   you want to know **exactly which commit introduced the problem**
-
-There are two approaches:
-
-### A. Manual checking {#a-manual-checking}
-
-You move between commits and test the code yourself.
-
-Example:
-
-``` bash
-git checkout &lt;commit&gt;
-```
-
-Then run your program or tests.
-
-If that commit is good, move forward.\
-If it is bad, move backward.
-
-This works, but it can be slow in repositories with many commits.
-
-### B. `git bisect` (recommended) {#b-git-bisect-recommended}
-
-This is the professional way when you know:
-
--   one commit that is definitely **good**
--   one commit that is definitely **bad**
-
-Git then performs a binary search through history to find the first bad
-commit much faster.
-
-## 5) `git bisect` step by step {#5-git-bisect-step-by-step}
-
-### Step 1: Start bisect
-
-``` bash
-git bisect start
-```
-
-### Step 2: Mark the current state as bad
-
-``` bash
-git bisect bad
-```
-
-This usually means: &quot;the version I am on right now is broken.&quot;
-
-### Step 3: Mark an older known-good commit
-
-``` bash
-git bisect good &lt;commit-id&gt;
-```
-
-Now Git chooses a commit in the middle.
-
-### Step 4: Test that commit
-
-Run your program or your tests.
-
--   If it works:
-
-    ``` bash
-    git bisect good
-    ```
-
--   If it fails:
-
-    ``` bash
-    git bisect bad
-    ```
-
-Git keeps narrowing the search until it prints something like:
-
-``` text
-&lt;commit-id&gt; is the first bad commit
-```
-
-## 6) Real example of `git bisect` {#6-real-example-of-git-bisect}
-
-Suppose your history is:
-
-``` text
-A - B - C - D - E - F
-```
-
-You know:
-
--   `B` was still good
--   `F` is bad
-
-You run:
-
-``` bash
-git bisect start
-git bisect bad
-git bisect good B
-```
-
-Git may test `D` first.
-
--   If `D` is good, then the bug must be in `E` or `F`
--   If `D` is bad, then the bug must be in `C` or `D`
-
-So instead of checking every commit one by one, Git cuts the search
-space in half each time.
-
-## 7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}
-
-If your project has a command that returns success/failure, Git can
-automate the search.
-
-Examples:
-
-``` bash
-git bisect run pytest
-git bisect run npm test
-git bisect run python -m unittest
-```
-
-In this mode:
-
--   test passes → Git treats commit as good
--   test fails → Git treats commit as bad
-
-This is one of the best tools for tracking down regressions.
-
-## 8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}
-
-After you find the problematic commit, you can decide what to do:
-
-### If the bad commit was already shared
-
-Use:
-
-``` bash
-git revert &lt;bad-commit&gt;
-```
-
-### If the bad commit is only local and you want to rewrite history
-
-Use one of:
-
-``` bash
-git reset --soft &lt;target&gt;
-git reset --mixed &lt;target&gt;
-git reset --hard &lt;target&gt;
-```
-
-### If the problem is just one file
-
-Use:
-
-``` bash
-git restore path/to/file
-```
-
-### If the issue is only in the latest commit message or contents
-
-Use:
-
-``` bash
-git commit --amend
-```
-
-### If you want to bring a good fix from another branch
-
-Use:
-
-``` bash
-git cherry-pick &lt;good-commit&gt;
-```
-
-So the missing skill is often not the command itself, but **finding the
-correct commit first**.
-
-## 9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}
-
-When you suspect a regression:
-
-1.  Inspect history
-
-    ``` bash
-    git log --oneline --graph --all
-    ```
-
-2.  Identify:
-
-    -   one known good commit
-    -   one known bad commit
-
-3.  Use `git bisect`
-
-    ``` bash
-    git bisect start
-    git bisect bad
-    git bisect good &lt;known-good-commit&gt;
-    ```
-
-4.  Test each checked-out revision
-
-5.  Finish with:
-
-    ``` bash
-    git bisect reset
-    ```
-
-6.  Then choose the appropriate fix:
-
-    -   `revert`
-    -   `reset`
-    -   `restore`
-    -   `amend`
-    -   `cherry-pick`
-
-## 10) Quick command summary {#10-quick-command-summary}
-
-### Find commit IDs
-
-``` bash
-git log --oneline
-git log --oneline --graph --all
-```
-
-### Refer to recent commits
-
-``` bash
-HEAD
+</li>
+<li><p>Test each checked-out revision</p></li>
+<li><p>Finish with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>reset
+</pre></div>
+</div>
+</li>
+<li><p>Then choose the appropriate fix:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">amend</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="quick-command-summary-10-quick-command-summary">
+<h2>10) Quick command summary {#10-quick-command-summary}<a class="headerlink" href="#quick-command-summary-10-quick-command-summary" title="Permalink to this heading">#</a></h2>
+<section id="find-commit-ids">
+<h3>Find commit IDs<a class="headerlink" href="#find-commit-ids" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
+git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+</section>
+<section id="refer-to-recent-commits">
+<h3>Refer to recent commits<a class="headerlink" href="#refer-to-recent-commits" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>HEAD
 HEAD~1
 HEAD~2
 HEAD~3
-```
-
-### Move to a specific commit temporarily
-
-``` bash
-git checkout &lt;commit-id&gt;
-```
-
-### Find the first bad commit
-
-``` bash
-git bisect start
-git bisect bad
-git bisect good &lt;commit-id&gt;
-git bisect good
-git bisect bad
-git bisect reset
-```
-
-### Automated bisect
-
-``` bash
-git bisect run pytest
-```
-
-## 11) Final takeaway {#11-final-takeaway}
-
-The linked section explains **what** `reset`, `revert`, `restore`,
-`amend`, and `cherry-pick` do.
-
-This supplement adds the missing practical layer we discussed:
-
--   how to **find the commit hash**
--   how to **target recent commits using `HEAD~n`**
--   how to **detect where the code started breaking**
--   how to **use `git bisect` to find the first bad commit efficiently**
-
-That combination is what makes these Git commands truly usable in real
-debugging work.
 </pre></div>
 </div>
-<div class="highlight-{#cad3ed93-71d2-4327-82c5-ddbf5fc2d90b notranslate"><div class="highlight"><pre><span></span># 📓 Git Workflow: Connect Local Folder to GitHub Repository {#-git-workflow-connect-local-folder-to-github-repository}
+</section>
+<section id="move-to-a-specific-commit-temporarily">
+<h3>Move to a specific commit temporarily<a class="headerlink" href="#move-to-a-specific-commit-temporarily" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit-id&gt;
+</pre></div>
+</div>
+</section>
+<section id="find-the-first-bad-commit">
+<h3>Find the first bad commit<a class="headerlink" href="#find-the-first-bad-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
+git<span class="w"> </span>bisect<span class="w"> </span>good
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>reset
+</pre></div>
+</div>
+</section>
+<section id="automated-bisect">
+<h3>Automated bisect<a class="headerlink" href="#automated-bisect" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
+</pre></div>
+</div>
+</section>
+</section>
+<section id="final-takeaway-11-final-takeaway">
+<h2>11) Final takeaway {#11-final-takeaway}<a class="headerlink" href="#final-takeaway-11-final-takeaway" title="Permalink to this heading">#</a></h2>
+<p>The linked section explains <strong>what</strong> <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>,
+<code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> do.</p>
+<p>This supplement adds the missing practical layer we discussed:</p>
+<ul class="simple">
+<li><p>how to <strong>find the commit hash</strong></p></li>
+<li><p>how to <strong>target recent commits using <code class="docutils literal notranslate"><span class="pre">HEAD~n</span></code></strong></p></li>
+<li><p>how to <strong>detect where the code started breaking</strong></p></li>
+<li><p>how to <strong>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> to find the first bad commit efficiently</strong></p></li>
+</ul>
+<p>That combination is what makes these Git commands truly usable in real
+debugging work.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#cad3ed93-71d2-4327-82c5-ddbf5fc2d90b .cell .markdown}
+# 📓 Git Workflow: Connect Local Folder to GitHub Repository {#-git-workflow-connect-local-folder-to-github-repository}
 
 🧠 Goal We will:
 
@@ -3728,11 +3190,6 @@ git branch past-code 90544b4fa
 ```
 </pre></div>
 </div>
-<div class="highlight-{#e5123f6f-2524-4186-9612-eddf9bf68518 notranslate"><div class="highlight"><pre><span></span>``` python
-```
-</pre></div>
-</div>
-</section>
 </section>
 </section>
 
@@ -3828,12 +3285,40 @@ git branch past-code 90544b4fa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset"><code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-restore"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amend"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-cherry-pick"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenarios">Practical Scenarios</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert-12-example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> {#12-example-of-git-revert}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step-5-git-bisect-step-by-step">5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect-6-real-example-of-git-bisect">6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary-10-quick-command-summary">10) Quick command summary {#10-quick-command-summary}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway-11-final-takeaway">11) Final takeaway {#11-final-takeaway}</a></li>
 </ul>
 </li>
 </ul>
