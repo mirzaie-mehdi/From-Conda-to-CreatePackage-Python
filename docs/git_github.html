@@ -174,7 +174,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub</a></li>
 
 
-
 <li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
 
 
@@ -446,12 +445,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick">Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter-1-why-these-commands-matter">1. Why These Commands Matter {#1-why-these-commands-matter}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map-2-a-high-level-map">2. A High-Level Map {#2-a-high-level-map}</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
 </ul>
 </li>
@@ -497,7 +491,7 @@ document.write(`
 <h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><span class="xref myst">What is Git?</span></p></li>
-<li><p><span class="xref myst">GitHub</span></p></li>
+<li><p><span class="xref myst">What is GitHub</span></p></li>
 </ul>
 </section>
 </section>
@@ -2322,20 +2316,9 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </div>
 </section>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="professional-guide-to-reset-revert-restore-amend-and-cherry-pick">
-<h1>Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick<a class="headerlink" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h1>
-<p>This section is on five highly practical Git topics:</p>
-<ul class="simple">
-<li><p><strong>reset</strong></p></li>
-<li><p><strong>revert</strong></p></li>
-<li><p><strong>restore</strong></p></li>
-<li><p><strong>amend</strong></p></li>
-<li><p><strong>cherry-pick</strong></p></li>
-</ul>
-<p>These commands are essential once a learner understands commits,
-branches, merges, rebases, and Pull Requests.</p>
-<p>They help answer real-world questions such as:</p>
+<section id="correction-using-git-reset-revert-restore-amend-and-cherry-pick">
+<h2>Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code><a class="headerlink" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h2>
+<p>This section help to answer real-world questions such as:</p>
 <ul class="simple">
 <li><p>How do I undo something safely?</p></li>
 <li><p>How do I fix the last commit?</p></li>
@@ -2343,22 +2326,16 @@ branches, merges, rebases, and Pull Requests.</p>
 <li><p>How do I move one specific commit to another branch?</p></li>
 <li><p>When should I rewrite history, and when should I preserve it?</p></li>
 </ul>
-<hr class="docutils" />
-<section id="learning-goals-learning-goals">
-<h2>Learning Goals {#learning-goals}<a class="headerlink" href="#learning-goals-learning-goals" title="Permalink to this heading">#</a></h2>
 <p>By the end of this section, you should be able to:</p>
 <ul class="simple">
 <li><p>explain the difference between <strong>reset</strong> and <strong>revert</strong></p></li>
 <li><p>understand the purpose of <strong>restore</strong></p></li>
 <li><p>amend the most recent commit safely</p></li>
 <li><p>move a specific commit with <strong>cherry-pick</strong></p></li>
-<li><p>choose the correct tool depending on whether history should be
-rewritten or preserved</p></li>
+<li><p>choose the correct tool depending on whether history should be rewritten or preserved</p></li>
 <li><p>avoid common mistakes when undoing or reusing work</p></li>
 </ul>
-</section>
-<section id="why-these-commands-matter-1-why-these-commands-matter">
-<h2>1. Why These Commands Matter {#1-why-these-commands-matter}<a class="headerlink" href="#why-these-commands-matter-1-why-these-commands-matter" title="Permalink to this heading">#</a></h2>
+<p><strong>Why These Commands Matter</strong></p>
 <p>In real Git usage, people often need to correct mistakes.</p>
 <p>Examples:</p>
 <ul class="simple">
@@ -2369,16 +2346,10 @@ rewritten or preserved</p></li>
 <li><p>you want to bring one bug fix from one branch into another</p></li>
 <li><p>you want to discard local edits and go back to the committed state</p></li>
 </ul>
-<p>These are not rare situations. They are part of normal Git work.</p>
-<p>That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are
-core professional tools.</p>
-</section>
-<section id="a-high-level-map-2-a-high-level-map">
-<h2>2. A High-Level Map {#2-a-high-level-map}<a class="headerlink" href="#a-high-level-map-2-a-high-level-map" title="Permalink to this heading">#</a></h2>
-<p>A useful mental model is this:</p>
+<p>These are not rare situations. They are part of normal Git work. That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are
+core professional tools. A useful mental model is this:</p>
 <ul class="simple">
-<li><p><strong>reset</strong> → move branch pointers and optionally unstage or discard
-changes</p></li>
+<li><p><strong>reset</strong> → move branch pointers and optionally unstage or discard changes</p></li>
 <li><p><strong>revert</strong> → create a new commit that undoes an earlier commit</p></li>
 <li><p><strong>restore</strong> → restore file contents or unstage changes</p></li>
 <li><p><strong>amend</strong> → modify the most recent commit</p></li>
@@ -3981,12 +3952,7 @@ git branch past-code 90544b4fa
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contributor">Contributor</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#professional-guide-to-reset-revert-restore-amend-and-cherry-pick">Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals-learning-goals">Learning Goals {#learning-goals}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter-1-why-these-commands-matter">1. Why These Commands Matter {#1-why-these-commands-matter}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map-2-a-high-level-map">2. A High-Level Map {#2-a-high-level-map}</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
 </ul>
 </li>

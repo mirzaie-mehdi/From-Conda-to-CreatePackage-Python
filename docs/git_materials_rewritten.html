@@ -1,0 +1,2424 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Correction using Git Reset, Revert, Restore, Amend, and Cherry-Pick &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/git_materials_rewritten';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="github2.html">Git and GitHub: A Structured Learning Notebook</a></li>
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="gnn_molecules.html">Graph Neural Networks on Molecules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/git_materials_rewritten.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/git_materials_rewritten.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Correction using  Git Reset, Revert, Restore, Amend, and Cherry-Pick</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">Reset</span></code>, <code class="docutils literal notranslate"><span class="pre">Revert</span></code>, <code class="docutils literal notranslate"><span class="pre">Restore</span></code>, <code class="docutils literal notranslate"><span class="pre">Amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">Cherry-Pick</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter">1. Why These Commands Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map">2. A High-Level Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-mixed">7. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-hard">8. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-warning">Important Warning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-reset-appropriate">9. When Is <code class="docutils literal notranslate"><span class="pre">reset</span></code> Appropriate?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-rule">Practical Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-reset-can-be-dangerous-on-shared-branches">10. Why <code class="docutils literal notranslate"><span class="pre">reset</span></code> Can Be Dangerous on Shared Branches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safer-rule">Safer Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert-core-idea">11. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-should-you-prefer-revert">13. When Should You Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-professional-rule">Typical Professional Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-vs-revert">14. <code class="docutils literal notranslate"><span class="pre">reset</span></code> vs <code class="docutils literal notranslate"><span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#revert"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-shortcut">Mental Shortcut</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-restore-core-idea">15. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code>: Core Idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-a-file-in-the-working-tree">16. Restore a File in the Working Tree</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-a-file-with-restore">17. Unstage a File with <code class="docutils literal notranslate"><span class="pre">restore</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-from-another-source">18. Restore from Another Source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-restore-is-useful">19. Why <code class="docutils literal notranslate"><span class="pre">restore</span></code> Is Useful</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-commit-amend-core-idea">20. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amend-the-last-commit-message">21. Amend the Last Commit Message</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note">Important Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amend-to-add-a-forgotten-file">22. Amend to Add a Forgotten File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-amend-safe">23. When Is Amend Safe?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warning">Warning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-cherry-pick-core-idea">24. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-cherry-pick">25. Example of <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Result</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-cherry-pick-useful">26. When Is <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> Useful?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-professional-scenario">Common Professional Scenario</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick-can-also-conflict">27. Cherry-Pick Can Also Conflict</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-tool">28. Choosing the Right Tool</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-reset-when">Use <code class="docutils literal notranslate"><span class="pre">reset</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-revert-when">Use <code class="docutils literal notranslate"><span class="pre">revert</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-restore-when">Use <code class="docutils literal notranslate"><span class="pre">restore</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-amend-when">Use <code class="docutils literal notranslate"><span class="pre">amend</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cherry-pick-when">Use <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> when:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">29. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-reset-hard-too-casually">1. Using <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">--hard</span></code> too casually</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-reset-instead-of-revert-on-shared-branches">2. Using <code class="docutils literal notranslate"><span class="pre">reset</span></code> instead of <code class="docutils literal notranslate"><span class="pre">revert</span></code> on shared branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-that-amend-rewrites-history">3. Forgetting that <code class="docutils literal notranslate"><span class="pre">amend</span></code> rewrites history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-picking-large-sequences-without-thinking">4. Cherry-picking large sequences without thinking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-history-rewriting-commands-after-public-sharing-without-coordination">5. Using history-rewriting commands after public sharing without coordination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-1-undo-the-last-local-commit-keep-the-changes">30. Practical Scenario 1: Undo the Last Local Commit, Keep the Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-2-undo-a-shared-commit-safely">31. Practical Scenario 2: Undo a Shared Commit Safely</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-3-remove-a-file-from-staging">32. Practical Scenario 3: Remove a File from Staging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-4-fix-the-last-commit">33. Practical Scenario 4: Fix the Last Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-5-backport-a-fix-to-another-branch">34. Practical Scenario 5: Backport a Fix to Another Branch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-useful-safety-principle">35. A Useful Safety Principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">Question 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-comparison-table">36. Quick Comparison Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore"><code class="docutils literal notranslate"><span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amend"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick"><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-commands">37. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-keep-changes-staged">Undo last local commit, keep changes staged</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-keep-changes-unstaged">Undo last local commit, keep changes unstaged</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-and-discard-changes">Undo last local commit and discard changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safely-undo-a-shared-commit">Safely undo a shared commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discard-local-changes-in-one-file">Discard local changes in one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-one-file">Unstage one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-latest-commit">Fix the latest commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-one-commit-to-another-branch">Move one commit to another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">38. Final Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13"><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-practice-exercises">39. Suggested Practice Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forking-a-repository">Forking a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-git-locally-vs-github">Using Git Locally vs GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-command">Pull Command</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-supplement-finding-the-right-commit-and-debugging-regressions">Git Supplement: Finding the Right Commit and Debugging Regressions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-the-commit-number-commit-hash">1. How to Get the Commit Number (Commit Hash)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-way-to-list-commits">Fast Way to List Commits</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-log-view-should-you-use">2. Which Log View Should You Use?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-history">Basic history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#short-history">Short history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-branch-history">Visual branch history</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#you-do-not-always-need-the-full-commit-hash">3. You Do Not Always Need the Full Commit Hash</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-relative-references">Common Relative References</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-code-worked-before-but-is-broken-now">4. When Code Worked Before but Is Broken Now</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-manual-checking">A. Manual checking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-git-bisect-recommended">B. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> (recommended)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step">5. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> Step by Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect">6. Real Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger">7. If You Already Have Automated Tests, Bisect Becomes Much Stronger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8. How This Connects to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects">9. Practical Workflow You Can Follow in Real Projects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary">10. Quick Command Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">11. Final Takeaway</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-workflow-connect-a-local-folder-to-a-github-repository">Git Workflow: Connect a Local Folder to a GitHub Repository</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-local-folder">Step 1: Create a Local Folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-initialize-git">Step 2: Initialize Git</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-files">Step 3: Add Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-files">Step 4: Stage Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-commit">Step 5: Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-connect-to-github">Step 6: Connect to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-check-the-remote">Step 7: Check the Remote</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-push">Step 8: Push</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-archaeology-example">Git Archaeology Example</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-working-branch-from-networkx-2-6-3">Step 1: Create a Working Branch from <code class="docutils literal notranslate"><span class="pre">networkx-2.6.3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-search-for-the-text-in-the-repository">Step 2: Search for the Text in the Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-annotate-the-file">Step 3: Annotate the File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-search-inside-the-annotate-output">Step 4: Search Inside the Annotate Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-inspect-the-relevant-commit">Step 5: Inspect the Relevant Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-create-a-branch-from-that-historical-commit">Step 6: Create a Branch from That Historical Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-example-demonstrates">What This Example Demonstrates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-summary">Command Summary</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="correction-using-git-reset-revert-restore-amend-and-cherry-pick">
+<h1>Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">Reset</span></code>, <code class="docutils literal notranslate"><span class="pre">Revert</span></code>, <code class="docutils literal notranslate"><span class="pre">Restore</span></code>, <code class="docutils literal notranslate"><span class="pre">Amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">Cherry-Pick</span></code><a class="headerlink" href="#correction-using-git-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h1>
+<p>This guide covers five highly practical Git topics:</p>
+<ul class="simple">
+<li><p><strong>reset</strong></p></li>
+<li><p><strong>revert</strong></p></li>
+<li><p><strong>restore</strong></p></li>
+<li><p><strong>amend</strong></p></li>
+<li><p><strong>cherry-pick</strong></p></li>
+</ul>
+<p>These commands become essential once you already understand commits, branches, merges, rebases, and Pull Requests.</p>
+<p>They help answer real-world questions such as:</p>
+<ul class="simple">
+<li><p>How do I undo something safely?</p></li>
+<li><p>How do I fix the last commit?</p></li>
+<li><p>How do I restore a file?</p></li>
+<li><p>How do I move one specific commit to another branch?</p></li>
+<li><p>When should I rewrite history, and when should I preserve it?</p></li>
+</ul>
+<hr class="docutils" />
+<section id="learning-goals">
+<h2>Learning Goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain the difference between <strong>reset</strong> and <strong>revert</strong></p></li>
+<li><p>understand the purpose of <strong>restore</strong></p></li>
+<li><p>amend the most recent commit safely</p></li>
+<li><p>move a specific commit with <strong>cherry-pick</strong></p></li>
+<li><p>choose the correct tool depending on whether history should be rewritten or preserved</p></li>
+<li><p>avoid common mistakes when undoing or reusing work</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="why-these-commands-matter">
+<h2>1. Why These Commands Matter<a class="headerlink" href="#why-these-commands-matter" title="Permalink to this heading">#</a></h2>
+<p>In real Git usage, people constantly need to correct mistakes. For example:</p>
+<ul class="simple">
+<li><p>you committed too early</p></li>
+<li><p>you forgot to include one file in the last commit</p></li>
+<li><p>you want to undo a bad commit without deleting history</p></li>
+<li><p>you accidentally staged the wrong file</p></li>
+<li><p>you want to bring one bug fix from one branch into another</p></li>
+<li><p>you want to discard local edits and go back to the committed state</p></li>
+</ul>
+<p>These are not unusual situations. They are part of normal Git work.</p>
+<p>That is why <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> are core professional tools.</p>
+</section>
+<hr class="docutils" />
+<section id="a-high-level-map">
+<h2>2. A High-Level Map<a class="headerlink" href="#a-high-level-map" title="Permalink to this heading">#</a></h2>
+<p>A useful mental model is:</p>
+<ul class="simple">
+<li><p><strong>reset</strong> → move branch pointers and optionally unstage or discard changes</p></li>
+<li><p><strong>revert</strong> → create a new commit that undoes an earlier commit</p></li>
+<li><p><strong>restore</strong> → restore file contents or unstage changes</p></li>
+<li><p><strong>amend</strong> → modify the most recent commit</p></li>
+<li><p><strong>cherry-pick</strong> → apply one specific commit onto another branch</p></li>
+</ul>
+<section id="another-useful-distinction">
+<h3>Another Useful Distinction<a class="headerlink" href="#another-useful-distinction" title="Permalink to this heading">#</a></h3>
+<p>Some commands primarily <strong>rewrite local history</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">commit</span> <span class="pre">--amend</span></code></p></li>
+</ul>
+<p>Some commands primarily <strong>preserve history while undoing effects</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+</ul>
+<p>Some commands primarily <strong>manipulate working tree or staging area state</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
+</ul>
+<p>Some commands <strong>reuse existing work across branches</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="working-tree-staging-area-and-commit-history">
+<h2>3. Working Tree, Staging Area, and Commit History<a class="headerlink" href="#working-tree-staging-area-and-commit-history" title="Permalink to this heading">#</a></h2>
+<p>Before using undo commands well, keep this model in mind.</p>
+<section id="working-tree">
+<h3>Working Tree<a class="headerlink" href="#working-tree" title="Permalink to this heading">#</a></h3>
+<p>The actual files in your project directory.</p>
+</section>
+<section id="staging-area">
+<h3>Staging Area<a class="headerlink" href="#staging-area" title="Permalink to this heading">#</a></h3>
+<p>The set of changes prepared for the next commit.</p>
+</section>
+<section id="commit-history">
+<h3>Commit History<a class="headerlink" href="#commit-history" title="Permalink to this heading">#</a></h3>
+<p>The already recorded snapshots in Git.</p>
+<p>Many Git commands differ because they affect different layers.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><p>one command may only unstage files</p></li>
+<li><p>another may change the working tree</p></li>
+<li><p>another may move the branch pointer</p></li>
+<li><p>another may add a brand-new commit</p></li>
+</ul>
+<p>That is why these commands can feel similar at first, even though they behave very differently.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-reset-core-idea">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea<a class="headerlink" href="#git-reset-core-idea" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code> is one of the most powerful and potentially dangerous Git commands.</p>
+<p>Its core purpose is to move <strong>HEAD</strong> and, depending on how you use it, also affect:</p>
+<ul class="simple">
+<li><p>the staging area</p></li>
+<li><p>the working tree</p></li>
+</ul>
+<section id="conceptual-meaning">
+<h3>Conceptual Meaning<a class="headerlink" href="#conceptual-meaning" title="Permalink to this heading">#</a></h3>
+<p>At a high level, <code class="docutils literal notranslate"><span class="pre">reset</span></code> means:</p>
+<blockquote>
+<div><p>Move my current branch to a different commit, and possibly adjust staged or working changes to match.</p>
+</div></blockquote>
+<p>Because of that, <code class="docutils literal notranslate"><span class="pre">reset</span></code> can be:</p>
+<ul class="simple">
+<li><p>very helpful</p></li>
+<li><p>very destructive if used carelessly</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-forms-of-git-reset">
+<h2>5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code><a class="headerlink" href="#common-forms-of-git-reset" title="Permalink to this heading">#</a></h2>
+<p>The three common modes are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--soft</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--mixed</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--hard</span></code></p></li>
+</ul>
+<section id="soft">
+<h3><code class="docutils literal notranslate"><span class="pre">--soft</span></code><a class="headerlink" href="#soft" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer, but keeps changes staged.</p>
+</section>
+<section id="mixed">
+<h3><code class="docutils literal notranslate"><span class="pre">--mixed</span></code><a class="headerlink" href="#mixed" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer and unstages changes, but keeps file modifications in the working tree.</p>
+</section>
+<section id="hard">
+<h3><code class="docutils literal notranslate"><span class="pre">--hard</span></code><a class="headerlink" href="#hard" title="Permalink to this heading">#</a></h3>
+<p>Moves the branch pointer, unstages changes, and resets files in the working tree.</p>
+<p>This is the most dangerous form because it can discard local work.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-reset-soft">
+<h2>6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code><a class="headerlink" href="#git-reset-soft" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>move the current branch back by one commit</p></li>
+<li><p>keep the changes from that commit staged</p></li>
+</ul>
+<section id="use-case">
+<h3>Use Case<a class="headerlink" href="#use-case" title="Permalink to this heading">#</a></h3>
+<p>You made a commit, but now want to:</p>
+<ul class="simple">
+<li><p>rewrite the message</p></li>
+<li><p>split the work differently</p></li>
+<li><p>recommit in a cleaner way</p></li>
+</ul>
+<p>This is useful when the commit itself was premature, but the content is still correct.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-reset-mixed">
+<h2>7. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code><a class="headerlink" href="#git-reset-mixed" title="Permalink to this heading">#</a></h2>
+<p>This is the default if you do not specify a mode.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>Or explicitly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>move back one commit</p></li>
+<li><p>keep file changes in your working directory</p></li>
+<li><p>unstage them</p></li>
+</ul>
+<section id="id1">
+<h3>Use Case<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>You want to undo a commit, but then re-stage the files more selectively.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-reset-hard">
+<h2>8. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code><a class="headerlink" href="#git-reset-hard" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>move back one commit</p></li>
+<li><p>reset the staging area</p></li>
+<li><p>reset the working tree</p></li>
+<li><p>discard local changes that were part of that state transition</p></li>
+</ul>
+<section id="important-warning">
+<h3>Important Warning<a class="headerlink" href="#important-warning" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">--hard</span></code> can permanently destroy local work that is not otherwise recoverable through reflog or other advanced recovery methods.</p>
+<p>Use it only when you are sure.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-is-reset-appropriate">
+<h2>9. When Is <code class="docutils literal notranslate"><span class="pre">reset</span></code> Appropriate?<a class="headerlink" href="#when-is-reset-appropriate" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code> is most appropriate when:</p>
+<ul class="simple">
+<li><p>you are cleaning up <strong>local history</strong></p></li>
+<li><p>you have <strong>not safely shared</strong> the commits yet</p></li>
+<li><p>you want to rewrite or remove recent local commits</p></li>
+<li><p>you want to unstage files</p></li>
+<li><p>you want to discard local changes intentionally</p></li>
+</ul>
+<section id="practical-rule">
+<h3>Practical Rule<a class="headerlink" href="#practical-rule" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">reset</span></code> is usually best for <strong>local correction</strong>.<br />
+It is more dangerous when the commits were already pushed and other people may rely on them.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="why-reset-can-be-dangerous-on-shared-branches">
+<h2>10. Why <code class="docutils literal notranslate"><span class="pre">reset</span></code> Can Be Dangerous on Shared Branches<a class="headerlink" href="#why-reset-can-be-dangerous-on-shared-branches" title="Permalink to this heading">#</a></h2>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">reset</span></code> on commits that were already pushed to a shared branch:</p>
+<ul class="simple">
+<li><p>history changes</p></li>
+<li><p>commit IDs may disappear from the visible branch</p></li>
+<li><p>collaborators may still have the old history</p></li>
+<li><p>force-pushing may become necessary</p></li>
+<li><p>confusion and integration problems can follow</p></li>
+</ul>
+<section id="safer-rule">
+<h3>Safer Rule<a class="headerlink" href="#safer-rule" title="Permalink to this heading">#</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">reset</span></code> freely on your own local mistakes.<br />
+Use it very carefully on anything already shared.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-revert-core-idea">
+<h2>11. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code>: Core Idea<a class="headerlink" href="#git-revert-core-idea" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code> is different from <code class="docutils literal notranslate"><span class="pre">reset</span></code>.</p>
+<p>Instead of moving history backward, <code class="docutils literal notranslate"><span class="pre">revert</span></code> creates a <strong>new commit</strong> that undoes the effect of an earlier commit.</p>
+<section id="id2">
+<h3>Conceptual Meaning<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>At a high level:</p>
+<blockquote>
+<div><p>Keep the history, but add a new commit that reverses the change.</p>
+</div></blockquote>
+<p>This makes <code class="docutils literal notranslate"><span class="pre">revert</span></code> much safer for shared history.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="example-of-git-revert">
+<h2>12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code><a class="headerlink" href="#example-of-git-revert" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
+</pre></div>
+</div>
+<p>This tells Git to:</p>
+<ul class="simple">
+<li><p>find commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code></p></li>
+<li><p>compute the inverse of its effect</p></li>
+<li><p>create a new commit applying that inverse</p></li>
+</ul>
+<section id="result">
+<h3>Result<a class="headerlink" href="#result" title="Permalink to this heading">#</a></h3>
+<p>The original commit remains in history.<br />
+The new revert commit records that its effects were undone.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-should-you-prefer-revert">
+<h2>13. When Should You Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code>?<a class="headerlink" href="#when-should-you-prefer-revert" title="Permalink to this heading">#</a></h2>
+<p>Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code> when:</p>
+<ul class="simple">
+<li><p>the bad commit was already pushed</p></li>
+<li><p>the branch is shared</p></li>
+<li><p>you want a clear audit trail</p></li>
+<li><p>you need to undo a change safely without rewriting history</p></li>
+</ul>
+<section id="typical-professional-rule">
+<h3>Typical Professional Rule<a class="headerlink" href="#typical-professional-rule" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>local mistake not yet shared</strong> → often <code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><strong>shared bad commit</strong> → often <code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="reset-vs-revert">
+<h2>14. <code class="docutils literal notranslate"><span class="pre">reset</span></code> vs <code class="docutils literal notranslate"><span class="pre">revert</span></code><a class="headerlink" href="#reset-vs-revert" title="Permalink to this heading">#</a></h2>
+<p>This distinction is fundamental.</p>
+<section id="reset">
+<h3><code class="docutils literal notranslate"><span class="pre">reset</span></code><a class="headerlink" href="#reset" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>rewrites branch position</p></li>
+<li><p>can rewrite visible history</p></li>
+<li><p>best for local cleanup</p></li>
+<li><p>can be dangerous on shared branches</p></li>
+</ul>
+</section>
+<section id="revert">
+<h3><code class="docutils literal notranslate"><span class="pre">revert</span></code><a class="headerlink" href="#revert" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>does not remove the original commit</p></li>
+<li><p>adds a new undo commit</p></li>
+<li><p>safer for shared history</p></li>
+<li><p>leaves a clear record of what happened</p></li>
+</ul>
+</section>
+<section id="mental-shortcut">
+<h3>Mental Shortcut<a class="headerlink" href="#mental-shortcut" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>reset</strong> = “pretend the branch pointer moved back”</p></li>
+<li><p><strong>revert</strong> = “add a new commit that cancels an old one”</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-restore-core-idea">
+<h2>15. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code>: Core Idea<a class="headerlink" href="#git-restore-core-idea" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code> was introduced to make certain file-level operations clearer.</p>
+<p>It is mainly used to:</p>
+<ul class="simple">
+<li><p>restore file content in the working tree</p></li>
+<li><p>unstage files from the index</p></li>
+</ul>
+<p>It helps separate these actions from the older, overloaded <code class="docutils literal notranslate"><span class="pre">checkout</span></code> behavior.</p>
+</section>
+<hr class="docutils" />
+<section id="restore-a-file-in-the-working-tree">
+<h2>16. Restore a File in the Working Tree<a class="headerlink" href="#restore-a-file-in-the-working-tree" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>app.py
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>discard local modifications in <code class="docutils literal notranslate"><span class="pre">app.py</span></code></p></li>
+<li><p>restore it from the current <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> state</p></li>
+</ul>
+<section id="id3">
+<h3>Use Case<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>You edited a file locally and want to abandon those uncommitted edits.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="unstage-a-file-with-restore">
+<h2>17. Unstage a File with <code class="docutils literal notranslate"><span class="pre">restore</span></code><a class="headerlink" href="#unstage-a-file-with-restore" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>app.py
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>remove <code class="docutils literal notranslate"><span class="pre">app.py</span></code> from the staging area</p></li>
+<li><p>keep the file changes in the working tree</p></li>
+</ul>
+<section id="id4">
+<h3>Use Case<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>You accidentally staged a file and want to unstage it without losing the edit.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="restore-from-another-source">
+<h2>18. Restore from Another Source<a class="headerlink" href="#restore-from-another-source" title="Permalink to this heading">#</a></h2>
+<p>You can also restore a file from a particular commit.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--source<span class="o">=</span>abc1234<span class="w"> </span>README.md
+</pre></div>
+</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>take <code class="docutils literal notranslate"><span class="pre">README.md</span></code> as it existed in commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code></p></li>
+<li><p>restore it into the working tree</p></li>
+</ul>
+<p>This is useful when you want one file from an earlier point without changing the whole branch history.</p>
+</section>
+<hr class="docutils" />
+<section id="why-restore-is-useful">
+<h2>19. Why <code class="docutils literal notranslate"><span class="pre">restore</span></code> Is Useful<a class="headerlink" href="#why-restore-is-useful" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">restore</span></code> is useful because it lets you think in terms of <strong>file state</strong>, not only commit history.</p>
+<p>It is especially helpful for:</p>
+<ul class="simple">
+<li><p>undoing accidental local edits</p></li>
+<li><p>unstaging files cleanly</p></li>
+<li><p>restoring a single file from a chosen commit</p></li>
+</ul>
+<p>It is often safer and clearer than reaching for <code class="docutils literal notranslate"><span class="pre">reset</span></code> when your goal is only file-level correction.</p>
+</section>
+<hr class="docutils" />
+<section id="git-commit-amend-core-idea">
+<h2>20. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code>: Core Idea<a class="headerlink" href="#git-commit-amend-core-idea" title="Permalink to this heading">#</a></h2>
+<p>Amend changes the <strong>most recent commit</strong>.</p>
+<p>It is commonly used when:</p>
+<ul class="simple">
+<li><p>the last commit message is wrong</p></li>
+<li><p>you forgot to include one file</p></li>
+<li><p>you want to slightly adjust the most recent commit</p></li>
+</ul>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
+</pre></div>
+</div>
+<p>Git opens the commit message editor and lets you replace the last commit with a new version.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="amend-the-last-commit-message">
+<h2>21. Amend the Last Commit Message<a class="headerlink" href="#amend-the-last-commit-message" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Fix login validation for empty input&quot;</span>
+</pre></div>
+</div>
+<p>This replaces the latest commit message with a new one.</p>
+<section id="important-note">
+<h3>Important Note<a class="headerlink" href="#important-note" title="Permalink to this heading">#</a></h3>
+<p>Even changing only the message rewrites the commit.<br />
+That means the commit hash changes.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="amend-to-add-a-forgotten-file">
+<h2>22. Amend to Add a Forgotten File<a class="headerlink" href="#amend-to-add-a-forgotten-file" title="Permalink to this heading">#</a></h2>
+<p>Suppose you made a commit but forgot one file.</p>
+<p>Workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>missing_file.py
+git<span class="w"> </span>commit<span class="w"> </span>--amend
+</pre></div>
+</div>
+<p>Now Git rebuilds the latest commit to include that file.</p>
+<p>This is a very common and useful correction pattern.</p>
+</section>
+<hr class="docutils" />
+<section id="when-is-amend-safe">
+<h2>23. When Is Amend Safe?<a class="headerlink" href="#when-is-amend-safe" title="Permalink to this heading">#</a></h2>
+<p>Amend is safest when:</p>
+<ul class="simple">
+<li><p>the commit is still local</p></li>
+<li><p>you have not pushed it yet</p></li>
+<li><p>nobody else is depending on that exact commit hash</p></li>
+</ul>
+<section id="warning">
+<h3>Warning<a class="headerlink" href="#warning" title="Permalink to this heading">#</a></h3>
+<p>If you amend a commit that was already pushed:</p>
+<ul class="simple">
+<li><p>the commit hash changes</p></li>
+<li><p>force-push may be needed</p></li>
+<li><p>collaborators can be confused if they already used the old commit</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="git-cherry-pick-core-idea">
+<h2>24. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code>: Core Idea<a class="headerlink" href="#git-cherry-pick-core-idea" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> applies the effect of one specific commit onto your current branch.</p>
+<section id="id5">
+<h3>Conceptual Meaning<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>At a high level:</p>
+<blockquote>
+<div><p>Take that commit over there, and replay its effect here.</p>
+</div></blockquote>
+<p>This is very useful when you do <strong>not</strong> want to merge a whole branch, but only want one particular change.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="example-of-cherry-pick">
+<h2>25. Example of <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code><a class="headerlink" href="#example-of-cherry-pick" title="Permalink to this heading">#</a></h2>
+<p>Suppose commit <code class="docutils literal notranslate"><span class="pre">abc1234</span></code> on another branch contains an important bug fix.</p>
+<p>You are on your current branch and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
+</pre></div>
+</div>
+<p>Git then attempts to apply that commit here as a new commit.</p>
+<section id="id6">
+<h3>Result<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>You get the effect of the original commit, but the new branch history remains separate.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="when-is-cherry-pick-useful">
+<h2>26. When Is <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> Useful?<a class="headerlink" href="#when-is-cherry-pick-useful" title="Permalink to this heading">#</a></h2>
+<p>Cherry-pick is useful when:</p>
+<ul class="simple">
+<li><p>one branch contains a bug fix you need elsewhere</p></li>
+<li><p>you want a single commit, not the whole branch history</p></li>
+<li><p>you are backporting a fix to a release branch</p></li>
+<li><p>you want to reuse a precise change selectively</p></li>
+</ul>
+<section id="common-professional-scenario">
+<h3>Common Professional Scenario<a class="headerlink" href="#common-professional-scenario" title="Permalink to this heading">#</a></h3>
+<p>A bug is fixed on <code class="docutils literal notranslate"><span class="pre">main</span></code>, and the same fix is needed on a maintenance branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>release/1.2
+git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="cherry-pick-can-also-conflict">
+<h2>27. Cherry-Pick Can Also Conflict<a class="headerlink" href="#cherry-pick-can-also-conflict" title="Permalink to this heading">#</a></h2>
+<p>Cherry-pick is not magic.<br />
+If the target branch differs too much, the commit may not apply cleanly.</p>
+<p>Then Git may stop with conflicts, and you resolve them similarly to merge or rebase conflicts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>status
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>cherry-pick<span class="w"> </span>--continue
+</pre></div>
+</div>
+<p>Or, if needed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>--abort
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="choosing-the-right-tool">
+<h2>28. Choosing the Right Tool<a class="headerlink" href="#choosing-the-right-tool" title="Permalink to this heading">#</a></h2>
+<p>A professional Git user learns to choose based on intent.</p>
+<section id="use-reset-when">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">reset</span></code> when:<a class="headerlink" href="#use-reset-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you want to rewrite recent local history</p></li>
+<li><p>you want to undo local commits before sharing</p></li>
+<li><p>you want to unstage or discard local state</p></li>
+</ul>
+</section>
+<section id="use-revert-when">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">revert</span></code> when:<a class="headerlink" href="#use-revert-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>a bad commit is already shared</p></li>
+<li><p>you want a safe undo with history preserved</p></li>
+</ul>
+</section>
+<section id="use-restore-when">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">restore</span></code> when:<a class="headerlink" href="#use-restore-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you want to restore one file</p></li>
+<li><p>you want to unstage a file</p></li>
+<li><p>you want file-level correction without branch history surgery</p></li>
+</ul>
+</section>
+<section id="use-amend-when">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">amend</span></code> when:<a class="headerlink" href="#use-amend-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you only need to fix the last commit</p></li>
+</ul>
+</section>
+<section id="use-cherry-pick-when">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> when:<a class="headerlink" href="#use-cherry-pick-when" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>you want one specific commit on another branch</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-mistakes">
+<h2>29. Common Mistakes<a class="headerlink" href="#common-mistakes" title="Permalink to this heading">#</a></h2>
+<section id="using-reset-hard-too-casually">
+<h3>1. Using <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">--hard</span></code> too casually<a class="headerlink" href="#using-reset-hard-too-casually" title="Permalink to this heading">#</a></h3>
+<p>This can destroy local work.</p>
+</section>
+<section id="using-reset-instead-of-revert-on-shared-branches">
+<h3>2. Using <code class="docutils literal notranslate"><span class="pre">reset</span></code> instead of <code class="docutils literal notranslate"><span class="pre">revert</span></code> on shared branches<a class="headerlink" href="#using-reset-instead-of-revert-on-shared-branches" title="Permalink to this heading">#</a></h3>
+<p>This can make collaboration messy.</p>
+</section>
+<section id="forgetting-that-amend-rewrites-history">
+<h3>3. Forgetting that <code class="docutils literal notranslate"><span class="pre">amend</span></code> rewrites history<a class="headerlink" href="#forgetting-that-amend-rewrites-history" title="Permalink to this heading">#</a></h3>
+<p>Even a message-only change creates a new commit hash.</p>
+</section>
+<section id="cherry-picking-large-sequences-without-thinking">
+<h3>4. Cherry-picking large sequences without thinking<a class="headerlink" href="#cherry-picking-large-sequences-without-thinking" title="Permalink to this heading">#</a></h3>
+<p>This can create duplicated or confusing history if done carelessly.</p>
+</section>
+<section id="using-history-rewriting-commands-after-public-sharing-without-coordination">
+<h3>5. Using history-rewriting commands after public sharing without coordination<a class="headerlink" href="#using-history-rewriting-commands-after-public-sharing-without-coordination" title="Permalink to this heading">#</a></h3>
+<p>This is one of the most common professional Git mistakes.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="practical-scenario-1-undo-the-last-local-commit-keep-the-changes">
+<h2>30. Practical Scenario 1: Undo the Last Local Commit, Keep the Changes<a class="headerlink" href="#practical-scenario-1-undo-the-last-local-commit-keep-the-changes" title="Permalink to this heading">#</a></h2>
+<p>You committed too early, but want to keep working.</p>
+<p>A good option is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+<p>Now:</p>
+<ul class="simple">
+<li><p>the commit is removed from visible branch history</p></li>
+<li><p>the file changes remain in your working tree</p></li>
+<li><p>nothing is staged</p></li>
+</ul>
+<p>You can now stage files more selectively and recommit properly.</p>
+</section>
+<hr class="docutils" />
+<section id="practical-scenario-2-undo-a-shared-commit-safely">
+<h2>31. Practical Scenario 2: Undo a Shared Commit Safely<a class="headerlink" href="#practical-scenario-2-undo-a-shared-commit-safely" title="Permalink to this heading">#</a></h2>
+<p>A bad commit is already on <code class="docutils literal notranslate"><span class="pre">main</span></code> and must be undone.</p>
+<p>A safer option is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>abc1234
+</pre></div>
+</div>
+<p>This creates a new commit that reverses the earlier one.</p>
+<p>This is the professional-safe pattern for shared history.</p>
+</section>
+<hr class="docutils" />
+<section id="practical-scenario-3-remove-a-file-from-staging">
+<h2>32. Practical Scenario 3: Remove a File from Staging<a class="headerlink" href="#practical-scenario-3-remove-a-file-from-staging" title="Permalink to this heading">#</a></h2>
+<p>You accidentally staged <code class="docutils literal notranslate"><span class="pre">config.local.json</span></code>, but you do not want it in the next commit.</p>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>config.local.json
+</pre></div>
+</div>
+<p>Now:</p>
+<ul class="simple">
+<li><p>the file is unstaged</p></li>
+<li><p>your local edits remain</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="practical-scenario-4-fix-the-last-commit">
+<h2>33. Practical Scenario 4: Fix the Last Commit<a class="headerlink" href="#practical-scenario-4-fix-the-last-commit" title="Permalink to this heading">#</a></h2>
+<p>You committed, then realized the message is weak or one file is missing.</p>
+<p>A common correction is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>forgotten_file.py
+git<span class="w"> </span>commit<span class="w"> </span>--amend<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Add validation and tests for empty email input&quot;</span>
+</pre></div>
+</div>
+<p>This replaces the previous final commit with a better version.</p>
+</section>
+<hr class="docutils" />
+<section id="practical-scenario-5-backport-a-fix-to-another-branch">
+<h2>34. Practical Scenario 5: Backport a Fix to Another Branch<a class="headerlink" href="#practical-scenario-5-backport-a-fix-to-another-branch" title="Permalink to this heading">#</a></h2>
+<p>Suppose <code class="docutils literal notranslate"><span class="pre">main</span></code> has a bug fix, but you also need it on <code class="docutils literal notranslate"><span class="pre">release/1.2</span></code>.</p>
+<p>Workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>release/1.2
+git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
+</pre></div>
+</div>
+<p>This applies only that selected fix to the release branch, without merging unrelated work from <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+</section>
+<hr class="docutils" />
+<section id="a-useful-safety-principle">
+<h2>35. A Useful Safety Principle<a class="headerlink" href="#a-useful-safety-principle" title="Permalink to this heading">#</a></h2>
+<p>Before running an undo-related command, ask yourself:</p>
+<section id="question-1">
+<h3>Question 1<a class="headerlink" href="#question-1" title="Permalink to this heading">#</a></h3>
+<p>Do I want to <strong>rewrite history</strong>, or do I want to <strong>preserve history</strong>?</p>
+<ul class="simple">
+<li><p>rewrite history → maybe <code class="docutils literal notranslate"><span class="pre">reset</span></code> or <code class="docutils literal notranslate"><span class="pre">amend</span></code></p></li>
+<li><p>preserve history → maybe <code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+</ul>
+</section>
+<section id="question-2">
+<h3>Question 2<a class="headerlink" href="#question-2" title="Permalink to this heading">#</a></h3>
+<p>Am I changing a <strong>file state</strong>, or am I changing <strong>commit history</strong>?</p>
+<ul class="simple">
+<li><p>file state → maybe <code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
+<li><p>commit history → maybe <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, or <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
+</ul>
+</section>
+<section id="question-3">
+<h3>Question 3<a class="headerlink" href="#question-3" title="Permalink to this heading">#</a></h3>
+<p>Has this already been shared with others?</p>
+<ul class="simple">
+<li><p>not shared → more freedom</p></li>
+<li><p>shared → prefer safer history-preserving choices</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-comparison-table">
+<h2>36. Quick Comparison Table<a class="headerlink" href="#quick-comparison-table" title="Permalink to this heading">#</a></h2>
+<section id="id7">
+<h3><code class="docutils literal notranslate"><span class="pre">reset</span></code><a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>moves branch pointer</p></li>
+<li><p>can affect staging and working tree</p></li>
+<li><p>good for local cleanup</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3><code class="docutils literal notranslate"><span class="pre">revert</span></code><a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>adds a new inverse commit</p></li>
+<li><p>good for undoing shared commits safely</p></li>
+</ul>
+</section>
+<section id="restore">
+<h3><code class="docutils literal notranslate"><span class="pre">restore</span></code><a class="headerlink" href="#restore" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>restores files or unstages them</p></li>
+<li><p>good for file-level corrections</p></li>
+</ul>
+</section>
+<section id="amend">
+<h3><code class="docutils literal notranslate"><span class="pre">amend</span></code><a class="headerlink" href="#amend" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>replaces the most recent commit</p></li>
+<li><p>good for fixing the latest commit</p></li>
+</ul>
+</section>
+<section id="cherry-pick">
+<h3><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code><a class="headerlink" href="#cherry-pick" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>applies one specific commit onto the current branch</p></li>
+<li><p>good for selective reuse across branches</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="quick-reference-commands">
+<h2>37. Quick Reference Commands<a class="headerlink" href="#quick-reference-commands" title="Permalink to this heading">#</a></h2>
+<section id="undo-last-local-commit-keep-changes-staged">
+<h3>Undo last local commit, keep changes staged<a class="headerlink" href="#undo-last-local-commit-keep-changes-staged" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+</section>
+<section id="undo-last-local-commit-keep-changes-unstaged">
+<h3>Undo last local commit, keep changes unstaged<a class="headerlink" href="#undo-last-local-commit-keep-changes-unstaged" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+</section>
+<section id="undo-last-local-commit-and-discard-changes">
+<h3>Undo last local commit and discard changes<a class="headerlink" href="#undo-last-local-commit-and-discard-changes" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~1
+</pre></div>
+</div>
+</section>
+<section id="safely-undo-a-shared-commit">
+<h3>Safely undo a shared commit<a class="headerlink" href="#safely-undo-a-shared-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>&lt;commit&gt;
+</pre></div>
+</div>
+</section>
+<section id="discard-local-changes-in-one-file">
+<h3>Discard local changes in one file<a class="headerlink" href="#discard-local-changes-in-one-file" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+</section>
+<section id="unstage-one-file">
+<h3>Unstage one file<a class="headerlink" href="#unstage-one-file" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>--staged<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+</section>
+<section id="fix-the-latest-commit">
+<h3>Fix the latest commit<a class="headerlink" href="#fix-the-latest-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
+</pre></div>
+</div>
+</section>
+<section id="move-one-commit-to-another-branch">
+<h3>Move one commit to another branch<a class="headerlink" href="#move-one-commit-to-another-branch" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="final-summary">
+<h2>38. Final Summary<a class="headerlink" href="#final-summary" title="Permalink to this heading">#</a></h2>
+<p>These five commands solve different classes of Git problems.</p>
+<section id="id9">
+<h3><code class="docutils literal notranslate"><span class="pre">reset</span></code><a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p>Use it for local history cleanup and pointer movement.</p>
+</section>
+<section id="id10">
+<h3><code class="docutils literal notranslate"><span class="pre">revert</span></code><a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>Use it for safe undo in shared history.</p>
+</section>
+<section id="id11">
+<h3><code class="docutils literal notranslate"><span class="pre">restore</span></code><a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>Use it for file-level restoration or unstaging.</p>
+</section>
+<section id="id12">
+<h3><code class="docutils literal notranslate"><span class="pre">amend</span></code><a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p>Use it to improve or correct the last commit.</p>
+</section>
+<section id="id13">
+<h3><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code><a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<p>Use it to apply one specific commit somewhere else.</p>
+<p>The deeper lesson is this:</p>
+<blockquote>
+<div><p>Good Git usage is not just knowing commands. It is knowing which layer you intend to change: file state, staging state, branch history, or shared history.</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="suggested-practice-exercises">
+<h2>39. Suggested Practice Exercises<a class="headerlink" href="#suggested-practice-exercises" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>make two commits in a test repository</p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span> <span class="pre">HEAD~1</span></code> and observe the staged state</p></li>
+<li><p>repeat with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span> <span class="pre">HEAD~1</span></code></p></li>
+<li><p>create a new commit and undo it with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></p></li>
+<li><p>modify a file and discard changes using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code></p></li>
+<li><p>stage a file and unstage it using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span> <span class="pre">--staged</span></code></p></li>
+<li><p>make a commit with a bad message and fix it using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code></p></li>
+<li><p>create two branches and use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code> to move one fix from one branch to another</p></li>
+<li><p>compare histories using:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+<p>These exercises build intuition much faster than memorizing definitions.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="github-notes">
+<h1>GitHub Notes<a class="headerlink" href="#github-notes" title="Permalink to this heading">#</a></h1>
+<section id="forking-a-repository">
+<h2>Forking a Repository<a class="headerlink" href="#forking-a-repository" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>We should <strong>fork</strong> a repository of interest.</p></li>
+<li><p>Forking allows us to:</p>
+<ul>
+<li><p>create our own copy of the repository</p></li>
+<li><p>modify its content and code independently</p></li>
+<li><p>experiment without affecting the original project</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="using-git-locally-vs-github">
+<h2>Using Git Locally vs GitHub<a class="headerlink" href="#using-git-locally-vs-github" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Git can be used <strong>locally</strong> on your system:</p>
+<ul>
+<li><p>useful when working with <strong>sensitive datasets</strong></p></li>
+<li><p>no need to upload data online</p></li>
+</ul>
+</li>
+<li><p>When using GitHub:</p>
+<ul>
+<li><p>use a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to exclude sensitive or unnecessary files</p></li>
+<li><p>this helps keep the repository clean and secure</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="pull-command">
+<h2>Pull Command<a class="headerlink" href="#pull-command" title="Permalink to this heading">#</a></h2>
+<p>The <strong>pull</strong> command means:</p>
+<ul class="simple">
+<li><p>bringing changes from a <strong>remote repository</strong> into your local branch</p></li>
+<li><p>or updating your branch with changes from another branch</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="git-supplement-finding-the-right-commit-and-debugging-regressions">
+<h1>Git Supplement: Finding the Right Commit and Debugging Regressions<a class="headerlink" href="#git-supplement-finding-the-right-commit-and-debugging-regressions" title="Permalink to this heading">#</a></h1>
+<p>This section is a <strong>supplement</strong> to the main Git section. It focuses on practical points that are not explicitly covered inside the reset/revert/restore/amend/cherry-pick section itself:</p>
+<ol class="arabic simple">
+<li><p>how to find the commit ID (hash) you need</p></li>
+<li><p>how to refer to commits without memorizing full hashes</p></li>
+<li><p>how to identify the exact commit where code stopped working</p></li>
+<li><p>how to use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> to find the first bad commit efficiently</p></li>
+</ol>
+<p>Use this supplement as a hands-on companion after reading the main Git guide.</p>
+<section id="how-to-get-the-commit-number-commit-hash">
+<h2>1. How to Get the Commit Number (Commit Hash)<a class="headerlink" href="#how-to-get-the-commit-number-commit-hash" title="Permalink to this heading">#</a></h2>
+<p>Many Git commands need a target commit, for example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span> <span class="pre">&lt;commit&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span> <span class="pre">&lt;commit&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span> <span class="pre">&lt;commit&gt;</span></code></p></li>
+</ul>
+<p>In Git, the “commit number” is usually called the <strong>commit hash</strong> or <strong>commit ID</strong>.</p>
+<section id="fast-way-to-list-commits">
+<h3>Fast Way to List Commits<a class="headerlink" href="#fast-way-to-list-commits" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>a1b2c3d add login validation
+f6g7h8i fix navbar layout
+91ab234 initial API integration
+</pre></div>
+</div>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a1b2c3d</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">f6g7h8i</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">91ab234</span></code></p></li>
+</ul>
+<p>are short commit hashes.</p>
+<p>You can usually use the short form as long as it is unique in your repository.</p>
+</section>
+</section>
+<section id="which-log-view-should-you-use">
+<h2>2. Which Log View Should You Use?<a class="headerlink" href="#which-log-view-should-you-use" title="Permalink to this heading">#</a></h2>
+<section id="basic-history">
+<h3>Basic history<a class="headerlink" href="#basic-history" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log
+</pre></div>
+</div>
+<p>Shows:</p>
+<ul class="simple">
+<li><p>full commit hash</p></li>
+<li><p>author</p></li>
+<li><p>date</p></li>
+<li><p>message</p></li>
+</ul>
+</section>
+<section id="short-history">
+<h3>Short history<a class="headerlink" href="#short-history" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
+</pre></div>
+</div>
+<p>Best when you just want the commit IDs quickly.</p>
+</section>
+<section id="visual-branch-history">
+<h3>Visual branch history<a class="headerlink" href="#visual-branch-history" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+<p>Very useful when branches or merges are involved.</p>
+<p>Example mental picture:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>* 8f4c2ab fix test on release branch
+| * c7d9120 add login retry
+| * 13bc991 refactor login flow
+|/
+* 91ab234 initial API integration
+</pre></div>
+</div>
+<p>This helps you answer:</p>
+<ul class="simple">
+<li><p>Which commit is newest?</p></li>
+<li><p>Which branch introduced the change?</p></li>
+<li><p>Which commit should I revert or cherry-pick?</p></li>
+</ul>
+</section>
+</section>
+<section id="you-do-not-always-need-the-full-commit-hash">
+<h2>3. You Do Not Always Need the Full Commit Hash<a class="headerlink" href="#you-do-not-always-need-the-full-commit-hash" title="Permalink to this heading">#</a></h2>
+<p>Instead of typing a full hash, Git also lets you refer to recent commits relative to <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">HEAD</span></code> means: <strong>the commit I am currently on</strong>.</p>
+<section id="common-relative-references">
+<h3>Common Relative References<a class="headerlink" href="#common-relative-references" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">HEAD</span></code> → current commit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HEAD~1</span></code> → one commit before current</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HEAD~2</span></code> → two commits before current</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HEAD~3</span></code> → three commits before current</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>HEAD~1
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>HEAD~2
+git<span class="w"> </span>show<span class="w"> </span>HEAD~3
+</pre></div>
+</div>
+<p>This is useful when the bad change is recent and you just want to move back a few commits.</p>
+</section>
+</section>
+<section id="when-code-worked-before-but-is-broken-now">
+<h2>4. When Code Worked Before but Is Broken Now<a class="headerlink" href="#when-code-worked-before-but-is-broken-now" title="Permalink to this heading">#</a></h2>
+<p>This is a classic debugging situation:</p>
+<ul class="simple">
+<li><p>an older commit worked</p></li>
+<li><p>the current commit is broken</p></li>
+<li><p>you want to know <strong>exactly which commit introduced the problem</strong></p></li>
+</ul>
+<p>There are two approaches.</p>
+<section id="a-manual-checking">
+<h3>A. Manual checking<a class="headerlink" href="#a-manual-checking" title="Permalink to this heading">#</a></h3>
+<p>You move between commits and test the code yourself.</p>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit&gt;
+</pre></div>
+</div>
+<p>Then run your program or tests.</p>
+<p>If that commit is good, move forward.<br />
+If it is bad, move backward.</p>
+<p>This works, but it can be slow in repositories with many commits.</p>
+</section>
+<section id="b-git-bisect-recommended">
+<h3>B. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> (recommended)<a class="headerlink" href="#b-git-bisect-recommended" title="Permalink to this heading">#</a></h3>
+<p>This is the professional way when you know:</p>
+<ul class="simple">
+<li><p>one commit that is definitely <strong>good</strong></p></li>
+<li><p>one commit that is definitely <strong>bad</strong></p></li>
+</ul>
+<p>Git then performs a binary search through history to find the first bad commit much faster.</p>
+</section>
+</section>
+<section id="git-bisect-step-by-step">
+<h2>5. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> Step by Step<a class="headerlink" href="#git-bisect-step-by-step" title="Permalink to this heading">#</a></h2>
+<section id="step-1-start-bisect">
+<h3>Step 1: Start bisect<a class="headerlink" href="#step-1-start-bisect" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+</pre></div>
+</div>
+</section>
+<section id="step-2-mark-the-current-state-as-bad">
+<h3>Step 2: Mark the current state as bad<a class="headerlink" href="#step-2-mark-the-current-state-as-bad" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
+</pre></div>
+</div>
+<p>This usually means: “the version I am on right now is broken.”</p>
+</section>
+<section id="step-3-mark-an-older-known-good-commit">
+<h3>Step 3: Mark an older known-good commit<a class="headerlink" href="#step-3-mark-an-older-known-good-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
+</pre></div>
+</div>
+<p>Now Git chooses a commit in the middle.</p>
+</section>
+<section id="step-4-test-that-commit">
+<h3>Step 4: Test that commit<a class="headerlink" href="#step-4-test-that-commit" title="Permalink to this heading">#</a></h3>
+<p>Run your program or your tests.</p>
+<ul>
+<li><p>If it works:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good
+</pre></div>
+</div>
+</li>
+<li><p>If it fails:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Git keeps narrowing the search until it prints something like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;commit-id&gt; is the first bad commit
+</pre></div>
+</div>
+</section>
+</section>
+<section id="real-example-of-git-bisect">
+<h2>6. Real Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code><a class="headerlink" href="#real-example-of-git-bisect" title="Permalink to this heading">#</a></h2>
+<p>Suppose your history is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A - B - C - D - E - F
+</pre></div>
+</div>
+<p>You know:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">B</span></code> was still good</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">F</span></code> is bad</p></li>
+</ul>
+<p>You run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>B
+</pre></div>
+</div>
+<p>Git may test <code class="docutils literal notranslate"><span class="pre">D</span></code> first.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is good, then the bug must be in <code class="docutils literal notranslate"><span class="pre">E</span></code> or <code class="docutils literal notranslate"><span class="pre">F</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is bad, then the bug must be in <code class="docutils literal notranslate"><span class="pre">C</span></code> or <code class="docutils literal notranslate"><span class="pre">D</span></code></p></li>
+</ul>
+<p>So instead of checking every commit one by one, Git cuts the search space in half each time.</p>
+</section>
+<section id="if-you-already-have-automated-tests-bisect-becomes-much-stronger">
+<h2>7. If You Already Have Automated Tests, Bisect Becomes Much Stronger<a class="headerlink" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger" title="Permalink to this heading">#</a></h2>
+<p>If your project has a command that returns success or failure, Git can automate the search.</p>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
+git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>npm<span class="w"> </span><span class="nb">test</span>
+git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>unittest
+</pre></div>
+</div>
+<p>In this mode:</p>
+<ul class="simple">
+<li><p>test passes → Git treats commit as good</p></li>
+<li><p>test fails → Git treats commit as bad</p></li>
+</ul>
+<p>This is one of the best tools for tracking down regressions.</p>
+</section>
+<section id="how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">
+<h2>8. How This Connects to Reset, Revert, Restore, Amend, and Cherry-Pick<a class="headerlink" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h2>
+<p>After you find the problematic commit, you can decide what to do.</p>
+<section id="if-the-bad-commit-was-already-shared">
+<h3>If the bad commit was already shared<a class="headerlink" href="#if-the-bad-commit-was-already-shared" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>&lt;bad-commit&gt;
+</pre></div>
+</div>
+</section>
+<section id="if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">
+<h3>If the bad commit is only local and you want to rewrite history<a class="headerlink" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history" title="Permalink to this heading">#</a></h3>
+<p>Use one of:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>&lt;target&gt;
+git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>&lt;target&gt;
+git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>&lt;target&gt;
+</pre></div>
+</div>
+</section>
+<section id="if-the-problem-is-just-one-file">
+<h3>If the problem is just one file<a class="headerlink" href="#if-the-problem-is-just-one-file" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>path/to/file
+</pre></div>
+</div>
+</section>
+<section id="if-the-issue-is-only-in-the-latest-commit-message-or-contents">
+<h3>If the issue is only in the latest commit message or contents<a class="headerlink" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
+</pre></div>
+</div>
+</section>
+<section id="if-you-want-to-bring-a-good-fix-from-another-branch">
+<h3>If you want to bring a good fix from another branch<a class="headerlink" href="#if-you-want-to-bring-a-good-fix-from-another-branch" title="Permalink to this heading">#</a></h3>
+<p>Use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;good-commit&gt;
+</pre></div>
+</div>
+<p>So the missing skill is often not the command itself, but <strong>finding the correct commit first</strong>.</p>
+</section>
+</section>
+<section id="practical-workflow-you-can-follow-in-real-projects">
+<h2>9. Practical Workflow You Can Follow in Real Projects<a class="headerlink" href="#practical-workflow-you-can-follow-in-real-projects" title="Permalink to this heading">#</a></h2>
+<p>When you suspect a regression:</p>
+<ol class="arabic">
+<li><p>Inspect history</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+</li>
+<li><p>Identify:</p>
+<ul class="simple">
+<li><p>one known good commit</p></li>
+<li><p>one known bad commit</p></li>
+</ul>
+</li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;known-good-commit&gt;
+</pre></div>
+</div>
+</li>
+<li><p>Test each checked-out revision</p></li>
+<li><p>Finish with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>reset
+</pre></div>
+</div>
+</li>
+<li><p>Then choose the appropriate fix:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">amend</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="quick-command-summary">
+<h2>10. Quick Command Summary<a class="headerlink" href="#quick-command-summary" title="Permalink to this heading">#</a></h2>
+<section id="find-commit-ids">
+<h3>Find commit IDs<a class="headerlink" href="#find-commit-ids" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
+git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
+</pre></div>
+</div>
+</section>
+<section id="refer-to-recent-commits">
+<h3>Refer to recent commits<a class="headerlink" href="#refer-to-recent-commits" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>HEAD
+HEAD~1
+HEAD~2
+HEAD~3
+</pre></div>
+</div>
+</section>
+<section id="move-to-a-specific-commit-temporarily">
+<h3>Move to a specific commit temporarily<a class="headerlink" href="#move-to-a-specific-commit-temporarily" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit-id&gt;
+</pre></div>
+</div>
+</section>
+<section id="find-the-first-bad-commit">
+<h3>Find the first bad commit<a class="headerlink" href="#find-the-first-bad-commit" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
+git<span class="w"> </span>bisect<span class="w"> </span>good
+git<span class="w"> </span>bisect<span class="w"> </span>bad
+git<span class="w"> </span>bisect<span class="w"> </span>reset
+</pre></div>
+</div>
+</section>
+<section id="automated-bisect">
+<h3>Automated bisect<a class="headerlink" href="#automated-bisect" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
+</pre></div>
+</div>
+</section>
+</section>
+<section id="final-takeaway">
+<h2>11. Final Takeaway<a class="headerlink" href="#final-takeaway" title="Permalink to this heading">#</a></h2>
+<p>The main section explains <strong>what</strong> <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>, <code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> do.</p>
+<p>This supplement adds the missing practical layer we discussed:</p>
+<ul class="simple">
+<li><p>how to <strong>find the commit hash</strong></p></li>
+<li><p>how to <strong>target recent commits using <code class="docutils literal notranslate"><span class="pre">HEAD~n</span></code></strong></p></li>
+<li><p>how to <strong>detect where the code started breaking</strong></p></li>
+<li><p>how to <strong>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> to find the first bad commit efficiently</strong></p></li>
+</ul>
+<p>That combination is what makes these Git commands truly usable in real debugging work.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="git-workflow-connect-a-local-folder-to-a-github-repository">
+<h1>Git Workflow: Connect a Local Folder to a GitHub Repository<a class="headerlink" href="#git-workflow-connect-a-local-folder-to-a-github-repository" title="Permalink to this heading">#</a></h1>
+<section id="goal">
+<h2>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">#</a></h2>
+<p>We will:</p>
+<ul class="simple">
+<li><p>create a repository on GitHub</p></li>
+<li><p>create a local folder</p></li>
+<li><p>initialize Git</p></li>
+<li><p>connect to GitHub</p></li>
+<li><p>push code</p></li>
+</ul>
+</section>
+<section id="step-1-create-a-local-folder">
+<h2>Step 1: Create a Local Folder<a class="headerlink" href="#step-1-create-a-local-folder" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>my-project
+<span class="nb">cd</span><span class="w"> </span>my-project
+</pre></div>
+</div>
+</section>
+<section id="step-2-initialize-git">
+<h2>Step 2: Initialize Git<a class="headerlink" href="#step-2-initialize-git" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
+</pre></div>
+</div>
+</section>
+<section id="step-3-add-files">
+<h2>Step 3: Add Files<a class="headerlink" href="#step-3-add-files" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>touch<span class="w"> </span>README.md
+</pre></div>
+</div>
+</section>
+<section id="step-4-stage-files">
+<h2>Step 4: Stage Files<a class="headerlink" href="#step-4-stage-files" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="step-5-commit">
+<h2>Step 5: Commit<a class="headerlink" href="#step-5-commit" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Initial commit&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-connect-to-github">
+<h2>Step 6: Connect to GitHub<a class="headerlink" href="#step-6-connect-to-github" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/username/my-project.git
+</pre></div>
+</div>
+</section>
+<section id="step-7-check-the-remote">
+<h2>Step 7: Check the Remote<a class="headerlink" href="#step-7-check-the-remote" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>The result should be in the form of:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>origin git@github.com:username/myproject.git (fetch)
+origin git@github.com:username/myproject.git (push)
+</pre></div>
+</div>
+</section>
+<section id="step-8-push">
+<h2>Step 8: Push<a class="headerlink" href="#step-8-push" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-M<span class="w"> </span>main
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="git-archaeology-example">
+<h1>Git Archaeology Example<a class="headerlink" href="#git-archaeology-example" title="Permalink to this heading">#</a></h1>
+<p>This example explains a practical <strong>Git archaeology</strong> workflow using the <code class="docutils literal notranslate"><span class="pre">networkx</span></code> repository.</p>
+<section id="id14">
+<h2>Goal<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<p>We want to:</p>
+<ol class="arabic simple">
+<li><p>switch to a specific historical release branch or context</p></li>
+<li><p>search for a specific text in the repository</p></li>
+<li><p>find the file and line where it appears</p></li>
+<li><p>identify the commit related to that line</p></li>
+<li><p>inspect the commit</p></li>
+<li><p>create a branch from that historical commit</p></li>
+</ol>
+<p>This is useful when you want to understand:</p>
+<ul class="simple">
+<li><p>where a bug message came from</p></li>
+<li><p>which commit introduced or changed something</p></li>
+<li><p>how the code looked at that point in time</p></li>
+</ul>
+</section>
+<section id="step-1-create-a-working-branch-from-networkx-2-6-3">
+<h2>Step 1: Create a Working Branch from <code class="docutils literal notranslate"><span class="pre">networkx-2.6.3</span></code><a class="headerlink" href="#step-1-create-a-working-branch-from-networkx-2-6-3" title="Permalink to this heading">#</a></h2>
+<p>We start by creating a new branch called <code class="docutils literal notranslate"><span class="pre">exercise</span></code> from <code class="docutils literal notranslate"><span class="pre">networkx-2.6.3</span></code>.</p>
+<p>This gives us a safe branch to work on without changing the original branch.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>--create<span class="w"> </span>exercise<span class="w"> </span>networkx-2.6.3
+</pre></div>
+</div>
+</section>
+<section id="step-2-search-for-the-text-in-the-repository">
+<h2>Step 2: Search for the Text in the Repository<a class="headerlink" href="#step-2-search-for-the-text-in-the-repository" title="Permalink to this heading">#</a></h2>
+<p>Now we search for the phrase:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Logic</span> <span class="pre">error</span> <span class="pre">in</span> <span class="pre">degree_correlation</span></code></p>
+<p>This tells us which file or files contain that text.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+git<span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-annotate-the-file">
+<h2>Step 3: Annotate the File<a class="headerlink" href="#step-3-annotate-the-file" title="Permalink to this heading">#</a></h2>
+<p>After identifying the file, we run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">annotate</span></code> on it:</p>
+<p><code class="docutils literal notranslate"><span class="pre">networkx/algorithms/threshold.py</span></code></p>
+<p>This shows, line by line:</p>
+<ul class="simple">
+<li><p>the commit hash</p></li>
+<li><p>the author</p></li>
+<li><p>the date</p></li>
+<li><p>the content of the line</p></li>
+</ul>
+<p>This helps us discover <strong>which commit last changed the line</strong> containing the text.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>annotate<span class="w"> </span>networkx/algorithms/threshold.py
+</pre></div>
+</div>
+</section>
+<section id="step-4-search-inside-the-annotate-output">
+<h2>Step 4: Search Inside the Annotate Output<a class="headerlink" href="#step-4-search-inside-the-annotate-output" title="Permalink to this heading">#</a></h2>
+<p>Inside the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">annotate</span></code> viewer, search for the phrase:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Logic</span> <span class="pre">error</span></code></p>
+<p>You typically type:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>/Logic error
+</pre></div>
+</div>
+<p>This is not a shell command. It is a search command used inside the pager (<code class="docutils literal notranslate"><span class="pre">less</span></code>) opened by Git.</p>
+</section>
+<section id="step-5-inspect-the-relevant-commit">
+<h2>Step 5: Inspect the Relevant Commit<a class="headerlink" href="#step-5-inspect-the-relevant-commit" title="Permalink to this heading">#</a></h2>
+<p>From the annotation output, we find the commit hash:</p>
+<p><code class="docutils literal notranslate"><span class="pre">90544b4fa</span></code></p>
+<p>Now we inspect that commit with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">show</span></code>.</p>
+<p>This displays:</p>
+<ul class="simple">
+<li><p>commit metadata</p></li>
+<li><p>author and date</p></li>
+<li><p>commit message</p></li>
+<li><p>the diff (what changed)</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>show<span class="w"> </span>90544b4fa
+</pre></div>
+</div>
+</section>
+<section id="step-6-create-a-branch-from-that-historical-commit">
+<h2>Step 6: Create a Branch from That Historical Commit<a class="headerlink" href="#step-6-create-a-branch-from-that-historical-commit" title="Permalink to this heading">#</a></h2>
+<p>Now we create a new branch called <code class="docutils literal notranslate"><span class="pre">past-code</span></code> from commit <code class="docutils literal notranslate"><span class="pre">90544b4fa</span></code>.</p>
+<p>This lets us explore the code exactly as it existed at that point in history.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w"> </span>90544b4fa
+</pre></div>
+</div>
+</section>
+<section id="what-this-example-demonstrates">
+<h2>What This Example Demonstrates<a class="headerlink" href="#what-this-example-demonstrates" title="Permalink to this heading">#</a></h2>
+<p>This example solves the following investigation workflow:</p>
+<ul class="simple">
+<li><p>find a text in the repository</p></li>
+<li><p>locate the exact file and line</p></li>
+<li><p>identify the commit responsible for that line</p></li>
+<li><p>inspect the commit</p></li>
+<li><p>create a branch from that point in history</p></li>
+</ul>
+<p>In short:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>grep<span class="w"> </span>-&gt;<span class="w"> </span>find<span class="w"> </span>the<span class="w"> </span>text
+git<span class="w"> </span>annotate<span class="w"> </span>-&gt;<span class="w"> </span>find<span class="w"> </span>the<span class="w"> </span>responsible<span class="w"> </span>commit
+git<span class="w"> </span>show<span class="w"> </span>-&gt;<span class="w"> </span>inspect<span class="w"> </span>the<span class="w"> </span>commit
+git<span class="w"> </span>branch<span class="w"> </span>-&gt;<span class="w"> </span>create<span class="w"> </span>a<span class="w"> </span>branch<span class="w"> </span>from<span class="w"> </span>that<span class="w"> </span>commit
+</pre></div>
+</div>
+<p>This is a classic Git archaeology workflow.</p>
+</section>
+<section id="command-summary">
+<h2>Command Summary<a class="headerlink" href="#command-summary" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>switch<span class="w"> </span>--create<span class="w"> </span>exercise<span class="w"> </span>networkx-2.6.3
+git<span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+git<span class="w"> </span>grep<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;Logic error in degree_correlation&quot;</span>
+git<span class="w"> </span>annotate<span class="w"> </span>networkx/algorithms/threshold.py
+/Logic<span class="w"> </span>error
+git<span class="w"> </span>show<span class="w"> </span>90544b4fa
+git<span class="w"> </span>branch<span class="w"> </span>past-code<span class="w"> </span>90544b4fa
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Correction using  <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">Reset</span></code>, <code class="docutils literal notranslate"><span class="pre">Revert</span></code>, <code class="docutils literal notranslate"><span class="pre">Restore</span></code>, <code class="docutils literal notranslate"><span class="pre">Amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">Cherry-Pick</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-these-commands-matter">1. Why These Commands Matter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-high-level-map">2. A High-Level Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#another-useful-distinction">Another Useful Distinction</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree-staging-area-and-commit-history">3. Working Tree, Staging Area, and Commit History</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#working-tree">Working Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#staging-area">Staging Area</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commit-history">Commit History</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-core-idea">4. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-meaning">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-forms-of-git-reset">5. Common Forms of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#soft"><code class="docutils literal notranslate"><span class="pre">--soft</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed"><code class="docutils literal notranslate"><span class="pre">--mixed</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hard"><code class="docutils literal notranslate"><span class="pre">--hard</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-soft">6. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--soft</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-case">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-mixed">7. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--mixed</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-reset-hard">8. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">reset</span> <span class="pre">--hard</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-warning">Important Warning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-reset-appropriate">9. When Is <code class="docutils literal notranslate"><span class="pre">reset</span></code> Appropriate?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-rule">Practical Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-reset-can-be-dangerous-on-shared-branches">10. Why <code class="docutils literal notranslate"><span class="pre">reset</span></code> Can Be Dangerous on Shared Branches</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safer-rule">Safer Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-revert-core-idea">11. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-git-revert">12. Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result">Result</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-should-you-prefer-revert">13. When Should You Prefer <code class="docutils literal notranslate"><span class="pre">revert</span></code>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-professional-rule">Typical Professional Rule</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-vs-revert">14. <code class="docutils literal notranslate"><span class="pre">reset</span></code> vs <code class="docutils literal notranslate"><span class="pre">revert</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#revert"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-shortcut">Mental Shortcut</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-restore-core-idea">15. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">restore</span></code>: Core Idea</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-a-file-in-the-working-tree">16. Restore a File in the Working Tree</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-a-file-with-restore">17. Unstage a File with <code class="docutils literal notranslate"><span class="pre">restore</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Use Case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#restore-from-another-source">18. Restore from Another Source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-restore-is-useful">19. Why <code class="docutils literal notranslate"><span class="pre">restore</span></code> Is Useful</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-commit-amend-core-idea">20. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amend-the-last-commit-message">21. Amend the Last Commit Message</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note">Important Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amend-to-add-a-forgotten-file">22. Amend to Add a Forgotten File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-amend-safe">23. When Is Amend Safe?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#warning">Warning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-cherry-pick-core-idea">24. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span></code>: Core Idea</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Conceptual Meaning</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-of-cherry-pick">25. Example of <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Result</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-is-cherry-pick-useful">26. When Is <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> Useful?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-professional-scenario">Common Professional Scenario</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick-can-also-conflict">27. Cherry-Pick Can Also Conflict</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-the-right-tool">28. Choosing the Right Tool</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-reset-when">Use <code class="docutils literal notranslate"><span class="pre">reset</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-revert-when">Use <code class="docutils literal notranslate"><span class="pre">revert</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-restore-when">Use <code class="docutils literal notranslate"><span class="pre">restore</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-amend-when">Use <code class="docutils literal notranslate"><span class="pre">amend</span></code> when:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cherry-pick-when">Use <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> when:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mistakes">29. Common Mistakes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-reset-hard-too-casually">1. Using <code class="docutils literal notranslate"><span class="pre">reset</span> <span class="pre">--hard</span></code> too casually</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-reset-instead-of-revert-on-shared-branches">2. Using <code class="docutils literal notranslate"><span class="pre">reset</span></code> instead of <code class="docutils literal notranslate"><span class="pre">revert</span></code> on shared branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forgetting-that-amend-rewrites-history">3. Forgetting that <code class="docutils literal notranslate"><span class="pre">amend</span></code> rewrites history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-picking-large-sequences-without-thinking">4. Cherry-picking large sequences without thinking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-history-rewriting-commands-after-public-sharing-without-coordination">5. Using history-rewriting commands after public sharing without coordination</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-1-undo-the-last-local-commit-keep-the-changes">30. Practical Scenario 1: Undo the Last Local Commit, Keep the Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-2-undo-a-shared-commit-safely">31. Practical Scenario 2: Undo a Shared Commit Safely</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-3-remove-a-file-from-staging">32. Practical Scenario 3: Remove a File from Staging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-4-fix-the-last-commit">33. Practical Scenario 4: Fix the Last Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-scenario-5-backport-a-fix-to-another-branch">34. Practical Scenario 5: Backport a Fix to Another Branch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-useful-safety-principle">35. A Useful Safety Principle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-1">Question 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-2">Question 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#question-3">Question 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-comparison-table">36. Quick Comparison Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#restore"><code class="docutils literal notranslate"><span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amend"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cherry-pick"><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-reference-commands">37. Quick Reference Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-keep-changes-staged">Undo last local commit, keep changes staged</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-keep-changes-unstaged">Undo last local commit, keep changes unstaged</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#undo-last-local-commit-and-discard-changes">Undo last local commit and discard changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#safely-undo-a-shared-commit">Safely undo a shared commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#discard-local-changes-in-one-file">Discard local changes in one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unstage-one-file">Unstage one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-latest-commit">Fix the latest commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-one-commit-to-another-branch">Move one commit to another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">38. Final Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9"><code class="docutils literal notranslate"><span class="pre">reset</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">revert</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">restore</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12"><code class="docutils literal notranslate"><span class="pre">amend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13"><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-practice-exercises">39. Suggested Practice Exercises</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github-notes">GitHub Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forking-a-repository">Forking a Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-git-locally-vs-github">Using Git Locally vs GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-command">Pull Command</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-supplement-finding-the-right-commit-and-debugging-regressions">Git Supplement: Finding the Right Commit and Debugging Regressions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-the-commit-number-commit-hash">1. How to Get the Commit Number (Commit Hash)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-way-to-list-commits">Fast Way to List Commits</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#which-log-view-should-you-use">2. Which Log View Should You Use?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-history">Basic history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#short-history">Short history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-branch-history">Visual branch history</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#you-do-not-always-need-the-full-commit-hash">3. You Do Not Always Need the Full Commit Hash</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-relative-references">Common Relative References</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-code-worked-before-but-is-broken-now">4. When Code Worked Before but Is Broken Now</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-manual-checking">A. Manual checking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-git-bisect-recommended">B. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> (recommended)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step">5. <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> Step by Step</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect">6. Real Example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger">7. If You Already Have Automated Tests, Bisect Becomes Much Stronger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8. How This Connects to Reset, Revert, Restore, Amend, and Cherry-Pick</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects">9. Practical Workflow You Can Follow in Real Projects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary">10. Quick Command Summary</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">11. Final Takeaway</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-workflow-connect-a-local-folder-to-a-github-repository">Git Workflow: Connect a Local Folder to a GitHub Repository</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#goal">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-local-folder">Step 1: Create a Local Folder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-initialize-git">Step 2: Initialize Git</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-files">Step 3: Add Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-stage-files">Step 4: Stage Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-commit">Step 5: Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-connect-to-github">Step 6: Connect to GitHub</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-check-the-remote">Step 7: Check the Remote</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-push">Step 8: Push</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#git-archaeology-example">Git Archaeology Example</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Goal</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-a-working-branch-from-networkx-2-6-3">Step 1: Create a Working Branch from <code class="docutils literal notranslate"><span class="pre">networkx-2.6.3</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-search-for-the-text-in-the-repository">Step 2: Search for the Text in the Repository</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-annotate-the-file">Step 3: Annotate the File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-search-inside-the-annotate-output">Step 4: Search Inside the Annotate Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-inspect-the-relevant-commit">Step 5: Inspect the Relevant Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-create-a-branch-from-that-historical-commit">Step 6: Create a Branch from That Historical Commit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-example-demonstrates">What This Example Demonstrates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-summary">Command Summary</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

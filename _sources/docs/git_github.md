@@ -6,7 +6,7 @@ This chapter introduces Git and GitHub, two powerful tools that allow developers
 
 ## Table of Contents
 - [What is Git?](#git)
-- [GitHub](#github)
+- [What is GitHub](#github)
 
 ---
 
@@ -2255,20 +2255,9 @@ For most collaborative work, feature branches and PRs are still safer.
 
 :::
 
-# Professional Guide to Reset, Revert, Restore, Amend, and Cherry-Pick
+## Correction using  `Git reset`, `revert`, `restore`, `amend`, and `cherry-pick`
 
-This section is on five highly practical Git topics:
-
--   **reset**
--   **revert**
--   **restore**
--   **amend**
--   **cherry-pick**
-
-These commands are essential once a learner understands commits,
-branches, merges, rebases, and Pull Requests.
-
-They help answer real-world questions such as:
+This section help to answer real-world questions such as:
 
 -   How do I undo something safely?
 -   How do I fix the last commit?
@@ -2276,21 +2265,16 @@ They help answer real-world questions such as:
 -   How do I move one specific commit to another branch?
 -   When should I rewrite history, and when should I preserve it?
 
-------------------------------------------------------------------------
-
-## Learning Goals {#learning-goals}
-
 By the end of this section, you should be able to:
 
 -   explain the difference between **reset** and **revert**
 -   understand the purpose of **restore**
 -   amend the most recent commit safely
 -   move a specific commit with **cherry-pick**
--   choose the correct tool depending on whether history should be
-    rewritten or preserved
+-   choose the correct tool depending on whether history should be rewritten or preserved
 -   avoid common mistakes when undoing or reusing work
 
-## 1. Why These Commands Matter {#1-why-these-commands-matter}
+**Why These Commands Matter** 
 
 In real Git usage, people often need to correct mistakes.
 
@@ -2303,17 +2287,10 @@ Examples:
 -   you want to bring one bug fix from one branch into another
 -   you want to discard local edits and go back to the committed state
 
-These are not rare situations. They are part of normal Git work.
+These are not rare situations. They are part of normal Git work. That is why `reset`, `revert`, `restore`, `amend`, and `cherry-pick` are
+core professional tools. A useful mental model is this:
 
-That is why `reset`, `revert`, `restore`, `amend`, and `cherry-pick` are
-core professional tools.
-
-## 2. A High-Level Map {#2-a-high-level-map}
-
-A useful mental model is this:
-
--   **reset** → move branch pointers and optionally unstage or discard
-    changes
+-   **reset** → move branch pointers and optionally unstage or discard changes
 -   **revert** → create a new commit that undoes an earlier commit
 -   **restore** → restore file contents or unstage changes
 -   **amend** → modify the most recent commit
