@@ -25,7 +25,7 @@ In this section we learn about  **history and snapshots**, then later commands s
 Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:
 
-##  Configure Git with `git config`
+##  Configure Git; `git config`
 
 Git uses configuration settings such as your name, email, editor, pager behavior, and aliases. The following commands uses to setup the configuration.
 
@@ -155,7 +155,7 @@ This keeps the benefits of a pager while making it less intrusive.
 
 :::
 
-## Initialize a Repository
+## Initialize a Repository; `git init`
 
 To turn a folder into a Git repository, go to the folder path and type
 the following command in the terminal:
@@ -177,7 +177,7 @@ The above command:
 This is cleaner than using `git init` first and renaming the branch later.
 
 
-## Stage and Commit Changes 
+## Stage and Commit Changes; `git add`, `git commit` 
 
 A common Git workflow looks like this:
 
@@ -315,7 +315,7 @@ git diff --name-only
 ```
 :::
 
-## Branching, `git branch` and `git switch`
+## Branching; `git branch` and `git switch`
 
 **Why Branches Matter**
 A branch gives you a separate line of development. Instead of putting every change directly onto `main`, you can isolate work.
@@ -632,6 +632,7 @@ You do **not** copy or upload the private key to GitHub.
 
 
 **How GitHub Verifies That You Have the Correct Private Key**
+
 A common question is:
 
 - If GitHub only has my public key, how does it know I have the right private key?
@@ -646,12 +647,13 @@ The answer is cryptographic authentication.
 4.  GitHub checks the signature using the **public key**
 5.  If the signature is valid, authentication succeeds
 
+:::{warning}
 **Key point**
 
 The **private key never leaves your computer**.
 You do not paste it anywhere.
 Only the cryptographic proof is sent.
-
+:::
 
 **Add the Public Key to GitHub** 
 
@@ -696,6 +698,7 @@ This means:
 
 **Common SSH Test Errors**
 
+---
 - **First-time host verification**
 
 You may see:
@@ -712,6 +715,9 @@ yes
 
 This stores GitHub\'s host fingerprint on your machine.
 
+---
+
+---
 - **Permission denied**
 
 You may see:
@@ -727,6 +733,10 @@ This usually means one of the following:
 -   the key was not loaded by the SSH agent
 -   the file path is wrong
 
+---
+
+
+---
 
 - **Check Whether Your SSH Key Exists**
 
@@ -742,6 +752,11 @@ You should usually see files like:
 id_ed25519
 id_ed25519.pub
 ```
+
+---
+
+
+---
 - **Check Whether the Key Is Loaded**
 
 To list keys currently loaded in the SSH agent:
@@ -755,7 +770,9 @@ If your key is not loaded, add it:
 ``` bash
 ssh-add ~/.ssh/id_ed25519
 ```
+---
 
+---
 - **Do You Need to Run `ssh -T git@github.com` Every Time?**
 
 No.
@@ -907,8 +924,56 @@ ls ~/.ssh
 ssh-add -l
 ssh-add ~/.ssh/id_ed25519
 ```
-
 ::: 
+
+## Git Clone
+
+If you have a remote repository on GitHub and want to create a copy of it on your local machine, this process is called **cloning*.
+
+Cloning downloads the entire repository, including its history, branches, and files, to your local environment. It also automatically connects your local repository to the remote repository.
+
+The basic command to clone a repository is:
+```bash
+git clone git@github.com:OWNER/PROJECT.git
+
+```
+**After Cloning**
+
+Once you clone a repository, Git automatically sets up a connection to the remote repository. You can verify this using:
+
+```bash
+git remote -v
+```
+
+**What Does `origin` Mean?**
+
+After cloning, Git assigns a default name to the remote repository:
+```
+origin
+```
+
+- `origin` is simply a **conventional name** for the remote repository
+- It refers to the source you cloned from
+- You can rename it, but most developers keep it as `origin`
+
+:::{note}
+**Common Commands**
+
+- **Push (send changes to GitHub)**
+
+```bash
+git push origin main
+```
+
+Sends your local commits to the main branch on the remote repository
+- **Pull (get updates from GitHub)**
+
+```bash
+git pull
+```
+
+Fetches and merges changes from the remote repository into your local branch Key Concepts
+
 
 ## Git Forks and Pull Requests
 

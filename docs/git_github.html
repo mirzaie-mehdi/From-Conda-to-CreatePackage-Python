@@ -425,46 +425,18 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-git-config">Configure Git; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository-git-init">Initialize a Repository; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes-git-add-git-commit">Stage and Commit Changes; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-git-branch-and-git-switch">Branching, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-git-branch-and-git-switch">Branching; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-git-to-github">Connect Git to GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork-1-what-is-a-fork">1. What Is a Fork? {#1-what-is-a-fork}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork">2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone-3-fork-vs-clone">3. Fork vs Clone {#3-fork-vs-clone}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 </ul>
 </li>
 </ul>
@@ -507,8 +479,8 @@ the main files of project.</p></li>
 <p>In this section we learn about  <strong>history and snapshots</strong>, then later commands such as <code class="docutils literal notranslate"><span class="pre">log</span></code>, <code class="docutils literal notranslate"><span class="pre">branch</span></code>, <code class="docutils literal notranslate"><span class="pre">merge</span></code>, <code class="docutils literal notranslate"><span class="pre">rebase</span></code>, and <code class="docutils literal notranslate"><span class="pre">revert</span></code>.These are fundamental commands in daily usage of git.
 Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:</p>
-<section id="configure-git-with-git-config">
-<h2>Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-with-git-config" title="Permalink to this heading">#</a></h2>
+<section id="configure-git-git-config">
+<h2>Configure Git; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code><a class="headerlink" href="#configure-git-git-config" title="Permalink to this heading">#</a></h2>
 <p>Git uses configuration settings such as your name, email, editor, pager behavior, and aliases. The following commands uses to setup the configuration.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -623,8 +595,8 @@ git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"
 <p>This keeps the benefits of a pager while making it less intrusive.</p>
 </div>
 </section>
-<section id="initialize-a-repository">
-<h2>Initialize a Repository<a class="headerlink" href="#initialize-a-repository" title="Permalink to this heading">#</a></h2>
+<section id="initialize-a-repository-git-init">
+<h2>Initialize a Repository; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code><a class="headerlink" href="#initialize-a-repository-git-init" title="Permalink to this heading">#</a></h2>
 <p>To turn a folder into a Git repository, go to the folder path and type
 the following command in the terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>init
@@ -641,8 +613,8 @@ the following command in the terminal:</p>
 </ol>
 <p>This is cleaner than using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code> first and renaming the branch later.</p>
 </section>
-<section id="stage-and-commit-changes">
-<h2>Stage and Commit Changes<a class="headerlink" href="#stage-and-commit-changes" title="Permalink to this heading">#</a></h2>
+<section id="stage-and-commit-changes-git-add-git-commit">
+<h2>Stage and Commit Changes; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code><a class="headerlink" href="#stage-and-commit-changes-git-add-git-commit" title="Permalink to this heading">#</a></h2>
 <p>A common Git workflow looks like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
 git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;your message&quot;</span>
@@ -759,7 +731,7 @@ git<span class="w"> </span>diff<span class="w"> </span>--cached
 </div>
 </section>
 <section id="branching-git-branch-and-git-switch">
-<h2>Branching, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code><a class="headerlink" href="#branching-git-branch-and-git-switch" title="Permalink to this heading">#</a></h2>
+<h2>Branching; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code><a class="headerlink" href="#branching-git-branch-and-git-switch" title="Permalink to this heading">#</a></h2>
 <p><strong>Why Branches Matter</strong>
 A branch gives you a separate line of development. Instead of putting every change directly onto <code class="docutils literal notranslate"><span class="pre">main</span></code>, you can isolate work.</p>
 <ul class="simple">
@@ -1019,8 +991,8 @@ computer using the following commands:</p>
 <li><p>allows GitHub to recognize your computer</p></li>
 </ul>
 <p>You do <strong>not</strong> copy or upload the private key to GitHub.</p>
-<p><strong>How GitHub Verifies That You Have the Correct Private Key</strong>
-A common question is:</p>
+<p><strong>How GitHub Verifies That You Have the Correct Private Key</strong></p>
+<p>A common question is:</p>
 <ul class="simple">
 <li><p>If GitHub only has my public key, how does it know I have the right private key?</p></li>
 </ul>
@@ -1033,10 +1005,13 @@ A common question is:</p>
 <li><p>GitHub checks the signature using the <strong>public key</strong></p></li>
 <li><p>If the signature is valid, authentication succeeds</p></li>
 </ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
 <p><strong>Key point</strong></p>
 <p>The <strong>private key never leaves your computer</strong>.
 You do not paste it anywhere.
 Only the cryptographic proof is sent.</p>
+</div>
 <p><strong>Add the Public Key to GitHub</strong></p>
 <p>To display your public key so you can copy it:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
@@ -1067,6 +1042,7 @@ Only the cryptographic proof is sent.</p>
 </ul>
 <hr class="docutils" />
 <p><strong>Common SSH Test Errors</strong></p>
+<hr class="docutils" />
 <ul class="simple">
 <li><p><strong>First-time host verification</strong></p></li>
 </ul>
@@ -1079,6 +1055,8 @@ Only the cryptographic proof is sent.</p>
 </pre></div>
 </div>
 <p>This stores GitHub’s host fingerprint on your machine.</p>
+<hr class="docutils" />
+<hr class="docutils" />
 <ul class="simple">
 <li><p><strong>Permission denied</strong></p></li>
 </ul>
@@ -1092,6 +1070,10 @@ Only the cryptographic proof is sent.</p>
 <li><p>the wrong key is being used</p></li>
 <li><p>the key was not loaded by the SSH agent</p></li>
 <li><p>the file path is wrong</p></li>
+</ul>
+<hr class="docutils" />
+<hr class="docutils" />
+<ul class="simple">
 <li><p><strong>Check Whether Your SSH Key Exists</strong></p></li>
 </ul>
 <p>To see files in your SSH directory:</p>
@@ -1103,6 +1085,8 @@ Only the cryptographic proof is sent.</p>
 id_ed25519.pub
 </pre></div>
 </div>
+<hr class="docutils" />
+<hr class="docutils" />
 <ul class="simple">
 <li><p><strong>Check Whether the Key Is Loaded</strong></p></li>
 </ul>
@@ -1114,6 +1098,8 @@ id_ed25519.pub
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </pre></div>
 </div>
+<hr class="docutils" />
+<hr class="docutils" />
 <ul class="simple">
 <li><p><strong>Do You Need to Run <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-T</span> <span class="pre">git&#64;github.com</span></code> Every Time?</strong></p></li>
 </ul>
@@ -1234,17 +1220,54 @@ ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </div>
 </div>
 </section>
-<section id="git-forks-and-pull-requests">
-<h2>Git Forks and Pull Requests<a class="headerlink" href="#git-forks-and-pull-requests" title="Permalink to this heading">#</a></h2>
+<section id="git-clone">
+<h2>Git Clone<a class="headerlink" href="#git-clone" title="Permalink to this heading">#</a></h2>
+<p>If you have a remote repository on GitHub and want to create a copy of it on your local machine, this process is called *<em>cloning</em>.</p>
+<p>Cloning downloads the entire repository, including its history, branches, and files, to your local environment. It also automatically connects your local repository to the remote repository.</p>
+<p>The basic command to clone a repository is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:OWNER/PROJECT.git
+</pre></div>
+</div>
+<p><strong>After Cloning</strong></p>
+<p>Once you clone a repository, Git automatically sets up a connection to the remote repository. You can verify this using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p><strong>What Does <code class="docutils literal notranslate"><span class="pre">origin</span></code> Mean?</strong></p>
+<p>After cloning, Git assigns a default name to the remote repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">origin</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> is simply a <strong>conventional name</strong> for the remote repository</p></li>
+<li><p>It refers to the source you cloned from</p></li>
+<li><p>You can rename it, but most developers keep it as <code class="docutils literal notranslate"><span class="pre">origin</span></code></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Common Commands</strong></p>
+<ul class="simple">
+<li><p><strong>Push (send changes to GitHub)</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<p>Sends your local commits to the main branch on the remote repository</p>
+<ul class="simple">
+<li><p><strong>Pull (get updates from GitHub)</strong></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>pull
+</pre></div>
+</div>
+<p>Fetches and merges changes from the remote repository into your local branch Key Concepts</p>
+<p class="rubric">Git Forks and Pull Requests</p>
 <p>This section is about <strong>Forks</strong>, <strong>Branches</strong>, and <strong>Pull Requests
 (PRs)</strong> in Git and GitHub.</p>
 <p>It is designed for learners who already know the basics of Git and now
 want to understand the standard contribution workflow used in
 open-source and collaborative development.</p>
-</section>
 <hr class="docutils" />
-<section id="learning-goals">
-<h2>Learning Goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h2>
+<p class="rubric">Learning Goals</p>
 <p>By the end of this section, you should be able to:</p>
 <ul class="simple">
 <li><p>explain what a <strong>fork</strong> is</p></li>
@@ -1257,14 +1280,11 @@ open-source and collaborative development.</p>
 <li><p>keep your fork synchronized with the original repository</p></li>
 <li><p>understand what makes someone a <strong>contributor</strong></p></li>
 </ul>
-</section>
-<section id="what-is-a-fork-1-what-is-a-fork">
-<h2>1. What Is a Fork? {#1-what-is-a-fork}<a class="headerlink" href="#what-is-a-fork-1-what-is-a-fork" title="Permalink to this heading">#</a></h2>
+<p class="rubric">1. What Is a Fork? {#1-what-is-a-fork}</p>
 <p>A <strong>fork</strong> is a copy of a GitHub repository that is created under <strong>your
 own GitHub account</strong>. This is different from a local copy on your
 computer. A fork lives on <strong>GitHub</strong>, not just on your machine.</p>
-<section id="mental-model">
-<h3>Mental Model<a class="headerlink" href="#mental-model" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Mental Model</p>
 <p>Suppose there is an original repository:</p>
 <ul class="simple">
 <li><p>original repository: <code class="docutils literal notranslate"><span class="pre">github.com/original-owner/project</span></code></p></li>
@@ -1283,14 +1303,10 @@ computer. A fork lives on <strong>GitHub</strong>, not just on your machine.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> = the original repository</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> = your fork on GitHub</p></li>
 </ul>
-</section>
-</section>
-<section id="when-do-we-use-a-fork-2-when-do-we-use-a-fork">
-<h2>2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}<a class="headerlink" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork" title="Permalink to this heading">#</a></h2>
+<p class="rubric">2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}</p>
 <p>Forks are commonly used when you <strong>do not have direct write access</strong> to
 the original repository.</p>
-<section id="typical-cases">
-<h3>Typical Cases<a class="headerlink" href="#typical-cases" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Typical Cases</p>
 <ol class="arabic simple">
 <li><p><strong>Open-source contribution</strong><br />
 You want to improve a public project, but you are not part of the
@@ -1304,9 +1320,7 @@ changes.</p></li>
 <li><p><strong>External collaboration</strong><br />
 You are contributing from outside the main organization or team.</p></li>
 </ol>
-</section>
-<section id="when-a-fork-is-usually-not-needed">
-<h3>When a Fork Is Usually Not Needed<a class="headerlink" href="#when-a-fork-is-usually-not-needed" title="Permalink to this heading">#</a></h3>
+<p class="rubric">When a Fork Is Usually Not Needed</p>
 <p>If you are already a member of the project team and have write access,
 the team may prefer this workflow instead:</p>
 <ul class="simple">
@@ -1316,32 +1330,21 @@ the team may prefer this workflow instead:</p>
 <li><p>open a Pull Request from that branch</p></li>
 </ul>
 <p>In that case, no fork is necessary.</p>
-</section>
-</section>
-<section id="fork-vs-clone-3-fork-vs-clone">
-<h2>3. Fork vs Clone {#3-fork-vs-clone}<a class="headerlink" href="#fork-vs-clone-3-fork-vs-clone" title="Permalink to this heading">#</a></h2>
+<p class="rubric">3. Fork vs Clone {#3-fork-vs-clone}</p>
 <p>These two concepts are related, but they are not the same.</p>
-<section id="fork">
-<h3>Fork<a class="headerlink" href="#fork" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Fork</p>
 <p>A <strong>fork</strong> creates a copy of a repository on <strong>GitHub</strong> under your
 account.</p>
-</section>
-<section id="clone">
-<h3>Clone<a class="headerlink" href="#clone" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Clone</p>
 <p>A <strong>clone</strong> creates a copy of a repository on <strong>your local computer</strong>.</p>
-</section>
-<section id="standard-order">
-<h3>Standard Order<a class="headerlink" href="#standard-order" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Standard Order</p>
 <p>In a fork-based contribution workflow, the normal order is:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork on GitHub → Clone to your computer
 </pre></div>
 </div>
 <p>So first you create the fork online, and then you clone <strong>your fork</strong>
 locally.</p>
-</section>
-</section>
-<section id="do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">
-<h2>4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}<a class="headerlink" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking" title="Permalink to this heading">#</a></h2>
+<p class="rubric">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</p>
 <p>Yes. In normal GitHub usage, a fork preserves the repository history.</p>
 <p>That means your fork contains:</p>
 <ul class="simple">
@@ -1353,9 +1356,7 @@ locally.</p>
 <p>So conceptually, you inherit the project history.</p>
 <p>However, <strong>having the history does not automatically make you a
 contributor</strong> to the original project.</p>
-</section>
-<section id="are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">
-<h2>5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}<a class="headerlink" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked" title="Permalink to this heading">#</a></h2>
+<p class="rubric">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</p>
 <p>No.</p>
 <p>Forking a repository means:</p>
 <ul class="simple">
@@ -1365,8 +1366,7 @@ contributor</strong> to the original project.</p>
 </ul>
 <p>But it does <strong>not</strong> mean that you are already a contributor to the
 original repository.</p>
-<section id="when-are-you-usually-considered-a-contributor">
-<h3>When Are You Usually Considered a Contributor?<a class="headerlink" href="#when-are-you-usually-considered-a-contributor" title="Permalink to this heading">#</a></h3>
+<p class="rubric">When Are You Usually Considered a Contributor?</p>
 <p>In practice, you become a contributor when your changes are accepted
 into the original project, usually by:</p>
 <ul class="simple">
@@ -1380,18 +1380,13 @@ into the original project, usually by:</p>
 yet a contributor to the original project until your contribution is
 accepted there.</p>
 </div></blockquote>
-</section>
-</section>
-<section id="the-full-fork-workflow-6-the-full-fork-workflow">
-<h2>6. The Full Fork Workflow {#6-the-full-fork-workflow}<a class="headerlink" href="#the-full-fork-workflow-6-the-full-fork-workflow" title="Permalink to this heading">#</a></h2>
+<p class="rubric">6. The Full Fork Workflow {#6-the-full-fork-workflow}</p>
 <p>Here is the standard end-to-end workflow:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
 </pre></div>
 </div>
 <p>We will now go through each part carefully.</p>
-</section>
-<section id="step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">
-<h2>7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}<a class="headerlink" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github" title="Permalink to this heading">#</a></h2>
+<p class="rubric">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</p>
 <p>On GitHub:</p>
 <ol class="arabic simple">
 <li><p>open the original repository</p></li>
@@ -1404,18 +1399,14 @@ accepted there.</p>
 <li><p>fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
 </ul>
 <p>At this point, you have your own GitHub-hosted copy of the project.</p>
-</section>
-<section id="step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">
-<h2>8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}<a class="headerlink" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally" title="Permalink to this heading">#</a></h2>
+<p class="rubric">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</p>
 <p>After forking, clone <strong>your fork</strong>, not the upstream repository.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/PROJECT.git
 <span class="nb">cd</span><span class="w"> </span>PROJECT
 </pre></div>
 </div>
 <p>Now your local repository is connected to your fork as <code class="docutils literal notranslate"><span class="pre">origin</span></code>.</p>
-</section>
-<section id="step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">
-<h2>9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}<a class="headerlink" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream" title="Permalink to this heading">#</a></h2>
+<p class="rubric">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</p>
 <p>This is a very important step.</p>
 <p>You usually want two remotes:</p>
 <ul class="simple">
@@ -1435,8 +1426,7 @@ accepted there.</p>
 upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 </pre></div>
 </div>
-<section id="why-is-upstream-important">
-<h3>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?<a class="headerlink" href="#why-is-upstream-important" title="Permalink to this heading">#</a></h3>
+<p class="rubric">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</p>
 <p>Because the original project keeps moving forward.</p>
 <p>If you only work with your fork and never sync from upstream:</p>
 <ul class="simple">
@@ -1444,9 +1434,8 @@ upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
 <li><p>your branch may drift away from the current project state</p></li>
 <li><p>your Pull Request may become harder to review or merge</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#eff35328-b6cc-4237-9417-60cb46baeb8b .cell .code}
-``` python
+</div>
+<div class="highlight-{#eff35328-b6cc-4237-9417-60cb46baeb8b notranslate"><div class="highlight"><pre><span></span>``` python
 git clone git@github.com:YOUR_USERNAME/PROJECT.git
 cd PROJECT
 
@@ -5463,7 +5452,6 @@ git branch past-code 90544b4fa
 </div>
 </section>
 </section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -5534,46 +5522,18 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-git">What is Git?</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-with-git-config">Configure Git with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository">Initialize a Repository</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes">Stage and Commit Changes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-git-git-config">Configure Git; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-a-repository-git-init">Initialize a Repository; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">init</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stage-and-commit-changes-git-add-git-commit">Stage and Commit Changes; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#view-commit-history-with-git-log">View Commit History with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compare-changes-with-git-diff">Compare Changes with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">diff</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-git-branch-and-git-switch">Branching, <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-git-branch-and-git-switch">Branching; <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-git-to-github">Connect Git to GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork-1-what-is-a-fork">1. What Is a Fork? {#1-what-is-a-fork}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork">2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone-3-fork-vs-clone">3. Fork vs Clone {#3-fork-vs-clone}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-clone">Git Clone</a></li>
 </ul>
 </li>
 </ul>
