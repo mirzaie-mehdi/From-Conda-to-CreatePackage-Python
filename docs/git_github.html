@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/git_github';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Git and GitHub" href="github.html" />
+    <link rel="next" title="Class and Objects" href="class.html" />
     <link rel="prev" title="SSH Basics" href="SSH.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -172,25 +172,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
 <li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Git and GitHub</a></li>
-
-
-<li class="toctree-l1"><a class="reference internal" href="github.html">Git and GitHub</a></li>
-
-
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="github2.html">Git and GitHub: A Structured Learning Notebook</a></li>
-
-
-
-
-
-
 
 
 <li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
@@ -455,33 +436,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step-5-git-bisect-step-by-step">5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect-6-real-example-of-git-bisect">6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary-10-quick-command-summary">10) Quick command summary {#10-quick-command-summary}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway-11-final-takeaway">11) Final takeaway {#11-final-takeaway}</a></li>
 </ul>
 </li>
 </ul>
@@ -2702,7 +2656,7 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>--continue
 <section id="practical-scenarios">
 <h3>Practical Scenarios<a class="headerlink" href="#practical-scenarios" title="Permalink to this heading">#</a></h3>
 <ol class="arabic simple">
-<li><p>**<strong>Undo the Last Local Commit, Keep the Changes</strong></p></li>
+<li><p><strong>Undo the Last Local Commit, Keep the Changes</strong></p></li>
 </ol>
 <p>You committed too early, but want to keep working. A good option is:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>HEAD~1
@@ -2779,34 +2733,30 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>abc1234
 <li><p>one commit that is definitely <strong>good</strong></p></li>
 <li><p>one commit that is definitely <strong>bad</strong></p></li>
 </ul>
-<p>Git then performs a binary search through history to find the first bad
-commit much faster.</p>
-</section>
-</section>
-<section id="git-bisect-step-by-step-5-git-bisect-step-by-step">
-<h2>5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}<a class="headerlink" href="#git-bisect-step-by-step-5-git-bisect-step-by-step" title="Permalink to this heading">#</a></h2>
-<section id="step-1-start-bisect">
-<h3>Step 1: Start bisect<a class="headerlink" href="#step-1-start-bisect" title="Permalink to this heading">#</a></h3>
+<p>Git then performs a binary search through history to find the first bad commit much faster.</p>
+<ul class="simple">
+<li><p><strong>Step 1: Start bisect</strong></p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
 </pre></div>
 </div>
-</section>
-<section id="step-2-mark-the-current-state-as-bad">
-<h3>Step 2: Mark the current state as bad<a class="headerlink" href="#step-2-mark-the-current-state-as-bad" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Step 2: Mark the current state as bad</strong></p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>bad
 </pre></div>
 </div>
 <p>This usually means: “the version I am on right now is broken.”</p>
-</section>
-<section id="step-3-mark-an-older-known-good-commit">
-<h3>Step 3: Mark an older known-good commit<a class="headerlink" href="#step-3-mark-an-older-known-good-commit" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Step 3: Mark an older known-good commit</strong></p></li>
+</ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
 </pre></div>
 </div>
 <p>Now Git chooses a commit in the middle.</p>
-</section>
-<section id="step-4-test-that-commit">
-<h3>Step 4: Test that commit<a class="headerlink" href="#step-4-test-that-commit" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Step 4: Test that commit</strong></p></li>
+</ul>
 <p>Run your program or your tests.</p>
 <ul>
 <li><p>If it works:</p>
@@ -2824,10 +2774,8 @@ commit much faster.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;commit-id&gt; is the first bad commit
 </pre></div>
 </div>
-</section>
-</section>
-<section id="real-example-of-git-bisect-6-real-example-of-git-bisect">
-<h2>6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}<a class="headerlink" href="#real-example-of-git-bisect-6-real-example-of-git-bisect" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<p><strong>Schematic example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></strong></p>
 <p>Suppose your history is:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>A - B - C - D - E - F
 </pre></div>
@@ -2848,13 +2796,10 @@ git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </
 <li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is good, then the bug must be in <code class="docutils literal notranslate"><span class="pre">E</span></code> or <code class="docutils literal notranslate"><span class="pre">F</span></code></p></li>
 <li><p>If <code class="docutils literal notranslate"><span class="pre">D</span></code> is bad, then the bug must be in <code class="docutils literal notranslate"><span class="pre">C</span></code> or <code class="docutils literal notranslate"><span class="pre">D</span></code></p></li>
 </ul>
-<p>So instead of checking every commit one by one, Git cuts the search
-space in half each time.</p>
-</section>
-<section id="if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">
-<h2>7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}<a class="headerlink" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger" title="Permalink to this heading">#</a></h2>
-<p>If your project has a command that returns success/failure, Git can
-automate the search.</p>
+<p>So instead of checking every commit one by one, Git cuts the search space in half each time.</p>
+<hr class="docutils" />
+<p><strong>If you already have automated tests, bisect becomes much stronger</strong></p>
+<p>If your project has a command that returns success/failure, Git can automate the search.</p>
 <p>Examples:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
 git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>npm<span class="w"> </span><span class="nb">test</span>
@@ -2867,329 +2812,48 @@ git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </s
 <li><p>test fails → Git treats commit as bad</p></li>
 </ul>
 <p>This is one of the best tools for tracking down regressions.</p>
-</section>
-<section id="how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">
-<h2>8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}<a class="headerlink" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick" title="Permalink to this heading">#</a></h2>
+<hr class="docutils" />
+<p><strong>How this connects to reset, revert, restore, amend, and cherry-pick</strong></p>
 <p>After you find the problematic commit, you can decide what to do:</p>
-<section id="if-the-bad-commit-was-already-shared">
-<h3>If the bad commit was already shared<a class="headerlink" href="#if-the-bad-commit-was-already-shared" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If the bad commit was already shared</p></li>
+</ul>
 <p>Use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>revert<span class="w"> </span>&lt;bad-commit&gt;
 </pre></div>
 </div>
-</section>
-<section id="if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">
-<h3>If the bad commit is only local and you want to rewrite history<a class="headerlink" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If the bad commit is only local and you want to rewrite history</p></li>
+</ul>
 <p>Use one of:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>reset<span class="w"> </span>--soft<span class="w"> </span>&lt;target&gt;
 git<span class="w"> </span>reset<span class="w"> </span>--mixed<span class="w"> </span>&lt;target&gt;
 git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span>&lt;target&gt;
 </pre></div>
 </div>
-</section>
-<section id="if-the-problem-is-just-one-file">
-<h3>If the problem is just one file<a class="headerlink" href="#if-the-problem-is-just-one-file" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If the problem is just one file</p></li>
+</ul>
 <p>Use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>restore<span class="w"> </span>path/to/file
 </pre></div>
 </div>
-</section>
-<section id="if-the-issue-is-only-in-the-latest-commit-message-or-contents">
-<h3>If the issue is only in the latest commit message or contents<a class="headerlink" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If the issue is only in the latest commit message or contents</p></li>
+</ul>
 <p>Use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>commit<span class="w"> </span>--amend
 </pre></div>
 </div>
-</section>
-<section id="if-you-want-to-bring-a-good-fix-from-another-branch">
-<h3>If you want to bring a good fix from another branch<a class="headerlink" href="#if-you-want-to-bring-a-good-fix-from-another-branch" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If you want to bring a good fix from another branch</p></li>
+</ul>
 <p>Use:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;good-commit&gt;
 </pre></div>
 </div>
-<p>So the missing skill is often not the command itself, but <strong>finding the
-correct commit first</strong>.</p>
+<p>So the missing skill is often not the command itself, but <strong>finding the correct commit first</strong>.</p>
 </section>
-</section>
-<section id="practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">
-<h2>9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}<a class="headerlink" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects" title="Permalink to this heading">#</a></h2>
-<p>When you suspect a regression:</p>
-<ol class="arabic">
-<li><p>Inspect history</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
-</pre></div>
-</div>
-</li>
-<li><p>Identify:</p>
-<ul class="simple">
-<li><p>one known good commit</p></li>
-<li><p>one known bad commit</p></li>
-</ul>
-</li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
-git<span class="w"> </span>bisect<span class="w"> </span>bad
-git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;known-good-commit&gt;
-</pre></div>
-</div>
-</li>
-<li><p>Test each checked-out revision</p></li>
-<li><p>Finish with:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>reset
-</pre></div>
-</div>
-</li>
-<li><p>Then choose the appropriate fix:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">revert</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">restore</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">amend</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code></p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="quick-command-summary-10-quick-command-summary">
-<h2>10) Quick command summary {#10-quick-command-summary}<a class="headerlink" href="#quick-command-summary-10-quick-command-summary" title="Permalink to this heading">#</a></h2>
-<section id="find-commit-ids">
-<h3>Find commit IDs<a class="headerlink" href="#find-commit-ids" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
-git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph<span class="w"> </span>--all
-</pre></div>
-</div>
-</section>
-<section id="refer-to-recent-commits">
-<h3>Refer to recent commits<a class="headerlink" href="#refer-to-recent-commits" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>HEAD
-HEAD~1
-HEAD~2
-HEAD~3
-</pre></div>
-</div>
-</section>
-<section id="move-to-a-specific-commit-temporarily">
-<h3>Move to a specific commit temporarily<a class="headerlink" href="#move-to-a-specific-commit-temporarily" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>&lt;commit-id&gt;
-</pre></div>
-</div>
-</section>
-<section id="find-the-first-bad-commit">
-<h3>Find the first bad commit<a class="headerlink" href="#find-the-first-bad-commit" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>start
-git<span class="w"> </span>bisect<span class="w"> </span>bad
-git<span class="w"> </span>bisect<span class="w"> </span>good<span class="w"> </span>&lt;commit-id&gt;
-git<span class="w"> </span>bisect<span class="w"> </span>good
-git<span class="w"> </span>bisect<span class="w"> </span>bad
-git<span class="w"> </span>bisect<span class="w"> </span>reset
-</pre></div>
-</div>
-</section>
-<section id="automated-bisect">
-<h3>Automated bisect<a class="headerlink" href="#automated-bisect" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>bisect<span class="w"> </span>run<span class="w"> </span>pytest
-</pre></div>
-</div>
-</section>
-</section>
-<section id="final-takeaway-11-final-takeaway">
-<h2>11) Final takeaway {#11-final-takeaway}<a class="headerlink" href="#final-takeaway-11-final-takeaway" title="Permalink to this heading">#</a></h2>
-<p>The linked section explains <strong>what</strong> <code class="docutils literal notranslate"><span class="pre">reset</span></code>, <code class="docutils literal notranslate"><span class="pre">revert</span></code>, <code class="docutils literal notranslate"><span class="pre">restore</span></code>,
-<code class="docutils literal notranslate"><span class="pre">amend</span></code>, and <code class="docutils literal notranslate"><span class="pre">cherry-pick</span></code> do.</p>
-<p>This supplement adds the missing practical layer we discussed:</p>
-<ul class="simple">
-<li><p>how to <strong>find the commit hash</strong></p></li>
-<li><p>how to <strong>target recent commits using <code class="docutils literal notranslate"><span class="pre">HEAD~n</span></code></strong></p></li>
-<li><p>how to <strong>detect where the code started breaking</strong></p></li>
-<li><p>how to <strong>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> to find the first bad commit efficiently</strong></p></li>
-</ul>
-<p>That combination is what makes these Git commands truly usable in real
-debugging work.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-::: {#cad3ed93-71d2-4327-82c5-ddbf5fc2d90b .cell .markdown}
-# 📓 Git Workflow: Connect Local Folder to GitHub Repository {#-git-workflow-connect-local-folder-to-github-repository}
-
-🧠 Goal We will:
-
-Create a repository on GitHub Create a local folder Initialize Git
-Connect to GitHub Push code
-
-## 💻 Step 1: Create Local Folder {#-step-1-create-local-folder}
-
-mkdir my-project cd my-project
-
-## ⚙️ Step 2: Initialize Git {#️-step-2-initialize-git}
-
-git init
-
-## 📄 Step 3: Add Files {#-step-3-add-files}
-
-touch README.md
-
-## ➕ Step 4: Stage Files {#-step-4-stage-files}
-
-git add .
-
-## 📝 Step 5: Commit {#-step-5-commit}
-
-git commit -m \&quot;Initial commit\&quot;
-
-## 🔗 Step 6: Connect to GitHub {#-step-6-connect-to-github}
-
-git remote add origin &lt;https://github.com/username/my-project.git&gt;
-
-## 🔍 Step 7: Check Remote {#-step-7-check-remote}
-
-git remote -v
-
-the result should be in the form of
-
-origin &lt;git@github.com&gt;:username/myproject.git (fetch) origin
-&lt;git@github.com&gt;:username/myproject.git (push)
-
-## 🚀 Step 8: Push {#-step-8-push}
-
-git branch -M main git push -u origin main
-</pre></div>
-</div>
-<div class="highlight-{#a1d52be5-ff85-4558-8fbc-a491bc214265 notranslate"><div class="highlight"><pre><span></span># Git Archaeology Example Notebook
-
-This notebook explains a practical **Git archaeology** workflow using
-the `networkx` repository.
-
-## Goal {#goal}
-
-We want to:
-
-1.  Switch to a specific historical release branch/context
-2.  Search for a specific text in the repository
-3.  Find the file and line where it appears
-4.  Identify the commit related to that line
-5.  Inspect the commit
-6.  Create a branch from that historical commit
-
-This is useful when you want to understand:
-
--   where a bug message came from
--   which commit introduced or changed something
--   how the code looked at that point in time
-
-## Step 1: Create a working branch from networkx-2.6.3 {#step-1-create-a-working-branch-from-networkx-263}
-
-We start by creating a new branch called exercise from networkx-2.6.3.
-
-This gives us a safe branch to work on without changing the original
-branch.
-
-git switch \--create exercise networkx-2.6.3
-
-## Step 2: Search for the text in the repository
-
-Now we search for the phrase:
-
-`Logic error in degree_correlation`
-
-This tells us **which file(s)** contain that text.
-
-git grep \&quot;Logic error in degree_correlation\&quot;
-
-git grep -n \&quot;Logic error in degree_correlation\&quot;
-
-## Step 4: Annotate the file
-
-After identifying the file, we run `git annotate` on it:
-
-`networkx/algorithms/threshold.py`
-
-This shows, line by line:
-
--   the commit hash
--   the author
--   the date
--   the content of the line
-
-This helps us discover **which commit last changed the line** containing
-the text.
-
-git annotate networkx/algorithms/threshold.py
-
-## Step 5: Search inside the annotate output
-
-Inside the `git annotate` viewer, search for the phrase:
-
-`Logic error`
-
-You typically type:
-
-``` text
-/Logic error
-```
-
-This is not a shell command. It is a search command used inside the
-pager (`less`) opened by Git.
-
-/Logic error
-
-## Step 6: Inspect the relevant commit
-
-From the annotation output, we find the commit hash:
-
-`90544b4fa`
-
-Now we inspect that commit with `git show`.
-
-This displays:
-
--   commit metadata
--   author and date
--   commit message
--   the diff (what changed)
-
-git show 90544b4fa
-
-## Step 7: Create a branch from that historical commit
-
-Now we create a new branch called `past-code` from commit `90544b4fa`.
-
-This lets us explore the code exactly as it existed at that point in
-history.
-
-git branch past-code 90544b4fa
-
-## What this example demonstrates
-
-This example solves the following investigation workflow:
-
--   Find a text in the repository
--   Locate the exact file and line
--   Identify the commit responsible for that line
--   Inspect the commit
--   Create a branch from that point in history
-
-In short:
-
-``` bash
-git grep -&gt; find the text
-git annotate -&gt; find the responsible commit
-git show -&gt; inspect the commit
-git branch -&gt; create a branch from that commit
-```
-
-This is a classic Git archaeology workflow.
-
-## Command Summary
-
-``` bash
-git switch --create exercise networkx-2.6.3
-git grep &quot;Logic error in degree_correlation&quot;
-git grep -n &quot;Logic error in degree_correlation&quot;
-git annotate networkx/algorithms/threshold.py
-/Logic error
-git show 90544b4fa
-git branch past-code 90544b4fa
-```
-</pre></div>
-</div>
 </section>
 </section>
 
@@ -3233,11 +2897,11 @@ git branch past-code 90544b4fa
       </div>
     </a>
     <a class="right-next"
-       href="github.html"
+       href="class.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Git and GitHub</p>
+        <p class="prev-next-title">Class and Objects</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -3292,33 +2956,6 @@ git branch past-code 90544b4fa
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect"><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bisect-step-by-step-5-git-bisect-step-by-step">5) <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> step by step {#5-git-bisect-step-by-step}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-start-bisect">Step 1: Start bisect</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-mark-the-current-state-as-bad">Step 2: Mark the current state as bad</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mark-an-older-known-good-commit">Step 3: Mark an older known-good commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-test-that-commit">Step 4: Test that commit</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-example-of-git-bisect-6-real-example-of-git-bisect">6) Real example of <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">bisect</span></code> {#6-real-example-of-git-bisect}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-already-have-automated-tests-bisect-becomes-much-stronger-7-if-you-already-have-automated-tests-bisect-becomes-much-stronger">7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-this-connects-to-reset-revert-restore-amend-and-cherry-pick-8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick">8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-was-already-shared">If the bad commit was already shared</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-bad-commit-is-only-local-and-you-want-to-rewrite-history">If the bad commit is only local and you want to rewrite history</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-problem-is-just-one-file">If the problem is just one file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-the-issue-is-only-in-the-latest-commit-message-or-contents">If the issue is only in the latest commit message or contents</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-want-to-bring-a-good-fix-from-another-branch">If you want to bring a good fix from another branch</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-workflow-you-can-follow-in-real-projects-9-practical-workflow-you-can-follow-in-real-projects">9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-command-summary-10-quick-command-summary">10) Quick command summary {#10-quick-command-summary}</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-commit-ids">Find commit IDs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refer-to-recent-commits">Refer to recent commits</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-to-a-specific-commit-temporarily">Move to a specific commit temporarily</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-the-first-bad-commit">Find the first bad commit</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-bisect">Automated bisect</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway-11-final-takeaway">11) Final takeaway {#11-final-takeaway}</a></li>
 </ul>
 </li>
 </ul>

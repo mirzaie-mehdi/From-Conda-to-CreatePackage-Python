@@ -2754,7 +2754,7 @@ This is one of the most common professional Git mistakes.
 
 ###  Practical Scenarios
 
-1.  ****Undo the Last Local Commit, Keep the Changes**
+1.  **Undo the Last Local Commit, Keep the Changes**
    
 You committed too early, but want to keep working. A good option is:
 
@@ -2920,8 +2920,9 @@ Git keeps narrowing the search until it prints something like:
 ``` text
 <commit-id> is the first bad commit
 ```
+---
 
-## 6) Real example of `git bisect` {#6-real-example-of-git-bisect}
+**Schematic example of `git bisect`**
 
 Suppose your history is:
 
@@ -2947,13 +2948,13 @@ Git may test `D` first.
 -   If `D` is good, then the bug must be in `E` or `F`
 -   If `D` is bad, then the bug must be in `C` or `D`
 
-So instead of checking every commit one by one, Git cuts the search
-space in half each time.
+So instead of checking every commit one by one, Git cuts the search space in half each time.
 
-## 7) If you already have automated tests, bisect becomes much stronger {#7-if-you-already-have-automated-tests-bisect-becomes-much-stronger}
+---
 
-If your project has a command that returns success/failure, Git can
-automate the search.
+**If you already have automated tests, bisect becomes much stronger** 
+
+If your project has a command that returns success/failure, Git can automate the search.
 
 Examples:
 
@@ -2970,11 +2971,13 @@ In this mode:
 
 This is one of the best tools for tracking down regressions.
 
-## 8) How this connects to reset, revert, restore, amend, and cherry-pick {#8-how-this-connects-to-reset-revert-restore-amend-and-cherry-pick}
+---
+
+**How this connects to reset, revert, restore, amend, and cherry-pick**
 
 After you find the problematic commit, you can decide what to do:
 
-### If the bad commit was already shared
+- If the bad commit was already shared
 
 Use:
 
@@ -2982,7 +2985,7 @@ Use:
 git revert <bad-commit>
 ```
 
-### If the bad commit is only local and you want to rewrite history
+- If the bad commit is only local and you want to rewrite history
 
 Use one of:
 
@@ -2992,7 +2995,7 @@ git reset --mixed <target>
 git reset --hard <target>
 ```
 
-### If the problem is just one file
+- If the problem is just one file
 
 Use:
 
@@ -3000,7 +3003,7 @@ Use:
 git restore path/to/file
 ```
 
-### If the issue is only in the latest commit message or contents
+- If the issue is only in the latest commit message or contents
 
 Use:
 
@@ -3008,7 +3011,7 @@ Use:
 git commit --amend
 ```
 
-### If you want to bring a good fix from another branch
+- If you want to bring a good fix from another branch
 
 Use:
 
@@ -3016,10 +3019,11 @@ Use:
 git cherry-pick <good-commit>
 ```
 
-So the missing skill is often not the command itself, but **finding the
-correct commit first**.
+So the missing skill is often not the command itself, but **finding the correct commit first**.
 
-## 9) Practical workflow you can follow in real projects {#9-practical-workflow-you-can-follow-in-real-projects}
+:::{summary}
+
+**Practical workflow you can follow in real projects**
 
 When you suspect a regression:
 
@@ -3058,16 +3062,19 @@ When you suspect a regression:
     -   `amend`
     -   `cherry-pick`
 
-## 10) Quick command summary {#10-quick-command-summary}
+:::
 
-### Find commit IDs
+
+:::{summary}
+**Quick command summary **
+**Find commit IDs**
 
 ``` bash
 git log --oneline
 git log --oneline --graph --all
 ```
 
-### Refer to recent commits
+**Refer to recent commits**
 
 ``` bash
 HEAD
@@ -3076,13 +3083,13 @@ HEAD~2
 HEAD~3
 ```
 
-### Move to a specific commit temporarily
+**Move to a specific commit temporarily**
 
 ``` bash
 git checkout <commit-id>
 ```
 
-### Find the first bad commit
+**Find the first bad commit**
 
 ``` bash
 git bisect start
@@ -3093,208 +3100,10 @@ git bisect bad
 git bisect reset
 ```
 
-### Automated bisect
+**Automated bisect**
 
 ``` bash
 git bisect run pytest
 ```
-
-## 11) Final takeaway {#11-final-takeaway}
-
-The linked section explains **what** `reset`, `revert`, `restore`,
-`amend`, and `cherry-pick` do.
-
-This supplement adds the missing practical layer we discussed:
-
--   how to **find the commit hash**
--   how to **target recent commits using `HEAD~n`**
--   how to **detect where the code started breaking**
--   how to **use `git bisect` to find the first bad commit efficiently**
-
-That combination is what makes these Git commands truly usable in real
-debugging work.
 :::
 
-::: {#cad3ed93-71d2-4327-82c5-ddbf5fc2d90b .cell .markdown}
-# 📓 Git Workflow: Connect Local Folder to GitHub Repository {#-git-workflow-connect-local-folder-to-github-repository}
-
-🧠 Goal We will:
-
-Create a repository on GitHub Create a local folder Initialize Git
-Connect to GitHub Push code
-
-## 💻 Step 1: Create Local Folder {#-step-1-create-local-folder}
-
-mkdir my-project cd my-project
-
-## ⚙️ Step 2: Initialize Git {#️-step-2-initialize-git}
-
-git init
-
-## 📄 Step 3: Add Files {#-step-3-add-files}
-
-touch README.md
-
-## ➕ Step 4: Stage Files {#-step-4-stage-files}
-
-git add .
-
-## 📝 Step 5: Commit {#-step-5-commit}
-
-git commit -m \"Initial commit\"
-
-## 🔗 Step 6: Connect to GitHub {#-step-6-connect-to-github}
-
-git remote add origin <https://github.com/username/my-project.git>
-
-## 🔍 Step 7: Check Remote {#-step-7-check-remote}
-
-git remote -v
-
-the result should be in the form of
-
-origin <git@github.com>:username/myproject.git (fetch) origin
-<git@github.com>:username/myproject.git (push)
-
-## 🚀 Step 8: Push {#-step-8-push}
-
-git branch -M main git push -u origin main
-:::
-
-::: {#a1d52be5-ff85-4558-8fbc-a491bc214265 .cell .markdown}
-# Git Archaeology Example Notebook
-
-This notebook explains a practical **Git archaeology** workflow using
-the `networkx` repository.
-
-## Goal {#goal}
-
-We want to:
-
-1.  Switch to a specific historical release branch/context
-2.  Search for a specific text in the repository
-3.  Find the file and line where it appears
-4.  Identify the commit related to that line
-5.  Inspect the commit
-6.  Create a branch from that historical commit
-
-This is useful when you want to understand:
-
--   where a bug message came from
--   which commit introduced or changed something
--   how the code looked at that point in time
-
-## Step 1: Create a working branch from networkx-2.6.3 {#step-1-create-a-working-branch-from-networkx-263}
-
-We start by creating a new branch called exercise from networkx-2.6.3.
-
-This gives us a safe branch to work on without changing the original
-branch.
-
-git switch \--create exercise networkx-2.6.3
-
-## Step 2: Search for the text in the repository
-
-Now we search for the phrase:
-
-`Logic error in degree_correlation`
-
-This tells us **which file(s)** contain that text.
-
-git grep \"Logic error in degree_correlation\"
-
-git grep -n \"Logic error in degree_correlation\"
-
-## Step 4: Annotate the file
-
-After identifying the file, we run `git annotate` on it:
-
-`networkx/algorithms/threshold.py`
-
-This shows, line by line:
-
--   the commit hash
--   the author
--   the date
--   the content of the line
-
-This helps us discover **which commit last changed the line** containing
-the text.
-
-git annotate networkx/algorithms/threshold.py
-
-## Step 5: Search inside the annotate output
-
-Inside the `git annotate` viewer, search for the phrase:
-
-`Logic error`
-
-You typically type:
-
-``` text
-/Logic error
-```
-
-This is not a shell command. It is a search command used inside the
-pager (`less`) opened by Git.
-
-/Logic error
-
-## Step 6: Inspect the relevant commit
-
-From the annotation output, we find the commit hash:
-
-`90544b4fa`
-
-Now we inspect that commit with `git show`.
-
-This displays:
-
--   commit metadata
--   author and date
--   commit message
--   the diff (what changed)
-
-git show 90544b4fa
-
-## Step 7: Create a branch from that historical commit
-
-Now we create a new branch called `past-code` from commit `90544b4fa`.
-
-This lets us explore the code exactly as it existed at that point in
-history.
-
-git branch past-code 90544b4fa
-
-## What this example demonstrates
-
-This example solves the following investigation workflow:
-
--   Find a text in the repository
--   Locate the exact file and line
--   Identify the commit responsible for that line
--   Inspect the commit
--   Create a branch from that point in history
-
-In short:
-
-``` bash
-git grep -> find the text
-git annotate -> find the responsible commit
-git show -> inspect the commit
-git branch -> create a branch from that commit
-```
-
-This is a classic Git archaeology workflow.
-
-## Command Summary
-
-``` bash
-git switch --create exercise networkx-2.6.3
-git grep "Logic error in degree_correlation"
-git grep -n "Logic error in degree_correlation"
-git annotate networkx/algorithms/threshold.py
-/Logic error
-git show 90544b4fa
-git branch past-code 90544b4fa
-```
