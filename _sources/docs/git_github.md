@@ -6,6 +6,7 @@ This chapter introduces Git and GitHub, two powerful tools that allow developers
 
 ## Table of Contents
 - [What is Git?](#git)
+- [GitHub](#github)
 
 ---
 
@@ -20,6 +21,7 @@ This chapter introduces Git and GitHub, two powerful tools that allow developers
 -   make new branches of your project and work there without affecting
     the main files of project.
 
+In this section we learn about  **history and snapshots**, then later commands such as `log`, `branch`, `merge`, `rebase`, and `revert`.These are fundamental commands in daily usage of git. 
 Git runs on your own computer. GitHub is an online platform that hosts Git repositories. In order to turn a floder into a Git repository, we do
 as follows:
 
@@ -63,10 +65,24 @@ git config --global color.ui auto
 
 - **Create aliases**
 
+Git aliases let you define shorter names for longer commands.
+
 ``` bash
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.cm commit
+git config --global alias.st status
+git config --global alias.lg "log --oneline --graph --all"
+
+```
+Then you can use:
+
+```bash
+git co main
+git br
+git cm -m "Fix typo"
+git st
+git lg
 ```
 
 - **Git Configuration Levels** 
@@ -238,7 +254,7 @@ git log file.txt
 ```
 :::
 
-**Compare Changes with `git diff`**
+## Compare Changes with `git diff`
 
 To compare changes, use:
 
@@ -253,6 +269,9 @@ There are **git diff** variations and options:
 - **Basic meaning; unstaged changes**
 
 This shows changes that are **not staged yet**.
+``` bash
+git diff
+```
 
 Example
 
@@ -296,6 +315,114 @@ git diff --name-only
 ```
 :::
 
+## Branching, `git branch` and `git switch`
+
+**Why Branches Matter**
+A branch gives you a separate line of development. Instead of putting every change directly onto `main`, you can isolate work.
+
+- Why Branches Are Important
+Branches let you:
+
+- keep main stable
+- work on features or fixes separately
+- experiment without damaging the main line
+- create clean Pull Requests later
+- integrate work step by step
+
+Core Idea
+A branch is not a second full copy of the project. It is a movable pointer into commit history.
+Here is the most commons commands for branching and switiching
+
+:::{note}
+- List available branches on your project
+```bash
+git branch
+```
+
+- Create a new branch
+```bash
+git branch feature/login
+```
+
+- Switch to another branch
+```bash
+git switch main feature/login
+```
+
+- Create and switch in one step
+```bash
+git switch -c feature/login
+```
+
+**Why This Matters**
+
+Branching should be understood **before** Fork and Pull Request workflows, because PRs are usually built from branches.
+
+:::
+
+A cleane everyday local workflow is as follows:
+
+:::{admonition} ⭐ Summary
+
+```text
+main → create branch → make changes → commit → switch back when needed
+```
+
+Example:
+
+```bash
+git switch main
+git pull
+git switch -c fix/readme-typo
+git add README.md
+git commit -m "Fix typo in README"
+```
+
+**Key Takeaway**
+
+Before learning collaboration on GitHub, a learner should already be comfortable with:
+
+- creating a branch
+- switching branches
+- committing on a branch
+- understanding that work stays isolated until integrated
+
+When a Git repository is not connected to a remote (e.g., GitHub), the entire workflow happens locally on your machine. You create or modify files, stage changes using `git add`, and record them with `git commit`. You can organize work using branches (`git switch -c <branch>`), move between them (`git switch`), and integrate changes via merging (`git merge`). All history, experimentation, and version control remain isolated within your local repository, and no synchronization commands like `git push` or `git pull` are required since there is no external repository involved.
+
+
+In the next chapter we learn how to create a remote repository and how to communicate with the local version on our machine. A clean workfolw often looks likes this:
+
+
+```bash
+git switch main  # Go to the main branch on your local machine
+git pull  # Get all changes on the main branch of remote repo and update your main local
+git switch -c fix/readme-typo  # make a new branch and switch on it and then make your edition on README.md
+git add README.md # stage your changes on the fix/readme-typo branch
+git commit -m "Fix typo in README" # save changes with history
+
+```
+:::
+
+---
+# GitHub
+<a name="github"></a>
+
+A local repository is enough for solo experimentation, but collaboration requires a shared remote repository.
+GitHub provides that shared remote space.
+
+**Why Remotes Matter**
+
+They allow you to:
+
+- back up your project online
+- collaborate with teammates
+- open Pull Requests
+- fetch and push shared history
+
+**Important Distinction**
+
+- local Git = history on your machine
+- remote GitHub repo = shared history online
 
 ## Create a GitHub Account
 
