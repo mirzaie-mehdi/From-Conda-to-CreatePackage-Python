@@ -451,6 +451,8 @@ To use GitHub effectively, the first step is to create a user account.
 4.  Verify your email address.
 5.  Complete the sign-up process.
 
+## Connect Git to GitHub
+
 After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.
 This is the standard pipeline for creating a repository and working on it on a daily basis.
 
@@ -570,7 +572,7 @@ git clone git@github.com:user/repo.git
 
 SSH is widely considered worth learning.
 
-
+---
 **What Is SSH?**
 
 **SSH** stands for **Secure Shell**. It is a **secure network protocol** used to connect to remote systems over the internet.
@@ -610,37 +612,33 @@ For example:
 
 -   `~/.ssh/id_ed25519` → private key
 -   `~/.ssh/id_ed25519.pub` → public key
-:::
 
-::: {#2546f67a-1185-4e18-9789-cdd9cff09b27 .cell .markdown}
-## 15. Which Part Stays Private and Which Part Goes to GitHub? {#15-which-part-stays-private-and-which-part-goes-to-github}
 
-### Private key
+**Which Part Stays Private and Which Part Goes to GitHub?**
+
+**Private key**
 
 -   stays on your computer
 -   must never be shared
 -   is used to prove your identity
 
-### Public key
+**Public key**
 
 -   can be shared
 -   is copied to GitHub
 -   allows GitHub to recognize your computer
 
 You do **not** copy or upload the private key to GitHub.
-:::
 
-::: {#1d012d2b-0f80-48d4-8825-23f721998f04 .cell .markdown}
-## 16. How GitHub Verifies That You Have the Correct Private Key {#16-how-github-verifies-that-you-have-the-correct-private-key}
 
+**How GitHub Verifies That You Have the Correct Private Key**
 A common question is:
 
-> If GitHub only has my public key, how does it know I have the right
-> private key?
+- If GitHub only has my public key, how does it know I have the right private key?
 
 The answer is cryptographic authentication.
 
-### Simplified process
+**Simplified process**
 
 1.  GitHub already has your **public key**
 2.  During login/authentication, GitHub sends a challenge
@@ -648,15 +646,14 @@ The answer is cryptographic authentication.
 4.  GitHub checks the signature using the **public key**
 5.  If the signature is valid, authentication succeeds
 
-### Key point
+**Key point**
 
-The **private key never leaves your computer**.\
-You do not paste it anywhere.\
+The **private key never leaves your computer**.
+You do not paste it anywhere.
 Only the cryptographic proof is sent.
-:::
 
-::: {#cabe03ac-eafd-487f-b96e-6a93f44e8d20 .cell .markdown}
-## 17. Add the Public Key to GitHub {#17-add-the-public-key-to-github}
+
+**Add the Public Key to GitHub** 
 
 To display your public key so you can copy it:
 
@@ -667,10 +664,8 @@ cat ~/.ssh/id_ed25519.pub
 Copy the output and add it to your GitHub account under SSH keys.
 
 Only the `.pub` file should be copied to GitHub.
-:::
 
-::: {#ebacc085-3c15-4dd4-9462-cec1e6b6cc51 .cell .markdown}
-## 18. Test the SSH Connection {#18-test-the-ssh-connection}
+**Test the SSH Connection**
 
 After adding the public key to GitHub, test the connection with:
 
@@ -678,14 +673,14 @@ After adding the public key to GitHub, test the connection with:
 ssh -T git@github.com
 ```
 
-### Meaning of `-T`
+**Meaning of `-T`**
 
 `-T` means:
 
 -   do not open an interactive shell
 -   only test authentication
 
-### Successful output
+**Successful output**
 
 ``` text
 Hi username! You've successfully authenticated, but GitHub does not provide shell access.
@@ -696,12 +691,12 @@ This means:
 -   SSH is configured correctly
 -   GitHub recognizes your key
 -   Git operations over SSH should work
-:::
 
-::: {#c0665044-39b2-4520-b5eb-552b3cdc66fb .cell .markdown}
-## 19. Common SSH Test Errors {#19-common-ssh-test-errors}
+---
 
-### First-time host verification
+**Common SSH Test Errors**
+
+- **First-time host verification**
 
 You may see:
 
@@ -717,7 +712,7 @@ yes
 
 This stores GitHub\'s host fingerprint on your machine.
 
-### Permission denied
+- **Permission denied**
 
 You may see:
 
@@ -731,10 +726,9 @@ This usually means one of the following:
 -   the wrong key is being used
 -   the key was not loaded by the SSH agent
 -   the file path is wrong
-:::
 
-::: {#4e71d8b3-054f-4fe5-87e6-b043b619f2c5 .cell .markdown}
-## 20. Check Whether Your SSH Key Exists {#20-check-whether-your-ssh-key-exists}
+
+- **Check Whether Your SSH Key Exists**
 
 To see files in your SSH directory:
 
@@ -748,10 +742,7 @@ You should usually see files like:
 id_ed25519
 id_ed25519.pub
 ```
-:::
-
-::: {#83f758b8-cc72-4479-8d6e-3944d28f27dc .cell .markdown}
-## 21. Check Whether the Key Is Loaded {#21-check-whether-the-key-is-loaded}
+- **Check Whether the Key Is Loaded**
 
 To list keys currently loaded in the SSH agent:
 
@@ -764,10 +755,8 @@ If your key is not loaded, add it:
 ``` bash
 ssh-add ~/.ssh/id_ed25519
 ```
-:::
 
-::: {#5db2a575-ed9c-4d86-9297-bba43016347e .cell .markdown}
-## 22. Do You Need to Run `ssh -T git@github.com` Every Time? {#22-do-you-need-to-run-ssh--t-gitgithubcom-every-time}
+- **Do You Need to Run `ssh -T git@github.com` Every Time?**
 
 No.
 
@@ -783,7 +772,8 @@ only for:
 -   troubleshooting
 -   verifying that authentication works
 
-### In normal daily use
+:::{note}
+**In normal daily use**
 
 You do **not** run the SSH test every time.
 
@@ -798,8 +788,8 @@ git push
 SSH authentication happens automatically in the background.
 :::
 
-::: {#1a14036e-e7dc-4d47-aa11-c27f7f2512c7 .cell .markdown}
-## 23. Daily Workflow Summary {#23-daily-workflow-summary}
+::: {summary}
+**Workflow Summary**
 
 A typical workflow after setup looks like this:
 
@@ -810,7 +800,7 @@ A typical workflow after setup looks like this:
 5.  commit
 6.  push to GitHub using SSH
 
-### Example {#example}
+**Example**
 
 ``` bash
 git init -b main
@@ -821,8 +811,8 @@ git push -u origin main
 ```
 :::
 
-::: {#27650d02-57fd-400b-ab67-4dbe5bfd5408 .cell .markdown}
-## 24. Recommended Mental Model {#24-recommended-mental-model}
+::: {note}
+**Recommended Mental Model**
 
 You can think of the SSH process like this:
 
@@ -834,16 +824,15 @@ You can think of the SSH process like this:
 This is why SSH is secure and convenient.
 :::
 
-::: {#2a1b079a-c863-48b2-9bdf-50a6507f66b6 .cell .markdown}
-## 25. Final Notes {#25-final-notes}
 
-### Good security habits
-
+:::{warning}
 -   never share the private key
 -   only upload the public key
 -   protect the private key with a passphrase if possible
 
-### Why learning SSH is valuable
+:::
+
+**Why learning SSH is valuable**
 
 SSH is useful not only for GitHub, but also for:
 
@@ -851,10 +840,11 @@ SSH is useful not only for GitHub, but also for:
 -   cloud systems
 -   DevOps workflows
 -   secure file transfer
-:::
 
-::: {#553a4665-f946-4451-aced-24607cc37c49 .cell .markdown}
-## 26. Command Reference {#26-command-reference}
+
+:::{note}
+
+These are all the commands you have learned so far. Try to explain what each of them does.
 
 ``` bash
 # Initialize a repository
@@ -918,122 +908,9 @@ ssh-add -l
 ssh-add ~/.ssh/id_ed25519
 ```
 
-### Connecting an Existing Local Git Repository to GitHub
+::: 
 
-#### 📌 Goal {#-goal}
-
-You already have a local Git repository and want to:
-
-1.  Create a repository on GitHub
-2.  Link (connect) it to your local repo
-3.  Push your code to GitHub
-
-------------------------------------------------------------------------
-
-### 🧱 Step 1 --- Create a Repository on GitHub {#-step-1--create-a-repository-on-github}
-
-1.  Go to GitHub
-2.  Click **New repository**
-3.  Choose a name (e.g., `my-project`)
-4.  **Do NOT** initialize with README, `.gitignore`, or license
-5.  Click **Create repository**
-
-------------------------------------------------------------------------
-
-### 🔗 Step 2 --- Add Remote to Your Local Repository {#-step-2--add-remote-to-your-local-repository}
-
-In your terminal (inside your project folder):
-
-``` bash
-git remote add origin git@github.com:USERNAME/REPOSITORY.git
-```
-
-Example:
-
-``` bash
-git remote add origin git@github.com:john/my-project.git
-```
-
-✔ This connects your local repo → GitHub repo
-
-------------------------------------------------------------------------
-
-### 🔍 Step 3 --- Verify Remote Connection {#-step-3--verify-remote-connection}
-
-``` bash
-git remote -v
-```
-
-Expected output:
-
-``` bash
-origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
-origin  git@github.com:USERNAME/REPOSITORY.git (push)
-```
-
-------------------------------------------------------------------------
-
-### 🚀 Step 4 --- Push Your Code to GitHub {#-step-4--push-your-code-to-github}
-
-If your main branch is `main`:
-
-``` bash
-git push -u origin main
-```
-
-If it\'s `master`:
-
-``` bash
-git push -u origin master
-```
-
-✔ `-u` sets upstream so future pushes are simpler:
-
-``` bash
-git push
-```
-
-------------------------------------------------------------------------
-
-### 🧠 What just happened {#-what-just-happened}
-
--   You created a remote repository on GitHub
--   You linked it using `origin`
--   You uploaded your local commits to the remote
-
-------------------------------------------------------------------------
-
-### ⚠️ Common Issues {#️-common-issues}
-
--   ❌ **Permission denied (publickey)** → SSH key not set up
-
--   ❌ **Repository not found** → Wrong URL or repo name
-
--   ❌ **Branch mismatch** → Use correct branch (`main` vs `master`)
-
-------------------------------------------------------------------------
-
-### ✅ Final State {#-final-state}
-
-Your workflow now becomes:
-
-``` bash
-git add .
-git commit -m "your message"
-git push
-```
-
-And to get updates:
-
-``` bash
-git pull
-```
-
-------------------------------------------------------------------------
-:::
-
-::: {#3d712cfc-cd3a-40bc-9c86-679ebdafbcc4 .cell .markdown}
-# Git Forks and Pull Requests
+## Git Forks and Pull Requests
 
 This section is about **Forks**, **Branches**, and **Pull Requests
 (PRs)** in Git and GitHub.

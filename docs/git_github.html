@@ -434,10 +434,35 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-git-to-github">Connect Git to GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-keys">14. Generate SSH Keys</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command">Command</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-does">What this does</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork-1-what-is-a-fork">1. What Is a Fork? {#1-what-is-a-fork}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork">2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone-3-fork-vs-clone">3. Fork vs Clone {#3-fork-vs-clone}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
 </ul>
 </li>
 </ul>
@@ -857,6 +882,8 @@ GitHub provides that shared remote space.</p>
 <li><p>Verify your email address.</p></li>
 <li><p>Complete the sign-up process.</p></li>
 </ol>
+<section id="connect-git-to-github">
+<h2>Connect Git to GitHub<a class="headerlink" href="#connect-git-to-github" title="Permalink to this heading">#</a></h2>
 <p>After creating your account, you can create repositories, upload code, and connect Git on your computer to GitHub.
 This is the standard pipeline for creating a repository and working on it on a daily basis.</p>
 <div class="admonition note">
@@ -922,6 +949,7 @@ origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class
 → Use correct branch (<code class="docutils literal notranslate"><span class="pre">main</span></code> vs <code class="docutils literal notranslate"><span class="pre">master</span></code>)</p></li>
 </ul>
 </div>
+</section>
 <section id="https-vs-ssh-for-github">
 <h2>HTTPS vs SSH for GitHub<a class="headerlink" href="#https-vs-ssh-for-github" title="Permalink to this heading">#</a></h2>
 <p>There are two common ways to connect Git to GitHub:</p>
@@ -947,6 +975,7 @@ origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class
 <li><p>useful beyond Git, for server administration as well</p></li>
 </ul>
 <p>SSH is widely considered worth learning.</p>
+<hr class="docutils" />
 <p><strong>What Is SSH?</strong></p>
 <p><strong>SSH</strong> stands for <strong>Secure Shell</strong>. It is a <strong>secure network protocol</strong> used to connect to remote systems over the internet.</p>
 <div class="admonition note">
@@ -956,20 +985,13 @@ origin<span class="w">  </span>git@github.com:USERNAME/REPOSITORY.git<span class
 <p><strong>Why SSH matters</strong></p>
 <p>Without encryption, data may be exposed. With SSH, communication is encrypted and authenticated.</p>
 </div>
-</section>
-<section id="generate-ssh-keys">
-<h2>14. Generate SSH Keys<a class="headerlink" href="#generate-ssh-keys" title="Permalink to this heading">#</a></h2>
+<p><strong>Generate SSH Keys</strong></p>
 <p>To use SSH with GitHub, you normally create an SSH key pair on your own
-computer.</p>
-<section id="command">
-<h3>Command<a class="headerlink" href="#command" title="Permalink to this heading">#</a></h3>
+computer using the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
 </pre></div>
 </div>
-</section>
-<section id="what-this-does">
-<h3>What this does<a class="headerlink" href="#what-this-does" title="Permalink to this heading">#</a></h3>
-<p>Your operating system creates two files:</p>
+<p>Then your operating system creates two files:</p>
 <ul class="simple">
 <li><p><strong>private key</strong></p></li>
 <li><p><strong>public key</strong></p></li>
@@ -983,645 +1005,448 @@ computer.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519</span></code> → private key</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">~/.ssh/id_ed25519.pub</span></code> → public key</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
-<span class="p">:::</span> <span class="p">{</span><span class="c1">#2546f67a-1185-4e18-9789-cdd9cff09b27 .cell .markdown}</span>
-<span class="c1">## 15. Which Part Stays Private and Which Part Goes to GitHub? {#15-which-part-stays-private-and-which-part-goes-to-github}</span>
-
-<span class="c1">### Private key</span>
-
-<span class="o">-</span>   <span class="n">stays</span> <span class="n">on</span> <span class="n">your</span> <span class="n">computer</span>
-<span class="o">-</span>   <span class="n">must</span> <span class="n">never</span> <span class="n">be</span> <span class="n">shared</span>
-<span class="o">-</span>   <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span> <span class="n">prove</span> <span class="n">your</span> <span class="n">identity</span>
-
-<span class="c1">### Public key</span>
-
-<span class="o">-</span>   <span class="n">can</span> <span class="n">be</span> <span class="n">shared</span>
-<span class="o">-</span>   <span class="ow">is</span> <span class="n">copied</span> <span class="n">to</span> <span class="n">GitHub</span>
-<span class="o">-</span>   <span class="n">allows</span> <span class="n">GitHub</span> <span class="n">to</span> <span class="n">recognize</span> <span class="n">your</span> <span class="n">computer</span>
-
-<span class="n">You</span> <span class="n">do</span> <span class="o">**</span><span class="ow">not</span><span class="o">**</span> <span class="n">copy</span> <span class="ow">or</span> <span class="n">upload</span> <span class="n">the</span> <span class="n">private</span> <span class="n">key</span> <span class="n">to</span> <span class="n">GitHub</span><span class="o">.</span>
+<p><strong>Which Part Stays Private and Which Part Goes to GitHub?</strong></p>
+<p><strong>Private key</strong></p>
+<ul class="simple">
+<li><p>stays on your computer</p></li>
+<li><p>must never be shared</p></li>
+<li><p>is used to prove your identity</p></li>
+</ul>
+<p><strong>Public key</strong></p>
+<ul class="simple">
+<li><p>can be shared</p></li>
+<li><p>is copied to GitHub</p></li>
+<li><p>allows GitHub to recognize your computer</p></li>
+</ul>
+<p>You do <strong>not</strong> copy or upload the private key to GitHub.</p>
+<p><strong>How GitHub Verifies That You Have the Correct Private Key</strong>
+A common question is:</p>
+<ul class="simple">
+<li><p>If GitHub only has my public key, how does it know I have the right private key?</p></li>
+</ul>
+<p>The answer is cryptographic authentication.</p>
+<p><strong>Simplified process</strong></p>
+<ol class="arabic simple">
+<li><p>GitHub already has your <strong>public key</strong></p></li>
+<li><p>During login/authentication, GitHub sends a challenge</p></li>
+<li><p>Your computer uses the <strong>private key</strong> to sign that challenge</p></li>
+<li><p>GitHub checks the signature using the <strong>public key</strong></p></li>
+<li><p>If the signature is valid, authentication succeeds</p></li>
+</ol>
+<p><strong>Key point</strong></p>
+<p>The <strong>private key never leaves your computer</strong>.
+You do not paste it anywhere.
+Only the cryptographic proof is sent.</p>
+<p><strong>Add the Public Key to GitHub</strong></p>
+<p>To display your public key so you can copy it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
 </pre></div>
 </div>
-<div class="highlight-{#1d012d2b-0f80-48d4-8825-23f721998f04 notranslate"><div class="highlight"><pre><span></span>## 16. How GitHub Verifies That You Have the Correct Private Key {#16-how-github-verifies-that-you-have-the-correct-private-key}
-
-A common question is:
-
-&gt; If GitHub only has my public key, how does it know I have the right
-&gt; private key?
-
-The answer is cryptographic authentication.
-
-### Simplified process
-
-1.  GitHub already has your **public key**
-2.  During login/authentication, GitHub sends a challenge
-3.  Your computer uses the **private key** to sign that challenge
-4.  GitHub checks the signature using the **public key**
-5.  If the signature is valid, authentication succeeds
-
-### Key point
-
-The **private key never leaves your computer**.\
-You do not paste it anywhere.\
-Only the cryptographic proof is sent.
+<p>Copy the output and add it to your GitHub account under SSH keys.</p>
+<p>Only the <code class="docutils literal notranslate"><span class="pre">.pub</span></code> file should be copied to GitHub.</p>
+<p><strong>Test the SSH Connection</strong></p>
+<p>After adding the public key to GitHub, test the connection with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
 </pre></div>
 </div>
-<div class="highlight-{#cabe03ac-eafd-487f-b96e-6a93f44e8d20 notranslate"><div class="highlight"><pre><span></span>## 17. Add the Public Key to GitHub {#17-add-the-public-key-to-github}
-
-To display your public key so you can copy it:
-
-``` bash
-cat ~/.ssh/id_ed25519.pub
-```
-
-Copy the output and add it to your GitHub account under SSH keys.
-
-Only the `.pub` file should be copied to GitHub.
+<p><strong>Meaning of <code class="docutils literal notranslate"><span class="pre">-T</span></code></strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">-T</span></code> means:</p>
+<ul class="simple">
+<li><p>do not open an interactive shell</p></li>
+<li><p>only test authentication</p></li>
+</ul>
+<p><strong>Successful output</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Hi username! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
 </pre></div>
 </div>
-<div class="highlight-{#ebacc085-3c15-4dd4-9462-cec1e6b6cc51 notranslate"><div class="highlight"><pre><span></span>## 18. Test the SSH Connection {#18-test-the-ssh-connection}
-
-After adding the public key to GitHub, test the connection with:
-
-``` bash
-ssh -T git@github.com
-```
-
-### Meaning of `-T`
-
-`-T` means:
-
--   do not open an interactive shell
--   only test authentication
-
-### Successful output
-
-``` text
-Hi username! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
-```
-
-This means:
-
--   SSH is configured correctly
--   GitHub recognizes your key
--   Git operations over SSH should work
+<p>This means:</p>
+<ul class="simple">
+<li><p>SSH is configured correctly</p></li>
+<li><p>GitHub recognizes your key</p></li>
+<li><p>Git operations over SSH should work</p></li>
+</ul>
+<hr class="docutils" />
+<p><strong>Common SSH Test Errors</strong></p>
+<ul class="simple">
+<li><p><strong>First-time host verification</strong></p></li>
+</ul>
+<p>You may see:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Are you sure you want to continue connecting (yes/no)?
 </pre></div>
 </div>
-<div class="highlight-{#c0665044-39b2-4520-b5eb-552b3cdc66fb notranslate"><div class="highlight"><pre><span></span>## 19. Common SSH Test Errors {#19-common-ssh-test-errors}
-
-### First-time host verification
-
-You may see:
-
-``` text
-Are you sure you want to continue connecting (yes/no)?
-```
-
-Type:
-
-``` bash
-yes
-```
-
-This stores GitHub\&#39;s host fingerprint on your machine.
-
-### Permission denied
-
-You may see:
-
-``` text
-Permission denied (publickey).
-```
-
-This usually means one of the following:
-
--   the public key was not added to GitHub
--   the wrong key is being used
--   the key was not loaded by the SSH agent
--   the file path is wrong
+<p>Type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yes
 </pre></div>
 </div>
-<div class="highlight-{#4e71d8b3-054f-4fe5-87e6-b043b619f2c5 notranslate"><div class="highlight"><pre><span></span>## 20. Check Whether Your SSH Key Exists {#20-check-whether-your-ssh-key-exists}
-
-To see files in your SSH directory:
-
-``` bash
-ls ~/.ssh
-```
-
-You should usually see files like:
-
-``` text
-id_ed25519
+<p>This stores GitHub’s host fingerprint on your machine.</p>
+<ul class="simple">
+<li><p><strong>Permission denied</strong></p></li>
+</ul>
+<p>You may see:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Permission denied (publickey).
+</pre></div>
+</div>
+<p>This usually means one of the following:</p>
+<ul class="simple">
+<li><p>the public key was not added to GitHub</p></li>
+<li><p>the wrong key is being used</p></li>
+<li><p>the key was not loaded by the SSH agent</p></li>
+<li><p>the file path is wrong</p></li>
+<li><p><strong>Check Whether Your SSH Key Exists</strong></p></li>
+</ul>
+<p>To see files in your SSH directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>~/.ssh
+</pre></div>
+</div>
+<p>You should usually see files like:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>id_ed25519
 id_ed25519.pub
-```
 </pre></div>
 </div>
-<div class="highlight-{#83f758b8-cc72-4479-8d6e-3944d28f27dc notranslate"><div class="highlight"><pre><span></span>## 21. Check Whether the Key Is Loaded {#21-check-whether-the-key-is-loaded}
-
-To list keys currently loaded in the SSH agent:
-
-``` bash
-ssh-add -l
-```
-
-If your key is not loaded, add it:
-
-``` bash
-ssh-add ~/.ssh/id_ed25519
-```
+<ul class="simple">
+<li><p><strong>Check Whether the Key Is Loaded</strong></p></li>
+</ul>
+<p>To list keys currently loaded in the SSH agent:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>-l
 </pre></div>
 </div>
-<div class="highlight-{#5db2a575-ed9c-4d86-9297-bba43016347e notranslate"><div class="highlight"><pre><span></span>## 22. Do You Need to Run `ssh -T git@github.com` Every Time? {#22-do-you-need-to-run-ssh--t-gitgithubcom-every-time}
-
-No.
-
-You usually run:
-
-``` bash
-ssh -T git@github.com
-```
-
-only for:
-
--   initial setup
--   troubleshooting
--   verifying that authentication works
-
-### In normal daily use
-
-You do **not** run the SSH test every time.
-
-Instead, you just use Git normally:
-
-``` bash
-git clone git@github.com:user/repo.git
-git pull
-git push
-```
-
-SSH authentication happens automatically in the background.
+<p>If your key is not loaded, add it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </pre></div>
 </div>
-<div class="highlight-{#1a14036e-e7dc-4d47-aa11-c27f7f2512c7 notranslate"><div class="highlight"><pre><span></span>## 23. Daily Workflow Summary {#23-daily-workflow-summary}
-
-A typical workflow after setup looks like this:
-
-1.  create or enter your project folder
-2.  initialize Git
-3.  make changes
-4.  stage changes
-5.  commit
-6.  push to GitHub using SSH
-
-### Example {#example}
-
-``` bash
-git init -b main
-git add .
-git commit -m &quot;Initial commit&quot;
-git remote add origin git@github.com:username/repository.git
-git push -u origin main
-```
+<ul class="simple">
+<li><p><strong>Do You Need to Run <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">-T</span> <span class="pre">git&#64;github.com</span></code> Every Time?</strong></p></li>
+</ul>
+<p>No.</p>
+<p>You usually run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
 </pre></div>
 </div>
-<div class="highlight-{#27650d02-57fd-400b-ab67-4dbe5bfd5408 notranslate"><div class="highlight"><pre><span></span>## 24. Recommended Mental Model {#24-recommended-mental-model}
-
-You can think of the SSH process like this:
-
--   your computer keeps the **private key**
--   GitHub stores the **public key**
--   when needed, your computer proves ownership of the private key
--   GitHub verifies the proof with the public key
-
-This is why SSH is secure and convenient.
+<p>only for:</p>
+<ul class="simple">
+<li><p>initial setup</p></li>
+<li><p>troubleshooting</p></li>
+<li><p>verifying that authentication works</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>In normal daily use</strong></p>
+<p>You do <strong>not</strong> run the SSH test every time.</p>
+<p>Instead, you just use Git normally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:user/repo.git
+git<span class="w"> </span>pull
+git<span class="w"> </span>push
 </pre></div>
 </div>
-<div class="highlight-{#2a1b079a-c863-48b2-9bdf-50a6507f66b6 notranslate"><div class="highlight"><pre><span></span>## 25. Final Notes {#25-final-notes}
+<p>SSH authentication happens automatically in the background.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Recommended Mental Model</strong></p>
+<p>You can think of the SSH process like this:</p>
+<ul class="simple">
+<li><p>your computer keeps the <strong>private key</strong></p></li>
+<li><p>GitHub stores the <strong>public key</strong></p></li>
+<li><p>when needed, your computer proves ownership of the private key</p></li>
+<li><p>GitHub verifies the proof with the public key</p></li>
+</ul>
+<p>This is why SSH is secure and convenient.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>never share the private key</p></li>
+<li><p>only upload the public key</p></li>
+<li><p>protect the private key with a passphrase if possible</p></li>
+</ul>
+</div>
+<p><strong>Why learning SSH is valuable</strong></p>
+<p>SSH is useful not only for GitHub, but also for:</p>
+<ul class="simple">
+<li><p>remote server access</p></li>
+<li><p>cloud systems</p></li>
+<li><p>DevOps workflows</p></li>
+<li><p>secure file transfer</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These are all the commands you have learned so far. Try to explain what each of them does.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize a repository</span>
+git<span class="w"> </span>init
+git<span class="w"> </span>init<span class="w"> </span>-b<span class="w"> </span>main
 
-### Good security habits
+<span class="c1"># Stage and commit</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;message&quot;</span>
 
--   never share the private key
--   only upload the public key
--   protect the private key with a passphrase if possible
+<span class="c1"># View history</span>
+git<span class="w"> </span>log
+git<span class="w"> </span>log<span class="w"> </span>--oneline
+git<span class="w"> </span>log<span class="w"> </span>--oneline<span class="w"> </span>--graph
+git<span class="w"> </span>log<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+git<span class="w"> </span>log<span class="w"> </span>-p
 
-### Why learning SSH is valuable
+<span class="c1"># View differences</span>
+git<span class="w"> </span>diff
+git<span class="w"> </span>diff<span class="w"> </span>--staged
+git<span class="w"> </span>diff<span class="w"> </span>--cached
+git<span class="w"> </span>diff<span class="w"> </span>HEAD
+git<span class="w"> </span>diff<span class="w"> </span>commit1<span class="w"> </span>commit2
+git<span class="w"> </span>diff<span class="w"> </span>file.txt
+git<span class="w"> </span>diff<span class="w"> </span>--name-only
 
-SSH is useful not only for GitHub, but also for:
+<span class="c1"># Git configuration</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Your Name&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;you@example.com&quot;</span>
+git<span class="w"> </span>config<span class="w"> </span>--list
+git<span class="w"> </span>config<span class="w"> </span>--list<span class="w"> </span>--show-origin
 
--   remote server access
--   cloud systems
--   DevOps workflows
--   secure file transfer
+<span class="c1"># Disable pagers for selected commands</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.log<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.diff<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.show<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.config<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.stash<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.help<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.blame<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.branch<span class="w"> </span>off
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>pager.annotate<span class="w"> </span>off
+
+<span class="c1"># Better pager setup</span>
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.pager<span class="w"> </span><span class="s2">&quot;less -FRX&quot;</span>
+
+<span class="c1"># Generate SSH keys</span>
+ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
+
+<span class="c1"># Show public key</span>
+cat<span class="w"> </span>~/.ssh/id_ed25519.pub
+
+<span class="c1"># Test SSH</span>
+ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
+
+<span class="c1"># Check SSH files</span>
+ls<span class="w"> </span>~/.ssh
+
+<span class="c1"># Check/add SSH key in agent</span>
+ssh-add<span class="w"> </span>-l
+ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </pre></div>
 </div>
-<div class="highlight-{#553a4665-f946-4451-aced-24607cc37c49 notranslate"><div class="highlight"><pre><span></span>## 26. Command Reference {#26-command-reference}
-
-``` bash
-# Initialize a repository
-git init
-git init -b main
-
-# Stage and commit
-git add .
-git commit -m &quot;message&quot;
-
-# View history
-git log
-git log --oneline
-git log --oneline --graph
-git log -n 5
-git log -p
-
-# View differences
-git diff
-git diff --staged
-git diff --cached
-git diff HEAD
-git diff commit1 commit2
-git diff file.txt
-git diff --name-only
-
-# Git configuration
-git config --global user.name &quot;Your Name&quot;
-git config --global user.email &quot;you@example.com&quot;
-git config --list
-git config --list --show-origin
-
-# Disable pagers for selected commands
-git config --global pager.log off
-git config --global pager.diff off
-git config --global pager.show off
-git config --global pager.config off
-git config --global pager.stash off
-git config --global pager.help off
-git config --global pager.blame off
-git config --global pager.branch off
-git config --global pager.annotate off
-
-# Better pager setup
-git config --global core.pager &quot;less -FRX&quot;
-
-# Generate SSH keys
-ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;
-
-# Show public key
-cat ~/.ssh/id_ed25519.pub
-
-# Test SSH
-ssh -T git@github.com
-
-# Check SSH files
-ls ~/.ssh
-
-# Check/add SSH key in agent
-ssh-add -l
-ssh-add ~/.ssh/id_ed25519
-```
-
-### Connecting an Existing Local Git Repository to GitHub
-
-#### 📌 Goal {#-goal}
-
-You already have a local Git repository and want to:
-
-1.  Create a repository on GitHub
-2.  Link (connect) it to your local repo
-3.  Push your code to GitHub
-
-------------------------------------------------------------------------
-
-### 🧱 Step 1 --- Create a Repository on GitHub {#-step-1--create-a-repository-on-github}
-
-1.  Go to GitHub
-2.  Click **New repository**
-3.  Choose a name (e.g., `my-project`)
-4.  **Do NOT** initialize with README, `.gitignore`, or license
-5.  Click **Create repository**
-
-------------------------------------------------------------------------
-
-### 🔗 Step 2 --- Add Remote to Your Local Repository {#-step-2--add-remote-to-your-local-repository}
-
-In your terminal (inside your project folder):
-
-``` bash
-git remote add origin git@github.com:USERNAME/REPOSITORY.git
-```
-
-Example:
-
-``` bash
-git remote add origin git@github.com:john/my-project.git
-```
-
-✔ This connects your local repo → GitHub repo
-
-------------------------------------------------------------------------
-
-### 🔍 Step 3 --- Verify Remote Connection {#-step-3--verify-remote-connection}
-
-``` bash
-git remote -v
-```
-
-Expected output:
-
-``` bash
-origin  git@github.com:USERNAME/REPOSITORY.git (fetch)
-origin  git@github.com:USERNAME/REPOSITORY.git (push)
-```
-
-------------------------------------------------------------------------
-
-### 🚀 Step 4 --- Push Your Code to GitHub {#-step-4--push-your-code-to-github}
-
-If your main branch is `main`:
-
-``` bash
-git push -u origin main
-```
-
-If it\&#39;s `master`:
-
-``` bash
-git push -u origin master
-```
-
-✔ `-u` sets upstream so future pushes are simpler:
-
-``` bash
-git push
-```
-
-------------------------------------------------------------------------
-
-### 🧠 What just happened {#-what-just-happened}
-
--   You created a remote repository on GitHub
--   You linked it using `origin`
--   You uploaded your local commits to the remote
-
-------------------------------------------------------------------------
-
-### ⚠️ Common Issues {#️-common-issues}
-
--   ❌ **Permission denied (publickey)** → SSH key not set up
-
--   ❌ **Repository not found** → Wrong URL or repo name
-
--   ❌ **Branch mismatch** → Use correct branch (`main` vs `master`)
-
-------------------------------------------------------------------------
-
-### ✅ Final State {#-final-state}
-
-Your workflow now becomes:
-
-``` bash
-git add .
-git commit -m &quot;your message&quot;
-git push
-```
-
-And to get updates:
-
-``` bash
-git pull
-```
-
-------------------------------------------------------------------------
-</pre></div>
 </div>
-<div class="highlight-{#3d712cfc-cd3a-40bc-9c86-679ebdafbcc4 notranslate"><div class="highlight"><pre><span></span># Git Forks and Pull Requests
-
-This section is about **Forks**, **Branches**, and **Pull Requests
-(PRs)** in Git and GitHub.
-
-It is designed for learners who already know the basics of Git and now
+</section>
+<section id="git-forks-and-pull-requests">
+<h2>Git Forks and Pull Requests<a class="headerlink" href="#git-forks-and-pull-requests" title="Permalink to this heading">#</a></h2>
+<p>This section is about <strong>Forks</strong>, <strong>Branches</strong>, and <strong>Pull Requests
+(PRs)</strong> in Git and GitHub.</p>
+<p>It is designed for learners who already know the basics of Git and now
 want to understand the standard contribution workflow used in
-open-source and collaborative development.
-
-------------------------------------------------------------------------
-
-## Learning Goals
-
-By the end of this section, you should be able to:
-
--   explain what a **fork** is
--   distinguish **fork** from **clone**
--   understand when to use a **fork-based workflow**
--   use `git branch` and `git switch` correctly in this workflow
--   create and push a feature branch from your fork
--   open a **Pull Request**
--   respond to review comments and update the same PR
--   keep your fork synchronized with the original repository
--   understand what makes someone a **contributor**
-
-## 1. What Is a Fork? {#1-what-is-a-fork}
-
-A **fork** is a copy of a GitHub repository that is created under **your
-own GitHub account**. This is different from a local copy on your
-computer. A fork lives on **GitHub**, not just on your machine.
-
-### Mental Model
-
-Suppose there is an original repository:
-
--   original repository: `github.com/original-owner/project`
--   your fork: `github.com/your-username/project`
-
-The original repository is often called:
-
--   **upstream**
-
-Your personal copy is usually connected as:
-
--   **origin**
-
-So in a typical fork workflow:
-
--   `upstream` = the original repository
--   `origin` = your fork on GitHub
-
-## 2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}
-
-Forks are commonly used when you **do not have direct write access** to
-the original repository.
-
-### Typical Cases
-
-1.  **Open-source contribution**\
-    You want to improve a public project, but you are not part of the
-    core team.
-
-2.  **Safe experimentation**\
-    You want to try changes freely without affecting the original
-    repository.
-
-3.  **Personal customization**\
-    You want to maintain your own version of a project with custom
-    changes.
-
-4.  **External collaboration**\
-    You are contributing from outside the main organization or team.
-
-### When a Fork Is Usually Not Needed
-
-If you are already a member of the project team and have write access,
-the team may prefer this workflow instead:
-
--   clone the main repository directly
--   create a branch inside that repository
--   push your branch
--   open a Pull Request from that branch
-
-In that case, no fork is necessary.
-
-## 3. Fork vs Clone {#3-fork-vs-clone}
-
-These two concepts are related, but they are not the same.
-
-### Fork
-
-A **fork** creates a copy of a repository on **GitHub** under your
-account.
-
-### Clone
-
-A **clone** creates a copy of a repository on **your local computer**.
-
-### Standard Order
-
-In a fork-based contribution workflow, the normal order is:
-
-``` text
-Fork on GitHub → Clone to your computer
-```
-
-So first you create the fork online, and then you clone **your fork**
-locally.
-
-## 4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}
-
-Yes. In normal GitHub usage, a fork preserves the repository history.
-
-That means your fork contains:
-
--   commits
--   branches and references relevant to the forked project
--   tags (depending on repository state and hosting behavior)
--   the complete evolution of the project
-
-So conceptually, you inherit the project history.
-
-However, **having the history does not automatically make you a
-contributor** to the original project.
-
-## 5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}
-
-No.
-
-Forking a repository means:
-
--   you now have your own copy of the project
--   you can work on it independently
--   you can propose changes
-
-But it does **not** mean that you are already a contributor to the
-original repository.
-
-### When Are You Usually Considered a Contributor?
-
-In practice, you become a contributor when your changes are accepted
-into the original project, usually by:
-
--   opening a Pull Request
--   having it reviewed
--   and getting it merged
-
-So this statement is accurate:
-
-&gt; You may have the full repository history in your fork, but you are not
-&gt; yet a contributor to the original project until your contribution is
-&gt; accepted there.
-
-## 6. The Full Fork Workflow {#6-the-full-fork-workflow}
-
-Here is the standard end-to-end workflow:
-
-``` text
-Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
-```
-
-We will now go through each part carefully.
-
-## 7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}
-
-On GitHub:
-
-1.  open the original repository
-2.  click **Fork**
-3.  GitHub creates a copy under your own account
-
-Example:
-
--   original: `github.com/original-owner/project`
--   fork: `github.com/your-username/project`
-
-At this point, you have your own GitHub-hosted copy of the project.
-
-## 8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}
-
-After forking, clone **your fork**, not the upstream repository.
-
-``` bash
-git clone git@github.com:YOUR_USERNAME/PROJECT.git
-cd PROJECT
-```
-
-Now your local repository is connected to your fork as `origin`.
-
-## 9. Step 3: Add the Original Repository as `upstream` {#9-step-3-add-the-original-repository-as-upstream}
-
-This is a very important step.
-
-You usually want two remotes:
-
--   `origin` → your fork
--   `upstream` → the original repository
-
-Add `upstream` like this:
-
-``` bash
-git remote add upstream git@github.com:ORIGINAL_OWNER/PROJECT.git
-```
-
-Then verify your remotes:
-
-``` bash
-git remote -v
-```
-
-Expected idea:
-
-``` text
-origin    git@github.com:YOUR_USERNAME/PROJECT.git
-upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
-```
-
-### Why Is `upstream` Important?
-
-Because the original project keeps moving forward.
-
-If you only work with your fork and never sync from upstream:
-
--   your fork becomes outdated
--   your branch may drift away from the current project state
--   your Pull Request may become harder to review or merge
+open-source and collaborative development.</p>
+</section>
+<hr class="docutils" />
+<section id="learning-goals">
+<h2>Learning Goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h2>
+<p>By the end of this section, you should be able to:</p>
+<ul class="simple">
+<li><p>explain what a <strong>fork</strong> is</p></li>
+<li><p>distinguish <strong>fork</strong> from <strong>clone</strong></p></li>
+<li><p>understand when to use a <strong>fork-based workflow</strong></p></li>
+<li><p>use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">switch</span></code> correctly in this workflow</p></li>
+<li><p>create and push a feature branch from your fork</p></li>
+<li><p>open a <strong>Pull Request</strong></p></li>
+<li><p>respond to review comments and update the same PR</p></li>
+<li><p>keep your fork synchronized with the original repository</p></li>
+<li><p>understand what makes someone a <strong>contributor</strong></p></li>
+</ul>
+</section>
+<section id="what-is-a-fork-1-what-is-a-fork">
+<h2>1. What Is a Fork? {#1-what-is-a-fork}<a class="headerlink" href="#what-is-a-fork-1-what-is-a-fork" title="Permalink to this heading">#</a></h2>
+<p>A <strong>fork</strong> is a copy of a GitHub repository that is created under <strong>your
+own GitHub account</strong>. This is different from a local copy on your
+computer. A fork lives on <strong>GitHub</strong>, not just on your machine.</p>
+<section id="mental-model">
+<h3>Mental Model<a class="headerlink" href="#mental-model" title="Permalink to this heading">#</a></h3>
+<p>Suppose there is an original repository:</p>
+<ul class="simple">
+<li><p>original repository: <code class="docutils literal notranslate"><span class="pre">github.com/original-owner/project</span></code></p></li>
+<li><p>your fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
+</ul>
+<p>The original repository is often called:</p>
+<ul class="simple">
+<li><p><strong>upstream</strong></p></li>
+</ul>
+<p>Your personal copy is usually connected as:</p>
+<ul class="simple">
+<li><p><strong>origin</strong></p></li>
+</ul>
+<p>So in a typical fork workflow:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> = the original repository</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> = your fork on GitHub</p></li>
+</ul>
+</section>
+</section>
+<section id="when-do-we-use-a-fork-2-when-do-we-use-a-fork">
+<h2>2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}<a class="headerlink" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork" title="Permalink to this heading">#</a></h2>
+<p>Forks are commonly used when you <strong>do not have direct write access</strong> to
+the original repository.</p>
+<section id="typical-cases">
+<h3>Typical Cases<a class="headerlink" href="#typical-cases" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Open-source contribution</strong><br />
+You want to improve a public project, but you are not part of the
+core team.</p></li>
+<li><p><strong>Safe experimentation</strong><br />
+You want to try changes freely without affecting the original
+repository.</p></li>
+<li><p><strong>Personal customization</strong><br />
+You want to maintain your own version of a project with custom
+changes.</p></li>
+<li><p><strong>External collaboration</strong><br />
+You are contributing from outside the main organization or team.</p></li>
+</ol>
+</section>
+<section id="when-a-fork-is-usually-not-needed">
+<h3>When a Fork Is Usually Not Needed<a class="headerlink" href="#when-a-fork-is-usually-not-needed" title="Permalink to this heading">#</a></h3>
+<p>If you are already a member of the project team and have write access,
+the team may prefer this workflow instead:</p>
+<ul class="simple">
+<li><p>clone the main repository directly</p></li>
+<li><p>create a branch inside that repository</p></li>
+<li><p>push your branch</p></li>
+<li><p>open a Pull Request from that branch</p></li>
+</ul>
+<p>In that case, no fork is necessary.</p>
+</section>
+</section>
+<section id="fork-vs-clone-3-fork-vs-clone">
+<h2>3. Fork vs Clone {#3-fork-vs-clone}<a class="headerlink" href="#fork-vs-clone-3-fork-vs-clone" title="Permalink to this heading">#</a></h2>
+<p>These two concepts are related, but they are not the same.</p>
+<section id="fork">
+<h3>Fork<a class="headerlink" href="#fork" title="Permalink to this heading">#</a></h3>
+<p>A <strong>fork</strong> creates a copy of a repository on <strong>GitHub</strong> under your
+account.</p>
+</section>
+<section id="clone">
+<h3>Clone<a class="headerlink" href="#clone" title="Permalink to this heading">#</a></h3>
+<p>A <strong>clone</strong> creates a copy of a repository on <strong>your local computer</strong>.</p>
+</section>
+<section id="standard-order">
+<h3>Standard Order<a class="headerlink" href="#standard-order" title="Permalink to this heading">#</a></h3>
+<p>In a fork-based contribution workflow, the normal order is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork on GitHub → Clone to your computer
 </pre></div>
 </div>
-<div class="highlight-{#eff35328-b6cc-4237-9417-60cb46baeb8b notranslate"><div class="highlight"><pre><span></span>``` python
+<p>So first you create the fork online, and then you clone <strong>your fork</strong>
+locally.</p>
+</section>
+</section>
+<section id="do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">
+<h2>4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}<a class="headerlink" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking" title="Permalink to this heading">#</a></h2>
+<p>Yes. In normal GitHub usage, a fork preserves the repository history.</p>
+<p>That means your fork contains:</p>
+<ul class="simple">
+<li><p>commits</p></li>
+<li><p>branches and references relevant to the forked project</p></li>
+<li><p>tags (depending on repository state and hosting behavior)</p></li>
+<li><p>the complete evolution of the project</p></li>
+</ul>
+<p>So conceptually, you inherit the project history.</p>
+<p>However, <strong>having the history does not automatically make you a
+contributor</strong> to the original project.</p>
+</section>
+<section id="are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">
+<h2>5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}<a class="headerlink" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked" title="Permalink to this heading">#</a></h2>
+<p>No.</p>
+<p>Forking a repository means:</p>
+<ul class="simple">
+<li><p>you now have your own copy of the project</p></li>
+<li><p>you can work on it independently</p></li>
+<li><p>you can propose changes</p></li>
+</ul>
+<p>But it does <strong>not</strong> mean that you are already a contributor to the
+original repository.</p>
+<section id="when-are-you-usually-considered-a-contributor">
+<h3>When Are You Usually Considered a Contributor?<a class="headerlink" href="#when-are-you-usually-considered-a-contributor" title="Permalink to this heading">#</a></h3>
+<p>In practice, you become a contributor when your changes are accepted
+into the original project, usually by:</p>
+<ul class="simple">
+<li><p>opening a Pull Request</p></li>
+<li><p>having it reviewed</p></li>
+<li><p>and getting it merged</p></li>
+</ul>
+<p>So this statement is accurate:</p>
+<blockquote>
+<div><p>You may have the full repository history in your fork, but you are not
+yet a contributor to the original project until your contribution is
+accepted there.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="the-full-fork-workflow-6-the-full-fork-workflow">
+<h2>6. The Full Fork Workflow {#6-the-full-fork-workflow}<a class="headerlink" href="#the-full-fork-workflow-6-the-full-fork-workflow" title="Permalink to this heading">#</a></h2>
+<p>Here is the standard end-to-end workflow:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Fork → Clone → Add upstream → Create branch → Edit → Commit → Push → Pull Request → Review → Merge
+</pre></div>
+</div>
+<p>We will now go through each part carefully.</p>
+</section>
+<section id="step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">
+<h2>7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}<a class="headerlink" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github" title="Permalink to this heading">#</a></h2>
+<p>On GitHub:</p>
+<ol class="arabic simple">
+<li><p>open the original repository</p></li>
+<li><p>click <strong>Fork</strong></p></li>
+<li><p>GitHub creates a copy under your own account</p></li>
+</ol>
+<p>Example:</p>
+<ul class="simple">
+<li><p>original: <code class="docutils literal notranslate"><span class="pre">github.com/original-owner/project</span></code></p></li>
+<li><p>fork: <code class="docutils literal notranslate"><span class="pre">github.com/your-username/project</span></code></p></li>
+</ul>
+<p>At this point, you have your own GitHub-hosted copy of the project.</p>
+</section>
+<section id="step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">
+<h2>8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}<a class="headerlink" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally" title="Permalink to this heading">#</a></h2>
+<p>After forking, clone <strong>your fork</strong>, not the upstream repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:YOUR_USERNAME/PROJECT.git
+<span class="nb">cd</span><span class="w"> </span>PROJECT
+</pre></div>
+</div>
+<p>Now your local repository is connected to your fork as <code class="docutils literal notranslate"><span class="pre">origin</span></code>.</p>
+</section>
+<section id="step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">
+<h2>9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}<a class="headerlink" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream" title="Permalink to this heading">#</a></h2>
+<p>This is a very important step.</p>
+<p>You usually want two remotes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">origin</span></code> → your fork</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upstream</span></code> → the original repository</p></li>
+</ul>
+<p>Add <code class="docutils literal notranslate"><span class="pre">upstream</span></code> like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>git@github.com:ORIGINAL_OWNER/PROJECT.git
+</pre></div>
+</div>
+<p>Then verify your remotes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>remote<span class="w"> </span>-v
+</pre></div>
+</div>
+<p>Expected idea:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>origin    git@github.com:YOUR_USERNAME/PROJECT.git
+upstream  git@github.com:ORIGINAL_OWNER/PROJECT.git
+</pre></div>
+</div>
+<section id="why-is-upstream-important">
+<h3>Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?<a class="headerlink" href="#why-is-upstream-important" title="Permalink to this heading">#</a></h3>
+<p>Because the original project keeps moving forward.</p>
+<p>If you only work with your fork and never sync from upstream:</p>
+<ul class="simple">
+<li><p>your fork becomes outdated</p></li>
+<li><p>your branch may drift away from the current project state</p></li>
+<li><p>your Pull Request may become harder to review or merge</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+::: {#eff35328-b6cc-4237-9417-60cb46baeb8b .cell .code}
+``` python
 git clone git@github.com:YOUR_USERNAME/PROJECT.git
 cd PROJECT
 
@@ -5718,10 +5543,35 @@ git branch past-code 90544b4fa
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-git-to-github">Connect Git to GitHub</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#https-vs-ssh-for-github">HTTPS vs SSH for GitHub</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-ssh-keys">14. Generate SSH Keys</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#command">Command</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-does">What this does</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-forks-and-pull-requests">Git Forks and Pull Requests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning Goals</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-fork-1-what-is-a-fork">1. What Is a Fork? {#1-what-is-a-fork}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mental-model">Mental Model</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#when-do-we-use-a-fork-2-when-do-we-use-a-fork">2. When Do We Use a Fork? {#2-when-do-we-use-a-fork}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-cases">Typical Cases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-a-fork-is-usually-not-needed">When a Fork Is Usually Not Needed</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fork-vs-clone-3-fork-vs-clone">3. Fork vs Clone {#3-fork-vs-clone}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fork">Fork</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone">Clone</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-order">Standard Order</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#do-we-get-the-full-history-after-forking-4-do-we-get-the-full-history-after-forking">4. Do We Get the Full History After Forking? {#4-do-we-get-the-full-history-after-forking}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#are-you-a-contributor-just-because-you-forked-5-are-you-a-contributor-just-because-you-forked">5. Are You a Contributor Just Because You Forked? {#5-are-you-a-contributor-just-because-you-forked}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-are-you-usually-considered-a-contributor">When Are You Usually Considered a Contributor?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-full-fork-workflow-6-the-full-fork-workflow">6. The Full Fork Workflow {#6-the-full-fork-workflow}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-fork-the-repository-on-github-7-step-1-fork-the-repository-on-github">7. Step 1: Fork the Repository on GitHub {#7-step-1-fork-the-repository-on-github}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-clone-your-fork-locally-8-step-2-clone-your-fork-locally">8. Step 2: Clone Your Fork Locally {#8-step-2-clone-your-fork-locally}</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-add-the-original-repository-as-upstream-9-step-3-add-the-original-repository-as-upstream">9. Step 3: Add the Original Repository as <code class="docutils literal notranslate"><span class="pre">upstream</span></code> {#9-step-3-add-the-original-repository-as-upstream}</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-is-upstream-important">Why Is <code class="docutils literal notranslate"><span class="pre">upstream</span></code> Important?</a></li>
 </ul>
 </li>
 </ul>
