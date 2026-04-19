@@ -187,8 +187,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
@@ -432,21 +431,41 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-and-device-setup">1. Imports and Device Setup</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handwritten-digit-classification">Handwritten Digit Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-idea-in-pytorch-nn-module">The Core Idea in PyTorch: <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters-tensors-and-outputs">Parameters, Tensors, and Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor">Tensor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter">Parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loaders">Data Loaders</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model">3. Define the MLP Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-and-optimizer">4. Loss Function and Optimizer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-evaluation-functions">5. Training and Evaluation Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">6. Train the Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-general-workflow-for-designing-and-training-a-model-in-torch-nn">A General Workflow for Designing and Training a Model in <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-device">2. Defining the Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">3,4. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader-object-for-batching-and-iteration">5. <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> object for batching and iteration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model-by-inheriting-from-nn-module">6. Define the MLP model by inheriting from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hierarchy-diagram">Module Hierarchy Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-hierarchy-in-pytorch">Conceptual Hierarchy in PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-stored-inside-a-module">What Is Stored Inside a Module?</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-loss-function-and-optimizer">7. Define the loss function and optimizer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer">Optimizer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-flow-diagram">Forward Flow Diagram</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-training-loop-for-one-epoch">8. Write a training loop for one epoch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-flow-diagram">Training Flow Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-mechanism">Parameter Update Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-model-parameters-and-output">Difference Between Model, Parameters, and Output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-training-and-evaluation-on-validation-for-several-epochs">9. Repeat training and evaluation on validation for several epochs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-compact-end-to-end-diagram">One Compact End-to-End Diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaways">Final Takeaways</a></li>
+</ul>
             </nav>
         </div>
     </div>
@@ -459,42 +478,116 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multilayer-perceptron-mlp-with-pytorch-on-mnist">
 <h1>Multilayer Perceptron (MLP) with PyTorch on MNIST<a class="headerlink" href="#multilayer-perceptron-mlp-with-pytorch-on-mnist" title="Permalink to this heading">#</a></h1>
-<p>After implementing an MLP from scratch, it is useful to reproduce the same model using PyTorch. This gives you (1) a correctness check against a widely used framework and (2) a baseline for future experiments (regularization, better optimizers, GPUs, etc.).
-This notebook demonstrates how to train a Multilayer Perceptron (MLP) using PyTorch on the MNIST dataset.</p>
-<section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
-<p>Install the required packages:</p>
+<section id="handwritten-digit-classification">
+<h2>Handwritten Digit Classification<a class="headerlink" href="#handwritten-digit-classification" title="Permalink to this heading">#</a></h2>
+<p>After implementing a Multilayer Perceptron (MLP) from scratch, it is highly beneficial to reproduce the same model using <strong>PyTorch</strong>. This serves two main purposes:</p>
+<ol class="arabic simple">
+<li><p><strong>Validation</strong>: checking correctness against a widely used deep learning framework.</p></li>
+<li><p><strong>Extensibility</strong>: establishing a baseline for future experiments such as regularization, improved optimizers, better architectures, and GPU acceleration.</p></li>
+</ol>
+<p>This notebook provides a conceptual introduction to how a neural network is designed and trained in <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code>, using an MLP for MNIST as the running example.</p>
+</section>
+<section id="the-core-idea-in-pytorch-nn-module">
+<h2>The Core Idea in PyTorch: <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code><a class="headerlink" href="#the-core-idea-in-pytorch-nn-module" title="Permalink to this heading">#</a></h2>
+<p>The central abstraction in PyTorch neural networks is <strong><code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></strong>.</p>
+<ul class="simple">
+<li><p>A <strong>layer</strong> such as <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.ReLU</span></code>, or <code class="docutils literal notranslate"><span class="pre">nn.Conv2d</span></code> is a subclass of <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.</p></li>
+<li><p>A <strong>model</strong> is also a subclass of <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.</p></li>
+<li><p>A model is usually built by <strong>combining smaller Modules</strong> into a larger Module.</p></li>
+</ul>
+<p>So in PyTorch, a neural network is best viewed as a <strong>tree of Modules</strong>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> is not just a data container. It is a base class that provides the standard behavior needed by neural networks, including:</p>
+<ul class="simple">
+<li><p>registration of submodules</p></li>
+<li><p>registration of learnable parameters</p></li>
+<li><p>device transfer (<code class="docutils literal notranslate"><span class="pre">.to(device)</span></code>, <code class="docutils literal notranslate"><span class="pre">.cuda()</span></code>, <code class="docutils literal notranslate"><span class="pre">.cpu()</span></code>)</p></li>
+<li><p>training/evaluation mode switching (<code class="docutils literal notranslate"><span class="pre">.train()</span></code>, <code class="docutils literal notranslate"><span class="pre">.eval()</span></code>)</p></li>
+<li><p>compatibility with optimizers and autograd</p></li>
+<li><p>saving and loading through <code class="docutils literal notranslate"><span class="pre">state_dict()</span></code></p></li>
+</ul>
+<p>A useful analogy is <strong>LEGO</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> is like the <strong>standard design system</strong> that all LEGO parts must follow.</p></li>
+<li><p>Layers such as <code class="docutils literal notranslate"><span class="pre">Linear</span></code> and <code class="docutils literal notranslate"><span class="pre">ReLU</span></code> are like <strong>individual LEGO pieces</strong>.</p></li>
+<li><p>A model is like the <strong>final structure assembled from those pieces</strong>.</p></li>
+</ul>
+<p>This is why custom models usually inherit from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>: doing so makes the model understandable to the rest of PyTorch.</p>
+</section>
+<section id="parameters-tensors-and-outputs">
+<h2>Parameters, Tensors, and Outputs<a class="headerlink" href="#parameters-tensors-and-outputs" title="Permalink to this heading">#</a></h2>
+<p>A key conceptual distinction in PyTorch is the difference between <strong>parameters</strong> and <strong>outputs</strong>.</p>
+<section id="tensor">
+<h3>Tensor<a class="headerlink" href="#tensor" title="Permalink to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Tensor</span></code> is the basic numerical object in PyTorch. It may store data, intermediate results, or gradients.</p>
+</section>
+<section id="parameter">
+<h3>Parameter<a class="headerlink" href="#parameter" title="Permalink to this heading">#</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> is a special kind of tensor used to represent <strong>learnable state</strong> inside a model. Examples include the <code class="docutils literal notranslate"><span class="pre">weight</span></code> and <code class="docutils literal notranslate"><span class="pre">bias</span></code> of a linear layer.</p>
+<p>A parameter matters because it is <strong>registered</strong> inside a Module. Once registered:</p>
+<ul class="simple">
+<li><p>it appears in <code class="docutils literal notranslate"><span class="pre">model.parameters()</span></code></p></li>
+<li><p>the optimizer can update it</p></li>
+<li><p>it is saved in <code class="docutils literal notranslate"><span class="pre">state_dict()</span></code></p></li>
+<li><p>it moves with the model to CPU/GPU</p></li>
+</ul>
+</section>
+<section id="output">
+<h3>Output<a class="headerlink" href="#output" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> of a model is <strong>not</strong> a parameter. It is the result of applying the model to the current input.</p>
+<p>In other words:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>parameters = internal learnable state
+output     = computed result for a particular input
+</pre></div>
+</div>
+<p>Training updates the <strong>parameters</strong>, not the output, and not the model structure itself.</p>
+</section>
+</section>
+<section id="a-general-workflow-for-designing-and-training-a-model-in-torch-nn">
+<h2>A General Workflow for Designing and Training a Model in <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code><a class="headerlink" href="#a-general-workflow-for-designing-and-training-a-model-in-torch-nn" title="Permalink to this heading">#</a></h2>
+<p>A typical PyTorch pipeline looks like this:</p>
+<ol class="arabic simple">
+<li><p>import the required packages</p></li>
+<li><p>Define the device (<code class="docutils literal notranslate"><span class="pre">cuda</span></code> if available, otherwise <code class="docutils literal notranslate"><span class="pre">cpu</span></code>)</p></li>
+<li><p>Prepare the dataset using <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code></p></li>
+<li><p>Split the dataset into training and testing sets</p></li>
+<li><p>Create <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> objects for batching and iteration</p></li>
+<li><p>Define the model by inheriting from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></p></li>
+<li><p>Define the loss function and optimizer</p></li>
+<li><p>Write a training loop for one epoch</p></li>
+<li><p>Repeat training for several epochs</p></li>
+<li><p>Write a test/evaluation function</p></li>
+</ol>
+<p>The remainder of this notebook explains the conceptual roles of each part.</p>
+</section>
+<section id="imports">
+<h2>1. Imports<a class="headerlink" href="#imports" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install torch torchvision</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="imports-and-device-setup">
-<h2>1. Imports and Device Setup<a class="headerlink" href="#imports-and-device-setup" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
-
-<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
-<span class="n">device</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>device(type=&#39;cpu&#39;)
 </pre></div>
 </div>
 </div>
 </div>
 </section>
+<section id="defining-the-device">
+<h2>2. Defining the Device<a class="headerlink" href="#defining-the-device" title="Permalink to this heading">#</a></h2>
+<p>A standard pattern in PyTorch is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This allows the same code to run on GPU if available, otherwise on CPU.
+The model and data should be moved to the same device before computation.</p>
+</section>
 <section id="load-the-mnist-dataset-with-torchvision">
-<h2>2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code><a class="headerlink" href="#load-the-mnist-dataset-with-torchvision" title="Permalink to this heading">#</a></h2>
+<h2>3,4. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code><a class="headerlink" href="#load-the-mnist-dataset-with-torchvision" title="Permalink to this heading">#</a></h2>
 <p>MNIST images are 28×28 grayscale. For an MLP, we flatten each image into a 784-dimensional vector.
 We will use <code class="docutils literal notranslate"><span class="pre">datasets</span></code> from <code class="docutils literal notranslate"><span class="pre">torchvision</span></code> to load the <a class="reference external" href="https://yann.lecun.com/exdb/mnist/">MNIST</a> handwritten digits dataset. You can find the list of datasets available on torchvision <a class="reference external" href="https://pytorch.org/vision/0.8/datasets.html">here</a>. Now let’s take a loot at the parameters we set:</p>
 <ul class="simple">
@@ -502,6 +595,7 @@ We will use <code class="docutils literal notranslate"><span class="pre">dataset
 <li><p><code class="docutils literal notranslate"><span class="pre">train</span></code> indicates wether we want the training dataset or the test dataset.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">transform</span></code> allows us to apply transformations to our data, here we are only going to convert the data to tensor so that they work with PyToch, however in the future notebooks you will see more complicated transformations.</p></li>
 </ul>
+<p>We do not need to split the data into training and testing sets here, as this has already been handled by <code class="docutils literal notranslate"><span class="pre">torchvision</span></code>. Additionally, the data is already in the <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> class format; otherwise, we would need to implement a function to convert our data into a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
@@ -544,9 +638,18 @@ Transform: Compose(
 </div>
 </div>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="data-loaders">
-<h1>Data Loaders<a class="headerlink" href="#data-loaders" title="Permalink to this heading">#</a></h1>
+<section id="dataloader-object-for-batching-and-iteration">
+<h2>5. <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> object for batching and iteration<a class="headerlink" href="#dataloader-object-for-batching-and-iteration" title="Permalink to this heading">#</a></h2>
+<p>PyTorch uses two important abstractions for data handling:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></strong>: defines how to access individual samples</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></strong>: creates an iterable over the dataset, handling batching, shuffling, and efficient loading</p></li>
+</ul>
+<p>Conceptually:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>raw data → Dataset → DataLoader → batches of (data, target)
+</pre></div>
+</div>
+<p>This makes it easy to iterate through the training set batch by batch.</p>
 <p>To make loading and working with the data easier, we are going to use <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> from <code class="docutils literal notranslate"><span class="pre">torch.utils.data</span></code>. The <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> takes in a dataset and a <code class="docutils literal notranslate"><span class="pre">batch_size</span></code> parameter, and allows us to iterate over the dataset. Here we do one iteration just to see the data shapes:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -556,49 +659,141 @@ Transform: Compose(
 </div>
 </div>
 </div>
-<section id="define-the-mlp-model">
-<h2>3. Define the MLP Model<a class="headerlink" href="#define-the-mlp-model" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="define-the-mlp-model-by-inheriting-from-nn-module">
+<h2>6. Define the MLP model by inheriting from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code><a class="headerlink" href="#define-the-mlp-model-by-inheriting-from-nn-module" title="Permalink to this heading">#</a></h2>
 <p>This is a standard fully connected network: 784 → hidden → hidden → 10.
 We do not apply softmax inside the model because CrossEntropyLoss expects raw logits.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="n">hidden1</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">hidden2</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SimpleMLP</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden1</span><span class="p">),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span>
             <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden1</span><span class="p">,</span> <span class="n">hidden2</span><span class="p">),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
-            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden2</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleMLP</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 <span class="n">model</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLP(
-  (net): Sequential(
-    (0): Linear(in_features=784, out_features=256, bias=True)
-    (1): ReLU()
-    (2): Linear(in_features=256, out_features=128, bias=True)
-    (3): ReLU()
-    (4): Linear(in_features=128, out_features=10, bias=True)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimpleMLP(
+  (layers): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=784, out_features=20, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=20, out_features=10, bias=True)
   )
 )
 </pre></div>
 </div>
 </div>
 </div>
+<p>Two methods are central:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">__init__</span></code></strong>: defines the structure of the model</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">forward</span></code></strong>: defines how data flows through the model</p></li>
+</ul>
+<p>Notice that <code class="docutils literal notranslate"><span class="pre">nn.Sequential</span></code> is itself a <strong>Module container</strong>. It stores several Modules and applies them one after another.</p>
+<p>Important distinction:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Linear</span></code> has parameters (<code class="docutils literal notranslate"><span class="pre">weight</span></code>, <code class="docutils literal notranslate"><span class="pre">bias</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ReLU</span></code> and <code class="docutils literal notranslate"><span class="pre">Flatten</span></code> do not have parameters</p></li>
+<li><p>all of them are still Modules</p></li>
+</ul>
+<section id="module-hierarchy-diagram">
+<h3>Module Hierarchy Diagram<a class="headerlink" href="#module-hierarchy-diagram" title="Permalink to this heading">#</a></h3>
+<p>For the <code class="docutils literal notranslate"><span class="pre">SimpleMLP</span></code> model, the Module tree looks like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SimpleMLP (nn.Module)
+│
+└── layers (nn.Sequential)                         ← container Module
+    │
+    ├── (0) Flatten                                ← Module, no parameters
+    │
+    ├── (1) Linear(28*28 → 20)                     ← Module
+    │       ├── weight : Parameter [20, 784]
+    │       └── bias   : Parameter [20]
+    │
+    ├── (2) ReLU                                   ← Module, no parameters
+    │
+    └── (3) Linear(20 → 10)                        ← Module
+            ├── weight : Parameter [10, 20]
+            └── bias   : Parameter [10]
+</pre></div>
+</div>
+<p>This makes it clear that the <strong>model is not separate from the layers</strong>. The model is the outer Module that contains the inner Modules.</p>
 </section>
-<section id="loss-function-and-optimizer">
-<h2>4. Loss Function and Optimizer<a class="headerlink" href="#loss-function-and-optimizer" title="Permalink to this heading">#</a></h2>
+<section id="conceptual-hierarchy-in-pytorch">
+<h3>Conceptual Hierarchy in PyTorch<a class="headerlink" href="#conceptual-hierarchy-in-pytorch" title="Permalink to this heading">#</a></h3>
+<p>The hierarchy of concepts is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Tensor
+  ↓
+Parameter                          ← learnable tensor
+  ↓
+Module (nn.Module)                 ← standard neural-network building block
+  ↓
+Layer (Linear, ReLU, Conv2d, ...)
+  ↓
+Model (composition of layers / modules)
+</pre></div>
+</div>
+<p>So a model is best understood as a higher-level Module built from lower-level Modules.</p>
+</section>
+<section id="what-is-stored-inside-a-module">
+<h3>What Is Stored Inside a Module?<a class="headerlink" href="#what-is-stored-inside-a-module" title="Permalink to this heading">#</a></h3>
+<p>A Module conceptually manages three kinds of internal state:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Model
+ ├── Submodules (_modules)
+ │     ├── layers
+ │     ├── fc1
+ │     └── relu
+ │
+ ├── Parameters (_parameters)
+ │     ├── weight
+ │     └── bias
+ │
+ └── Buffers (_buffers)
+       └── non-trainable state (e.g. BatchNorm running statistics)
+</pre></div>
+</div>
+<p>This is why a registered <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> is different from an ordinary tensor. A plain tensor is just an attribute unless PyTorch is told to treat it as part of the model.</p>
+</section>
+</section>
+<section id="define-the-loss-function-and-optimizer">
+<h2>7. Define the loss function and optimizer<a class="headerlink" href="#define-the-loss-function-and-optimizer" title="Permalink to this heading">#</a></h2>
+<p>Once the model is defined, we instantiate a loss function and an optimizer.</p>
+<section id="loss-function">
+<h3>Loss Function<a class="headerlink" href="#loss-function" title="Permalink to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CrossEntropyLoss</span></code> is a class that computes the difference between the model’s predicted logits and the correct class labels.</p>
+<p>Conceptually:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>output + target → loss
+</pre></div>
+</div>
+<p>Its role is to measure <strong>how wrong</strong> the model currently is.</p>
+</section>
+<section id="optimizer">
+<h3>Optimizer<a class="headerlink" href="#optimizer" title="Permalink to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The optimizer is responsible for updating the model’s parameters during training.</p>
+<p>A very important point is that the optimizer receives:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>model.parameters()
+</pre></div>
+</div>
+<p>This means it holds <strong>references</strong> to the actual <code class="docutils literal notranslate"><span class="pre">Parameter</span></code> objects stored inside the model. It does not make an independent copy of them.</p>
+<p>Therefore, when the optimizer updates a parameter, it is directly updating the parameter inside the model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
@@ -608,8 +803,139 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
 </div>
 </div>
 </section>
-<section id="training-and-evaluation-functions">
-<h2>5. Training and Evaluation Functions<a class="headerlink" href="#training-and-evaluation-functions" title="Permalink to this heading">#</a></h2>
+<section id="forward-flow-diagram">
+<h3>Forward Flow Diagram<a class="headerlink" href="#forward-flow-diagram" title="Permalink to this heading">#</a></h3>
+<p>For one batch of images, the forward computation looks like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>input image x
+   shape: [batch_size, 1, 28, 28]
+            │
+            ▼
+Flatten
+   shape: [batch_size, 784]
+            │
+            ▼
+Linear(784 → 20)
+   shape: [batch_size, 20]
+            │
+            ▼
+ReLU
+   shape: [batch_size, 20]
+            │
+            ▼
+Linear(20 → 10)
+   shape: [batch_size, 10]
+            │
+            ▼
+output logits
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> here is the prediction for the current input batch. It is <strong>not</strong> the stored state of the model.</p>
+</section>
+</section>
+<section id="write-a-training-loop-for-one-epoch">
+<h2>8. Write a training loop for one epoch<a class="headerlink" href="#write-a-training-loop-for-one-epoch" title="Permalink to this heading">#</a></h2>
+<p>A typical one-epoch training function is conceptually organized as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">data_loader</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The meaning of each step is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model.train()</span></code> puts the model into training mode</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">model(data)</span></code> performs the forward pass</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span> <span class="pre">=</span> <span class="pre">criterion(output,</span> <span class="pre">target)</span></code> computes the error</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> computes gradients for each parameter</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.step()</span></code> updates the model parameters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.zero_grad()</span></code> clears old gradients before the next iteration</p></li>
+</ul>
+<p>The crucial point is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>the actual parameter update happens at optimizer.step()
+</pre></div>
+</div>
+<p>By contrast:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>loss.backward() computes gradients, but does not change weights
+</pre></div>
+</div>
+<section id="training-flow-diagram">
+<h3>Training Flow Diagram<a class="headerlink" href="#training-flow-diagram" title="Permalink to this heading">#</a></h3>
+<p>The full training flow for one batch is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>batch of data, target
+        │
+        ▼
+ data = data.to(device)
+ target = target.to(device)
+        │
+        ▼
+output = model(data)                    ← forward pass
+        │
+        ▼
+loss = criterion(output, target)        ← compute loss
+        │
+        ▼
+loss.backward()                         ← compute gradients into param.grad
+        │
+        ▼
+optimizer.step()                        ← update model parameters
+        │
+        ▼
+optimizer.zero_grad()                   ← clear gradients
+        │
+        ▼
+next batch
+</pre></div>
+</div>
+</section>
+<section id="parameter-update-mechanism">
+<h3>Parameter Update Mechanism<a class="headerlink" href="#parameter-update-mechanism" title="Permalink to this heading">#</a></h3>
+<p>The role of the optimizer can be summarized as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>model.parameters()
+      │
+      ▼
+optimizer holds references to these Parameter objects
+      │
+      ▼
+loss.backward() fills:
+    parameter.grad
+      │
+      ▼
+optimizer.step() updates:
+    parameter.data
+</pre></div>
+</div>
+<p>So the overall mechanism is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gradient is computed in backward()
+weights are changed in step()
+</pre></div>
+</div>
+<p>This explains why the model object itself remains the same object throughout training, while its <strong>internal state</strong> changes.</p>
+</section>
+<section id="difference-between-model-parameters-and-output">
+<h3>Difference Between Model, Parameters, and Output<a class="headerlink" href="#difference-between-model-parameters-and-output" title="Permalink to this heading">#</a></h3>
+<p>The following summary is especially useful:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>model       = the object / structure
+parameters  = internal learnable state of the model
+output      = result of applying the model to input
+</pre></div>
+</div>
+<p>or equivalently:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>input  ──&gt;  model(using parameters)  ──&gt;  output
+                         ▲
+                         │
+                  optimizer updates
+</pre></div>
+</div>
+<p>This distinction is essential when reading training code.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_one_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
@@ -631,49 +957,101 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
 <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
     <span class="n">total_loss</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-        <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>     <span class="c1"># Copy data and targets to GPU</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                     <span class="c1"># Do a forward pass</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>           <span class="c1"># Calculate the loss</span>
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="n">total</span><span class="p">,</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="train-the-model">
-<h2>6. Train the Model<a class="headerlink" href="#train-the-model" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="repeat-training-and-evaluation-on-validation-for-several-epochs">
+<h2>9. Repeat training and evaluation on validation for several epochs<a class="headerlink" href="#repeat-training-and-evaluation-on-validation-for-several-epochs" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">train_loss</span><span class="p">,</span> <span class="n">train_acc</span> <span class="o">=</span> <span class="n">train_one_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
     <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1"> | Train Acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> | Test Acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1"> | Train Acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1"> | Validation Acc: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.9032 | Test Acc: 0.9498
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.8434 | Validation Acc: 0.9116
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9601 | Test Acc: 0.9679
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9180 | Validation Acc: 0.9255
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9733 | Test Acc: 0.9736
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9299 | Validation Acc: 0.9351
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9802 | Test Acc: 0.9751
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9372 | Validation Acc: 0.9386
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9853 | Test Acc: 0.9745
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9428 | Validation Acc: 0.9422
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="one-compact-end-to-end-diagram">
+<h2>One Compact End-to-End Diagram<a class="headerlink" href="#one-compact-end-to-end-diagram" title="Permalink to this heading">#</a></h2>
+<p>The entire process can be summarized in one diagram:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                 ┌─────────────────────────────┐
+                 │       SimpleMLP Model       │
+                 │        (nn.Module)          │
+                 └─────────────┬───────────────┘
+                               │
+                               ▼
+                      [Flatten → Linear → ReLU → Linear]
+                               │
+                               ▼
+                           output logits
+                               │
+                               ▼
+                     CrossEntropyLoss(output, target)
+                               │
+                               ▼
+                          scalar loss
+                               │
+                               ▼
+                         loss.backward()
+                               │
+                               ▼
+                    gradients stored in param.grad
+                               │
+                               ▼
+                         optimizer.step()
+                               │
+                               ▼
+                    parameters inside model updated
+</pre></div>
+</div>
+</section>
+<section id="final-takeaways">
+<h2>Final Takeaways<a class="headerlink" href="#final-takeaways" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> is the foundational abstraction in PyTorch neural network design.</p></li>
+<li><p>Layers are Modules, and a model is a larger Module composed of smaller Modules.</p></li>
+<li><p>Parameters are the learnable internal state stored inside layers.</p></li>
+<li><p>Outputs are computed results, not stored learnable state.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> computes gradients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.step()</span></code> performs the actual parameter update.</p></li>
+<li><p>Training changes the <strong>internal state</strong> of the model, not the model’s identity or structure.</p></li>
+</ul>
+<p>A final sentence worth remembering is:</p>
+<blockquote>
+<div><p><strong>Training in PyTorch means updating the internal parameters of a model, not changing the model itself.</strong></p>
+</div></blockquote>
 </section>
 </section>
 
@@ -741,21 +1119,41 @@ We do not apply softmax inside the model because CrossEntropyLoss expects raw lo
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Multilayer Perceptron (MLP) with PyTorch on MNIST</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-and-device-setup">1. Imports and Device Setup</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">2. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handwritten-digit-classification">Handwritten Digit Classification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-core-idea-in-pytorch-nn-module">The Core Idea in PyTorch: <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameters-tensors-and-outputs">Parameters, Tensors, and Outputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensor">Tensor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter">Parameter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-loaders">Data Loaders</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model">3. Define the MLP Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function-and-optimizer">4. Loss Function and Optimizer</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-and-evaluation-functions">5. Training and Evaluation Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-the-model">6. Train the Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-general-workflow-for-designing-and-training-a-model-in-torch-nn">A General Workflow for Designing and Training a Model in <code class="docutils literal notranslate"><span class="pre">torch.nn</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">1. Imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-device">2. Defining the Device</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-mnist-dataset-with-torchvision">3,4. Load the MNIST Dataset with <code class="docutils literal notranslate"><span class="pre">torchvision</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataloader-object-for-batching-and-iteration">5. <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> object for batching and iteration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-mlp-model-by-inheriting-from-nn-module">6. Define the MLP model by inheriting from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#module-hierarchy-diagram">Module Hierarchy Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-hierarchy-in-pytorch">Conceptual Hierarchy in PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-stored-inside-a-module">What Is Stored Inside a Module?</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-loss-function-and-optimizer">7. Define the loss function and optimizer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer">Optimizer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-flow-diagram">Forward Flow Diagram</a></li>
 </ul>
-
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#write-a-training-loop-for-one-epoch">8. Write a training loop for one epoch</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#training-flow-diagram">Training Flow Diagram</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-update-mechanism">Parameter Update Mechanism</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#difference-between-model-parameters-and-output">Difference Between Model, Parameters, and Output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-training-and-evaluation-on-validation-for-several-epochs">9. Repeat training and evaluation on validation for several epochs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-compact-end-to-end-diagram">One Compact End-to-End Diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaways">Final Takeaways</a></li>
+</ul>
   </nav></div>
 
 </div></div>

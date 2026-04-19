@@ -1370,16 +1370,16 @@ git merge upstream/main
 git push origin main
 ```
 
--   `git fetch upstream`\
+-   `git fetch upstream`
     downloads the latest state from the original project
 
--   `git switch main`\
+-   `git switch main`
     returns you to your local main branch
 
--   `git merge upstream/main`\
+-   `git merge upstream/main`
     brings upstream changes into your local main
 
--   `git push origin main`\
+-   `git push origin main`
     updates your fork\'s `main` on GitHub
 
 :::

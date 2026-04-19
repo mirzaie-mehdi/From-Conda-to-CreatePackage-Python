@@ -187,8 +187,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch on MNIST</a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
@@ -525,7 +524,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.1 ms ± 48.9 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.1 ms ± 39.1 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -548,7 +547,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.17 μs ± 3.01 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.23 μs ± 2.82 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -816,8 +815,8 @@ Changing dtype is slower (copy + new memory).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.015976292022969574
-New dtype  : 0.021505624987185
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.017147582955658436
+New dtype  : 0.022683541988953948
 </pre></div>
 </div>
 </div>
