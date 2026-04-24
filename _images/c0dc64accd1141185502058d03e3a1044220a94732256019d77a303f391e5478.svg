@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="260">
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }
+    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
+    .txt { font-family: Arial, sans-serif; font-size: 16px; }
+    .small { font-family: Arial, sans-serif; font-size: 13px; }
+    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }
+  </style>
+
+  <text x="310" y="28" class="title">Many-to-Many: aligned / synchronous outputs</text>
+  <text x="75" y="60" class="small">example: tagging, frame-level labeling, stepwise forecasting</text>
+  <rect x="110" y="100" width="80" height="45" class="box"/><text x="140" y="128" class="math">h₁</text>
+  <rect x="260" y="100" width="80" height="45" class="box"/><text x="290" y="128" class="math">h₂</text>
+  <rect x="410" y="100" width="80" height="45" class="box"/><text x="440" y="128" class="math">h₃</text>
+  <rect x="560" y="100" width="80" height="45" class="box"/><text x="590" y="128" class="math">h₄</text>
+  <line x1="190" y1="122" x2="260" y2="122" class="line"/>
+  <line x1="340" y1="122" x2="410" y2="122" class="line"/>
+  <line x1="490" y1="122" x2="560" y2="122" class="line"/>
+  <text x="130" y="83" class="math">x₁</text><line x1="150" y1="82" x2="150" y2="100" class="line"/>
+  <text x="280" y="83" class="math">x₂</text><line x1="300" y1="82" x2="300" y2="100" class="line"/>
+  <text x="430" y="83" class="math">x₃</text><line x1="450" y1="82" x2="450" y2="100" class="line"/>
+  <text x="580" y="83" class="math">x₄</text><line x1="600" y1="82" x2="600" y2="100" class="line"/>
+  <line x1="150" y1="145" x2="150" y2="178" class="line"/><text x="132" y="205" class="math">y₁</text>
+  <line x1="300" y1="145" x2="300" y2="178" class="line"/><text x="282" y="205" class="math">y₂</text>
+  <line x1="450" y1="145" x2="450" y2="178" class="line"/><text x="432" y="205" class="math">y₃</text>
+  <line x1="600" y1="145" x2="600" y2="178" class="line"/><text x="582" y="205" class="math">y₄</text>
+  <text x="690" y="125" class="small">loss at every step</text>
+  <text x="690" y="150" class="math">L = Σₜ ℓ(yₜ, ŷₜ)</text>
+</svg>

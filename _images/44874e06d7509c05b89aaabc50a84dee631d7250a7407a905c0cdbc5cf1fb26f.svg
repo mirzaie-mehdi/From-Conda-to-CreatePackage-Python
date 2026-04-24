@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="260">
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }
+    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
+    .txt { font-family: Arial, sans-serif; font-size: 16px; }
+    .small { font-family: Arial, sans-serif; font-size: 13px; }
+    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }
+  </style>
+
+  <text x="360" y="28" class="title">One-to-Many: conditional generation</text>
+  <text x="80" y="60" class="small">example: image captioning, music generation from a seed, sequence generation from a context vector</text>
+  <rect x="75" y="110" width="90" height="50" class="box"/><text x="112" y="140" class="math">x</text>
+  <line x1="165" y1="135" x2="245" y2="135" class="line"/>
+  <rect x="245" y="110" width="80" height="45" class="box"/><text x="275" y="138" class="math">h₁</text>
+  <rect x="395" y="110" width="80" height="45" class="box"/><text x="425" y="138" class="math">h₂</text>
+  <rect x="545" y="110" width="80" height="45" class="box"/><text x="575" y="138" class="math">h₃</text>
+  <rect x="695" y="110" width="80" height="45" class="box"/><text x="725" y="138" class="math">h₄</text>
+  <line x1="325" y1="132" x2="395" y2="132" class="line"/>
+  <line x1="475" y1="132" x2="545" y2="132" class="line"/>
+  <line x1="625" y1="132" x2="695" y2="132" class="line"/>
+  <line x1="285" y1="155" x2="285" y2="188" class="line"/><text x="267" y="215" class="math">y₁</text>
+  <line x1="435" y1="155" x2="435" y2="188" class="line"/><text x="417" y="215" class="math">y₂</text>
+  <line x1="585" y1="155" x2="585" y2="188" class="line"/><text x="567" y="215" class="math">y₃</text>
+  <line x1="735" y1="155" x2="735" y2="188" class="line"/><text x="717" y="215" class="math">y₄</text>
+  <text x="245" y="85" class="small">context initializes the recurrent generator</text>
+</svg>

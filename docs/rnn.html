@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Recurrent Neural Networks — Textbook-Level Course Notes &#8212; From Conda to Create Package in Python</title>
+    <title>RNN: Recurrent Neural Networks &#8212; From Conda to Create Package in Python</title>
   
   
   
@@ -224,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Recurrent Neural Networks — Textbook-Level Course Notes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">RNN: Recurrent Neural Networks</a></li>
 
 
 
@@ -467,7 +467,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Recurrent Neural Networks — Textbook-Level Course Notes</h1>
+    <h1>RNN: Recurrent Neural Networks</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -477,7 +477,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks — Textbook-Level Course Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">RNN: Recurrent Neural Networks</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning goals</a></li>
 </ul>
@@ -488,7 +488,16 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss">4. Sequence loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-prediction">4.3 One-to-many prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-unaligned-sequence-to-sequence">4.4 Many-to-many, unaligned sequence-to-sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction">4.5 Many-to-many with delay: language modeling and next-step prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention">4.6 Encoder–decoder with attention: the bridge to modern attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-the-loss-determines-the-supervision-pattern">4.7 Summary: the loss determines the supervision pattern</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
@@ -571,11 +580,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="recurrent-neural-networks-textbook-level-course-notes">
-<h1>Recurrent Neural Networks — Textbook-Level Course Notes<a class="headerlink" href="#recurrent-neural-networks-textbook-level-course-notes" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="rnn-recurrent-neural-networks">
+<h1>RNN: Recurrent Neural Networks<a class="headerlink" href="#rnn-recurrent-neural-networks" title="Permalink to this heading">#</a></h1>
 <section id="gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">
 <h2>Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention<a class="headerlink" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention" title="Permalink to this heading">#</a></h2>
-<p>This notebook is written as a self-contained lecture sequence. It starts from linear layers and dynamical systems, derives recurrent neural networks mathematically, proves why vanishing and exploding gradients occur, explains LSTM/GRU as structural remedies, and ends by connecting recurrence to attention mechanisms.</p>
+<p>This notebook is adresses Recurrent neural networks. It starts from linear layers and dynamical systems, derives recurrent neural networks mathematically, proves why vanishing and exploding gradients occur, explains LSTM/GRU as structural remedies, and ends by connecting recurrence to attention mechanisms.</p>
 <section id="learning-goals">
 <h3>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h3>
 <p>By the end, you should be able to:</p>
@@ -591,7 +600,6 @@ document.write(`
 <li><p>Use gradient clipping, orthogonal initialization, and truncated BPTT.</p></li>
 <li><p>Understand attention as direct memory access and a conceptual successor to recurrence.</p></li>
 </ol>
-<p>Throughout the notebook, display mathematics uses <code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">...</span> <span class="pre">$$</span></code> and inline mathematics uses <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">...</span> <span class="pre">$</span></code>.</p>
 </section>
 </section>
 <section id="why-sequence-models-are-different">
@@ -687,7 +695,6 @@ W_y \in \mathbb{R}^{d_y \times d_h}.
 <section id="rnn-computation-graph">
 <h2>3. RNN computation graph<a class="headerlink" href="#rnn-computation-graph" title="Permalink to this heading">#</a></h2>
 <p>The same cell is reused at every time step.</p>
-<p>The diagram below is rendered by Python so it works reliably in Jupyter, VS Code, and Colab.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
@@ -758,29 +765,611 @@ W_y \in \mathbb{R}^{d_y \times d_h}.
 </div>
 <p>The horizontal arrows carry hidden states. The vertical arrows inject inputs and produce outputs.</p>
 </section>
-<section id="sequence-loss">
-<h2>4. Sequence loss<a class="headerlink" href="#sequence-loss" title="Permalink to this heading">#</a></h2>
-<p>For many-to-many sequence prediction, the model produces an output at each time step. A typical objective is</p>
+<section id="sequence-loss-and-sequence-to-sequence-mapping-types">
+<h2>4. Sequence loss and sequence-to-sequence mapping types<a class="headerlink" href="#sequence-loss-and-sequence-to-sequence-mapping-types" title="Permalink to this heading">#</a></h2>
+<p>A recurrent model can be used in several different input/output configurations. The recurrence itself is usually the same:</p>
 <div class="math notranslate nohighlight">
 \[
-\mathcal{L} = \sum_{t=1}^{T} \ell_t(y_t, \hat{y}_t),
+h_t = F_\theta(h_{t-1}, x_t),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\hat{y}_t\)</span> is the target at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
-<p>For many-to-one tasks, such as sequence classification, one often uses only the final hidden state:</p>
+<p>but the <strong>loss function changes depending on which hidden states are connected to supervised outputs</strong>.</p>
+<p>A useful general expression is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t \in \mathcal{T}_{\text{loss}}}
+\ell_t(y_t, \hat{y}_t),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{T}_{\text{loss}}\)</span> is the set of time steps at which the model is supervised.</p>
+<section id="many-to-many-aligned-synchronous-prediction">
+<h3>4.1 Many-to-many, aligned / synchronous prediction<a class="headerlink" href="#many-to-many-aligned-synchronous-prediction" title="Permalink to this heading">#</a></h3>
+<p>In aligned many-to-many prediction, the model produces an output at every input time step.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>part-of-speech tagging,</p></li>
+<li><p>named-entity recognition,</p></li>
+<li><p>frame-level speech labeling,</p></li>
+<li><p>time-series forecasting with one prediction per time step,</p></li>
+<li><p>sequence labeling in biological sequences.</p></li>
+</ul>
+<p>The recurrent update is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, x_t),
+\]</div>
+<p>and the output is:</p>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(W_y h_t + b_y).
+\]</div>
+<p>The loss is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T}
+\ell_t(y_t, \hat{y}_t).
+\]</div>
+<p>This is the most direct many-to-many RNN architecture: every hidden state contributes directly to the objective.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">many_to_many_aligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;310&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: aligned / synchronous outputs&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: tagging, frame-level labeling, stepwise forecasting&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;122&quot; x2=&quot;260&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;122&quot; x2=&quot;410&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;122&quot; x2=&quot;560&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;82&quot; x2=&quot;150&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;82&quot; x2=&quot;300&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;82&quot; x2=&quot;450&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;82&quot; x2=&quot;600&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;145&quot; x2=&quot;150&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;132&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;300&quot; y1=&quot;145&quot; x2=&quot;300&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;282&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;450&quot; y1=&quot;145&quot; x2=&quot;450&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;432&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;600&quot; y1=&quot;145&quot; x2=&quot;600&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;582&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;125&quot; class=&quot;small&quot;&gt;loss at every step&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;150&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, ŷₜ)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_many_aligned_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
+</div>
+</section>
+<section id="many-to-one-prediction">
+<h3>4.2 Many-to-one prediction<a class="headerlink" href="#many-to-one-prediction" title="Permalink to this heading">#</a></h3>
+<p>In many-to-one prediction, the input is a sequence but the target is a single label or value.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>sentiment classification,</p></li>
+<li><p>document classification,</p></li>
+<li><p>activity recognition from sensor streams,</p></li>
+<li><p>fraud detection over a transaction window,</p></li>
+<li><p>predicting whether a patient sequence indicates risk.</p></li>
+</ul>
+<p>A common choice is to use the final hidden state:</p>
 <div class="math notranslate nohighlight">
 \[
 y = g(W_y h_T + b_y),
 \]</div>
+<p>with loss:</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{L} = \ell(y, \hat{y}).
 \]</div>
-<p>Even if the loss only uses <span class="math notranslate nohighlight">\(h_T\)</span>, the final state depends recursively on all previous inputs:</p>
+<p>Even though the loss is attached only to <span class="math notranslate nohighlight">\(h_T\)</span>, the final state depends on the entire sequence:</p>
 <div class="math notranslate nohighlight">
 \[
-h_T = F_T(F_{T-1}(\cdots F_1(h_0, x_1), \ldots), x_T).
+h_T
+=
+F_\theta(
+F_\theta(
+\cdots
+F_\theta(h_0, x_1),
+x_2),
+\ldots,
+x_T).
 \]</div>
-<p>Thus learning long-range dependencies requires gradients to travel through many recurrent transitions.</p>
+<p>Therefore, learning from early inputs still requires gradients to flow backward through many recurrent transitions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">many_to_one_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;250&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;340&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-One: sequence classification&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: sentiment classification, activity recognition, fraud detection over a window&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;640&quot; y1=&quot;127&quot; x2=&quot;720&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;720&quot; y=&quot;103&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;755&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;y&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;190&quot; class=&quot;math&quot;&gt;L = ℓ(y, ŷ)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_one_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" src="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" /></div>
+</div>
+</section>
+<section id="one-to-many-prediction">
+<h3>4.3 One-to-many prediction<a class="headerlink" href="#one-to-many-prediction" title="Permalink to this heading">#</a></h3>
+<p>In one-to-many prediction, a single conditioning input is used to generate a sequence.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>image captioning, where an image embedding initializes a text generator,</p></li>
+<li><p>music generation from a seed vector,</p></li>
+<li><p>conditional sequence generation,</p></li>
+<li><p>generating a sequence from a fixed context representation.</p></li>
+</ul>
+<p>One common formulation is to initialize the hidden state from the input:</p>
+<div class="math notranslate nohighlight">
+\[
+h_0 = f_\theta(x),
+\]</div>
+<p>then generate outputs recurrently:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, u_t),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(W_y h_t + b_y),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(u_t\)</span> may be the previous target token during teacher forcing or the previous model output during inference.</p>
+<p>The sequence loss is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T_y}
+\ell_t(y_t, \hat{y}_t).
+\]</div>
+<p>During training, it is common to use <strong>teacher forcing</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+u_t = \hat{y}_{t-1},
+\]</div>
+<p>while during inference the model must feed back its own prediction:</p>
+<div class="math notranslate nohighlight">
+\[
+u_t = y_{t-1}.
+\]</div>
+<p>This mismatch is one reason autoregressive generation can accumulate errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">one_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;One-to-Many: conditional generation&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: image captioning, music generation from a seed, sequence generation from a context vector&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;75&quot; y=&quot;110&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;112&quot; y=&quot;140&quot; class=&quot;math&quot;&gt;x&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;165&quot; y1=&quot;135&quot; x2=&quot;245&quot; y2=&quot;135&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;245&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;275&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;395&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;425&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;545&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;575&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;695&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;725&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;325&quot; y1=&quot;132&quot; x2=&quot;395&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;475&quot; y1=&quot;132&quot; x2=&quot;545&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;625&quot; y1=&quot;132&quot; x2=&quot;695&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;285&quot; y1=&quot;155&quot; x2=&quot;285&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;267&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;435&quot; y1=&quot;155&quot; x2=&quot;435&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;417&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;585&quot; y1=&quot;155&quot; x2=&quot;585&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;567&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;735&quot; y1=&quot;155&quot; x2=&quot;735&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;717&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;245&quot; y=&quot;85&quot; class=&quot;small&quot;&gt;context initializes the recurrent generator&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">one_to_many_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" src="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" /></div>
+</div>
+</section>
+<section id="many-to-many-unaligned-sequence-to-sequence">
+<h3>4.4 Many-to-many, unaligned sequence-to-sequence<a class="headerlink" href="#many-to-many-unaligned-sequence-to-sequence" title="Permalink to this heading">#</a></h3>
+<p>In unaligned many-to-many problems, the input and output lengths may differ:</p>
+<div class="math notranslate nohighlight">
+\[
+T_x \neq T_y.
+\]</div>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>machine translation,</p></li>
+<li><p>abstractive summarization,</p></li>
+<li><p>speech recognition,</p></li>
+<li><p>question answering with generated text.</p></li>
+</ul>
+<p>A classical recurrent encoder–decoder model has two parts.</p>
+<p>The encoder reads the input:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t^{\text{enc}}
+=
+F_{\theta_e}(h_{t-1}^{\text{enc}}, x_t),
+\qquad t = 1, \ldots, T_x.
+\]</div>
+<p>The decoder generates the output:</p>
+<div class="math notranslate nohighlight">
+\[
+s_t
+=
+F_{\theta_d}(s_{t-1}, u_t, c),
+\qquad t = 1, \ldots, T_y,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> is a context vector, often chosen as the final encoder state:</p>
+<div class="math notranslate nohighlight">
+\[
+c = h_{T_x}^{\text{enc}}.
+\]</div>
+<p>The output distribution is:</p>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(W_y s_t + b_y),
+\]</div>
+<p>and the loss is accumulated over decoder steps:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T_y}
+\ell_t(y_t, \hat{y}_t).
+\]</div>
+<p>The weakness of the basic encoder–decoder architecture is that the entire source sequence must be compressed into one vector <span class="math notranslate nohighlight">\(c\)</span>.
+This creates an information bottleneck, especially for long sequences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">seq2seq_unaligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;960&quot; height=&quot;310&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;330&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: unaligned sequence-to-sequence&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: translation, summarization, speech recognition; input and output lengths may differ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;170&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;100&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;115&quot; y1=&quot;105&quot; x2=&quot;115&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;230&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;245&quot; y1=&quot;105&quot; x2=&quot;245&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;375&quot; y1=&quot;105&quot; x2=&quot;375&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;410&quot; y1=&quot;141&quot; x2=&quot;500&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;500&quot; y=&quot;115&quot; width=&quot;90&quot; height=&quot;55&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;515&quot; y=&quot;148&quot; class=&quot;math&quot;&gt;context&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;590&quot; y1=&quot;141&quot; x2=&quot;660&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;720&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;660&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;685&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;790&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;815&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;141&quot; x2=&quot;790&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;695&quot; y1=&quot;162&quot; x2=&quot;695&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;678&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;825&quot; y1=&quot;162&quot; x2=&quot;825&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;808&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;270&quot; class=&quot;small&quot;&gt;The loss is usually accumulated over decoder outputs rather than directly over encoder states.&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">seq2seq_unaligned_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" src="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" /></div>
+</div>
+</section>
+<section id="many-to-many-with-delay-language-modeling-and-next-step-prediction">
+<h3>4.5 Many-to-many with delay: language modeling and next-step prediction<a class="headerlink" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction" title="Permalink to this heading">#</a></h3>
+<p>In language modeling, the target at time <span class="math notranslate nohighlight">\(t\)</span> is often the next token:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_t = x_{t+1}.
+\]</div>
+<p>The RNN reads tokens one by one and predicts the next token distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, x_t),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = \operatorname{softmax}(W_y h_t + b_y).
+\]</div>
+<p>The loss is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T-1}
+\ell(y_t, x_{t+1}).
+\]</div>
+<p>For a vocabulary classification problem, this is usually cross-entropy:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(y_t, x_{t+1})
+=
+-\log p_\theta(x_{t+1} \mid x_{\le t}).
+\]</div>
+<p>Thus the total negative log-likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+-\sum_{t=1}^{T-1}
+\log p_\theta(x_{t+1} \mid x_1, \ldots, x_t).
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">delayed_many_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many with delay: next-token prediction&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: language modeling, autoregressive forecasting&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;path d=&quot;M150 150 C190 205, 235 205, 280 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;200&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₂&lt;/text&gt;</span>
+<span class="s1">  &lt;path d=&quot;M300 150 C340 205, 385 205, 430 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;350&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₃&lt;/text&gt;</span>
+<span class="s1">  &lt;path d=&quot;M450 150 C490 205, 535 205, 580 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;500&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;130&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, xₜ₊₁)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">delayed_many_to_many_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" src="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" /></div>
+</div>
+</section>
+<section id="encoderdecoder-with-attention-the-bridge-to-modern-attention">
+<h3>4.6 Encoder–decoder with attention: the bridge to modern attention<a class="headerlink" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention" title="Permalink to this heading">#</a></h3>
+<p>The bottleneck in the basic encoder–decoder model is the single context vector:</p>
+<div class="math notranslate nohighlight">
+\[
+c = h_{T_x}^{\text{enc}}.
+\]</div>
+<p>Attention replaces this single fixed vector with a decoder-dependent context vector:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t
+=
+\sum_{i=1}^{T_x}
+\alpha_{t,i} h_i^{\text{enc}},
+\]</div>
+<p>where the weights satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_{t,i}
+=
+\frac{
+\exp(e_{t,i})
+}{
+\sum_{j=1}^{T_x} \exp(e_{t,j})
+}.
+\]</div>
+<p>The alignment score <span class="math notranslate nohighlight">\(e_{t,i}\)</span> measures how relevant encoder state <span class="math notranslate nohighlight">\(h_i^{\text{enc}}\)</span> is to decoder state <span class="math notranslate nohighlight">\(s_t\)</span>.
+For example, additive attention uses:</p>
+<div class="math notranslate nohighlight">
+\[
+e_{t,i}
+=
+v^T \tanh(W_s s_t + W_h h_i^{\text{enc}}).
+\]</div>
+<p>This is the historical bridge from RNN encoder–decoder models to modern self-attention.
+Instead of relying only on the latest recurrent state, the decoder can directly access all encoder states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">encoder_decoder_attention_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;980&quot; height=&quot;330&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Encoder–Decoder with Attention: direct access to encoder states&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;The decoder no longer relies on only one final context vector; it computes a weighted sum over encoder states.&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;165&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder states&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;620&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;645&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;sₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;610&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder state/query&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;655&quot; y1=&quot;162&quot; x2=&quot;655&quot; y2=&quot;210&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;585&quot; y=&quot;210&quot; width=&quot;145&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;610&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;softmax scores&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;115&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;230&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;245&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;236&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;375&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;242&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;236&quot; x2=&quot;815&quot; y2=&quot;236&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;815&quot; y=&quot;210&quot; width=&quot;110&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;840&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;context cₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;870&quot; y1=&quot;262&quot; x2=&quot;870&quot; y2=&quot;292&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;850&quot; y=&quot;315&quot; class=&quot;math&quot;&gt;yₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;300&quot; class=&quot;small&quot;&gt;This is the historical bridge from recurrent encoder–decoder models to modern attention mechanisms.&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">encoder_decoder_attention_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" src="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" /></div>
+</div>
+</section>
+<section id="summary-the-loss-determines-the-supervision-pattern">
+<h3>4.7 Summary: the loss determines the supervision pattern<a class="headerlink" href="#summary-the-loss-determines-the-supervision-pattern" title="Permalink to this heading">#</a></h3>
+<p>The same recurrent transition can support many sequence-learning problems. What changes is the placement of the loss.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping type</p></th>
+<th class="head text-right"><p>Input</p></th>
+<th class="head text-right"><p>Output</p></th>
+<th class="head"><p>Typical loss placement</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>One-to-one</p></td>
+<td class="text-right"><p>single item</p></td>
+<td class="text-right"><p>single item</p></td>
+<td><p>one output</p></td>
+<td><p>ordinary classification/regression</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-one</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>single item</p></td>
+<td><p>final state or pooled states</p></td>
+<td><p>sentiment, activity recognition</p></td>
+</tr>
+<tr class="row-even"><td><p>One-to-many</p></td>
+<td class="text-right"><p>single item</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td><p>every generated step</p></td>
+<td><p>captioning, conditional generation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-many aligned</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>sequence, same alignment</p></td>
+<td><p>every input step</p></td>
+<td><p>tagging, frame labeling</p></td>
+</tr>
+<tr class="row-even"><td><p>Many-to-many delayed</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>shifted sequence</p></td>
+<td><p>next-step targets</p></td>
+<td><p>language modeling</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-many unaligned</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>sequence, different length</p></td>
+<td><p>decoder steps</p></td>
+<td><p>translation, summarization</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The important mathematical point is this:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{where the loss is attached determines how far gradients must travel.}
+\]</div>
+<p>If the loss at a later time depends on information from much earlier inputs, then the gradient must pass through repeated recurrent transitions. This is the central reason that vanishing and exploding gradients arise in RNNs.</p>
+</section>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="part-i-backpropagation-through-time">
@@ -1264,7 +1853,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.3824362754821777
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.2153050899505615
 </pre></div>
 </div>
 </div>
@@ -2099,7 +2688,7 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks — Textbook-Level Course Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">RNN: Recurrent Neural Networks</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning goals</a></li>
 </ul>
@@ -2110,7 +2699,16 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss">4. Sequence loss</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-prediction">4.3 One-to-many prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-unaligned-sequence-to-sequence">4.4 Many-to-many, unaligned sequence-to-sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction">4.5 Many-to-many with delay: language modeling and next-step prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention">4.6 Encoder–decoder with attention: the bridge to modern attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-the-loss-determines-the-supervision-pattern">4.7 Summary: the loss determines the supervision pattern</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">

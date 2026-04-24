@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="330">
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }
+    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
+    .txt { font-family: Arial, sans-serif; font-size: 16px; }
+    .small { font-family: Arial, sans-serif; font-size: 13px; }
+    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }
+  </style>
+
+  <text x="315" y="28" class="title">Encoder–Decoder with Attention: direct access to encoder states</text>
+  <text x="70" y="60" class="small">The decoder no longer relies on only one final context vector; it computes a weighted sum over encoder states.</text>
+  <text x="165" y="92" class="small">encoder states</text>
+  <rect x="80" y="120" width="70" height="42" class="box"/><text x="105" y="147" class="math">h₁</text>
+  <rect x="210" y="120" width="70" height="42" class="box"/><text x="235" y="147" class="math">h₂</text>
+  <rect x="340" y="120" width="70" height="42" class="box"/><text x="365" y="147" class="math">h₃</text>
+  <line x1="150" y1="141" x2="210" y2="141" class="line"/>
+  <line x1="280" y1="141" x2="340" y2="141" class="line"/>
+  <rect x="620" y="120" width="70" height="42" class="box"/><text x="645" y="147" class="math">sₜ</text>
+  <text x="610" y="92" class="small">decoder state/query</text>
+  <line x1="655" y1="162" x2="655" y2="210" class="line"/>
+  <rect x="585" y="210" width="145" height="52" class="box"/><text x="610" y="242" class="math">softmax scores</text>
+  <line x1="115" y1="162" x2="585" y2="230" class="dash"/>
+  <line x1="245" y1="162" x2="585" y2="236" class="dash"/>
+  <line x1="375" y1="162" x2="585" y2="242" class="dash"/>
+  <line x1="730" y1="236" x2="815" y2="236" class="line"/>
+  <rect x="815" y="210" width="110" height="52" class="box"/><text x="840" y="242" class="math">context cₜ</text>
+  <line x1="870" y1="262" x2="870" y2="292" class="line"/><text x="850" y="315" class="math">yₜ</text>
+  <text x="70" y="300" class="small">This is the historical bridge from recurrent encoder–decoder models to modern attention mechanisms.</text>
+</svg>

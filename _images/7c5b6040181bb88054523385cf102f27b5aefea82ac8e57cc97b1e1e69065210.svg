@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="310">
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }
+    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }
+    .txt { font-family: Arial, sans-serif; font-size: 16px; }
+    .small { font-family: Arial, sans-serif; font-size: 13px; }
+    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }
+    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }
+  </style>
+
+  <text x="330" y="28" class="title">Many-to-Many: unaligned sequence-to-sequence</text>
+  <text x="70" y="60" class="small">example: translation, summarization, speech recognition; input and output lengths may differ</text>
+  <text x="170" y="92" class="small">encoder</text>
+  <rect x="80" y="120" width="70" height="42" class="box"/><text x="105" y="147" class="math">h₁</text>
+  <rect x="210" y="120" width="70" height="42" class="box"/><text x="235" y="147" class="math">h₂</text>
+  <rect x="340" y="120" width="70" height="42" class="box"/><text x="365" y="147" class="math">h₃</text>
+  <line x1="150" y1="141" x2="210" y2="141" class="line"/>
+  <line x1="280" y1="141" x2="340" y2="141" class="line"/>
+  <text x="100" y="105" class="math">x₁</text><line x1="115" y1="105" x2="115" y2="120" class="line"/>
+  <text x="230" y="105" class="math">x₂</text><line x1="245" y1="105" x2="245" y2="120" class="line"/>
+  <text x="360" y="105" class="math">x₃</text><line x1="375" y1="105" x2="375" y2="120" class="line"/>
+  <line x1="410" y1="141" x2="500" y2="141" class="line"/>
+  <rect x="500" y="115" width="90" height="55" class="box"/><text x="515" y="148" class="math">context</text>
+  <line x1="590" y1="141" x2="660" y2="141" class="line"/>
+  <text x="720" y="92" class="small">decoder</text>
+  <rect x="660" y="120" width="70" height="42" class="box"/><text x="685" y="147" class="math">s₁</text>
+  <rect x="790" y="120" width="70" height="42" class="box"/><text x="815" y="147" class="math">s₂</text>
+  <line x1="730" y1="141" x2="790" y2="141" class="line"/>
+  <line x1="695" y1="162" x2="695" y2="202" class="line"/><text x="678" y="228" class="math">y₁</text>
+  <line x1="825" y1="162" x2="825" y2="202" class="line"/><text x="808" y="228" class="math">y₂</text>
+  <text x="75" y="270" class="small">The loss is usually accumulated over decoder outputs rather than directly over encoder states.</text>
+</svg>
