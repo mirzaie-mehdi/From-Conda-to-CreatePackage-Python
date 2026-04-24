@@ -16,46 +16,22 @@ Traceback (most recent call last):
     return future.result()
   File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
     await self.async_execute_cell(
-  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
-    await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
-    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
-nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
-------------------
-def linear_model(x, w, b):
-    return jnp.dot(x, w) + b
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1005, in async_execute_cell
+    exec_reply = await self.task_poll_for_reply
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 806, in _async_poll_for_reply
+    error_on_timeout_execute_reply = await self._async_handle_timeout(timeout, cell)
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 856, in _async_handle_timeout
+    raise CellTimeoutError.error_from_timeout_and_cell(
+nbclient.exceptions.CellTimeoutError: A cell timed out while it was being executed, after 30 seconds.
+The message was: Cell execution timed out.
+Here is a preview of the cell contents:
+-------------------
 
-
-# convert data into features, labels
-features = soldata.loc[:, feature_names].values
-labels = soldata.Solubility.values
-
-feature_dim = features.shape[1]
-
-# initialize our paramaters
-w = np.random.normal(size=feature_dim)
-b = 0.0
-
-
-# define loss
-def loss(y, labels):
-    return jnp.mean((y - labels) ** 2)
-
-
-# test it out
-y = linear_model(features, w, b)
-loss(y, labels)
-------------------
-
-
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[9], line 12[0m
-[1;32m      9[0m feature_dim [38;5;241m=[39m features[38;5;241m.[39mshape[[38;5;241m1[39m]
-[1;32m     11[0m [38;5;66;03m# initialize our paramaters[39;00m
-[0;32m---> 12[0m w [38;5;241m=[39m [43mnp[49m[38;5;241m.[39mrandom[38;5;241m.[39mnormal(size[38;5;241m=[39mfeature_dim)
-[1;32m     13[0m b [38;5;241m=[39m [38;5;241m0.0[39m
-[1;32m     16[0m [38;5;66;03m# define loss[39;00m
-
-[0;31mNameError[0m: name 'np' is not defined
+# soldata = pd.read_csv('https://dataverse.harvard.edu/api/access/datafile/3407241?format=original&gbrecs=true')
+# had to rehost because dataverse isn't reliable
+soldata = pd.read_csv(
+    "https://github.com/whitead/dmol-book/raw/main/data/curated-solubility-dataset.csv"
+)
+soldata.head()
+-------------------
 
