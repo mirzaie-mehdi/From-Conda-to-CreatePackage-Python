@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430">
+  <defs>
+    <marker id="arrow_attn" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }
+    .mat { fill: white; stroke: black; stroke-width: 2; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow_attn); }
+    .txt { font-family: Arial; font-size: 16px; }
+    .small { font-family: Arial; font-size: 13px; }
+    .math { font-family: Arial; font-size: 15px; font-style: italic; }
+  </style>
+
+  <rect x="60" y="175" width="110" height="55" class="box"/>
+  <text x="103" y="208" class="math">X</text>
+
+  <line x1="170" y1="202" x2="260" y2="95" class="line"/>
+  <line x1="170" y1="202" x2="260" y2="202" class="line"/>
+  <line x1="170" y1="202" x2="260" y2="310" class="line"/>
+
+  <rect x="260" y="70" width="120" height="50" class="box"/>
+  <text x="292" y="100" class="math">W<tspan baseline-shift="sub">Q</tspan></text>
+
+  <rect x="260" y="177" width="120" height="50" class="box"/>
+  <text x="292" y="207" class="math">W<tspan baseline-shift="sub">K</tspan></text>
+
+  <rect x="260" y="285" width="120" height="50" class="box"/>
+  <text x="292" y="315" class="math">W<tspan baseline-shift="sub">V</tspan></text>
+
+  <line x1="380" y1="95" x2="470" y2="95" class="line"/>
+  <line x1="380" y1="202" x2="470" y2="202" class="line"/>
+  <line x1="380" y1="310" x2="720" y2="310" class="line"/>
+
+  <rect x="470" y="70" width="100" height="50" class="mat"/>
+  <text x="512" y="100" class="math">Q</text>
+
+  <rect x="470" y="177" width="100" height="50" class="mat"/>
+  <text x="512" y="207" class="math">K</text>
+
+  <line x1="570" y1="95" x2="645" y2="150" class="line"/>
+  <line x1="570" y1="202" x2="645" y2="175" class="line"/>
+
+  <rect x="645" y="135" width="150" height="65" class="box"/>
+  <text x="672" y="162" class="math">QK<tspan baseline-shift="super">T</tspan> / √d</text>
+  <text x="682" y="185" class="small">similarity scores</text>
+
+  <line x1="795" y1="167" x2="840" y2="167" class="line"/>
+  <rect x="840" y="142" width="100" height="50" class="box"/>
+  <text x="857" y="172" class="math">softmax</text>
+
+  <line x1="890" y1="192" x2="890" y2="250" class="line"/>
+  <line x1="720" y1="310" x2="870" y2="310" class="line"/>
+
+  <rect x="800" y="250" width="130" height="80" class="box"/>
+  <text x="827" y="282" class="math">A V</text>
+  <text x="818" y="305" class="small">weighted retrieval</text>
+
+  <line x1="930" y1="290" x2="965" y2="290" class="line"/>
+  <text x="900" y="370" class="math">Attention(Q,K,V)</text>
+
+  <text x="60" y="65" class="txt">Self-attention computes content-dependent connections.</text>
+  <text x="60" y="390" class="small">Q asks what each position seeks; K describes what each position offers; V stores the information to retrieve.</text>
+</svg>

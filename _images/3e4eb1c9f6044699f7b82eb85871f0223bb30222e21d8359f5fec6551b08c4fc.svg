@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="270">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; }
+    .txt { font-family: Arial, sans-serif; font-size: 18px; text-anchor: middle; }
+    .small { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+    .line { stroke: black; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <rect x="70" y="90" width="120" height="70" class="box"/>
+  <text x="130" y="130" class="txt">RNN cell</text>
+  <text x="130" y="152" class="small">shared θ</text>
+
+  <rect x="300" y="90" width="120" height="70" class="box"/>
+  <text x="360" y="130" class="txt">RNN cell</text>
+  <text x="360" y="152" class="small">shared θ</text>
+
+  <rect x="530" y="90" width="120" height="70" class="box"/>
+  <text x="590" y="130" class="txt">RNN cell</text>
+  <text x="590" y="152" class="small">shared θ</text>
+
+  <rect x="760" y="90" width="120" height="70" class="box"/>
+  <text x="820" y="130" class="txt">RNN cell</text>
+  <text x="820" y="152" class="small">shared θ</text>
+
+  <path d="M190 125 L300 125" class="line"/>
+  <path d="M420 125 L530 125" class="line"/>
+  <path d="M650 125 L760 125" class="line"/>
+
+  <path d="M130 220 L130 160" class="line"/>
+  <path d="M360 220 L360 160" class="line"/>
+  <path d="M590 220 L590 160" class="line"/>
+  <path d="M820 220 L820 160" class="line"/>
+
+  <text x="130" y="245" class="txt">x₁</text>
+  <text x="360" y="245" class="txt">x₂</text>
+  <text x="590" y="245" class="txt">x₃</text>
+  <text x="820" y="245" class="txt">x₄</text>
+
+  <path d="M130 90 L130 40" class="line"/>
+  <path d="M360 90 L360 40" class="line"/>
+  <path d="M590 90 L590 40" class="line"/>
+  <path d="M820 90 L820 40" class="line"/>
+
+  <text x="130" y="28" class="txt">y₁</text>
+  <text x="360" y="28" class="txt">y₂</text>
+  <text x="590" y="28" class="txt">y₃</text>
+  <text x="820" y="28" class="txt">y₄</text>
+
+  <text x="245" y="110" class="small">h₁</text>
+  <text x="475" y="110" class="small">h₂</text>
+  <text x="705" y="110" class="small">h₃</text>
+</svg>

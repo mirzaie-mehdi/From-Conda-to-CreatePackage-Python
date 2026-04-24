@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="950" height="420">
+  <defs>
+    <marker id="arrow_lstm" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; ry: 12; }
+    .gate { fill: white; stroke: black; stroke-width: 2; rx: 8; ry: 8; }
+    .op { fill: white; stroke: black; stroke-width: 2; }
+    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow_lstm); }
+    .txt { font-family: Arial; font-size: 16px; }
+    .small { font-family: Arial; font-size: 13px; }
+    .math { font-family: Arial; font-size: 15px; font-style: italic; }
+  </style>
+
+  <rect x="250" y="80" width="470" height="250" class="box"/>
+  <text x="430" y="110" class="txt">LSTM cell</text>
+
+  <line x1="80" y1="145" x2="250" y2="145" class="line"/>
+  <text x="85" y="135" class="math">h<tspan baseline-shift="sub">t−1</tspan></text>
+
+  <line x1="80" y1="255" x2="250" y2="255" class="line"/>
+  <text x="100" y="245" class="math">x<tspan baseline-shift="sub">t</tspan></text>
+
+  <line x1="80" y1="55" x2="870" y2="55" class="line"/>
+  <text x="95" y="45" class="math">c<tspan baseline-shift="sub">t−1</tspan></text>
+
+  <circle cx="345" cy="55" r="18" class="op"/>
+  <text x="338" y="61" class="txt">×</text>
+  <line x1="345" y1="73" x2="345" y2="150" class="line"/>
+
+  <rect x="300" y="150" width="90" height="48" class="gate"/>
+  <text x="322" y="180" class="math">f<tspan baseline-shift="sub">t</tspan></text>
+
+  <rect x="430" y="150" width="90" height="48" class="gate"/>
+  <text x="452" y="180" class="math">i<tspan baseline-shift="sub">t</tspan></text>
+
+  <rect x="560" y="150" width="110" height="48" class="gate"/>
+  <text x="582" y="180" class="math">c̃<tspan baseline-shift="sub">t</tspan></text>
+
+  <circle cx="500" cy="245" r="18" class="op"/>
+  <text x="493" y="251" class="txt">×</text>
+  <line x1="475" y1="198" x2="492" y2="229" class="line"/>
+  <line x1="615" y1="198" x2="512" y2="229" class="line"/>
+
+  <circle cx="620" cy="55" r="18" class="op"/>
+  <text x="613" y="61" class="txt">+</text>
+  <line x1="363" y1="55" x2="602" y2="55" class="line"/>
+  <line x1="500" y1="263" x2="612" y2="72" class="line"/>
+
+  <line x1="638" y1="55" x2="870" y2="55" class="line"/>
+  <text x="825" y="45" class="math">c<tspan baseline-shift="sub">t</tspan></text>
+
+  <rect x="690" y="150" width="90" height="48" class="gate"/>
+  <text x="713" y="180" class="math">o<tspan baseline-shift="sub">t</tspan></text>
+
+  <line x1="620" y1="73" x2="705" y2="250" class="line"/>
+  <circle cx="720" cy="265" r="18" class="op"/>
+  <text x="713" y="271" class="txt">×</text>
+  <line x1="735" y1="198" x2="723" y2="247" class="line"/>
+
+  <line x1="738" y1="265" x2="870" y2="265" class="line"/>
+  <text x="825" y="255" class="math">h<tspan baseline-shift="sub">t</tspan></text>
+
+  <text x="300" y="355" class="small">f: forget gate</text>
+  <text x="430" y="355" class="small">i: input gate</text>
+  <text x="560" y="355" class="small">c̃: candidate memory</text>
+  <text x="690" y="355" class="small">o: output gate</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="330">
+  <defs>
+    <marker id="arr_grad" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black"/>
+    </marker>
+  </defs>
+  <style>
+    .axis { stroke: black; stroke-width: 2; }
+    .line { stroke: black; stroke-width: 3; fill: none; }
+    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; }
+    .txt { font-family: Arial; font-size: 17px; }
+  </style>
+  <line x1="80" y1="280" x2="780" y2="280" class="axis" marker-end="url(#arr_grad)"/>
+  <line x1="80" y1="280" x2="80" y2="40" class="axis" marker-end="url(#arr_grad)"/>
+  <text x="400" y="315" class="txt">temporal distance t − k</text>
+  <text x="15" y="55" class="txt" transform="rotate(-90 20,80)">gradient norm</text>
+
+  <path d="M100 90 C240 120, 420 190, 740 270" class="line"/>
+  <text x="560" y="245" class="txt">vanishing: γ &lt; 1</text>
+
+  <path d="M100 260 C260 245, 450 180, 740 55" class="line"/>
+  <text x="520" y="80" class="txt">exploding: γ &gt; 1</text>
+
+  <line x1="100" y1="170" x2="740" y2="170" class="dash"/>
+  <text x="580" y="160" class="txt">stable scale</text>
+</svg>

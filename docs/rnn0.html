@@ -1,0 +1,1757 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/rnn0';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="eigenvalue_vector.html">Eigenvalues, Eigenvectors, SVD, PCA, Optimization, and Low-Rank Structure for Machine Learning</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">Recurrent Neural Networks — Textbook-Level Course Notes</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="gnn_molecules.html">Graph Neural Networks on Molecules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/rnn0.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/rnn0.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/rnn0.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-outcomes">Learning outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-require-recurrence">1. Why sequence models require recurrence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-rnn-architecture">2. Simple RNN architecture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-sharing-across-time">Parameter sharing across time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-training-objective">3. Sequence loss and training objective</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unrolling-in-time-and-backpropagation-through-time-bptt">4. Unrolling in time and Backpropagation Through Time (BPTT)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian">Local Jacobian</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-propagation-through-time">5. Gradient propagation through time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formal-norm-bound-and-the-origin-of-vanishing-exploding-gradients">6. Formal norm bound and the origin of vanishing/exploding gradients</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-sketch">Proof sketch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-saturating-nonlinearities-worsen-vanishing-gradients">7. Why saturating nonlinearities worsen vanishing gradients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-interpretation-eigenvalues-singular-values-and-long-range-memory">8. Spectral interpretation: eigenvalues, singular values, and long-range memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-gradient-definition-consequences-and-symptoms">9. Vanishing gradient: definition, consequences, and symptoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consequences">Consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-symptoms-in-practice">Typical symptoms in practice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploding-gradient-definition-consequences-and-symptoms">10. Exploding gradient: definition, consequences, and symptoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simple-sufficient-condition">A simple sufficient condition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-with-respect-to-the-recurrent-matrix-w-h">11. Gradient with respect to the recurrent matrix <span class="math notranslate nohighlight">\(W_h\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-mitigation-strategies-for-simple-rnns">12. Practical mitigation strategies for simple RNNs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">12.1 Gradient clipping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-or-identity-like-initialization">12.2 Orthogonal or identity-like initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#careful-activation-choice">12.3 Careful activation choice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncated-bptt">12.4 Truncated BPTT</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnns-adding-a-direct-memory-path">13. Leaky RNNs: adding a direct memory path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-long-short-term-memory">14. LSTM: Long Short-Term Memory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-lstm-equations">14.1 Standard LSTM equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-lstm-gradient-analysis">15. Step-by-step LSTM gradient analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-better-than-a-simple-rnn">Why this is better than a simple RNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-small-proof-of-exponential-decay-in-lstm-when-forget-gates-stay-below-one">16. A small proof of exponential decay in LSTM when forget gates stay below one</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-gated-recurrent-unit">17. GRU: Gated Recurrent Unit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-gru-equations">17.1 Standard GRU equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-gru-gradient-analysis">18. Step-by-step GRU gradient analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-simple-rnn-leaky-rnn-lstm-and-gru">19. Comparing simple RNN, leaky RNN, LSTM, and GRU</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-rnn">Simple RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnn">Leaky RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru">GRU</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-implementation-with-annotated-mathematics">20. PyTorch implementation with annotated mathematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-gradient-norms-in-pytorch">Measuring gradient norms in PyTorch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-custom-lstm-cell-in-pytorch">21. A custom LSTM cell in PyTorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-implementation-with-explicit-recurrence">22. JAX implementation with explicit recurrence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-differentiating-through-the-full-sequence">JAX: differentiating through the full sequence</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-stable-training">23. Practical advice for stable training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">24. Final summary</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#from-rnns-to-attention-mechanisms">From RNNs to Attention Mechanisms</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-limitations-of-rnns">Motivation: Limitations of RNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-perspective">RNN Perspective</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-a-generalization">Attention: A Generalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-three-matrices-w-q-w-k-w-v">Why Three Matrices: <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogy-with-rnn-weights">Analogy with RNN weights:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-rnn-computation">Connection to RNN Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-insight">Key Insight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-bridge">Conceptual Bridge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters">Why This Matters</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="recurrent-neural-networks-gradient-dynamics-vanishing-exploding-gradients-leaky-units-lstm-and-gru">
+<h1>Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU<a class="headerlink" href="#recurrent-neural-networks-gradient-dynamics-vanishing-exploding-gradients-leaky-units-lstm-and-gru" title="Permalink to this heading">#</a></h1>
+<p>This notebook addresses recurrent neural networks (RNNs), with special emphasis on:</p>
+<ol class="arabic simple">
+<li><p>The base RNN architecture,</p></li>
+<li><p>Unrolling in time and Backpropagation Through Time (BPTT),</p></li>
+<li><p>The mathematical source of <strong>vanishing</strong> and <strong>exploding</strong> gradients,</p></li>
+<li><p>Rigorous norm-based proofs and spectral interpretation,</p></li>
+<li><p>Mitigation strategies such as clipping and orthogonal initialization,</p></li>
+<li><p>Memory-preserving designs: <strong>leaky RNNs</strong>, <strong>LSTMs</strong>, and <strong>GRUs</strong>,</p></li>
+<li><p>Annotated implementations in <strong>PyTorch</strong> and <strong>JAX</strong>.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="learning-outcomes">
+<h2>Learning outcomes<a class="headerlink" href="#learning-outcomes" title="Permalink to this heading">#</a></h2>
+<p>By the end of this notebook, you should be able to:</p>
+<ul class="simple">
+<li><p>Derive the recurrence and output equations of a simple RNN,</p></li>
+<li><p>Write BPTT as a product of Jacobians,</p></li>
+<li><p>Explain why repeated Jacobian products can decay or blow up exponentially,</p></li>
+<li><p>Prove basic gradient norm bounds,</p></li>
+<li><p>Derive the gating equations of LSTM and GRU step by step,</p></li>
+<li><p>Understand why additive memory paths reduce gradient decay,</p></li>
+<li><p>Implement these models in PyTorch and JAX with mathematically annotated code.</p></li>
+</ul>
+</section>
+<section id="why-sequence-models-require-recurrence">
+<h2>1. Why sequence models require recurrence<a class="headerlink" href="#why-sequence-models-require-recurrence" title="Permalink to this heading">#</a></h2>
+<p>In many learning problems, the input is not an unordered collection but a <strong>sequence</strong>:</p>
+<ul class="simple">
+<li><p>language modeling,</p></li>
+<li><p>speech recognition,</p></li>
+<li><p>machine translation,</p></li>
+<li><p>time-series forecasting,</p></li>
+<li><p>video and sensor processing,</p></li>
+<li><p>event streams and control systems.</p></li>
+</ul>
+<p>A feedforward network processes each example independently. By contrast, a sequence model must maintain a <strong>state</strong> that summarizes the past.</p>
+<p>The central idea of a recurrent model is therefore:</p>
+<blockquote>
+<div><p>At time <span class="math notranslate nohighlight">\(t\)</span>, the model combines the current input <span class="math notranslate nohighlight">\(x_t\)</span> with a hidden summary of the past <span class="math notranslate nohighlight">\(h_{t-1}\)</span> to produce a new hidden state <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
+</div></blockquote>
+<p>This turns the network into a discrete-time nonlinear dynamical system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diagram: an RNN unrolled across time</span>
+<span class="c1"># The same recurrent parameters are reused at every time step.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simple-rnn-architecture">
+<h2>2. Simple RNN architecture<a class="headerlink" href="#simple-rnn-architecture" title="Permalink to this heading">#</a></h2>
+<p>Let:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_t \in \mathbb{R}^{d_x}\)</span> be the input at time <span class="math notranslate nohighlight">\(t\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(h_t \in \mathbb{R}^{d_h}\)</span> be the hidden state,</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_t \in \mathbb{R}^{d_y}\)</span> be the output.</p></li>
+</ul>
+<p>A standard simple RNN is:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + W_x x_t + b_h
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(a_t)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_y h_t + b_y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(o_t)
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_h \in \mathbb{R}^{d_h \times d_h}\)</span> is the recurrent weight matrix,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_x \in \mathbb{R}^{d_h \times d_x}\)</span> is the input-to-hidden matrix,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_y \in \mathbb{R}^{d_y \times d_h}\)</span> is the hidden-to-output matrix,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi\)</span> is usually <span class="math notranslate nohighlight">\(\tanh\)</span> or ReLU,</p></li>
+<li><p><span class="math notranslate nohighlight">\(g\)</span> depends on the task: identity, sigmoid, or softmax.</p></li>
+</ul>
+<section id="parameter-sharing-across-time">
+<h3>Parameter sharing across time<a class="headerlink" href="#parameter-sharing-across-time" title="Permalink to this heading">#</a></h3>
+<p>A crucial point is that <strong>the same matrices are reused at every time step</strong>.<br />
+This gives the model temporal consistency and keeps the number of parameters independent of the sequence length <span class="math notranslate nohighlight">\(T\)</span>.</p>
+</section>
+</section>
+<section id="sequence-loss-and-training-objective">
+<h2>3. Sequence loss and training objective<a class="headerlink" href="#sequence-loss-and-training-objective" title="Permalink to this heading">#</a></h2>
+<p>Suppose the model produces an output at every time step. A standard sequence loss is</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \sum_{t=1}^{T} \ell_t(y_t, \hat y_t),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat y_t\)</span> is the target at time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>mean squared error for regression,</p></li>
+<li><p>cross-entropy for token prediction or classification.</p></li>
+</ul>
+<p>Even though the loss is written as a sum over time, the hidden states are <strong>coupled recursively</strong>, so the gradient at one time step depends on many earlier states.</p>
+</section>
+<section id="unrolling-in-time-and-backpropagation-through-time-bptt">
+<h2>4. Unrolling in time and Backpropagation Through Time (BPTT)<a class="headerlink" href="#unrolling-in-time-and-backpropagation-through-time-bptt" title="Permalink to this heading">#</a></h2>
+<p>An RNN can be viewed as a deep network whose depth equals the sequence length.</p>
+<p>After unrolling, each time step becomes one layer in a computation graph:</p>
+<div class="math notranslate nohighlight">
+\[
+h_0 \to h_1 \to h_2 \to \cdots \to h_T.
+\]</div>
+<p>The only difference from an ordinary deep network is that the same recurrent parameters are reused at each layer.</p>
+<section id="local-jacobian">
+<h3>Local Jacobian<a class="headerlink" href="#local-jacobian" title="Permalink to this heading">#</a></h3>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + W_x x_t + b_h, \qquad h_t = \phi(a_t).
+\]</div>
+<p>Then the Jacobian of the hidden transition is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}
+=
+D_t W_h,
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}\big(\phi'(a_t)\big).
+\]</div>
+<p>This single matrix is the atomic object behind gradient flow in simple RNNs.</p>
+</section>
+</section>
+<section id="gradient-propagation-through-time">
+<h2>5. Gradient propagation through time<a class="headerlink" href="#gradient-propagation-through-time" title="Permalink to this heading">#</a></h2>
+<p>For <span class="math notranslate nohighlight">\(k &lt; t\)</span>, repeated application of the chain rule gives</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+\prod_{i=k+1}^{t} \frac{\partial h_i}{\partial h_{i-1}}
+=
+\prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<p>If the total loss depends on all time steps, then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial h_k}
+=
+\sum_{t=k}^{T}
+\frac{\partial \mathcal{L}}{\partial h_t}
+\frac{\partial h_t}{\partial h_k}.
+\]</div>
+<p>So every long-range gradient contains products of the form</p>
+<div class="math notranslate nohighlight">
+\[
+G_{k \to t} = \prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<p>This is the mathematical source of both instability modes:</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\|G_{k \to t}\|\)</span> becomes tiny, gradients <strong>vanish</strong>,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\|G_{k \to t}\|\)</span> becomes huge, gradients <strong>explode</strong>.</p></li>
+</ul>
+</section>
+<section id="formal-norm-bound-and-the-origin-of-vanishing-exploding-gradients">
+<h2>6. Formal norm bound and the origin of vanishing/exploding gradients<a class="headerlink" href="#formal-norm-bound-and-the-origin-of-vanishing-exploding-gradients" title="Permalink to this heading">#</a></h2>
+<p>Take any operator norm <span class="math notranslate nohighlight">\(\|\cdot\|\)</span> that is submultiplicative. Then</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+=
+\left\|
+\prod_{i=k+1}^{t} D_i W_h
+\right\|
+\le
+\prod_{i=k+1}^{t} \|D_i\|\, \|W_h\|.
+\]</div>
+<p>If there exists a constant <span class="math notranslate nohighlight">\(\gamma &lt; 1\)</span> such that for all relevant times</p>
+<div class="math notranslate nohighlight">
+\[
+\|D_i\|\, \|W_h\| \le \gamma,
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+\le \gamma^{\,t-k},
+\]</div>
+<p>which decays <strong>exponentially</strong> with temporal distance <span class="math notranslate nohighlight">\(t-k\)</span>.</p>
+<p>Likewise, if for long stretches the effective factor is typically larger than <span class="math notranslate nohighlight">\(1\)</span>, then the product can grow exponentially.</p>
+<section id="proof-sketch">
+<h3>Proof sketch<a class="headerlink" href="#proof-sketch" title="Permalink to this heading">#</a></h3>
+<p>This follows immediately from repeated use of the submultiplicative property:</p>
+<div class="math notranslate nohighlight">
+\[
+\|AB\| \le \|A\|\,\|B\|.
+\]</div>
+<p>Hence</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\prod_{i=k+1}^{t} D_i W_h
+\right\|
+\le
+\prod_{i=k+1}^{t} \|D_i W_h\|
+\le
+\prod_{i=k+1}^{t} \|D_i\|\,\|W_h\|.
+\]</div>
+<p>If every factor is bounded above by <span class="math notranslate nohighlight">\(\gamma\)</span>, the full product is bounded above by <span class="math notranslate nohighlight">\(\gamma^{t-k}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diagram: repeated Jacobian products can decay or grow exponentially</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="why-saturating-nonlinearities-worsen-vanishing-gradients">
+<h2>7. Why saturating nonlinearities worsen vanishing gradients<a class="headerlink" href="#why-saturating-nonlinearities-worsen-vanishing-gradients" title="Permalink to this heading">#</a></h2>
+<p>For <span class="math notranslate nohighlight">\(\phi = \tanh\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\phi'(z) = 1 - \tanh^2(z),
+\]</div>
+<p>and therefore</p>
+<div class="math notranslate nohighlight">
+\[
+0 &lt; \phi'(z) \le 1.
+\]</div>
+<p>When <span class="math notranslate nohighlight">\(|z|\)</span> is large, <span class="math notranslate nohighlight">\(\tanh(z)\)</span> saturates near <span class="math notranslate nohighlight">\(\pm 1\)</span>, so <span class="math notranslate nohighlight">\(\phi'(z)\)</span> becomes close to <span class="math notranslate nohighlight">\(0\)</span>.</p>
+<p>Thus the diagonal entries of <span class="math notranslate nohighlight">\(D_t\)</span> can be very small, which shrinks the Jacobian product even when <span class="math notranslate nohighlight">\(W_h\)</span> itself is reasonably scaled.</p>
+<p>For sigmoid activations the issue is often worse because</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma'(z) = \sigma(z)(1-\sigma(z)) \le \frac14.
+\]</div>
+<p>This means repeated multiplication of activation derivatives alone can generate severe exponential decay.</p>
+</section>
+<section id="spectral-interpretation-eigenvalues-singular-values-and-long-range-memory">
+<h2>8. Spectral interpretation: eigenvalues, singular values, and long-range memory<a class="headerlink" href="#spectral-interpretation-eigenvalues-singular-values-and-long-range-memory" title="Permalink to this heading">#</a></h2>
+<p>A useful approximation is to imagine that the Jacobian does not change much across time:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t W_h \approx J.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k} \approx J^{t-k}.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(J\)</span> is diagonalizable,</p>
+<div class="math notranslate nohighlight">
+\[
+J = V \Lambda V^{-1},
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+J^n = V \Lambda^n V^{-1}.
+\]</div>
+<p>So the behavior is controlled by the eigenvalues of <span class="math notranslate nohighlight">\(J\)</span>:</p>
+<ul class="simple">
+<li><p>if all relevant modes satisfy <span class="math notranslate nohighlight">\(|\lambda_i| &lt; 1\)</span>, then <span class="math notranslate nohighlight">\(J^n \to 0\)</span>,</p></li>
+<li><p>if some modes satisfy <span class="math notranslate nohighlight">\(|\lambda_i| &gt; 1\)</span>, then those modes grow,</p></li>
+<li><p>if important modes stay near <span class="math notranslate nohighlight">\(1\)</span>, memory can persist.</p></li>
+</ul>
+<p>In practice, for non-normal matrices the <strong>singular values</strong> and operator norms often give a more robust picture than eigenvalues alone, but the intuition is the same: repeated multiplication amplifies whatever lies above one and suppresses whatever lies below one.</p>
+</section>
+<section id="vanishing-gradient-definition-consequences-and-symptoms">
+<h2>9. Vanishing gradient: definition, consequences, and symptoms<a class="headerlink" href="#vanishing-gradient-definition-consequences-and-symptoms" title="Permalink to this heading">#</a></h2>
+<p>We say the model suffers from <strong>vanishing gradients</strong> when gradients arriving from distant time steps become negligibly small:</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial \mathcal{L}}{\partial h_k}
+\right\|
+\approx 0
+\quad \text{for early } k.
+\]</div>
+<section id="consequences">
+<h3>Consequences<a class="headerlink" href="#consequences" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>the model fails to learn long-term dependencies,</p></li>
+<li><p>parameter updates are dominated by recent time steps,</p></li>
+<li><p>optimization becomes biased toward short-context solutions,</p></li>
+<li><p>training may look stable but plateaus early.</p></li>
+</ul>
+</section>
+<section id="typical-symptoms-in-practice">
+<h3>Typical symptoms in practice<a class="headerlink" href="#typical-symptoms-in-practice" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>the model predicts mostly from local context,</p></li>
+<li><p>training loss decreases only on short sequences,</p></li>
+<li><p>hidden states forget too quickly,</p></li>
+<li><p>learned dynamics resemble low-memory filters.</p></li>
+</ul>
+</section>
+</section>
+<section id="exploding-gradient-definition-consequences-and-symptoms">
+<h2>10. Exploding gradient: definition, consequences, and symptoms<a class="headerlink" href="#exploding-gradient-definition-consequences-and-symptoms" title="Permalink to this heading">#</a></h2>
+<p>We say the model suffers from <strong>exploding gradients</strong> when backpropagated signals become excessively large:</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial \mathcal{L}}{\partial h_k}
+\right\| \gg 1.
+\]</div>
+<section id="id1">
+<h3>Consequences<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>unstable parameter updates,</p></li>
+<li><p>loss spikes or NaNs,</p></li>
+<li><p>optimizer divergence,</p></li>
+<li><p>severe sensitivity to learning rate.</p></li>
+</ul>
+</section>
+<section id="a-simple-sufficient-condition">
+<h3>A simple sufficient condition<a class="headerlink" href="#a-simple-sufficient-condition" title="Permalink to this heading">#</a></h3>
+<p>If over some interval the effective Jacobian norm satisfies approximately</p>
+<div class="math notranslate nohighlight">
+\[
+\|D_i W_h\| \ge \beta &gt; 1,
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+\gtrsim \beta^{\,t-k},
+\]</div>
+<p>which grows exponentially in temporal distance.</p>
+</section>
+</section>
+<section id="gradient-with-respect-to-the-recurrent-matrix-w-h">
+<h2>11. Gradient with respect to the recurrent matrix <span class="math notranslate nohighlight">\(W_h\)</span><a class="headerlink" href="#gradient-with-respect-to-the-recurrent-matrix-w-h" title="Permalink to this heading">#</a></h2>
+<p>To see how temporal credit assignment enters parameter gradients, differentiate through the pre-activations:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + W_x x_t + b_h.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial W_h}
+=
+\sum_{t=1}^{T}
+\frac{\partial \mathcal{L}}{\partial a_t}
+\frac{\partial a_t}{\partial W_h}.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(a_t\)</span> depends linearly on <span class="math notranslate nohighlight">\(W_h\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial W_h}
+=
+\sum_{t=1}^{T}
+\delta_t \, h_{t-1}^{\top},
+\qquad
+\delta_t := \frac{\partial \mathcal{L}}{\partial a_t}.
+\]</div>
+<p>But each <span class="math notranslate nohighlight">\(\delta_t\)</span> itself depends on future losses through recurrence, so the long product of Jacobians still appears implicitly inside the parameter gradient.</p>
+<p>That is why the optimization pathology is not just about hidden states; it directly affects learning of the recurrent weights.</p>
+</section>
+<section id="practical-mitigation-strategies-for-simple-rnns">
+<h2>12. Practical mitigation strategies for simple RNNs<a class="headerlink" href="#practical-mitigation-strategies-for-simple-rnns" title="Permalink to this heading">#</a></h2>
+<section id="gradient-clipping">
+<h3>12.1 Gradient clipping<a class="headerlink" href="#gradient-clipping" title="Permalink to this heading">#</a></h3>
+<p>The most common fix for exploding gradients is clipping:</p>
+<div class="math notranslate nohighlight">
+\[
+g \leftarrow g \cdot \min\left(1, \frac{\tau}{\|g\|}\right),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> is the raw gradient vector and <span class="math notranslate nohighlight">\(\tau\)</span> is a threshold.</p>
+<p>This does <strong>not</strong> solve vanishing gradients, but it prevents catastrophic updates.</p>
+</section>
+<section id="orthogonal-or-identity-like-initialization">
+<h3>12.2 Orthogonal or identity-like initialization<a class="headerlink" href="#orthogonal-or-identity-like-initialization" title="Permalink to this heading">#</a></h3>
+<p>If <span class="math notranslate nohighlight">\(W_h\)</span> is initialized orthogonally, its singular values begin near <span class="math notranslate nohighlight">\(1\)</span>, which can slow both explosion and decay.</p>
+</section>
+<section id="careful-activation-choice">
+<h3>12.3 Careful activation choice<a class="headerlink" href="#careful-activation-choice" title="Permalink to this heading">#</a></h3>
+<p>Using ReLU-like units can reduce saturation, but introduces other issues such as dead units or uncontrolled growth. No activation alone fully solves long-range memory.</p>
+</section>
+<section id="truncated-bptt">
+<h3>12.4 Truncated BPTT<a class="headerlink" href="#truncated-bptt" title="Permalink to this heading">#</a></h3>
+<p>Instead of backpropagating through the entire sequence, one backpropagates through a shorter horizon. This improves computational cost and stability, but also limits the model’s ability to learn long-range dependencies.</p>
+</section>
+</section>
+<section id="leaky-rnns-adding-a-direct-memory-path">
+<h2>13. Leaky RNNs: adding a direct memory path<a class="headerlink" href="#leaky-rnns-adding-a-direct-memory-path" title="Permalink to this heading">#</a></h2>
+<p>A classical idea is to let the old state leak into the new one directly:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \alpha h_{t-1} + (1-\alpha)\tilde h_t,
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde h_t = \phi(W_h h_{t-1} + W_x x_t + b_h), \qquad 0 \le \alpha \le 1.
+\]</div>
+<p>Then the Jacobian contains a term approximately like</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}
+\approx
+\alpha I + (1-\alpha) D_t W_h.
+\]</div>
+<p>The identity contribution <span class="math notranslate nohighlight">\(\alpha I\)</span> provides a <strong>shortcut for gradient flow</strong>.<br />
+This is already much closer in spirit to modern residual and gated architectures.</p>
+<p>However, the leakage coefficient is fixed or only weakly adaptive, so the model still lacks the fully learned memory control of LSTM/GRU.</p>
+</section>
+<section id="lstm-long-short-term-memory">
+<h2>14. LSTM: Long Short-Term Memory<a class="headerlink" href="#lstm-long-short-term-memory" title="Permalink to this heading">#</a></h2>
+<p>LSTM was designed to preserve information over long time intervals using an explicit <strong>cell state</strong> <span class="math notranslate nohighlight">\(c_t\)</span> and learned gates.</p>
+<section id="standard-lstm-equations">
+<h3>14.1 Standard LSTM equations<a class="headerlink" href="#standard-lstm-equations" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\tilde c_t = \tanh(W_c x_t + U_c h_{t-1} + b_c)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = o_t \odot \tanh(c_t)
+\]</div>
+<p>Interpretation:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f_t\)</span>: forget gate,</p></li>
+<li><p><span class="math notranslate nohighlight">\(i_t\)</span>: input gate,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tilde c_t\)</span>: candidate memory,</p></li>
+<li><p><span class="math notranslate nohighlight">\(o_t\)</span>: output gate.</p></li>
+</ul>
+<p>The key structural feature is the <strong>additive update</strong> for <span class="math notranslate nohighlight">\(c_t\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diagram: the LSTM cell has an additive cell-state path</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-by-step-lstm-gradient-analysis">
+<h2>15. Step-by-step LSTM gradient analysis<a class="headerlink" href="#step-by-step-lstm-gradient-analysis" title="Permalink to this heading">#</a></h2>
+<p>The central LSTM advantage appears in the derivative of the cell state.</p>
+<p>From</p>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t,
+\]</div>
+<p>if we differentiate with respect to <span class="math notranslate nohighlight">\(c_{t-1}\)</span> while focusing on the direct memory path, we obtain</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_{t-1}}
+=
+\operatorname{diag}(f_t).
+\]</div>
+<p>Therefore, over multiple steps,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_k}
+=
+\prod_{i=k+1}^{t} \operatorname{diag}(f_i).
+\]</div>
+<section id="why-this-is-better-than-a-simple-rnn">
+<h3>Why this is better than a simple RNN<a class="headerlink" href="#why-this-is-better-than-a-simple-rnn" title="Permalink to this heading">#</a></h3>
+<p>In a simple RNN, the Jacobian is roughly <span class="math notranslate nohighlight">\(D_i W_h\)</span>, which mixes coordinates and includes full matrix multiplication at every step.</p>
+<p>In an LSTM memory path, the dominant term is diagonal:</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{diag}(f_i).
+\]</div>
+<p>This yields two advantages:</p>
+<ol class="arabic simple">
+<li><p>no repeated multiplication by a dense recurrent matrix along the cell path,</p></li>
+<li><p>the network can learn <span class="math notranslate nohighlight">\(f_i \approx 1\)</span> on dimensions that should retain memory.</p></li>
+</ol>
+<p>If <span class="math notranslate nohighlight">\(f_i^{(j)} \approx 1\)</span> for a coordinate <span class="math notranslate nohighlight">\(j\)</span>, then along that direction</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{i=k+1}^{t} f_i^{(j)} \approx 1,
+\]</div>
+<p>so the gradient can persist for many steps.</p>
+<p>This is the essence of the <strong>constant error carousel</strong> intuition: the architecture creates a near-linear path for memory and gradient transport.</p>
+</section>
+</section>
+<section id="a-small-proof-of-exponential-decay-in-lstm-when-forget-gates-stay-below-one">
+<h2>16. A small proof of exponential decay in LSTM when forget gates stay below one<a class="headerlink" href="#a-small-proof-of-exponential-decay-in-lstm-when-forget-gates-stay-below-one" title="Permalink to this heading">#</a></h2>
+<p>Even LSTM can still forget if the forget gate stays too small.</p>
+<p>Assume that for one coordinate we have</p>
+<div class="math notranslate nohighlight">
+\[
+0 \le f_i^{(j)} \le \rho &lt; 1
+\quad \text{for all } i.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+\left|
+\frac{\partial c_t^{(j)}}{\partial c_k^{(j)}}
+\right|
+=
+\prod_{i=k+1}^{t} f_i^{(j)}
+\le
+\rho^{\,t-k}.
+\]</div>
+<p>So the gradient still decays exponentially, but now the model can <strong>learn</strong> whether the factor should be close to <span class="math notranslate nohighlight">\(1\)</span> or clearly below it. That learned adaptivity is the major improvement over the fixed dynamics of a simple RNN.</p>
+</section>
+<section id="gru-gated-recurrent-unit">
+<h2>17. GRU: Gated Recurrent Unit<a class="headerlink" href="#gru-gated-recurrent-unit" title="Permalink to this heading">#</a></h2>
+<p>The GRU simplifies the LSTM by merging memory and hidden state more tightly.</p>
+<section id="standard-gru-equations">
+<h3>17.1 Standard GRU equations<a class="headerlink" href="#standard-gru-equations" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+z_t = \sigma(W_z x_t + U_z h_{t-1} + b_z)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+r_t = \sigma(W_r x_t + U_r h_{t-1} + b_r)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\tilde h_t = \tanh\big(W_h x_t + U_h (r_t \odot h_{t-1}) + b_h\big)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t
+\]</div>
+<p>Interpretation:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(z_t\)</span>: update gate,</p></li>
+<li><p><span class="math notranslate nohighlight">\(r_t\)</span>: reset gate,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\tilde h_t\)</span>: candidate hidden state.</p></li>
+</ul>
+<p>Again, the important feature is an additive interpolation between the old state and a candidate state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Diagram: the GRU uses update and reset gates to interpolate memory</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-by-step-gru-gradient-analysis">
+<h2>18. Step-by-step GRU gradient analysis<a class="headerlink" href="#step-by-step-gru-gradient-analysis" title="Permalink to this heading">#</a></h2>
+<p>From</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t,
+\]</div>
+<p>ignore for a moment the dependence of <span class="math notranslate nohighlight">\(z_t\)</span> and <span class="math notranslate nohighlight">\(\tilde h_t\)</span> on <span class="math notranslate nohighlight">\(h_{t-1}\)</span> and focus only on the explicit skip path. Then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}
+\approx
+\operatorname{diag}(1-z_t).
+\]</div>
+<p>So if a component of <span class="math notranslate nohighlight">\(z_t\)</span> is small, the model mostly copies the previous state forward, and the corresponding gradient can also flow backward with little attenuation.</p>
+<p>The full Jacobian contains extra terms from the dependence of <span class="math notranslate nohighlight">\(z_t\)</span> and <span class="math notranslate nohighlight">\(\tilde h_t\)</span> on <span class="math notranslate nohighlight">\(h_{t-1}\)</span>, but the additive copy path already explains why GRUs are usually much easier to train than simple RNNs.</p>
+</section>
+<section id="comparing-simple-rnn-leaky-rnn-lstm-and-gru">
+<h2>19. Comparing simple RNN, leaky RNN, LSTM, and GRU<a class="headerlink" href="#comparing-simple-rnn-leaky-rnn-lstm-and-gru" title="Permalink to this heading">#</a></h2>
+<section id="simple-rnn">
+<h3>Simple RNN<a class="headerlink" href="#simple-rnn" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_h h_{t-1} + W_x x_t + b)
+\]</div>
+<ul class="simple">
+<li><p>most compact formulation,</p></li>
+<li><p>hardest to train over long horizons,</p></li>
+<li><p>gradient dominated by repeated dense Jacobian products.</p></li>
+</ul>
+</section>
+<section id="leaky-rnn">
+<h3>Leaky RNN<a class="headerlink" href="#leaky-rnn" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+h_t = \alpha h_{t-1} + (1-\alpha)\tilde h_t
+\]</div>
+<ul class="simple">
+<li><p>adds a fixed memory shortcut,</p></li>
+<li><p>improves stability,</p></li>
+<li><p>still less adaptive than gated models.</p></li>
+</ul>
+</section>
+<section id="lstm">
+<h3>LSTM<a class="headerlink" href="#lstm" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t
+\]</div>
+<ul class="simple">
+<li><p>explicit memory cell,</p></li>
+<li><p>strongest control over long-term storage,</p></li>
+<li><p>often preferred when long memory is crucial.</p></li>
+</ul>
+</section>
+<section id="gru">
+<h3>GRU<a class="headerlink" href="#gru" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde h_t
+\]</div>
+<ul class="simple">
+<li><p>simpler than LSTM,</p></li>
+<li><p>fewer parameters,</p></li>
+<li><p>often competitive in practice.</p></li>
+</ul>
+</section>
+</section>
+<section id="pytorch-implementation-with-annotated-mathematics">
+<h2>20. PyTorch implementation with annotated mathematics<a class="headerlink" href="#pytorch-implementation-with-annotated-mathematics" title="Permalink to this heading">#</a></h2>
+<p>The following cell implements a simple RNN from scratch.<br />
+The code mirrors the equations exactly:</p>
+<ul class="simple">
+<li><p>affine pre-activation: <span class="math notranslate nohighlight">\(a_t = W_h h_{t-1} + W_x x_t + b_h\)</span>,</p></li>
+<li><p>state update: <span class="math notranslate nohighlight">\(h_t = \tanh(a_t)\)</span>,</p></li>
+<li><p>output: <span class="math notranslate nohighlight">\(o_t = W_y h_t + b_y\)</span>.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleRNNCell</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements:</span>
+<span class="sd">        a_t = W_h h_{t-1} + W_x x_t + b</span>
+<span class="sd">        h_t = tanh(a_t)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">h_prev</span><span class="p">):</span>
+        <span class="n">a_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_x</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_h</span><span class="p">(</span><span class="n">h_prev</span><span class="p">)</span>
+        <span class="n">h_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_t</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleRNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell</span> <span class="o">=</span> <span class="n">SimpleRNNCell</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        x shape: (batch, time, input_size)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">h0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">h0</span>
+
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="p">:],</span> <span class="n">h</span><span class="p">)</span>
+            <span class="n">y_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readout</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_t</span><span class="p">)</span>
+
+        <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># (batch, time, hidden)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (batch, time, output)</span>
+        <span class="k">return</span> <span class="n">Y</span><span class="p">,</span> <span class="n">H</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="measuring-gradient-norms-in-pytorch">
+<h3>Measuring gradient norms in PyTorch<a class="headerlink" href="#measuring-gradient-norms-in-pytorch" title="Permalink to this heading">#</a></h3>
+<p>A useful diagnostic for exploding gradients is the global norm:</p>
+<div class="math notranslate nohighlight">
+\[
+\|g\|_2 = \sqrt{\sum_i \|g_i\|_2^2}.
+\]</div>
+<p>The next cell shows a standard training step with clipping.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">train_step</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">criterion</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">clip_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">y_pred</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># Compute global gradient norm before clipping</span>
+    <span class="n">total_sq</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">total_sq</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">grad_norm</span> <span class="o">=</span> <span class="n">total_sq</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="c1"># Gradient clipping:</span>
+    <span class="c1"># g &lt;- g * min(1, clip_value / ||g||)</span>
+    <span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">max_norm</span><span class="o">=</span><span class="n">clip_value</span><span class="p">)</span>
+
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">grad_norm</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="a-custom-lstm-cell-in-pytorch">
+<h2>21. A custom LSTM cell in PyTorch<a class="headerlink" href="#a-custom-lstm-cell-in-pytorch" title="Permalink to this heading">#</a></h2>
+<p>This implementation writes the gates explicitly, which is useful pedagogically.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CustomLSTMCell</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements:</span>
+<span class="sd">        f_t = sigmoid(W_f x_t + U_f h_{t-1} + b_f)</span>
+<span class="sd">        i_t = sigmoid(W_i x_t + U_i h_{t-1} + b_i)</span>
+<span class="sd">        g_t = tanh   (W_g x_t + U_g h_{t-1} + b_g)</span>
+<span class="sd">        o_t = sigmoid(W_o x_t + U_o h_{t-1} + b_o)</span>
+
+<span class="sd">        c_t = f_t * c_{t-1} + i_t * g_t</span>
+<span class="sd">        h_t = o_t * tanh(c_t)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x2h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h2h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">h_prev</span><span class="p">,</span> <span class="n">c_prev</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x2h</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">h2h</span><span class="p">(</span><span class="n">h_prev</span><span class="p">)</span>
+        <span class="n">f_t</span><span class="p">,</span> <span class="n">i_t</span><span class="p">,</span> <span class="n">g_t</span><span class="p">,</span> <span class="n">o_t</span> <span class="o">=</span> <span class="n">gates</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">f_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">f_t</span><span class="p">)</span>
+        <span class="n">i_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">i_t</span><span class="p">)</span>
+        <span class="n">g_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">g_t</span><span class="p">)</span>
+        <span class="n">o_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">o_t</span><span class="p">)</span>
+
+        <span class="n">c_t</span> <span class="o">=</span> <span class="n">f_t</span> <span class="o">*</span> <span class="n">c_prev</span> <span class="o">+</span> <span class="n">i_t</span> <span class="o">*</span> <span class="n">g_t</span>
+        <span class="n">h_t</span> <span class="o">=</span> <span class="n">o_t</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">c_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_t</span><span class="p">,</span> <span class="n">c_t</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jax-implementation-with-explicit-recurrence">
+<h2>22. JAX implementation with explicit recurrence<a class="headerlink" href="#jax-implementation-with-explicit-recurrence" title="Permalink to this heading">#</a></h2>
+<p>JAX makes the recurrence structure very transparent.<br />
+The next cell implements a simple RNN using <code class="docutils literal notranslate"><span class="pre">jax.lax.scan</span></code>, which is the natural way to express:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \tanh(W_h h_{t-1} + W_x x_t + b).
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">lax</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">init_simple_rnn_params</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">k3</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;W_x&quot;</span><span class="p">:</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)),</span>
+        <span class="s2">&quot;W_h&quot;</span><span class="p">:</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)),</span>
+        <span class="s2">&quot;b_h&quot;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hidden_size</span><span class="p">,)),</span>
+        <span class="s2">&quot;W_y&quot;</span><span class="p">:</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">k3</span><span class="p">,</span> <span class="p">(</span><span class="n">output_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)),</span>
+        <span class="s2">&quot;b_y&quot;</span><span class="p">:</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">output_size</span><span class="p">,))</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_rnn_step</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">h_prev</span><span class="p">,</span> <span class="n">x_t</span><span class="p">):</span>
+    <span class="n">a_t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;W_x&quot;</span><span class="p">]</span> <span class="o">@</span> <span class="n">x_t</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;W_h&quot;</span><span class="p">]</span> <span class="o">@</span> <span class="n">h_prev</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;b_h&quot;</span><span class="p">]</span>
+    <span class="n">h_t</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a_t</span><span class="p">)</span>
+    <span class="n">y_t</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;W_y&quot;</span><span class="p">]</span> <span class="o">@</span> <span class="n">h_t</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;b_y&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">h_t</span><span class="p">,</span> <span class="p">(</span><span class="n">h_t</span><span class="p">,</span> <span class="n">y_t</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">simple_rnn_forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x_seq</span><span class="p">,</span> <span class="n">h0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    x_seq shape: (time, input_size)</span>
+<span class="sd">    h0 shape: (hidden_size,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scan_fn</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">x_t</span><span class="p">):</span>
+        <span class="n">h_new</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">simple_rnn_step</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">x_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h_new</span><span class="p">,</span> <span class="n">outputs</span>
+
+    <span class="n">hT</span><span class="p">,</span> <span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">scan_fn</span><span class="p">,</span> <span class="n">h0</span><span class="p">,</span> <span class="n">x_seq</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">hT</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">outputs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="jax-differentiating-through-the-full-sequence">
+<h3>JAX: differentiating through the full sequence<a class="headerlink" href="#jax-differentiating-through-the-full-sequence" title="Permalink to this heading">#</a></h3>
+<p>Because JAX composes transformations cleanly, one can define a sequence loss and differentiate it directly with <code class="docutils literal notranslate"><span class="pre">jax.grad</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mse_sequence_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x_seq</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">h0</span><span class="p">):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">simple_rnn_forward</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">x_seq</span><span class="p">,</span> <span class="n">h0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">outputs</span> <span class="o">-</span> <span class="n">targets</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">grad_fn</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">mse_sequence_loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="practical-advice-for-stable-training">
+<h2>23. Practical advice for stable training<a class="headerlink" href="#practical-advice-for-stable-training" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Prefer LSTM or GRU</strong> when long-range dependencies matter.</p></li>
+<li><p><strong>Clip gradients</strong> routinely when using recurrent models.</p></li>
+<li><p><strong>Initialize recurrent matrices carefully</strong>, often orthogonally.</p></li>
+<li><p><strong>Monitor gradient norms</strong> during training.</p></li>
+<li><p><strong>Use layer normalization or residual ideas</strong> when appropriate.</p></li>
+<li><p><strong>Keep sequence length and truncation horizon explicit</strong> in experiments.</p></li>
+<li><p><strong>Inspect forget/update gate statistics</strong> in LSTM/GRU models to verify that the network is learning meaningful retention behavior.</p></li>
+</ol>
+</section>
+<section id="final-summary">
+<h2>24. Final summary<a class="headerlink" href="#final-summary" title="Permalink to this heading">#</a></h2>
+<p>The mathematical core of recurrent learning is the product of transition Jacobians:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+\prod_{i=k+1}^{t} \frac{\partial h_i}{\partial h_{i-1}}.
+\]</div>
+<p>This single expression explains the central optimization pathology of simple RNNs:</p>
+<ul class="simple">
+<li><p>repeated factors below one produce <strong>vanishing gradients</strong>,</p></li>
+<li><p>repeated factors above one produce <strong>exploding gradients</strong>.</p></li>
+</ul>
+<p>Leaky units help by injecting a direct memory path.<br />
+LSTMs and GRUs go much further by making memory retention <strong>learned, gated, and additive</strong>.</p>
+<p>That is why gated recurrent architectures became the standard solution to long-range gradient instability before Transformer architectures took over many sequence tasks.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="from-rnns-to-attention-mechanisms">
+<h1>From RNNs to Attention Mechanisms<a class="headerlink" href="#from-rnns-to-attention-mechanisms" title="Permalink to this heading">#</a></h1>
+<section id="motivation-limitations-of-rnns">
+<h2>Motivation: Limitations of RNNs<a class="headerlink" href="#motivation-limitations-of-rnns" title="Permalink to this heading">#</a></h2>
+<p>Recurrent Neural Networks compress all past information into a single hidden state <span class="math notranslate nohighlight">\(h_t\)</span>. Even with LSTM/GRU improvements, this creates a <strong>bottleneck</strong>:</p>
+<ul class="simple">
+<li><p>Long-range dependencies are hard to preserve</p></li>
+<li><p>Information is mixed into a single vector</p></li>
+<li><p>Gradient flow is still indirect across many steps</p></li>
+</ul>
+<p>This motivates a new paradigm: instead of compressing everything into one state, <strong>directly access all past states</strong>.</p>
+</section>
+<hr class="docutils" />
+<section id="rnn-perspective">
+<h2>RNN Perspective<a class="headerlink" href="#rnn-perspective" title="Permalink to this heading">#</a></h2>
+<p>Recall the RNN transformation:</p>
+<p><span class="math notranslate nohighlight">\(h_t = \phi(W_h h_{t-1} + W_x x_t + b)\)</span></p>
+<p>and output:</p>
+<p><span class="math notranslate nohighlight">\(y_t = W_y h_t\)</span></p>
+<p>We can interpret this as:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_x\)</span>: encodes input into hidden space</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_h\)</span>: propagates temporal memory</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_y\)</span>: decodes hidden state into output</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="attention-a-generalization">
+<h2>Attention: A Generalization<a class="headerlink" href="#attention-a-generalization" title="Permalink to this heading">#</a></h2>
+<p>Instead of a single hidden state, attention keeps <strong>all past representations</strong>:</p>
+<p><span class="math notranslate nohighlight">\(H = [h_1, h_2, ..., h_T]\)</span></p>
+<p>Then computes:</p>
+<p><span class="math notranslate nohighlight">\(\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d}}\right)V\)</span></p>
+</section>
+<hr class="docutils" />
+<section id="why-three-matrices-w-q-w-k-w-v">
+<h2>Why Three Matrices: <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span>?<a class="headerlink" href="#why-three-matrices-w-q-w-k-w-v" title="Permalink to this heading">#</a></h2>
+<p>This is not arbitrary — it is a <strong>structured extension of RNN transformations</strong>.</p>
+<section id="analogy-with-rnn-weights">
+<h3>Analogy with RNN weights:<a class="headerlink" href="#analogy-with-rnn-weights" title="Permalink to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>RNN</p></th>
+<th class="head"><p>Attention</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(W_x\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(W_h\)</span></p></td>
+<td><p>implicit via attention scores</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(W_y\)</span></p></td>
+<td><p>output projection</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="interpretation">
+<h3>Interpretation:<a class="headerlink" href="#interpretation" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Query (<span class="math notranslate nohighlight">\(Q = XW_Q\)</span>)</strong>: “What am I looking for?”</p></li>
+<li><p><strong>Key (<span class="math notranslate nohighlight">\(K = XW_K\)</span>)</strong>: “What does each token contain?”</p></li>
+<li><p><strong>Value (<span class="math notranslate nohighlight">\(V = XW_V\)</span>)</strong>: “What information should I retrieve?”</p></li>
+</ul>
+<p>This separation allows the model to:</p>
+<ul class="simple">
+<li><p>Compare representations (Q vs K)</p></li>
+<li><p>Retrieve content (V)</p></li>
+<li><p>Decouple similarity from information storage</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="connection-to-rnn-computation">
+<h2>Connection to RNN Computation<a class="headerlink" href="#connection-to-rnn-computation" title="Permalink to this heading">#</a></h2>
+<p>In RNNs, influence flows sequentially:</p>
+<p><span class="math notranslate nohighlight">\(h_t \leftarrow h_{t-1} \leftarrow h_{t-2} \leftarrow ...\)</span></p>
+<p>In attention, influence is <strong>direct</strong>:</p>
+<p><span class="math notranslate nohighlight">\(h_t = \sum_{i=1}^{T} \alpha_{t,i} V_i\)</span></p>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(\alpha_{t,i} = \text{softmax}(Q_t K_i^T)\)</span></p>
+<p>This removes the need for repeated Jacobian multiplication → no vanishing/exploding through time.</p>
+</section>
+<hr class="docutils" />
+<section id="key-insight">
+<h2>Key Insight<a class="headerlink" href="#key-insight" title="Permalink to this heading">#</a></h2>
+<p>RNN:</p>
+<ul class="simple">
+<li><p>Iterative state update</p></li>
+<li><p>Implicit memory via recurrence</p></li>
+</ul>
+<p>Attention:</p>
+<ul class="simple">
+<li><p>Direct memory access</p></li>
+<li><p>Explicit weighting of all past states</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="conceptual-bridge">
+<h2>Conceptual Bridge<a class="headerlink" href="#conceptual-bridge" title="Permalink to this heading">#</a></h2>
+<p>You can think of attention as:</p>
+<blockquote>
+<div><p>“A soft, learned, content-based generalization of recurrence”</p>
+</div></blockquote>
+<p>Instead of fixed transitions via <span class="math notranslate nohighlight">\(W_h\)</span>, we learn <strong>data-dependent connections</strong> via <span class="math notranslate nohighlight">\(QK^T\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="why-this-matters">
+<h2>Why This Matters<a class="headerlink" href="#why-this-matters" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Eliminates sequential bottleneck</p></li>
+<li><p>Enables parallel computation</p></li>
+<li><p>Solves long-range dependency issues</p></li>
+<li><p>Forms the basis of Transformers</p></li>
+</ul>
+<p>This naturally leads into the next topic: <strong>Transformers and Self-Attention Architectures</strong>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-outcomes">Learning outcomes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-require-recurrence">1. Why sequence models require recurrence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-rnn-architecture">2. Simple RNN architecture</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-sharing-across-time">Parameter sharing across time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-training-objective">3. Sequence loss and training objective</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unrolling-in-time-and-backpropagation-through-time-bptt">4. Unrolling in time and Backpropagation Through Time (BPTT)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian">Local Jacobian</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-propagation-through-time">5. Gradient propagation through time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#formal-norm-bound-and-the-origin-of-vanishing-exploding-gradients">6. Formal norm bound and the origin of vanishing/exploding gradients</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-sketch">Proof sketch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-saturating-nonlinearities-worsen-vanishing-gradients">7. Why saturating nonlinearities worsen vanishing gradients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-interpretation-eigenvalues-singular-values-and-long-range-memory">8. Spectral interpretation: eigenvalues, singular values, and long-range memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vanishing-gradient-definition-consequences-and-symptoms">9. Vanishing gradient: definition, consequences, and symptoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#consequences">Consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-symptoms-in-practice">Typical symptoms in practice</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploding-gradient-definition-consequences-and-symptoms">10. Exploding gradient: definition, consequences, and symptoms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Consequences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-simple-sufficient-condition">A simple sufficient condition</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-with-respect-to-the-recurrent-matrix-w-h">11. Gradient with respect to the recurrent matrix <span class="math notranslate nohighlight">\(W_h\)</span></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-mitigation-strategies-for-simple-rnns">12. Practical mitigation strategies for simple RNNs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">12.1 Gradient clipping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-or-identity-like-initialization">12.2 Orthogonal or identity-like initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#careful-activation-choice">12.3 Careful activation choice</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncated-bptt">12.4 Truncated BPTT</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnns-adding-a-direct-memory-path">13. Leaky RNNs: adding a direct memory path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-long-short-term-memory">14. LSTM: Long Short-Term Memory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-lstm-equations">14.1 Standard LSTM equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-lstm-gradient-analysis">15. Step-by-step LSTM gradient analysis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-is-better-than-a-simple-rnn">Why this is better than a simple RNN</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-small-proof-of-exponential-decay-in-lstm-when-forget-gates-stay-below-one">16. A small proof of exponential decay in LSTM when forget gates stay below one</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-gated-recurrent-unit">17. GRU: Gated Recurrent Unit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-gru-equations">17.1 Standard GRU equations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-gru-gradient-analysis">18. Step-by-step GRU gradient analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-simple-rnn-leaky-rnn-lstm-and-gru">19. Comparing simple RNN, leaky RNN, LSTM, and GRU</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-rnn">Simple RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnn">Leaky RNN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm">LSTM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru">GRU</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pytorch-implementation-with-annotated-mathematics">20. PyTorch implementation with annotated mathematics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-gradient-norms-in-pytorch">Measuring gradient norms in PyTorch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-custom-lstm-cell-in-pytorch">21. A custom LSTM cell in PyTorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-implementation-with-explicit-recurrence">22. JAX implementation with explicit recurrence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-differentiating-through-the-full-sequence">JAX: differentiating through the full sequence</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-advice-for-stable-training">23. Practical advice for stable training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">24. Final summary</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#from-rnns-to-attention-mechanisms">From RNNs to Attention Mechanisms</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-limitations-of-rnns">Motivation: Limitations of RNNs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-perspective">RNN Perspective</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-a-generalization">Attention: A Generalization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-three-matrices-w-q-w-k-w-v">Why Three Matrices: <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span>?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analogy-with-rnn-weights">Analogy with RNN weights:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-rnn-computation">Connection to RNN Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-insight">Key Insight</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptual-bridge">Conceptual Bridge</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-matters">Why This Matters</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
