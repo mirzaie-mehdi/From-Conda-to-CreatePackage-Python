@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/mlp_pytorch_mnist';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="KL Divergence vs. Cross-Entropy in Practice" href="KLdivergence.html" />
+    <link rel="next" title="Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU" href="rnn.html" />
     <link rel="prev" title="Multilayer Perceptron (MLP) From Scratch" href="MLP_from_scratch.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,9 +185,45 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
+<li class="toctree-l1"><a class="reference internal" href="eigenvalue_vector.html">Eigenvalues, Eigenvectors, SVD, PCA, Optimization, and Low-Rank Structure for Machine Learning</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
 
@@ -985,19 +1021,19 @@ output      = result of applying the model to input
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.8434 | Validation Acc: 0.9116
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | Train Acc: 0.8269 | Validation Acc: 0.9103
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9180 | Validation Acc: 0.9255
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | Train Acc: 0.9134 | Validation Acc: 0.9216
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9299 | Validation Acc: 0.9351
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | Train Acc: 0.9244 | Validation Acc: 0.9291
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9372 | Validation Acc: 0.9386
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | Train Acc: 0.9310 | Validation Acc: 0.9338
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9428 | Validation Acc: 0.9422
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | Train Acc: 0.9368 | Validation Acc: 0.9376
 </pre></div>
 </div>
 </div>
@@ -1095,11 +1131,11 @@ output      = result of applying the model to input
       </div>
     </a>
     <a class="right-next"
-       href="KLdivergence.html"
+       href="rnn.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">KL Divergence vs. Cross-Entropy in Practice</p>
+        <p class="prev-next-title">Recurrent Neural Networks: Gradient Dynamics, Vanishing/Exploding Gradients, Leaky Units, LSTM, and GRU</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
