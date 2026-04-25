@@ -695,13 +695,13 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2776 | test loss: 0.2378
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2811 | test loss: 0.2398
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2108 | test loss: 0.1793
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2195 | test loss: 0.1857
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1682 | test loss: 0.1582
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1683 | test loss: 0.1572
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
@@ -730,61 +730,48 @@ Traceback (most recent call last):
     import torch.nn.functional as F
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/__init__.py&quot;, line 8, in &lt;module&gt;
     from torch.nn.modules import *  # usort: skip # noqa: F403
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 1, in &lt;module&gt;
     from torch.nn.modules import *  # usort: skip # noqa: F403
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 2, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 2, in &lt;module&gt;
-    from .linear import Bilinear, Identity, LazyLinear, Linear  # usort: skip
-    from .linear import Bilinear, Identity, LazyLinear, Linear  # usort: skip
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/linear.py&quot;, line 7, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/linear.py&quot;, line 7, in &lt;module&gt;
-    from torch.nn import functional as F, init
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/functional.py&quot;, line 4368, in &lt;module&gt;
-    from torch.nn import functional as F, init
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/functional.py&quot;, line 11, in &lt;module&gt;
-    from torch._jit_internal import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 45, in &lt;module&gt;
-    def upsample(  # noqa: F811
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 1028, in _overload
-    import torch.package._mangling as package_mangling
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/__init__.py&quot;, line 1, in &lt;module&gt;
-    from .analyze.is_from_package import is_from_package
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/analyze/__init__.py&quot;, line 1, in &lt;module&gt;
-    _check_overload_body(func)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 997, in _check_overload_body
-    from .find_first_use_of_broken_modules import find_first_use_of_broken_modules
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/analyze/find_first_use_of_broken_modules.py&quot;, line 1, in &lt;module&gt;
-    parsed_def = parse_def(func)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_sources.py&quot;, line 121, in parse_def
-    from torch.package.package_exporter import PackagingError
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/package_exporter.py&quot;, line 27, in &lt;module&gt;
-    sourcelines, file_lineno, filename = get_source_lines_and_file(
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_sources.py&quot;, line 24, in get_source_lines_and_file
-    from ._stdlib import is_stdlib_module
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1027, in _find_and_load
-    sourcelines, file_lineno = inspect.getsourcelines(obj)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 1121, in getsourcelines
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1006, in _find_and_load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 688, in _load_unlocked
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 879, in exec_module
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 1012, in get_code
-  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 672, in _compile_bytecode
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 1, in &lt;module&gt;
+    from .module import Module  # usort: skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py&quot;, line 17, in &lt;module&gt;
+    from .module import Module  # usort: skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py&quot;, line 17, in &lt;module&gt;
+    from torch.utils._python_dispatch import is_traceable_wrapper_subclass
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/_python_dispatch.py&quot;, line 13, in &lt;module&gt;
+    from torch.utils._python_dispatch import is_traceable_wrapper_subclass
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/_python_dispatch.py&quot;, line 13, in &lt;module&gt;
+    import torchgen.model
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchgen/model.py&quot;, line 2187, in &lt;module&gt;
+    import torchgen.model
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchgen/model.py&quot;, line 2187, in &lt;module&gt;
+    class Arguments:
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 1175, in wrap
+    class Arguments:
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 1175, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 1017, in _process_class
+    return _process_class(cls, init, repr, eq, order, unsafe_hash,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 1024, in _process_class
+    kw_only_init_fields) = _fields_in_init_order(all_init_fields)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 395, in _fields_in_init_order
+    _init_fn(all_init_fields,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 579, in _init_fn
+    return (tuple(f for f in fields if f.init and not f.kw_only),
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 395, in &lt;genexpr&gt;
+    return _create_fn(&#39;__init__&#39;,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/dataclasses.py&quot;, line 432, in _create_fn
+    return (tuple(f for f in fields if f.init and not f.kw_only),
 KeyboardInterrupt
-    lines, lnum = findsource(object)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 954, in findsource
-    lines = linecache.getlines(file, module.__dict__)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/linecache.py&quot;, line 46, in getlines
-    return updatecache(filename, module_globals)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/linecache.py&quot;, line 137, in updatecache
-    lines = fp.readlines()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/codecs.py&quot;, line 319, in decode
-    def decode(self, input, final=False):
+    exec(txt, globals, ns)
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
 KeyboardInterrupt
 Traceback (most recent call last):
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_97671/2208291953.py&quot;, line 6, in &lt;module&gt;
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_4910/2208291953.py&quot;, line 6, in &lt;module&gt;
     test_loss  = run_epoch(model, test_loader,  train=False, sigma=sigma)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_97671/489305300.py&quot;, line 8, in run_epoch
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_4910/489305300.py&quot;, line 8, in run_epoch
     for x, _ in loader:
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
     data = self._next_data()
@@ -819,21 +806,25 @@ Traceback (most recent call last):
     formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1085, in format_exception_as_a_whole
     self.get_records(etb, number_of_lines_of_context, tb_offset) if etb else []
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1138, in get_records
-    formatter = Terminal256Formatter(style=style)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 147, in __init__
-    self._setup_styles()  # convert selected style&#39;s colors to term. colors
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 231, in _setup_styles
-    escape.fg = self._color_index(ndef[&#39;color&#39;])
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 220, in _color_index
-    index = self._closest_color(r, g, b)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 200, in _closest_color
-    if d &lt; distance:
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 70, in handler
-    def handler(signum, frame):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1153, in get_records
+    mod = inspect.getmodule(cf.tb_frame)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 861, in getmodule
+    file = getabsfile(object, _filename)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 844, in getabsfile
+    _filename = getsourcefile(object) or getfile(object)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 829, in getsourcefile
+    module = getmodule(object, filename)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 875, in getmodule
+    f = getabsfile(module)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 844, in getabsfile
+    _filename = getsourcefile(object) or getfile(object)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 826, in getsourcefile
+    if os.path.exists(filename):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/genericpath.py&quot;, line 19, in exists
+    os.stat(path)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
     _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 97694) is killed by signal: Terminated: 15. 
+RuntimeError: DataLoader worker (pid 4942) is killed by signal: Interrupt: 2. 
 </pre></div>
 </div>
 </div>
