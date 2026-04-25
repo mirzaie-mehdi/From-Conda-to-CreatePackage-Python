@@ -695,77 +695,7 @@ W_y \in \mathbb{R}^{d_y \times d_h}.
 <section id="rnn-computation-graph">
 <h2>3. RNN computation graph<a class="headerlink" href="#rnn-computation-graph" title="Permalink to this heading">#</a></h2>
 <p>The same cell is reused at every time step.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;900&quot; height=&quot;270&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot; /&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 18px; text-anchor: middle; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; marker-end: url(#arrow); fill: none; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-<span class="s1">  &lt;rect x=&quot;70&quot; y=&quot;90&quot; width=&quot;120&quot; height=&quot;70&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;130&quot; class=&quot;txt&quot;&gt;RNN cell&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;152&quot; class=&quot;small&quot;&gt;shared θ&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;300&quot; y=&quot;90&quot; width=&quot;120&quot; height=&quot;70&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;130&quot; class=&quot;txt&quot;&gt;RNN cell&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;152&quot; class=&quot;small&quot;&gt;shared θ&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;530&quot; y=&quot;90&quot; width=&quot;120&quot; height=&quot;70&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;590&quot; y=&quot;130&quot; class=&quot;txt&quot;&gt;RNN cell&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;590&quot; y=&quot;152&quot; class=&quot;small&quot;&gt;shared θ&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;760&quot; y=&quot;90&quot; width=&quot;120&quot; height=&quot;70&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;820&quot; y=&quot;130&quot; class=&quot;txt&quot;&gt;RNN cell&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;820&quot; y=&quot;152&quot; class=&quot;small&quot;&gt;shared θ&lt;/text&gt;</span>
-
-<span class="s1">  &lt;path d=&quot;M190 125 L300 125&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M420 125 L530 125&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M650 125 L760 125&quot; class=&quot;line&quot; /&gt;</span>
-
-<span class="s1">  &lt;path d=&quot;M130 220 L130 160&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M360 220 L360 160&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M590 220 L590 160&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M820 220 L820 160&quot; class=&quot;line&quot; /&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;245&quot; class=&quot;txt&quot;&gt;x₁&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;245&quot; class=&quot;txt&quot;&gt;x₂&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;590&quot; y=&quot;245&quot; class=&quot;txt&quot;&gt;x₃&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;820&quot; y=&quot;245&quot; class=&quot;txt&quot;&gt;x₄&lt;/text&gt;</span>
-
-<span class="s1">  &lt;path d=&quot;M130 90 L130 40&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M360 90 L360 40&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M590 90 L590 40&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;path d=&quot;M820 90 L820 40&quot; class=&quot;line&quot; /&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;28&quot; class=&quot;txt&quot;&gt;y₁&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;28&quot; class=&quot;txt&quot;&gt;y₂&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;590&quot; y=&quot;28&quot; class=&quot;txt&quot;&gt;y₃&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;820&quot; y=&quot;28&quot; class=&quot;txt&quot;&gt;y₄&lt;/text&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;245&quot; y=&quot;110&quot; class=&quot;small&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;475&quot; y=&quot;110&quot; class=&quot;small&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;705&quot; y=&quot;110&quot; class=&quot;small&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" src="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" /></div>
 </div>
@@ -818,52 +748,7 @@ y_t = g(W_y h_t + b_y).
 \ell_t(y_t, \hat{y}_t).
 \]</div>
 <p>This is the most direct many-to-many RNN architecture: every hidden state contributes directly to the objective.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">many_to_many_aligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;310&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: aligned / synchronous outputs&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: tagging, frame-level labeling, stepwise forecasting&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;122&quot; x2=&quot;260&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;122&quot; x2=&quot;410&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;122&quot; x2=&quot;560&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;82&quot; x2=&quot;150&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;82&quot; x2=&quot;300&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;82&quot; x2=&quot;450&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;82&quot; x2=&quot;600&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;145&quot; x2=&quot;150&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;132&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;300&quot; y1=&quot;145&quot; x2=&quot;300&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;282&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;450&quot; y1=&quot;145&quot; x2=&quot;450&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;432&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;600&quot; y1=&quot;145&quot; x2=&quot;600&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;582&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;125&quot; class=&quot;small&quot;&gt;loss at every step&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;150&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, ŷₜ)&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_many_aligned_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
 </div>
@@ -903,146 +788,111 @@ x_2),
 x_T).
 \]</div>
 <p>Therefore, learning from early inputs still requires gradients to flow backward through many recurrent transitions.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">many_to_one_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;250&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;340&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-One: sequence classification&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: sentiment classification, activity recognition, fraud detection over a window&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;640&quot; y1=&quot;127&quot; x2=&quot;720&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;720&quot; y=&quot;103&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;755&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;y&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;190&quot; class=&quot;math&quot;&gt;L = ℓ(y, ŷ)&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_one_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" src="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" /></div>
 </div>
 </section>
 <section id="one-to-many-prediction">
 <h3>4.3 One-to-many prediction<a class="headerlink" href="#one-to-many-prediction" title="Permalink to this heading">#</a></h3>
-<p>In one-to-many prediction, a single conditioning input is used to generate a sequence.</p>
+<p>In one-to-many prediction, a single conditioning object is used to generate a sequence.</p>
 <p>Typical examples:</p>
 <ul class="simple">
-<li><p>image captioning, where an image embedding initializes a text generator,</p></li>
-<li><p>music generation from a seed vector,</p></li>
-<li><p>conditional sequence generation,</p></li>
-<li><p>generating a sequence from a fixed context representation.</p></li>
+<li><p>image captioning, where an image is encoded once and then decoded into a sentence,</p></li>
+<li><p>music generation from a seed or style vector,</p></li>
+<li><p>conditional text generation,</p></li>
+<li><p>sequence generation from a fixed context representation.</p></li>
 </ul>
-<p>One common formulation is to initialize the hidden state from the input:</p>
+<p>The important point is that the conditioning input is not usually fed as the recurrent input at every step. Instead, it defines either an initial hidden state, a context vector, or both.</p>
+<p>Let the conditioning input be <span class="math notranslate nohighlight">\(x\)</span>, and let an encoder produce a context representation:</p>
 <div class="math notranslate nohighlight">
 \[
-h_0 = f_\theta(x),
+c = e_\phi(x).
 \]</div>
-<p>then generate outputs recurrently:</p>
+<p>A common initialization is:</p>
 <div class="math notranslate nohighlight">
 \[
-h_t = F_\theta(h_{t-1}, u_t),
+h_0 = W_c c + b_c.
 \]</div>
+<p>The decoder then generates an output sequence autoregressively. Let <span class="math notranslate nohighlight">\(z_t\)</span> denote the token fed into the decoder at time <span class="math notranslate nohighlight">\(t\)</span>. The recurrent update is:</p>
 <div class="math notranslate nohighlight">
 \[
-y_t = g(W_y h_t + b_y),
+h_t = F_\theta(h_{t-1}, E z_t, c),
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(u_t\)</span> may be the previous target token during teacher forcing or the previous model output during inference.</p>
-<p>The sequence loss is:</p>
+<p>where <span class="math notranslate nohighlight">\(E z_t\)</span> is the embedding of the decoder input token. In many implementations, the context <span class="math notranslate nohighlight">\(c\)</span> is used only to initialize <span class="math notranslate nohighlight">\(h_0\)</span>; in others, <span class="math notranslate nohighlight">\(c\)</span> is also concatenated with the decoder input at every step.</p>
+<p>The decoder produces logits:</p>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_o h_t + b_o,
+\]</div>
+<p>and a predictive distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(y_t \mid z_{\le t}, x)
+=
+\operatorname{softmax}(o_t).
+\]</div>
+<p>For a target output sequence</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{1:T_y}
+=
+(\hat{y}_1, \hat{y}_2, \ldots, \hat{y}_{T_y}),
+\]</div>
+<p>the training objective is usually the negative log-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+-\sum_{t=1}^{T_y}
+\log p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x).
+\]</div>
+<p>Equivalently, using cross-entropy at each step:</p>
 <div class="math notranslate nohighlight">
 \[
 \mathcal{L}
 =
 \sum_{t=1}^{T_y}
-\ell_t(y_t, \hat{y}_t).
+\operatorname{CE}(p_t, \hat{y}_t),
 \]</div>
-<p>During training, it is common to use <strong>teacher forcing</strong>:</p>
+<p>where</p>
 <div class="math notranslate nohighlight">
 \[
-u_t = \hat{y}_{t-1},
+p_t = p_\theta(\cdot \mid \hat{y}_{&lt;t}, x).
 \]</div>
-<p>while during inference the model must feed back its own prediction:</p>
+<p>During training with <strong>teacher forcing</strong>, the decoder input is the previous ground-truth token:</p>
 <div class="math notranslate nohighlight">
 \[
-u_t = y_{t-1}.
+z_t = \hat{y}_{t-1},
 \]</div>
-<p>This mismatch is one reason autoregressive generation can accumulate errors.</p>
-<div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
-<summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
-</summary>
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">one_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;One-to-Many: conditional generation&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: image captioning, music generation from a seed, sequence generation from a context vector&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;75&quot; y=&quot;110&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;112&quot; y=&quot;140&quot; class=&quot;math&quot;&gt;x&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;165&quot; y1=&quot;135&quot; x2=&quot;245&quot; y2=&quot;135&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;245&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;275&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;395&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;425&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;545&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;575&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;695&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;725&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;325&quot; y1=&quot;132&quot; x2=&quot;395&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;475&quot; y1=&quot;132&quot; x2=&quot;545&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;625&quot; y1=&quot;132&quot; x2=&quot;695&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;285&quot; y1=&quot;155&quot; x2=&quot;285&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;267&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;435&quot; y1=&quot;155&quot; x2=&quot;435&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;417&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;585&quot; y1=&quot;155&quot; x2=&quot;585&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;567&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;735&quot; y1=&quot;155&quot; x2=&quot;735&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;717&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;245&quot; y=&quot;85&quot; class=&quot;small&quot;&gt;context initializes the recurrent generator&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">one_to_many_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-</details>
+<p>with a special start token</p>
+<div class="math notranslate nohighlight">
+\[
+z_1 = \langle \mathrm{BOS} \rangle.
+\]</div>
+<p>During inference, the previous ground-truth token is unavailable, so the model feeds back its own previous prediction:</p>
+<div class="math notranslate nohighlight">
+\[
+z_t = \tilde{y}_{t-1},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_{t-1}
+=
+\arg\max_y p_\theta(y \mid \tilde{y}_{&lt;t-1}, x)
+\]</div>
+<p>for greedy decoding, or is sampled/selected by beam search.</p>
+<p>Thus the training-time factorization is:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(\hat{y}_{1:T_y} \mid x)
+=
+\prod_{t=1}^{T_y}
+p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x),
+\]</div>
+<p>while inference generates recursively from the model’s own previous outputs. This train-test mismatch is known as <strong>exposure bias</strong>, and it is one reason autoregressive generation can accumulate errors.</p>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" src="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" /></div>
 </div>
@@ -1098,54 +948,7 @@ y_t = g(W_y s_t + b_y),
 \]</div>
 <p>The weakness of the basic encoder–decoder architecture is that the entire source sequence must be compressed into one vector <span class="math notranslate nohighlight">\(c\)</span>.
 This creates an information bottleneck, especially for long sequences.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">seq2seq_unaligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;960&quot; height=&quot;310&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;330&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: unaligned sequence-to-sequence&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: translation, summarization, speech recognition; input and output lengths may differ&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;170&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;100&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;115&quot; y1=&quot;105&quot; x2=&quot;115&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;230&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;245&quot; y1=&quot;105&quot; x2=&quot;245&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;375&quot; y1=&quot;105&quot; x2=&quot;375&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;410&quot; y1=&quot;141&quot; x2=&quot;500&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;500&quot; y=&quot;115&quot; width=&quot;90&quot; height=&quot;55&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;515&quot; y=&quot;148&quot; class=&quot;math&quot;&gt;context&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;590&quot; y1=&quot;141&quot; x2=&quot;660&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;720&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;660&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;685&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;790&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;815&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₂&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;141&quot; x2=&quot;790&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;695&quot; y1=&quot;162&quot; x2=&quot;695&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;678&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;825&quot; y1=&quot;162&quot; x2=&quot;825&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;808&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;270&quot; class=&quot;small&quot;&gt;The loss is usually accumulated over decoder outputs rather than directly over encoder states.&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">seq2seq_unaligned_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" src="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" /></div>
 </div>
@@ -1189,50 +992,7 @@ y_t = \operatorname{softmax}(W_y h_t + b_y).
 -\sum_{t=1}^{T-1}
 \log p_\theta(x_{t+1} \mid x_1, \ldots, x_t).
 \]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">delayed_many_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many with delay: next-token prediction&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: language modeling, autoregressive forecasting&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;path d=&quot;M150 150 C190 205, 235 205, 280 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;200&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₂&lt;/text&gt;</span>
-<span class="s1">  &lt;path d=&quot;M300 150 C340 205, 385 205, 430 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;350&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₃&lt;/text&gt;</span>
-<span class="s1">  &lt;path d=&quot;M450 150 C490 205, 535 205, 580 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;500&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₄&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;130&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, xₜ₊₁)&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">delayed_many_to_many_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" src="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" /></div>
 </div>
@@ -1273,52 +1033,7 @@ v^T \tanh(W_s s_t + W_h h_i^{\text{enc}}).
 \]</div>
 <p>This is the historical bridge from RNN encoder–decoder models to modern self-attention.
 Instead of relying only on the latest recurrent state, the decoder can directly access all encoder states.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">encoder_decoder_attention_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;980&quot; height=&quot;330&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
-<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
-<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Encoder–Decoder with Attention: direct access to encoder states&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;The decoder no longer relies on only one final context vector; it computes a weighted sum over encoder states.&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;165&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder states&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
-<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;620&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;645&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;sₜ&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;610&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder state/query&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;655&quot; y1=&quot;162&quot; x2=&quot;655&quot; y2=&quot;210&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;585&quot; y=&quot;210&quot; width=&quot;145&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;610&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;softmax scores&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;115&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;230&quot; class=&quot;dash&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;245&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;236&quot; class=&quot;dash&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;375&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;242&quot; class=&quot;dash&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;236&quot; x2=&quot;815&quot; y2=&quot;236&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;815&quot; y=&quot;210&quot; width=&quot;110&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;840&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;context cₜ&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;870&quot; y1=&quot;262&quot; x2=&quot;870&quot; y2=&quot;292&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;850&quot; y=&quot;315&quot; class=&quot;math&quot;&gt;yₜ&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;300&quot; class=&quot;small&quot;&gt;This is the historical bridge from recurrent encoder–decoder models to modern attention mechanisms.&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">encoder_decoder_attention_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" src="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" /></div>
 </div>
@@ -1593,40 +1308,7 @@ J_t J_{t-1} \cdots J_{k+1}.
 \left\| \frac{\partial h_t}{\partial h_k} \right\| \lesssim \gamma^{t-k}.
 \]</div>
 <p>If <span class="math notranslate nohighlight">\(\gamma &lt; 1\)</span>, the signal decays exponentially; if <span class="math notranslate nohighlight">\(\gamma &gt; 1\)</span>, it grows exponentially.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">gradient_flow_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;850&quot; height=&quot;330&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arr_grad&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot; /&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .axis { stroke: black; stroke-width: 2; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 3; fill: none; }</span>
-<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; }</span>
-<span class="s1">    .txt { font-family: Arial; font-size: 17px; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;280&quot; x2=&quot;780&quot; y2=&quot;280&quot; class=&quot;axis&quot; marker-end=&quot;url(#arr_grad)&quot; /&gt;</span>
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;280&quot; x2=&quot;80&quot; y2=&quot;40&quot; class=&quot;axis&quot; marker-end=&quot;url(#arr_grad)&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;400&quot; y=&quot;315&quot; class=&quot;txt&quot;&gt;temporal distance t − k&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;15&quot; y=&quot;55&quot; class=&quot;txt&quot; transform=&quot;rotate(-90 20,80)&quot;&gt;gradient norm&lt;/text&gt;</span>
-
-<span class="s1">  &lt;path d=&quot;M100 90 C240 120, 420 190, 740 270&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;560&quot; y=&quot;245&quot; class=&quot;txt&quot;&gt;vanishing: γ &amp;lt; 1&lt;/text&gt;</span>
-
-<span class="s1">  &lt;path d=&quot;M100 260 C260 245, 450 180, 740 55&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;520&quot; y=&quot;80&quot; class=&quot;txt&quot;&gt;exploding: γ &amp;gt; 1&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;100&quot; y1=&quot;170&quot; x2=&quot;740&quot; y2=&quot;170&quot; class=&quot;dash&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;160&quot; class=&quot;txt&quot;&gt;stable scale&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">gradient_flow_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/bf91176a15ccd1abf6020645c99833dd565df29e0418dece5948f29751a18fe0.svg" src="../_images/bf91176a15ccd1abf6020645c99833dd565df29e0418dece5948f29751a18fe0.svg" /></div>
 </div>
@@ -1865,7 +1547,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4370479583740234
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.3873028755187988
 </pre></div>
 </div>
 </div>
@@ -1953,84 +1635,7 @@ h_t = o_t \odot \tanh(c_t).
 \[o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o),\]</div>
 <div class="math notranslate nohighlight">
 \[h_t = o_t \odot \tanh(c_t).\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">lstm_cell_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;950&quot; height=&quot;420&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow_lstm&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot; /&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; ry: 12; }</span>
-<span class="s1">    .gate { fill: white; stroke: black; stroke-width: 2; rx: 8; ry: 8; }</span>
-<span class="s1">    .op { fill: white; stroke: black; stroke-width: 2; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow_lstm); }</span>
-<span class="s1">    .txt { font-family: Arial; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial; font-size: 15px; font-style: italic; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;250&quot; y=&quot;80&quot; width=&quot;470&quot; height=&quot;250&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;110&quot; class=&quot;txt&quot;&gt;LSTM cell&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;145&quot; x2=&quot;250&quot; y2=&quot;145&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;85&quot; y=&quot;135&quot; class=&quot;math&quot;&gt;h&lt;tspan baseline-shift=&quot;sub&quot;&gt;t−1&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;255&quot; x2=&quot;250&quot; y2=&quot;255&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;100&quot; y=&quot;245&quot; class=&quot;math&quot;&gt;x&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;55&quot; x2=&quot;870&quot; y2=&quot;55&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;95&quot; y=&quot;45&quot; class=&quot;math&quot;&gt;c&lt;tspan baseline-shift=&quot;sub&quot;&gt;t−1&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;circle cx=&quot;345&quot; cy=&quot;55&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;338&quot; y=&quot;61&quot; class=&quot;txt&quot;&gt;×&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;345&quot; y1=&quot;73&quot; x2=&quot;345&quot; y2=&quot;150&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;300&quot; y=&quot;150&quot; width=&quot;90&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;322&quot; y=&quot;180&quot; class=&quot;math&quot;&gt;f&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;430&quot; y=&quot;150&quot; width=&quot;90&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;452&quot; y=&quot;180&quot; class=&quot;math&quot;&gt;i&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;150&quot; width=&quot;110&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;582&quot; y=&quot;180&quot; class=&quot;math&quot;&gt;c̃&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;circle cx=&quot;500&quot; cy=&quot;245&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;493&quot; y=&quot;251&quot; class=&quot;txt&quot;&gt;×&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;475&quot; y1=&quot;198&quot; x2=&quot;492&quot; y2=&quot;229&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;615&quot; y1=&quot;198&quot; x2=&quot;512&quot; y2=&quot;229&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;circle cx=&quot;620&quot; cy=&quot;55&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;613&quot; y=&quot;61&quot; class=&quot;txt&quot;&gt;+&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;363&quot; y1=&quot;55&quot; x2=&quot;602&quot; y2=&quot;55&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;500&quot; y1=&quot;263&quot; x2=&quot;612&quot; y2=&quot;72&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;638&quot; y1=&quot;55&quot; x2=&quot;870&quot; y2=&quot;55&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;825&quot; y=&quot;45&quot; class=&quot;math&quot;&gt;c&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;690&quot; y=&quot;150&quot; width=&quot;90&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;713&quot; y=&quot;180&quot; class=&quot;math&quot;&gt;o&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;620&quot; y1=&quot;73&quot; x2=&quot;705&quot; y2=&quot;250&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;circle cx=&quot;720&quot; cy=&quot;265&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;713&quot; y=&quot;271&quot; class=&quot;txt&quot;&gt;×&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;735&quot; y1=&quot;198&quot; x2=&quot;723&quot; y2=&quot;247&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;738&quot; y1=&quot;265&quot; x2=&quot;870&quot; y2=&quot;265&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;825&quot; y=&quot;255&quot; class=&quot;math&quot;&gt;h&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;300&quot; y=&quot;355&quot; class=&quot;small&quot;&gt;f: forget gate&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;355&quot; class=&quot;small&quot;&gt;i: input gate&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;560&quot; y=&quot;355&quot; class=&quot;small&quot;&gt;c̃: candidate memory&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;355&quot; class=&quot;small&quot;&gt;o: output gate&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">lstm_cell_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/caf67dccc0cfe2f727811f621bfc3d6d9c3d5288ed923ce7c639487fc84e3475.svg" src="../_images/caf67dccc0cfe2f727811f621bfc3d6d9c3d5288ed923ce7c639487fc84e3475.svg" /></div>
 </div>
@@ -2206,69 +1811,7 @@ h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t.
 \[\tilde{h}_t = \tanh(W_h x_t + U_h(r_t \odot h_{t-1}) + b_h),\]</div>
 <div class="math notranslate nohighlight">
 \[h_t = (1-z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t.\]</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">gru_cell_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;950&quot; height=&quot;390&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow_gru&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot; /&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; ry: 12; }</span>
-<span class="s1">    .gate { fill: white; stroke: black; stroke-width: 2; rx: 8; ry: 8; }</span>
-<span class="s1">    .op { fill: white; stroke: black; stroke-width: 2; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow_gru); }</span>
-<span class="s1">    .txt { font-family: Arial; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial; font-size: 15px; font-style: italic; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;230&quot; y=&quot;70&quot; width=&quot;500&quot; height=&quot;245&quot; class=&quot;box&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;455&quot; y=&quot;100&quot; class=&quot;txt&quot;&gt;GRU cell&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;145&quot; x2=&quot;230&quot; y2=&quot;145&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;85&quot; y=&quot;135&quot; class=&quot;math&quot;&gt;h&lt;tspan baseline-shift=&quot;sub&quot;&gt;t−1&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;80&quot; y1=&quot;245&quot; x2=&quot;230&quot; y2=&quot;245&quot; class=&quot;line&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;100&quot; y=&quot;235&quot; class=&quot;math&quot;&gt;x&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;285&quot; y=&quot;135&quot; width=&quot;95&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;310&quot; y=&quot;165&quot; class=&quot;math&quot;&gt;z&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;420&quot; y=&quot;135&quot; width=&quot;95&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;445&quot; y=&quot;165&quot; class=&quot;math&quot;&gt;r&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;circle cx=&quot;500&quot; cy=&quot;230&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;493&quot; y=&quot;236&quot; class=&quot;txt&quot;&gt;×&lt;/text&gt;</span>
-<span class="s1">  &lt;line x1=&quot;468&quot; y1=&quot;183&quot; x2=&quot;496&quot; y2=&quot;213&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;205&quot; width=&quot;110&quot; height=&quot;48&quot; class=&quot;gate&quot; /&gt;</span>
-<span class="s1">  &lt;text x=&quot;585&quot; y=&quot;235&quot; class=&quot;math&quot;&gt;h̃&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;518&quot; y1=&quot;230&quot; x2=&quot;560&quot; y2=&quot;230&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;230&quot; y1=&quot;245&quot; x2=&quot;560&quot; y2=&quot;245&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;circle cx=&quot;735&quot; cy=&quot;145&quot; r=&quot;18&quot; class=&quot;op&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;728&quot; y=&quot;151&quot; class=&quot;txt&quot;&gt;+&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;380&quot; y1=&quot;159&quot; x2=&quot;720&quot; y2=&quot;135&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;670&quot; y1=&quot;230&quot; x2=&quot;728&quot; y2=&quot;163&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;230&quot; y1=&quot;145&quot; x2=&quot;718&quot; y2=&quot;150&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;753&quot; y1=&quot;145&quot; x2=&quot;870&quot; y2=&quot;145&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;825&quot; y=&quot;135&quot; class=&quot;math&quot;&gt;h&lt;tspan baseline-shift=&quot;sub&quot;&gt;t&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;285&quot; y=&quot;340&quot; class=&quot;small&quot;&gt;z: update gate&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;420&quot; y=&quot;340&quot; class=&quot;small&quot;&gt;r: reset gate&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;560&quot; y=&quot;340&quot; class=&quot;small&quot;&gt;h̃: candidate state&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">gru_cell_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/ecb8041bb471a2e6f00539c553945acbe49c53b4bcb6b6594884cf29fdad9ab2.svg" src="../_images/ecb8041bb471a2e6f00539c553945acbe49c53b4bcb6b6594884cf29fdad9ab2.svg" /></div>
 </div>
@@ -2463,79 +2006,7 @@ V = XW_V.
 <div class="math notranslate nohighlight">
 \[\operatorname{Attention}(Q,K,V) = \operatorname{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V.\]</div>
 <p>The matrices <span class="math notranslate nohighlight">\(W_Q\)</span>, <span class="math notranslate nohighlight">\(W_K\)</span>, and <span class="math notranslate nohighlight">\(W_V\)</span> are learned projections that separate three roles: querying, matching, and retrieving.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
-<span class="n">attention_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;980&quot; height=&quot;430&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
-<span class="s1">  &lt;defs&gt;</span>
-<span class="s1">    &lt;marker id=&quot;arrow_attn&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
-<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot; /&gt;</span>
-<span class="s1">    &lt;/marker&gt;</span>
-<span class="s1">  &lt;/defs&gt;</span>
-<span class="s1">  &lt;style&gt;</span>
-<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
-<span class="s1">    .mat { fill: white; stroke: black; stroke-width: 2; }</span>
-<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow_attn); }</span>
-<span class="s1">    .txt { font-family: Arial; font-size: 16px; }</span>
-<span class="s1">    .small { font-family: Arial; font-size: 13px; }</span>
-<span class="s1">    .math { font-family: Arial; font-size: 15px; font-style: italic; }</span>
-<span class="s1">  &lt;/style&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;60&quot; y=&quot;175&quot; width=&quot;110&quot; height=&quot;55&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;103&quot; y=&quot;208&quot; class=&quot;math&quot;&gt;X&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;170&quot; y1=&quot;202&quot; x2=&quot;260&quot; y2=&quot;95&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;170&quot; y1=&quot;202&quot; x2=&quot;260&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;170&quot; y1=&quot;202&quot; x2=&quot;260&quot; y2=&quot;310&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;70&quot; width=&quot;120&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;292&quot; y=&quot;100&quot; class=&quot;math&quot;&gt;W&lt;tspan baseline-shift=&quot;sub&quot;&gt;Q&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;177&quot; width=&quot;120&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;292&quot; y=&quot;207&quot; class=&quot;math&quot;&gt;W&lt;tspan baseline-shift=&quot;sub&quot;&gt;K&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;285&quot; width=&quot;120&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;292&quot; y=&quot;315&quot; class=&quot;math&quot;&gt;W&lt;tspan baseline-shift=&quot;sub&quot;&gt;V&lt;/tspan&gt;&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;380&quot; y1=&quot;95&quot; x2=&quot;470&quot; y2=&quot;95&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;380&quot; y1=&quot;202&quot; x2=&quot;470&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;380&quot; y1=&quot;310&quot; x2=&quot;720&quot; y2=&quot;310&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;470&quot; y=&quot;70&quot; width=&quot;100&quot; height=&quot;50&quot; class=&quot;mat&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;512&quot; y=&quot;100&quot; class=&quot;math&quot;&gt;Q&lt;/text&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;470&quot; y=&quot;177&quot; width=&quot;100&quot; height=&quot;50&quot; class=&quot;mat&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;512&quot; y=&quot;207&quot; class=&quot;math&quot;&gt;K&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;570&quot; y1=&quot;95&quot; x2=&quot;645&quot; y2=&quot;150&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;570&quot; y1=&quot;202&quot; x2=&quot;645&quot; y2=&quot;175&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;645&quot; y=&quot;135&quot; width=&quot;150&quot; height=&quot;65&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;672&quot; y=&quot;162&quot; class=&quot;math&quot;&gt;QK&lt;tspan baseline-shift=&quot;super&quot;&gt;T&lt;/tspan&gt; / √d&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;682&quot; y=&quot;185&quot; class=&quot;small&quot;&gt;similarity scores&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;795&quot; y1=&quot;167&quot; x2=&quot;840&quot; y2=&quot;167&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;rect x=&quot;840&quot; y=&quot;142&quot; width=&quot;100&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;857&quot; y=&quot;172&quot; class=&quot;math&quot;&gt;softmax&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;890&quot; y1=&quot;192&quot; x2=&quot;890&quot; y2=&quot;250&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;line x1=&quot;720&quot; y1=&quot;310&quot; x2=&quot;870&quot; y2=&quot;310&quot; class=&quot;line&quot;/&gt;</span>
-
-<span class="s1">  &lt;rect x=&quot;800&quot; y=&quot;250&quot; width=&quot;130&quot; height=&quot;80&quot; class=&quot;box&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;827&quot; y=&quot;282&quot; class=&quot;math&quot;&gt;A V&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;818&quot; y=&quot;305&quot; class=&quot;small&quot;&gt;weighted retrieval&lt;/text&gt;</span>
-
-<span class="s1">  &lt;line x1=&quot;930&quot; y1=&quot;290&quot; x2=&quot;965&quot; y2=&quot;290&quot; class=&quot;line&quot;/&gt;</span>
-<span class="s1">  &lt;text x=&quot;900&quot; y=&quot;370&quot; class=&quot;math&quot;&gt;Attention(Q,K,V)&lt;/text&gt;</span>
-
-<span class="s1">  &lt;text x=&quot;60&quot; y=&quot;65&quot; class=&quot;txt&quot;&gt;Self-attention computes content-dependent connections.&lt;/text&gt;</span>
-<span class="s1">  &lt;text x=&quot;60&quot; y=&quot;390&quot; class=&quot;small&quot;&gt;Q asks what each position seeks; K describes what each position offers; V stores the information to retrieve.&lt;/text&gt;</span>
-<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
-<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">attention_svg</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
+<div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/a3a6d46336d4c459fa490c2fa285d5fa6e1b5f08d385b463caf8cbd8829c260d.svg" src="../_images/a3a6d46336d4c459fa490c2fa285d5fa6e1b5f08d385b463caf8cbd8829c260d.svg" /></div>
 </div>
