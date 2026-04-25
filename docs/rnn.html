@@ -808,124 +808,94 @@ x_T).
 <div class="cell_output docutils container">
 <img alt="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" src="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" /></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Let</span> <span class="n">the</span> <span class="n">conditioning</span> <span class="nb">input</span> <span class="n">be</span> <span class="err">$</span><span class="n">x</span><span class="err">$</span><span class="p">,</span> <span class="ow">and</span> <span class="n">let</span> <span class="n">an</span> <span class="n">encoder</span> <span class="n">produce</span> <span class="n">a</span> <span class="n">context</span> <span class="n">representation</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">c</span> <span class="o">=</span> <span class="n">e_</span>\<span class="n">phi</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">A</span> <span class="n">common</span> <span class="n">initialization</span> <span class="ow">is</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">h_0</span> <span class="o">=</span> <span class="n">W_c</span> <span class="n">c</span> <span class="o">+</span> <span class="n">b_c</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">The</span> <span class="n">decoder</span> <span class="n">then</span> <span class="n">generates</span> <span class="n">an</span> <span class="n">output</span> <span class="n">sequence</span> <span class="n">autoregressively</span><span class="o">.</span> <span class="n">Let</span> <span class="err">$</span><span class="n">z_t</span><span class="err">$</span> <span class="n">denote</span> <span class="n">the</span> <span class="n">token</span> <span class="n">fed</span> <span class="n">into</span> <span class="n">the</span> <span class="n">decoder</span> <span class="n">at</span> <span class="n">time</span> <span class="err">$</span><span class="n">t</span><span class="err">$</span><span class="o">.</span> <span class="n">The</span> <span class="n">recurrent</span> <span class="n">update</span> <span class="ow">is</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">h_t</span> <span class="o">=</span> <span class="n">F_</span>\<span class="n">theta</span><span class="p">(</span><span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="n">E</span> <span class="n">z_t</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span>
-<span class="err">$$</span>
-
-<span class="n">where</span> <span class="err">$</span><span class="n">E</span> <span class="n">z_t</span><span class="err">$</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">embedding</span> <span class="n">of</span> <span class="n">the</span> <span class="n">decoder</span> <span class="nb">input</span> <span class="n">token</span><span class="o">.</span> <span class="n">In</span> <span class="n">many</span> <span class="n">implementations</span><span class="p">,</span> <span class="n">the</span> <span class="n">context</span> <span class="err">$</span><span class="n">c</span><span class="err">$</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">only</span> <span class="n">to</span> <span class="n">initialize</span> <span class="err">$</span><span class="n">h_0</span><span class="err">$</span><span class="p">;</span> <span class="ow">in</span> <span class="n">others</span><span class="p">,</span> <span class="err">$</span><span class="n">c</span><span class="err">$</span> <span class="ow">is</span> <span class="n">also</span> <span class="n">concatenated</span> <span class="k">with</span> <span class="n">the</span> <span class="n">decoder</span> <span class="nb">input</span> <span class="n">at</span> <span class="n">every</span> <span class="n">step</span><span class="o">.</span>
-
-<span class="n">The</span> <span class="n">decoder</span> <span class="n">produces</span> <span class="n">logits</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">o_t</span> <span class="o">=</span> <span class="n">W_o</span> <span class="n">h_t</span> <span class="o">+</span> <span class="n">b_o</span><span class="p">,</span>
-<span class="err">$$</span>
-
-<span class="ow">and</span> <span class="n">a</span> <span class="n">predictive</span> <span class="n">distribution</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span><span class="n">y_t</span> \<span class="n">mid</span> <span class="n">z_</span><span class="p">{</span>\<span class="n">le</span> <span class="n">t</span><span class="p">},</span> <span class="n">x</span><span class="p">)</span>
-<span class="o">=</span>
-\<span class="n">operatorname</span><span class="p">{</span><span class="n">softmax</span><span class="p">}(</span><span class="n">o_t</span><span class="p">)</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">For</span> <span class="n">a</span> <span class="n">target</span> <span class="n">output</span> <span class="n">sequence</span>
-
-<span class="err">$$</span>
-\<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">T_y</span><span class="p">}</span>
-<span class="o">=</span>
-<span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_1</span><span class="p">,</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_2</span><span class="p">,</span> \<span class="n">ldots</span><span class="p">,</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">T_y</span><span class="p">}),</span>
-<span class="err">$$</span>
-
-<span class="n">the</span> <span class="n">training</span> <span class="n">objective</span> <span class="ow">is</span> <span class="n">usually</span> <span class="n">the</span> <span class="n">negative</span> <span class="n">log</span><span class="o">-</span><span class="n">likelihood</span><span class="p">:</span>
-
-<span class="err">$$</span>
-\<span class="n">mathcal</span><span class="p">{</span><span class="n">L</span><span class="p">}</span>
-<span class="o">=</span>
-<span class="o">-</span>\<span class="n">sum_</span><span class="p">{</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">T_y</span><span class="p">}</span>
-\<span class="n">log</span> <span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_t</span> \<span class="n">mid</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="o">&lt;</span><span class="n">t</span><span class="p">},</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">Equivalently</span><span class="p">,</span> <span class="n">using</span> <span class="n">cross</span><span class="o">-</span><span class="n">entropy</span> <span class="n">at</span> <span class="n">each</span> <span class="n">step</span><span class="p">:</span>
-
-<span class="err">$$</span>
-\<span class="n">mathcal</span><span class="p">{</span><span class="n">L</span><span class="p">}</span>
-<span class="o">=</span>
-\<span class="n">sum_</span><span class="p">{</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">T_y</span><span class="p">}</span>
-\<span class="n">operatorname</span><span class="p">{</span><span class="n">CE</span><span class="p">}(</span><span class="n">p_t</span><span class="p">,</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_t</span><span class="p">),</span>
-<span class="err">$$</span>
-
-<span class="n">where</span>
-
-<span class="err">$$</span>
-<span class="n">p_t</span> <span class="o">=</span> <span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span>\<span class="n">cdot</span> \<span class="n">mid</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="o">&lt;</span><span class="n">t</span><span class="p">},</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">During</span> <span class="n">training</span> <span class="k">with</span> <span class="o">**</span><span class="n">teacher</span> <span class="n">forcing</span><span class="o">**</span><span class="p">,</span> <span class="n">the</span> <span class="n">decoder</span> <span class="nb">input</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">previous</span> <span class="n">ground</span><span class="o">-</span><span class="n">truth</span> <span class="n">token</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">z_t</span> <span class="o">=</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span>
-<span class="err">$$</span>
-
-<span class="k">with</span> <span class="n">a</span> <span class="n">special</span> <span class="n">start</span> <span class="n">token</span>
-
-<span class="err">$$</span>
-<span class="n">z_1</span> <span class="o">=</span> \<span class="n">langle</span> \<span class="n">mathrm</span><span class="p">{</span><span class="n">BOS</span><span class="p">}</span> \<span class="n">rangle</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">During</span> <span class="n">inference</span><span class="p">,</span> <span class="n">the</span> <span class="n">previous</span> <span class="n">ground</span><span class="o">-</span><span class="n">truth</span> <span class="n">token</span> <span class="ow">is</span> <span class="n">unavailable</span><span class="p">,</span> <span class="n">so</span> <span class="n">the</span> <span class="n">model</span> <span class="n">feeds</span> <span class="n">back</span> <span class="n">its</span> <span class="n">own</span> <span class="n">previous</span> <span class="n">prediction</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">z_t</span> <span class="o">=</span> \<span class="n">tilde</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span>
-<span class="err">$$</span>
-
-<span class="n">where</span>
-
-<span class="err">$$</span>
-\<span class="n">tilde</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>
-<span class="o">=</span>
-\<span class="n">arg</span>\<span class="n">max_y</span> <span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span><span class="n">y</span> \<span class="n">mid</span> \<span class="n">tilde</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="o">&lt;</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">},</span> <span class="n">x</span><span class="p">)</span>
-<span class="err">$$</span>
-
-<span class="k">for</span> <span class="n">greedy</span> <span class="n">decoding</span><span class="p">,</span> <span class="ow">or</span> <span class="ow">is</span> <span class="n">sampled</span><span class="o">/</span><span class="n">selected</span> <span class="n">by</span> <span class="n">beam</span> <span class="n">search</span><span class="o">.</span>
-
-<span class="n">Thus</span> <span class="n">the</span> <span class="n">training</span><span class="o">-</span><span class="n">time</span> <span class="n">factorization</span> <span class="ow">is</span><span class="p">:</span>
-
-<span class="err">$$</span>
-<span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="n">T_y</span><span class="p">}</span> \<span class="n">mid</span> <span class="n">x</span><span class="p">)</span>
-<span class="o">=</span>
-\<span class="n">prod_</span><span class="p">{</span><span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">T_y</span><span class="p">}</span>
-<span class="n">p_</span>\<span class="n">theta</span><span class="p">(</span>\<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_t</span> \<span class="n">mid</span> \<span class="n">hat</span><span class="p">{</span><span class="n">y</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="o">&lt;</span><span class="n">t</span><span class="p">},</span> <span class="n">x</span><span class="p">),</span>
-<span class="err">$$</span>
-
-<span class="k">while</span> <span class="n">inference</span> <span class="n">generates</span> <span class="n">recursively</span> <span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">model</span><span class="s1">&#39;s own previous outputs. This train-test mismatch is known as **exposure bias**, and it is one reason autoregressive generation can accumulate errors.</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Cell In[5], line 1
-    Let the conditioning input be $x$, and let an encoder produce a context representation:
-        ^
-SyntaxError: invalid syntax
-</pre></div>
-</div>
-</div>
-</div>
+<p>Let the conditioning input be <span class="math notranslate nohighlight">\(x\)</span>, and let an encoder produce a context representation:</p>
+<div class="math notranslate nohighlight">
+\[
+c = e_\phi(x).
+\]</div>
+<p>A common initialization is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_0 = W_c c + b_c.
+\]</div>
+<p>The decoder then generates an output sequence autoregressively. Let <span class="math notranslate nohighlight">\(z_t\)</span> denote the token fed into the decoder at time <span class="math notranslate nohighlight">\(t\)</span>. The recurrent update is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, E z_t, c),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E z_t\)</span> is the embedding of the decoder input token. In many implementations, the context <span class="math notranslate nohighlight">\(c\)</span> is used only to initialize <span class="math notranslate nohighlight">\(h_0\)</span>; in others, <span class="math notranslate nohighlight">\(c\)</span> is also concatenated with the decoder input at every step.</p>
+<p>The decoder produces logits:</p>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_o h_t + b_o,
+\]</div>
+<p>and a predictive distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(y_t \mid z_{\le t}, x)
+=
+\operatorname{softmax}(o_t).
+\]</div>
+<p>For a target output sequence</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{1:T_y}
+=
+(\hat{y}_1, \hat{y}_2, \ldots, \hat{y}_{T_y}),
+\]</div>
+<p>the training objective is usually the negative log-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+-\sum_{t=1}^{T_y}
+\log p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x).
+\]</div>
+<p>Equivalently, using cross-entropy at each step:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T_y}
+\operatorname{CE}(p_t, \hat{y}_t),
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+p_t = p_\theta(\cdot \mid \hat{y}_{&lt;t}, x).
+\]</div>
+<p>During training with <strong>teacher forcing</strong>, the decoder input is the previous ground-truth token:</p>
+<div class="math notranslate nohighlight">
+\[
+z_t = \hat{y}_{t-1},
+\]</div>
+<p>with a special start token</p>
+<div class="math notranslate nohighlight">
+\[
+z_1 = \langle \mathrm{BOS} \rangle.
+\]</div>
+<p>During inference, the previous ground-truth token is unavailable, so the model feeds back its own previous prediction:</p>
+<div class="math notranslate nohighlight">
+\[
+z_t = \tilde{y}_{t-1},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_{t-1}
+=
+\arg\max_y p_\theta(y \mid \tilde{y}_{&lt;t-1}, x)
+\]</div>
+<p>for greedy decoding, or is sampled/selected by beam search.</p>
+<p>Thus the training-time factorization is:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(\hat{y}_{1:T_y} \mid x)
+=
+\prod_{t=1}^{T_y}
+p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x),
+\]</div>
+<p>while inference generates recursively from the model’s own previous outputs. This train-test mismatch is known as <strong>exposure bias</strong>, and it is one reason autoregressive generation can accumulate errors.</p>
 </section>
 <section id="many-to-many-unaligned-sequence-to-sequence">
 <h3>4.4 Many-to-many, unaligned sequence-to-sequence<a class="headerlink" href="#many-to-many-unaligned-sequence-to-sequence" title="Permalink to this heading">#</a></h3>
@@ -1577,7 +1547,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4186551570892334
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.316009283065796
 </pre></div>
 </div>
 </div>
