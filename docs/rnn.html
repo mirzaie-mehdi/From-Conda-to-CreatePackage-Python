@@ -955,6 +955,10 @@ This creates an information bottleneck, especially for long sequences.</p>
 </section>
 <section id="many-to-many-with-delay-language-modeling-and-next-step-prediction">
 <h3>4.5 Many-to-many with delay: language modeling and next-step prediction<a class="headerlink" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction" title="Permalink to this heading">#</a></h3>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" src="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" /></div>
+</div>
 <p>In language modeling, the target at time <span class="math notranslate nohighlight">\(t\)</span> is often the next token:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -992,10 +996,6 @@ y_t = \operatorname{softmax}(W_y h_t + b_y).
 -\sum_{t=1}^{T-1}
 \log p_\theta(x_{t+1} \mid x_1, \ldots, x_t).
 \]</div>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" src="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" /></div>
-</div>
 </section>
 <section id="encoderdecoder-with-attention-the-bridge-to-modern-attention">
 <h3>4.6 Encoder–decoder with attention: the bridge to modern attention<a class="headerlink" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention" title="Permalink to this heading">#</a></h3>
@@ -1112,19 +1112,38 @@ a_t = W_h h_{t-1} + W_x x_t + b_h,
 \[
 h_t = \phi(a_t).
 \]</div>
-<p>Let</p>
-<div class="math notranslate nohighlight">
-\[
-D_t = \operatorname{diag}(\phi'(a_t)).
-\]</div>
-<p>Then the Jacobian of <span class="math notranslate nohighlight">\(h_t\)</span> with respect to <span class="math notranslate nohighlight">\(h_{t-1}\)</span> is</p>
-<div class="math notranslate nohighlight">
-\[
-J_t = \frac{\partial h_t}{\partial h_{t-1}}
-= D_t W_h.
-\]</div>
-<p>This single matrix <span class="math notranslate nohighlight">\(J_t\)</span> describes how a small perturbation in <span class="math notranslate nohighlight">\(h_{t-1}\)</span> affects <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
-<p>The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Let</span>
+
+<span class="err">$$</span><span class="n">D_t</span> <span class="o">=</span> \<span class="n">operatorname</span><span class="p">{</span><span class="n">diag</span><span class="p">}(</span>\<span class="n">phi</span><span class="s1">&#39;(a_t)).$$</span>
+
+<span class="n">Then</span> <span class="n">the</span> <span class="n">Jacobian</span> <span class="n">of</span> <span class="err">$</span><span class="n">h_t</span><span class="err">$</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="err">$</span><span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span><span class="err">$</span> <span class="ow">is</span>
+
+<span class="err">$$</span>
+<span class="n">J_t</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">partial</span> <span class="n">h_t</span><span class="p">}{</span>\<span class="n">partial</span> <span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}}</span>
+<span class="o">=</span> <span class="n">D_t</span> <span class="n">W_h</span><span class="o">.</span>
+<span class="err">$$</span>
+
+<span class="n">This</span> <span class="n">single</span> <span class="n">matrix</span> <span class="err">$</span><span class="n">J_t</span><span class="err">$</span> <span class="n">describes</span> <span class="n">how</span> <span class="n">a</span> <span class="n">small</span> <span class="n">perturbation</span> <span class="ow">in</span> <span class="err">$</span><span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span><span class="err">$</span> <span class="n">affects</span> <span class="err">$</span><span class="n">h_t</span><span class="err">$</span><span class="o">.</span>
+
+<span class="n">The</span> <span class="n">entire</span> <span class="n">gradient</span><span class="o">-</span><span class="n">flow</span> <span class="n">problem</span> <span class="ow">in</span> <span class="n">vanilla</span> <span class="n">RNNs</span> <span class="ow">is</span> <span class="n">governed</span> <span class="n">by</span> <span class="n">products</span> <span class="n">of</span> <span class="n">these</span> <span class="n">matrices</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Cell In[9], line 3
+    $$D_t = \operatorname{diag}(\phi&#39;(a_t)).$$
+    ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="bptt-derivation">
 <h2>6. BPTT derivation<a class="headerlink" href="#bptt-derivation" title="Permalink to this heading">#</a></h2>
@@ -1547,7 +1566,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.316009283065796
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4186551570892334
 </pre></div>
 </div>
 </div>

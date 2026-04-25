@@ -22,116 +22,27 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-Let the conditioning input be $x$, and let an encoder produce a context representation:
+Let
+
+$$D_t = \operatorname{diag}(\phi'(a_t)).$$
+
+Then the Jacobian of $h_t$ with respect to $h_{t-1}$ is
 
 $$
-c = e_\phi(x).
+J_t = \frac{\partial h_t}{\partial h_{t-1}}
+= D_t W_h.
 $$
 
-A common initialization is:
+This single matrix $J_t$ describes how a small perturbation in $h_{t-1}$ affects $h_t$.
 
-$$
-h_0 = W_c c + b_c.
-$$
+The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.
 
-The decoder then generates an output sequence autoregressively. Let $z_t$ denote the token fed into the decoder at time $t$. The recurrent update is:
-
-$$
-h_t = F_\theta(h_{t-1}, E z_t, c),
-$$
-
-where $E z_t$ is the embedding of the decoder input token. In many implementations, the context $c$ is used only to initialize $h_0$; in others, $c$ is also concatenated with the decoder input at every step.
-
-The decoder produces logits:
-
-$$
-o_t = W_o h_t + b_o,
-$$
-
-and a predictive distribution:
-
-$$
-p_\theta(y_t \mid z_{\le t}, x)
-=
-\operatorname{softmax}(o_t).
-$$
-
-For a target output sequence
-
-$$
-\hat{y}_{1:T_y}
-=
-(\hat{y}_1, \hat{y}_2, \ldots, \hat{y}_{T_y}),
-$$
-
-the training objective is usually the negative log-likelihood:
-
-$$
-\mathcal{L}
-=
--\sum_{t=1}^{T_y}
-\log p_\theta(\hat{y}_t \mid \hat{y}_{<t}, x).
-$$
-
-Equivalently, using cross-entropy at each step:
-
-$$
-\mathcal{L}
-=
-\sum_{t=1}^{T_y}
-\operatorname{CE}(p_t, \hat{y}_t),
-$$
-
-where
-
-$$
-p_t = p_\theta(\cdot \mid \hat{y}_{<t}, x).
-$$
-
-During training with **teacher forcing**, the decoder input is the previous ground-truth token:
-
-$$
-z_t = \hat{y}_{t-1},
-$$
-
-with a special start token
-
-$$
-z_1 = \langle \mathrm{BOS} \rangle.
-$$
-
-During inference, the previous ground-truth token is unavailable, so the model feeds back its own previous prediction:
-
-$$
-z_t = \tilde{y}_{t-1},
-$$
-
-where
-
-$$
-\tilde{y}_{t-1}
-=
-\arg\max_y p_\theta(y \mid \tilde{y}_{<t-1}, x)
-$$
-
-for greedy decoding, or is sampled/selected by beam search.
-
-Thus the training-time factorization is:
-
-$$
-p_\theta(\hat{y}_{1:T_y} \mid x)
-=
-\prod_{t=1}^{T_y}
-p_\theta(\hat{y}_t \mid \hat{y}_{<t}, x),
-$$
-
-while inference generates recursively from the model's own previous outputs. This train-test mismatch is known as **exposure bias**, and it is one reason autoregressive generation can accumulate errors.
 ------------------
 
 
-[0;36m  Cell [0;32mIn[5], line 1[0;36m[0m
-[0;31m    Let the conditioning input be $x$, and let an encoder produce a context representation:[0m
-[0m        ^[0m
+[0;36m  Cell [0;32mIn[9], line 3[0;36m[0m
+[0;31m    $$D_t = \operatorname{diag}(\phi'(a_t)).$$[0m
+[0m    ^[0m
 [0;31mSyntaxError[0m[0;31m:[0m invalid syntax
 
 
