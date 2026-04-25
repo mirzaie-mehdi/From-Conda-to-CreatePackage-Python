@@ -1,0 +1,104 @@
+Traceback (most recent call last):
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from IPython.display import SVG, display
+hide-input
+svg = r'''<svg width="900" height="270" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="black" />
+    </marker>
+  </defs>
+  <style>
+    .box { fill: white; stroke: black; stroke-width: 2; rx: 12; }
+    .txt { font-family: Arial, sans-serif; font-size: 18px; text-anchor: middle; }
+    .small { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+    .line { stroke: black; stroke-width: 2; marker-end: url(#arrow); fill: none; }
+  </style>
+  <rect x="70" y="90" width="120" height="70" class="box" />
+  <text x="130" y="130" class="txt">RNN cell</text>
+  <text x="130" y="152" class="small">shared θ</text>
+
+  <rect x="300" y="90" width="120" height="70" class="box" />
+  <text x="360" y="130" class="txt">RNN cell</text>
+  <text x="360" y="152" class="small">shared θ</text>
+
+  <rect x="530" y="90" width="120" height="70" class="box" />
+  <text x="590" y="130" class="txt">RNN cell</text>
+  <text x="590" y="152" class="small">shared θ</text>
+
+  <rect x="760" y="90" width="120" height="70" class="box" />
+  <text x="820" y="130" class="txt">RNN cell</text>
+  <text x="820" y="152" class="small">shared θ</text>
+
+  <path d="M190 125 L300 125" class="line" />
+  <path d="M420 125 L530 125" class="line" />
+  <path d="M650 125 L760 125" class="line" />
+
+  <path d="M130 220 L130 160" class="line" />
+  <path d="M360 220 L360 160" class="line" />
+  <path d="M590 220 L590 160" class="line" />
+  <path d="M820 220 L820 160" class="line" />
+
+  <text x="130" y="245" class="txt">x₁</text>
+  <text x="360" y="245" class="txt">x₂</text>
+  <text x="590" y="245" class="txt">x₃</text>
+  <text x="820" y="245" class="txt">x₄</text>
+
+  <path d="M130 90 L130 40" class="line" />
+  <path d="M360 90 L360 40" class="line" />
+  <path d="M590 90 L590 40" class="line" />
+  <path d="M820 90 L820 40" class="line" />
+
+  <text x="130" y="28" class="txt">y₁</text>
+  <text x="360" y="28" class="txt">y₂</text>
+  <text x="590" y="28" class="txt">y₃</text>
+  <text x="820" y="28" class="txt">y₄</text>
+
+  <text x="245" y="110" class="small">h₁</text>
+  <text x="475" y="110" class="small">h₂</text>
+  <text x="705" y="110" class="small">h₃</text>
+</svg>'''
+
+display(SVG(svg))
+
+
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[1], line 2[0m
+[1;32m      1[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01mIPython[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdisplay[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m SVG, display
+[0;32m----> 2[0m [43mhide[49m[38;5;241m-[39m[38;5;28minput[39m
+[1;32m      3[0m svg [38;5;241m=[39m [38;5;124mr[39m[38;5;124m'''[39m[38;5;124m<svg width=[39m[38;5;124m"[39m[38;5;124m900[39m[38;5;124m"[39m[38;5;124m height=[39m[38;5;124m"[39m[38;5;124m270[39m[38;5;124m"[39m[38;5;124m xmlns=[39m[38;5;124m"[39m[38;5;124mhttp://www.w3.org/2000/svg[39m[38;5;124m"[39m[38;5;124m>[39m
+[1;32m      4[0m [38;5;124m  <defs>[39m
+[1;32m      5[0m [38;5;124m    <marker id=[39m[38;5;124m"[39m[38;5;124marrow[39m[38;5;124m"[39m[38;5;124m markerWidth=[39m[38;5;124m"[39m[38;5;124m10[39m[38;5;124m"[39m[38;5;124m markerHeight=[39m[38;5;124m"[39m[38;5;124m10[39m[38;5;124m"[39m[38;5;124m refX=[39m[38;5;124m"[39m[38;5;124m7[39m[38;5;124m"[39m[38;5;124m refY=[39m[38;5;124m"[39m[38;5;124m3[39m[38;5;124m"[39m[38;5;124m orient=[39m[38;5;124m"[39m[38;5;124mauto[39m[38;5;124m"[39m[38;5;124m markerUnits=[39m[38;5;124m"[39m[38;5;124mstrokeWidth[39m[38;5;124m"[39m[38;5;124m>[39m
+[0;32m   (...)[0m
+[1;32m     57[0m [38;5;124m  <text x=[39m[38;5;124m"[39m[38;5;124m705[39m[38;5;124m"[39m[38;5;124m y=[39m[38;5;124m"[39m[38;5;124m110[39m[38;5;124m"[39m[38;5;124m class=[39m[38;5;124m"[39m[38;5;124msmall[39m[38;5;124m"[39m[38;5;124m>h₃</text>[39m
+[1;32m     58[0m [38;5;124m</svg>[39m[38;5;124m'''[39m
+[1;32m     60[0m display(SVG(svg))
+
+[0;31mNameError[0m: name 'hide' is not defined
+

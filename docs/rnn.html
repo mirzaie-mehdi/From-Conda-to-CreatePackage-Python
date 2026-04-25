@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/rnn';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="KL Divergence vs. Cross-Entropy in Practice" href="KLdivergence.html" />
+    <link rel="next" title="Graph Neural Network- GNN" href="GNN.html" />
     <link rel="prev" title="Multilayer Perceptron (MLP) with PyTorch on MNIST" href="mlp_pytorch_mnist.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -184,6 +184,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
@@ -221,23 +223,21 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">RNN: Recurrent Neural Networks</a></li>
 
 
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
 
 
 
@@ -584,7 +584,7 @@ document.write(`
 <h1>RNN: Recurrent Neural Networks<a class="headerlink" href="#rnn-recurrent-neural-networks" title="Permalink to this heading">#</a></h1>
 <section id="gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">
 <h2>Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention<a class="headerlink" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention" title="Permalink to this heading">#</a></h2>
-<p>This notebook is adresses Recurrent neural networks. It starts from linear layers and dynamical systems, derives recurrent neural networks mathematically, proves why vanishing and exploding gradients occur, explains LSTM/GRU as structural remedies, and ends by connecting recurrence to attention mechanisms.</p>
+<p>This notebook addresses the concept of the Recurrent neural networks. It starts from linear layers and dynamical systems, derives recurrent neural networks mathematically, proves why vanishing and exploding gradients occur, explains LSTM/GRU as structural remedies, and ends by connecting recurrence to attention mechanisms.</p>
 <section id="learning-goals">
 <h3>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h3>
 <p>By the end, you should be able to:</p>
@@ -698,7 +698,7 @@ W_y \in \mathbb{R}^{d_y \times d_h}.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
-
+<span class="n">hide</span><span class="o">-</span><span class="nb">input</span>
 <span class="n">svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;900&quot; height=&quot;270&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
 <span class="s1">  &lt;defs&gt;</span>
 <span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
@@ -761,7 +761,23 @@ W_y \in \mathbb{R}^{d_y \times d_h}.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" src="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" /></div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">hide</span><span class="o">-</span><span class="nb">input</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;900&quot; height=&quot;270&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="s1">   &lt;defs&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="s1">     &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">   (...)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span><span class="s1">   &lt;text x=&quot;705&quot; y=&quot;110&quot; class=&quot;small&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span><span class="s1"> &lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span> <span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">svg</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;hide&#39; is not defined
+</pre></div>
+</div>
+</div>
 </div>
 <p>The horizontal arrows carry hidden states. The vertical arrows inject inputs and produce outputs.</p>
 </section>
@@ -1853,7 +1869,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.2153050899505615
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4186551570892334
 </pre></div>
 </div>
 </div>
@@ -2664,11 +2680,11 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
       </div>
     </a>
     <a class="right-next"
-       href="KLdivergence.html"
+       href="GNN.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">KL Divergence vs. Cross-Entropy in Practice</p>
+        <p class="prev-next-title">Graph Neural Network- GNN</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/numpy';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Pandas: Working with Structured Data in Python" href="pandas.html" />
+    <link rel="next" title="Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?" href="tensors_vs_numpy.html" />
     <link rel="prev" title="References and Copies in Python" href="References_and_Copies_Beginner_Guide.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -182,6 +182,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
@@ -219,23 +221,21 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rnn.html">RNN: Recurrent Neural Networks</a></li>
 
 
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
 
 
 
@@ -568,7 +568,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.3 ms ± 153 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23.4 ms ± 2.05 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 </pre></div>
 </div>
 </div>
@@ -591,7 +591,7 @@ Arrays are stored efficiently in memory and allow vectorized operations, meaning
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.22 μs ± 5.76 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.4 μs ± 500 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -859,8 +859,8 @@ Changing dtype is slower (copy + new memory).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.01823399995919317
-New dtype  : 0.026322167017497122
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Same dtype : 0.01991995796561241
+New dtype  : 0.029524040990509093
 </pre></div>
 </div>
 </div>
@@ -1144,11 +1144,11 @@ e after e[mask_even] = -1 → [-1 -1 -1 -1 -1 -1 -1  7 -1  9]
       </div>
     </a>
     <a class="right-next"
-       href="pandas.html"
+       href="tensors_vs_numpy.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Pandas: Working with Structured Data in Python</p>
+        <p class="prev-next-title">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -184,6 +184,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
 
 
@@ -221,23 +223,21 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
 
 <li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
 <li class="toctree-l1"><a class="reference internal" href="rnn.html">RNN: Recurrent Neural Networks</a></li>
 
 
-
-
-
-
-
-
-
-<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
 
 
 
@@ -695,13 +695,19 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2750 | test loss: 0.2300
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2783 | test loss: 0.2360
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2018 | test loss: 0.1735
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2042 | test loss: 0.1711
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1633 | test loss: 0.1549
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1619 | test loss: 0.1532
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1490 | test loss: 0.1437
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | train loss: 0.1422 | test loss: 0.1399
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
@@ -718,141 +724,87 @@ Traceback (most recent call last):
     exitcode = _main(fd, parent_sentinel)
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
     self = reduction.pickle.load(from_parent)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/__init__.py&quot;, line 10, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2680, in &lt;module&gt;
     self = reduction.pickle.load(from_parent)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/__init__.py&quot;, line 10, in &lt;module&gt;
-    from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils  # usort:skip
-    from torchvision import _meta_registrations, datasets, io, models, ops, transforms, utils  # usort:skip
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 2, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/__init__.py&quot;, line 2, in &lt;module&gt;
-    from .convnext import *
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/convnext.py&quot;, line 9, in &lt;module&gt;
-    from .convnext import *
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/models/convnext.py&quot;, line 9, in &lt;module&gt;
-    from ..ops.misc import Conv2dNormActivation, Permute
-    from ..ops.misc import Conv2dNormActivation, Permute
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/__init__.py&quot;, line 23, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/__init__.py&quot;, line 23, in &lt;module&gt;
-    from .poolers import MultiScaleRoIAlign
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/poolers.py&quot;, line 10, in &lt;module&gt;
-    from .poolers import MultiScaleRoIAlign
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/poolers.py&quot;, line 10, in &lt;module&gt;
-    from .roi_align import roi_align
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/roi_align.py&quot;, line 7, in &lt;module&gt;
-    from .roi_align import roi_align
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torchvision/ops/roi_align.py&quot;, line 7, in &lt;module&gt;
-    from torch._dynamo.utils import is_compile_supported
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/__init__.py&quot;, line 13, in &lt;module&gt;
-    from torch._dynamo.utils import is_compile_supported
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/__init__.py&quot;, line 13, in &lt;module&gt;
-    from . import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/aot_compile.py&quot;, line 15, in &lt;module&gt;
-    from . import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/aot_compile.py&quot;, line 15, in &lt;module&gt;
-    from . import convert_frame
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/convert_frame.py&quot;, line 57, in &lt;module&gt;
-    from . import convert_frame
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/convert_frame.py&quot;, line 57, in &lt;module&gt;
-    from torch._dynamo.symbolic_convert import TensorifyState
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/symbolic_convert.py&quot;, line 53, in &lt;module&gt;
-    from torch._dynamo.symbolic_convert import TensorifyState
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/symbolic_convert.py&quot;, line 53, in &lt;module&gt;
-    from torch._dynamo.exc import ObservedException, TensorifyScalarRestartAnalysis
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/exc.py&quot;, line 45, in &lt;module&gt;
-    from torch._dynamo.exc import ObservedException, TensorifyScalarRestartAnalysis
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/exc.py&quot;, line 45, in &lt;module&gt;
-    from .utils import counters
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/utils.py&quot;, line 67, in &lt;module&gt;
-    from .utils import counters
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_dynamo/utils.py&quot;, line 67, in &lt;module&gt;
-    import torch.fx.experimental.symbolic_shapes
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/experimental/symbolic_shapes.py&quot;, line 3, in &lt;module&gt;
-    import torch.fx.experimental.symbolic_shapes
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/experimental/symbolic_shapes.py&quot;, line 3, in &lt;module&gt;
-    import sympy
-    import sympy
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/__init__.py&quot;, line 77, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/__init__.py&quot;, line 77, in &lt;module&gt;
-    from .polys import (Poly, PurePoly, poly_from_expr, parallel_poly_from_expr,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/__init__.py&quot;, line 79, in &lt;module&gt;
-    from .polys import (Poly, PurePoly, poly_from_expr, parallel_poly_from_expr,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/__init__.py&quot;, line 79, in &lt;module&gt;
-    from .polyfuncs import (symmetrize, horner, interpolate,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/polyfuncs.py&quot;, line 10, in &lt;module&gt;
-    from .polyfuncs import (symmetrize, horner, interpolate,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/polyfuncs.py&quot;, line 10, in &lt;module&gt;
-    from sympy.polys.specialpolys import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/specialpolys.py&quot;, line 298, in &lt;module&gt;
-    from sympy.polys.specialpolys import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/specialpolys.py&quot;, line 298, in &lt;module&gt;
-    from sympy.polys.rings import ring
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/rings.py&quot;, line 31, in &lt;module&gt;
-    from sympy.polys.rings import ring
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/polys/rings.py&quot;, line 31, in &lt;module&gt;
-    from sympy.printing.defaults import DefaultPrinting
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/__init__.py&quot;, line 11, in &lt;module&gt;
-    from sympy.printing.defaults import DefaultPrinting
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/__init__.py&quot;, line 11, in &lt;module&gt;
-    from .pycode import pycode
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/pycode.py&quot;, line 11, in &lt;module&gt;
-    from .pycode import pycode
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/pycode.py&quot;, line 11, in &lt;module&gt;
-    from .codeprinter import CodePrinter
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/codeprinter.py&quot;, line 13, in &lt;module&gt;
-    from .codeprinter import CodePrinter
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/printing/codeprinter.py&quot;, line 13, in &lt;module&gt;
-    from sympy.functions.elementary.complexes import re
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/functions/__init__.py&quot;, line 49, in &lt;module&gt;
-    from sympy.functions.elementary.complexes import re
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/functions/__init__.py&quot;, line 49, in &lt;module&gt;
-    from sympy.functions.special.beta_functions import beta, betainc, betainc_regularized
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/functions/special/beta_functions.py&quot;, line 173, in &lt;module&gt;
-    from sympy.functions.special.beta_functions import beta, betainc, betainc_regularized
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/functions/special/beta_functions.py&quot;, line 173, in &lt;module&gt;
-    class betainc(DefinedFunction):
-    class betainc(DefinedFunction):
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/core/function.py&quot;, line 167, in __init__
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/core/function.py&quot;, line 167, in __init__
-    nargs = kwargs.pop(&#39;nargs&#39;, cls.__dict__.get(&#39;nargs&#39;, arity(cls)))
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/core/function.py&quot;, line 146, in arity
-    nargs = kwargs.pop(&#39;nargs&#39;, cls.__dict__.get(&#39;nargs&#39;, arity(cls)))
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/sympy/core/function.py&quot;, line 146, in arity
-    parameters = inspect.signature(eval_).parameters.items()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 3254, in signature
-    parameters = inspect.signature(eval_).parameters.items()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 3254, in signature
-    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 3002, in from_callable
-    return Signature.from_callable(obj, follow_wrapped=follow_wrapped,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 3002, in from_callable
-    return _signature_from_callable(obj, sigcls=cls,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2401, in _signature_from_callable
-    return _signature_from_callable(obj, sigcls=cls,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2401, in _signature_from_callable
-    sig = _get_signature_of(obj.__func__)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2463, in _signature_from_callable
-    sig = _get_signature_of(obj.__func__)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2463, in _signature_from_callable
-    return _signature_from_function(sigcls, obj,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2370, in _signature_from_function
-    return _signature_from_function(sigcls, obj,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2370, in _signature_from_function
-    return cls(parameters,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2969, in __init__
-    return cls(parameters,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2920, in __init__
-    params = OrderedDict((param.name, param) for param in parameters)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 2969, in &lt;genexpr&gt;
-    def __init__(self, parameters=None, *, return_annotation=_empty,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2680, in &lt;module&gt;
+    from torch import _meta_registrations
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_meta_registrations.py&quot;, line 12, in &lt;module&gt;
+    from torch import _meta_registrations
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_meta_registrations.py&quot;, line 12, in &lt;module&gt;
+    from torch._decomp import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_decomp/__init__.py&quot;, line 276, in &lt;module&gt;
+    from torch._decomp import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_decomp/__init__.py&quot;, line 276, in &lt;module&gt;
+    import torch._decomp.decompositions
+    import torch._decomp.decompositions
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_decomp/decompositions.py&quot;, line 16, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_decomp/decompositions.py&quot;, line 16, in &lt;module&gt;
+    import torch._prims as prims
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 525, in &lt;module&gt;
+    import torch._prims as prims
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 525, in &lt;module&gt;
+    abs = _make_elementwise_unary_prim(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 493, in _make_elementwise_unary_prim
+    abs = _make_elementwise_unary_prim(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 493, in _make_elementwise_unary_prim
+    return _make_prim(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 321, in _make_prim
+    return _make_prim(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_prims/__init__.py&quot;, line 321, in _make_prim
+    prim_def = torch.library.custom_op(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 172, in custom_op
+    prim_def = torch.library.custom_op(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 172, in custom_op
+    return inner(fn)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 153, in inner
+    return inner(fn)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 153, in inner
+    result = CustomOpDef(namespace, opname, schema_str, fn, tags)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 211, in __init__
+    result = CustomOpDef(namespace, opname, schema_str, fn, tags)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 211, in __init__
+    self._register_to_dispatcher(self._tags)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 629, in _register_to_dispatcher
+    self._register_to_dispatcher(self._tags)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/custom_ops.py&quot;, line 629, in _register_to_dispatcher
+    lib._register_fake(self._name, fake_impl, _stacklevel=4)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/library.py&quot;, line 190, in _register_fake
+    lib._register_fake(self._name, fake_impl, _stacklevel=4)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/library.py&quot;, line 190, in _register_fake
+    source = torch._library.utils.get_source(_stacklevel + 1)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/utils.py&quot;, line 44, in get_source
+    source = torch._library.utils.get_source(_stacklevel + 1)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_library/utils.py&quot;, line 44, in get_source
+    frame = inspect.getframeinfo(sys._getframe(stacklevel))
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 1624, in getframeinfo
+    frame = inspect.getframeinfo(sys._getframe(stacklevel))
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 1624, in getframeinfo
+    lines, lnum = findsource(frame)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 952, in findsource
+    lines, lnum = findsource(frame)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 952, in findsource
+    module = getmodule(object, file)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 878, in getmodule
+    module = getmodule(object, file)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 878, in getmodule
+    os.path.realpath(f)] = module.__name__
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/posixpath.py&quot;, line 396, in realpath
+    os.path.realpath(f)] = module.__name__
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/posixpath.py&quot;, line 396, in realpath
+    path, ok = _joinrealpath(filename[:0], filename, strict, {})
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/posixpath.py&quot;, line 431, in _joinrealpath
+    path, ok = _joinrealpath(filename[:0], filename, strict, {})
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/posixpath.py&quot;, line 431, in _joinrealpath
+    st = os.lstat(newpath)
 KeyboardInterrupt
-    params = OrderedDict((param.name, param) for param in parameters)
+    st = os.lstat(newpath)
 KeyboardInterrupt
 Traceback (most recent call last):
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_71349/2208291953.py&quot;, line 5, in &lt;module&gt;
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_15266/2208291953.py&quot;, line 5, in &lt;module&gt;
     train_loss = run_epoch(model, train_loader, train=True, sigma=sigma)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_71349/489305300.py&quot;, line 8, in run_epoch
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_15266/489305300.py&quot;, line 8, in run_epoch
     for x, _ in loader:
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
     data = self._next_data()
@@ -887,19 +839,19 @@ Traceback (most recent call last):
     formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1085, in format_exception_as_a_whole
     self.get_records(etb, number_of_lines_of_context, tb_offset) if etb else []
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1153, in get_records
-    mod = inspect.getmodule(cf.tb_frame)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 861, in getmodule
-    file = getabsfile(object, _filename)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 844, in getabsfile
-    _filename = getsourcefile(object) or getfile(object)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 829, in getsourcefile
-    module = getmodule(object, filename)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 868, in getmodule
-    for modname, module in sys.modules.copy().items():
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1138, in get_records
+    formatter = Terminal256Formatter(style=style)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 147, in __init__
+    self._setup_styles()  # convert selected style&#39;s colors to term. colors
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 231, in _setup_styles
+    escape.fg = self._color_index(ndef[&#39;color&#39;])
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 220, in _color_index
+    index = self._closest_color(r, g, b)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 200, in _closest_color
+    if d &lt; distance:
   File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
     _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 71380) is killed by signal: Terminated: 15. 
+RuntimeError: DataLoader worker (pid 15301) is killed by signal: Terminated: 15. 
 </pre></div>
 </div>
 </div>
