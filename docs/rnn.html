@@ -502,6 +502,18 @@ document.write(`
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-tanh">If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-sigmoid">If <span class="math notranslate nohighlight">\( \phi = \text{sigmoid} \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-relu">If <span class="math notranslate nohighlight">\( \phi = \text{ReLU} \)</span>:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-why-this-matters-for-gradients">Step 7: Why this matters for gradients</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
 </ul>
@@ -1110,40 +1122,197 @@ a_t = W_h h_{t-1} + W_x x_t + b_h,
 \]</div>
 <div class="math notranslate nohighlight">
 \[
-h_t = \phi(a_t).
+h_t = \phi(a_t),
 \]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( a_t \in \mathbb{R}^{d_h} \)</span> is the pre-activation vector,</p></li>
+<li><p><span class="math notranslate nohighlight">\( h_t \in \mathbb{R}^{d_h} \)</span> is the hidden state,</p></li>
+<li><p><span class="math notranslate nohighlight">\( \phi \)</span> is applied <strong>elementwise</strong> (e.g., <span class="math notranslate nohighlight">\(\tanh\)</span>, sigmoid, ReLU).</p></li>
+</ul>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Let</span>
-
-<span class="err">$$</span><span class="n">D_t</span> <span class="o">=</span> \<span class="n">operatorname</span><span class="p">{</span><span class="n">diag</span><span class="p">}(</span>\<span class="n">phi</span><span class="s1">&#39;(a_t)).$$</span>
-
-<span class="n">Then</span> <span class="n">the</span> <span class="n">Jacobian</span> <span class="n">of</span> <span class="err">$</span><span class="n">h_t</span><span class="err">$</span> <span class="k">with</span> <span class="n">respect</span> <span class="n">to</span> <span class="err">$</span><span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span><span class="err">$</span> <span class="ow">is</span>
-
-<span class="err">$$</span>
-<span class="n">J_t</span> <span class="o">=</span> \<span class="n">frac</span><span class="p">{</span>\<span class="n">partial</span> <span class="n">h_t</span><span class="p">}{</span>\<span class="n">partial</span> <span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}}</span>
-<span class="o">=</span> <span class="n">D_t</span> <span class="n">W_h</span><span class="o">.</span>
-<span class="err">$$</span>
-
-<span class="n">This</span> <span class="n">single</span> <span class="n">matrix</span> <span class="err">$</span><span class="n">J_t</span><span class="err">$</span> <span class="n">describes</span> <span class="n">how</span> <span class="n">a</span> <span class="n">small</span> <span class="n">perturbation</span> <span class="ow">in</span> <span class="err">$</span><span class="n">h_</span><span class="p">{</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span><span class="err">$</span> <span class="n">affects</span> <span class="err">$</span><span class="n">h_t</span><span class="err">$</span><span class="o">.</span>
-
-<span class="n">The</span> <span class="n">entire</span> <span class="n">gradient</span><span class="o">-</span><span class="n">flow</span> <span class="n">problem</span> <span class="ow">in</span> <span class="n">vanilla</span> <span class="n">RNNs</span> <span class="ow">is</span> <span class="n">governed</span> <span class="n">by</span> <span class="n">products</span> <span class="n">of</span> <span class="n">these</span> <span class="n">matrices</span><span class="o">.</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Cell In[9], line 3
-    $$D_t = \operatorname{diag}(\phi&#39;(a_t)).$$
-    ^
-SyntaxError: invalid syntax
-</pre></div>
-</div>
-</div>
-</div>
+<p>We will calculate the jacobian of the RNN transition as follows:</p>
+</section>
+<hr class="docutils" />
+<section id="step-1-component-wise-view">
+<h2>Step 1: Component-wise view<a class="headerlink" href="#step-1-component-wise-view" title="Permalink to this heading">#</a></h2>
+<p>Write the update for each coordinate <span class="math notranslate nohighlight">\( i \in \{1, \dots, d_h\} \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t^{(i)} = \sum_{j=1}^{d_h} W_h^{(i,j)} h_{t-1}^{(j)} + \sum_{k=1}^{d_x} W_x^{(i,k)} x_t^{(k)} + b_h^{(i)},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t^{(i)} = \phi\big(a_t^{(i)}\big).
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-2-what-is-phi-a-t">
+<h2>Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?<a class="headerlink" href="#step-2-what-is-phi-a-t" title="Permalink to this heading">#</a></h2>
+<p>Since <span class="math notranslate nohighlight">\( \phi \)</span> is applied elementwise, its derivative is also elementwise:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi'(a_t)
+=
+\begin{bmatrix}
+\phi'(a_t^{(1)}) \\
+\phi'(a_t^{(2)}) \\
+\vdots \\
+\phi'(a_t^{(d_h)})
+\end{bmatrix}.
+\end{split}\]</div>
+<p>To use it in matrix calculus, we represent it as a <strong>diagonal matrix</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+D_t = \operatorname{diag}(\phi'(a_t))
+=
+\begin{bmatrix}
+\phi'(a_t^{(1)}) &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; \phi'(a_t^{(2)}) &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; \phi'(a_t^{(d_h)})
+\end{bmatrix}.
+\end{split}\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-3-why-is-the-jacobian-diagonal">
+<h2>Step 3: Why is the Jacobian diagonal?<a class="headerlink" href="#step-3-why-is-the-jacobian-diagonal" title="Permalink to this heading">#</a></h2>
+<p>Because each coordinate depends <strong>only on its own pre-activation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t^{(i)} = \phi(a_t^{(i)}),
+\]</div>
+<p>so for <span class="math notranslate nohighlight">\( i \neq j \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t^{(i)}}{\partial a_t^{(j)}} = 0.
+\]</div>
+<p>And for <span class="math notranslate nohighlight">\( i = j \)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t^{(i)}}{\partial a_t^{(i)}} = \phi'(a_t^{(i)}).
+\]</div>
+<p>Hence:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial a_t} = D_t.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-4-chain-rule-for-the-full-jacobian">
+<h2>Step 4: Chain rule for the full Jacobian<a class="headerlink" href="#step-4-chain-rule-for-the-full-jacobian" title="Permalink to this heading">#</a></h2>
+<p>We want:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}.
+\]</div>
+<p>Using the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}
+=
+\frac{\partial h_t}{\partial a_t}
+\cdot
+\frac{\partial a_t}{\partial h_{t-1}}.
+\]</div>
+<p>We already have:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \frac{\partial h_t}{\partial a_t} = D_t \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( \frac{\partial a_t}{\partial h_{t-1}} = W_h \)</span></p></li>
+</ul>
+<p>Therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t
+=
+\frac{\partial h_t}{\partial h_{t-1}}
+=
+D_t W_h.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-5-concrete-examples-of-phi-a-t">
+<h2>Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span><a class="headerlink" href="#step-5-concrete-examples-of-phi-a-t" title="Permalink to this heading">#</a></h2>
+<section id="if-phi-tanh">
+<h3>If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:<a class="headerlink" href="#if-phi-tanh" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\phi'(z) = 1 - \tanh^2(z)
+\]</div>
+<p>so:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}\big(1 - h_t^2\big).
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="if-phi-text-sigmoid">
+<h3>If <span class="math notranslate nohighlight">\( \phi = \text{sigmoid} \)</span>:<a class="headerlink" href="#if-phi-text-sigmoid" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\phi'(z) = \sigma(z)(1 - \sigma(z))
+\]</div>
+<p>so:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}\big(h_t (1 - h_t)\big).
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="if-phi-text-relu">
+<h3>If <span class="math notranslate nohighlight">\( \phi = \text{ReLU} \)</span>:<a class="headerlink" href="#if-phi-text-relu" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\phi'(z) =
+\begin{cases}
+1 &amp; z &gt; 0 \\
+0 &amp; z \le 0
+\end{cases}
+\end{split}\]</div>
+<p>so <span class="math notranslate nohighlight">\( D_t \)</span> is a diagonal matrix of 0s and 1s.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="step-6-key-interpretation">
+<h2>Step 6: Key interpretation<a class="headerlink" href="#step-6-key-interpretation" title="Permalink to this heading">#</a></h2>
+<p>The Jacobian:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = D_t W_h
+\]</div>
+<p>can be interpreted as:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( W_h \)</span>: mixes information across hidden units</p></li>
+<li><p><span class="math notranslate nohighlight">\( D_t \)</span>: <strong>gates gradient flow per unit</strong></p></li>
+</ul>
+<p>So each time step applies:</p>
+<ol class="arabic simple">
+<li><p>a linear transformation (<span class="math notranslate nohighlight">\( W_h \)</span>)</p></li>
+<li><p>followed by <strong>coordinate-wise scaling</strong> (<span class="math notranslate nohighlight">\( D_t \)</span>)</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="step-7-why-this-matters-for-gradients">
+<h2>Step 7: Why this matters for gradients<a class="headerlink" href="#step-7-why-this-matters-for-gradients" title="Permalink to this heading">#</a></h2>
+<p>When propagating gradients through time, we multiply many such Jacobians:</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<p>This leads to:</p>
+<ul class="simple">
+<li><p>shrinking if <span class="math notranslate nohighlight">\( \|D_i W_h\| &lt; 1 \)</span></p></li>
+<li><p>exploding if <span class="math notranslate nohighlight">\( \|D_i W_h\| &gt; 1 \)</span></p></li>
+</ul>
+<p>So the <strong>entire gradient stability problem</strong> comes from repeated application of:</p>
+<blockquote>
+<div><p>linear mixing + elementwise scaling</p>
+</div></blockquote>
+<p>This single matrix <span class="math notranslate nohighlight">\(J_t\)</span> describes how a small perturbation in <span class="math notranslate nohighlight">\(h_{t-1}\)</span> affects <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
+<p>The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.</p>
 </section>
 <section id="bptt-derivation">
 <h2>6. BPTT derivation<a class="headerlink" href="#bptt-derivation" title="Permalink to this heading">#</a></h2>
@@ -1566,7 +1735,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4186551570892334
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4346449375152588
 </pre></div>
 </div>
 </div>
@@ -2215,6 +2384,18 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-tanh">If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-sigmoid">If <span class="math notranslate nohighlight">\( \phi = \text{sigmoid} \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-relu">If <span class="math notranslate nohighlight">\( \phi = \text{ReLU} \)</span>:</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-why-this-matters-for-gradients">Step 7: Why this matters for gradients</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
 </ul>
