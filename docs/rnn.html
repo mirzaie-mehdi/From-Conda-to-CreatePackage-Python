@@ -501,21 +501,34 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-tanh">If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-sigmoid">If <span class="math notranslate nohighlight">\( \phi = \text{sigmoid} \)</span>:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-relu">If <span class="math notranslate nohighlight">\( \phi = \text{ReLU} \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-why-this-matters-for-gradients">Step 7: Why this matters for gradients</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation-backpropagation-through-time">6. BPTT derivation (Backpropagation Through Time)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-the-local-error-signal">Step 1: Define the local error signal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-gradient-with-respect-to-w-h">Step 2: Gradient with respect to <span class="math notranslate nohighlight">\(W_h\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shape-check">Shape check:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-gradient-with-respect-to-w-x">Step 3: Gradient with respect to <span class="math notranslate nohighlight">\(W_x\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Shape check:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-gradient-with-respect-to-b-h">Step 4: Gradient with respect to <span class="math notranslate nohighlight">\(b_h\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-backward-recurrence-for-hidden-state-gradients">Step 5: Backward recurrence for hidden-state gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-backward-recurrence-for-delta-t">Step 6: Backward recurrence for <span class="math notranslate nohighlight">\(\delta_t\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-key-interpretation">Step 7: Key interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-why-gradients-can-vanish-or-explode">Step 8: Why gradients can vanish or explode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-note-on-conventions">Step 9: Note on conventions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">Final takeaway</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
@@ -560,7 +573,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-gate">Update gate</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-gate">Reset gate</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-hidden-state">Candidate hidden state</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Hidden-state update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Hidden-state update</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-diagram">20. GRU diagram</a></li>
@@ -1135,10 +1148,9 @@ h_t = \phi(a_t),
 <img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
 </div>
 <p>We will calculate the jacobian of the RNN transition as follows:</p>
-</section>
 <hr class="docutils" />
 <section id="step-1-component-wise-view">
-<h2>Step 1: Component-wise view<a class="headerlink" href="#step-1-component-wise-view" title="Permalink to this heading">#</a></h2>
+<h3>Step 1: Component-wise view<a class="headerlink" href="#step-1-component-wise-view" title="Permalink to this heading">#</a></h3>
 <p>Write the update for each coordinate <span class="math notranslate nohighlight">\( i \in \{1, \dots, d_h\} \)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1151,7 +1163,7 @@ h_t^{(i)} = \phi\big(a_t^{(i)}\big).
 </section>
 <hr class="docutils" />
 <section id="step-2-what-is-phi-a-t">
-<h2>Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?<a class="headerlink" href="#step-2-what-is-phi-a-t" title="Permalink to this heading">#</a></h2>
+<h3>Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?<a class="headerlink" href="#step-2-what-is-phi-a-t" title="Permalink to this heading">#</a></h3>
 <p>Since <span class="math notranslate nohighlight">\( \phi \)</span> is applied elementwise, its derivative is also elementwise:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
@@ -1179,7 +1191,7 @@ D_t = \operatorname{diag}(\phi'(a_t))
 </section>
 <hr class="docutils" />
 <section id="step-3-why-is-the-jacobian-diagonal">
-<h2>Step 3: Why is the Jacobian diagonal?<a class="headerlink" href="#step-3-why-is-the-jacobian-diagonal" title="Permalink to this heading">#</a></h2>
+<h3>Step 3: Why is the Jacobian diagonal?<a class="headerlink" href="#step-3-why-is-the-jacobian-diagonal" title="Permalink to this heading">#</a></h3>
 <p>Because each coordinate depends <strong>only on its own pre-activation</strong>:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1203,7 +1215,7 @@ h_t^{(i)} = \phi(a_t^{(i)}),
 </section>
 <hr class="docutils" />
 <section id="step-4-chain-rule-for-the-full-jacobian">
-<h2>Step 4: Chain rule for the full Jacobian<a class="headerlink" href="#step-4-chain-rule-for-the-full-jacobian" title="Permalink to this heading">#</a></h2>
+<h3>Step 4: Chain rule for the full Jacobian<a class="headerlink" href="#step-4-chain-rule-for-the-full-jacobian" title="Permalink to this heading">#</a></h3>
 <p>We want:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1235,7 +1247,8 @@ D_t W_h.
 </section>
 <hr class="docutils" />
 <section id="step-5-concrete-examples-of-phi-a-t">
-<h2>Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span><a class="headerlink" href="#step-5-concrete-examples-of-phi-a-t" title="Permalink to this heading">#</a></h2>
+<h3>Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span><a class="headerlink" href="#step-5-concrete-examples-of-phi-a-t" title="Permalink to this heading">#</a></h3>
+</section>
 <section id="if-phi-tanh">
 <h3>If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:<a class="headerlink" href="#if-phi-tanh" title="Permalink to this heading">#</a></h3>
 <div class="math notranslate nohighlight">
@@ -1274,10 +1287,9 @@ D_t = \operatorname{diag}\big(h_t (1 - h_t)\big).
 \end{split}\]</div>
 <p>so <span class="math notranslate nohighlight">\( D_t \)</span> is a diagonal matrix of 0s and 1s.</p>
 </section>
-</section>
 <hr class="docutils" />
 <section id="step-6-key-interpretation">
-<h2>Step 6: Key interpretation<a class="headerlink" href="#step-6-key-interpretation" title="Permalink to this heading">#</a></h2>
+<h3>Step 6: Key interpretation<a class="headerlink" href="#step-6-key-interpretation" title="Permalink to this heading">#</a></h3>
 <p>The Jacobian:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1293,11 +1305,9 @@ J_t = D_t W_h
 <li><p>a linear transformation (<span class="math notranslate nohighlight">\( W_h \)</span>)</p></li>
 <li><p>followed by <strong>coordinate-wise scaling</strong> (<span class="math notranslate nohighlight">\( D_t \)</span>)</p></li>
 </ol>
-</section>
-<hr class="docutils" />
-<section id="step-7-why-this-matters-for-gradients">
-<h2>Step 7: Why this matters for gradients<a class="headerlink" href="#step-7-why-this-matters-for-gradients" title="Permalink to this heading">#</a></h2>
-<p>When propagating gradients through time, we multiply many such Jacobians:</p>
+<p>This single matrix <span class="math notranslate nohighlight">\(J_t\)</span> describes how a small perturbation in <span class="math notranslate nohighlight">\(h_{t-1}\)</span> affects <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
+<p>The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.</p>
+<p>When propagating gradients through time, we multiply many such Jacobians as we desceribe in the next section with details:</p>
 <div class="math notranslate nohighlight">
 \[
 \prod_{i=k+1}^{t} D_i W_h.
@@ -1311,11 +1321,10 @@ J_t = D_t W_h
 <blockquote>
 <div><p>linear mixing + elementwise scaling</p>
 </div></blockquote>
-<p>This single matrix <span class="math notranslate nohighlight">\(J_t\)</span> describes how a small perturbation in <span class="math notranslate nohighlight">\(h_{t-1}\)</span> affects <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
-<p>The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.</p>
 </section>
-<section id="bptt-derivation">
-<h2>6. BPTT derivation<a class="headerlink" href="#bptt-derivation" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="bptt-derivation-backpropagation-through-time">
+<h2>6. BPTT derivation (Backpropagation Through Time)<a class="headerlink" href="#bptt-derivation-backpropagation-through-time" title="Permalink to this heading">#</a></h2>
 <p>For <span class="math notranslate nohighlight">\(k &lt; t\)</span>, repeated application of the chain rule gives</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1358,37 +1367,246 @@ G_{k \to t} = \prod_{i=k+1}^{t} D_i W_h.
 </section>
 <section id="parameter-gradient-formulas">
 <h2>7. Parameter-gradient formulas<a class="headerlink" href="#parameter-gradient-formulas" title="Permalink to this heading">#</a></h2>
-<p>Let</p>
+<p>We now derive the gradients of the loss with respect to the parameters of a vanilla RNN.</p>
+<p>Recall the forward equations:</p>
 <div class="math notranslate nohighlight">
 \[
-\delta_t = \frac{\partial \mathcal{L}}{\partial a_t}.
+a_t = W_h h_{t-1} + W_x x_t + b_h,
 \]</div>
-<p>For the vanilla RNN, the parameter gradients at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(a_t),
+\]</div>
+<p>and the total loss:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \sum_{t=1}^{T} \ell_t.
+\]</div>
+<hr class="docutils" />
+<section id="step-1-define-the-local-error-signal">
+<h3>Step 1: Define the local error signal<a class="headerlink" href="#step-1-define-the-local-error-signal" title="Permalink to this heading">#</a></h3>
+<p>We define the <strong>pre-activation gradient</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t \;=\; \frac{\partial \mathcal{L}}{\partial a_t}
+\;\in\; \mathbb{R}^{d_h}.
+\]</div>
+<p>This is the central quantity in backpropagation through time (BPTT).</p>
+<p>Using the chain rule:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t
+=
+\frac{\partial \mathcal{L}}{\partial h_t}
+\;\odot\;
+\phi'(a_t),
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \odot \)</span> denotes elementwise (Hadamard) product,</p></li>
+<li><p><span class="math notranslate nohighlight">\( \phi'(a_t) \)</span> is applied elementwise.</p></li>
+</ul>
+<p>Equivalently, in matrix form:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t = D_t \, \frac{\partial \mathcal{L}}{\partial h_t},
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}(\phi'(a_t)).
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-2-gradient-with-respect-to-w-h">
+<h3>Step 2: Gradient with respect to <span class="math notranslate nohighlight">\(W_h\)</span><a class="headerlink" href="#step-2-gradient-with-respect-to-w-h" title="Permalink to this heading">#</a></h3>
+<p>We compute:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial \mathcal{L}}{\partial W_h}
-= \sum_{t=1}^{T} \delta_t h_{t-1}^{\top},
+=
+\sum_{t=1}^{T}
+\frac{\partial \mathcal{L}}{\partial a_t}
+\frac{\partial a_t}{\partial W_h}.
 \]</div>
+<p>From the forward equation:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + \cdots
+\]</div>
+<p>Each coordinate satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t^{(i)} = \sum_j W_h^{(i,j)} h_{t-1}^{(j)}.
+\]</div>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial a_t}{\partial W_h}
+=
+\text{(outer product with } h_{t-1}).
+\]</div>
+<p>More precisely:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial W_h}
+=
+\sum_{t=1}^{T}
+\delta_t \, h_{t-1}^{\top}.
+\]</div>
+</section>
+<section id="shape-check">
+<h3>Shape check:<a class="headerlink" href="#shape-check" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \delta_t \in \mathbb{R}^{d_h} \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( h_{t-1}^{\top} \in \mathbb{R}^{1 \times d_h} \)</span></p></li>
+<li><p>result: <span class="math notranslate nohighlight">\( d_h \times d_h \)</span> (same as <span class="math notranslate nohighlight">\(W_h\)</span>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-3-gradient-with-respect-to-w-x">
+<h3>Step 3: Gradient with respect to <span class="math notranslate nohighlight">\(W_x\)</span><a class="headerlink" href="#step-3-gradient-with-respect-to-w-x" title="Permalink to this heading">#</a></h3>
+<p>Similarly, from:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_x x_t + \cdots
+\]</div>
+<p>we obtain:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial \mathcal{L}}{\partial W_x}
-= \sum_{t=1}^{T} \delta_t x_t^{\top},
+=
+\sum_{t=1}^{T}
+\delta_t \, x_t^{\top}.
 \]</div>
+</section>
+<section id="id1">
+<h3>Shape check:<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( \delta_t \in \mathbb{R}^{d_h} \)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\( x_t^{\top} \in \mathbb{R}^{1 \times d_x} \)</span></p></li>
+<li><p>result: <span class="math notranslate nohighlight">\( d_h \times d_x \)</span></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-4-gradient-with-respect-to-b-h">
+<h3>Step 4: Gradient with respect to <span class="math notranslate nohighlight">\(b_h\)</span><a class="headerlink" href="#step-4-gradient-with-respect-to-b-h" title="Permalink to this heading">#</a></h3>
+<p>Since <span class="math notranslate nohighlight">\(b_h\)</span> is added directly:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = \cdots + b_h,
+\]</div>
+<p>we have:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial \mathcal{L}}{\partial b_h}
-= \sum_{t=1}^{T} \delta_t.
+=
+\sum_{t=1}^{T} \delta_t.
 \]</div>
-<p>The backward recurrence for hidden-state gradients is</p>
+</section>
+<hr class="docutils" />
+<section id="step-5-backward-recurrence-for-hidden-state-gradients">
+<h3>Step 5: Backward recurrence for hidden-state gradients<a class="headerlink" href="#step-5-backward-recurrence-for-hidden-state-gradients" title="Permalink to this heading">#</a></h3>
+<p>To compute all <span class="math notranslate nohighlight">\(\delta_t\)</span>, we must propagate gradients backward through time.</p>
+<p>We first compute:</p>
 <div class="math notranslate nohighlight">
 \[
 \frac{\partial \mathcal{L}}{\partial h_{t-1}}
 =
-\frac{\partial \mathcal{L}}{\partial h_t} J_t
-=
-\frac{\partial \mathcal{L}}{\partial h_t} D_t W_h.
+\frac{\partial \mathcal{L}}{\partial h_t}
+\cdot
+\frac{\partial h_t}{\partial h_{t-1}}.
 \]</div>
-<p>Depending on row-vector or column-vector convention, the transpose may appear. The essential point is unchanged: gradients are repeatedly multiplied by recurrent Jacobians.</p>
+<p>From the previous section:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}} = J_t = D_t W_h.
+\]</div>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial h_{t-1}}
+=
+\left( D_t W_h \right)^{\top}
+\frac{\partial \mathcal{L}}{\partial h_t}.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="step-6-backward-recurrence-for-delta-t">
+<h3>Step 6: Backward recurrence for <span class="math notranslate nohighlight">\(\delta_t\)</span><a class="headerlink" href="#step-6-backward-recurrence-for-delta-t" title="Permalink to this heading">#</a></h3>
+<p>Combining everything, the full backward recursion becomes:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t
+=
+D_t
+\left(
+\frac{\partial \ell_t}{\partial h_t}
++
+W_h^{\top} \delta_{t+1}
+\right).
+\]</div>
+<p>This equation shows that each <span class="math notranslate nohighlight">\(\delta_t\)</span> depends on:</p>
+<ul class="simple">
+<li><p>the <strong>local loss gradient</strong> at time <span class="math notranslate nohighlight">\(t\)</span>,</p></li>
+<li><p>the <strong>future gradient signal</strong> from time <span class="math notranslate nohighlight">\(t+1\)</span>.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-7-key-interpretation">
+<h3>Step 7: Key interpretation<a class="headerlink" href="#step-7-key-interpretation" title="Permalink to this heading">#</a></h3>
+<p>Each parameter gradient is a <strong>sum over time of outer products</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t \, h_{t-1}^{\top}, \quad \delta_t \, x_t^{\top}.
+\]</div>
+<p>This means:</p>
+<ul class="simple">
+<li><p>learning accumulates information across the entire sequence,</p></li>
+<li><p>long-range dependencies require <span class="math notranslate nohighlight">\(\delta_t\)</span> to remain stable.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-8-why-gradients-can-vanish-or-explode">
+<h3>Step 8: Why gradients can vanish or explode<a class="headerlink" href="#step-8-why-gradients-can-vanish-or-explode" title="Permalink to this heading">#</a></h3>
+<p>All <span class="math notranslate nohighlight">\(\delta_t\)</span> are computed recursively using:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t \propto D_t W_h^{\top} \delta_{t+1}.
+\]</div>
+<p>So over many steps:</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_k
+\sim
+\left(\prod_{i=k+1}^{T} D_i W_h^{\top}\right)
+\delta_T.
+\]</div>
+<p>This is the same Jacobian product that causes:</p>
+<ul class="simple">
+<li><p><strong>vanishing gradients</strong> if norms &lt; 1</p></li>
+<li><p><strong>exploding gradients</strong> if norms &gt; 1</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="step-9-note-on-conventions">
+<h3>Step 9: Note on conventions<a class="headerlink" href="#step-9-note-on-conventions" title="Permalink to this heading">#</a></h3>
+<p>Depending on whether gradients are treated as row or column vectors, you may see:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\( D_t W_h \)</span> vs <span class="math notranslate nohighlight">\( W_h^{\top} D_t \)</span></p></li>
+<li><p>left-multiplication vs right-multiplication</p></li>
+</ul>
+<p>These are equivalent up to transposition, as long as dimensions are consistent.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="final-takeaway">
+<h2>Final takeaway<a class="headerlink" href="#final-takeaway" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>Parameter gradients in RNNs are sums of outer products,<br />
+but the difficulty lies entirely in computing <span class="math notranslate nohighlight">\(\delta_t\)</span>,<br />
+which depends on repeated multiplication by <span class="math notranslate nohighlight">\(D_t W_h\)</span> across time.</p>
+</div></blockquote>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="part-ii-vanishing-and-exploding-gradients">
@@ -1735,7 +1953,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4346449375152588
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.3934125900268555
 </pre></div>
 </div>
 </div>
@@ -1977,8 +2195,8 @@ r_t = \sigma(W_r x_t + U_r h_{t-1} + b_r).
 \tilde{h}_t = \tanh(W_h x_t + U_h(r_t \odot h_{t-1}) + b_h).
 \]</div>
 </section>
-<section id="id1">
-<h3>Hidden-state update<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<section id="id2">
+<h3>Hidden-state update<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <p>A common convention is</p>
 <div class="math notranslate nohighlight">
 \[
@@ -2383,21 +2601,34 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-component-wise-view">Step 1: Component-wise view</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-what-is-phi-a-t">Step 2: What is <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span>?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-why-is-the-jacobian-diagonal">Step 3: Why is the Jacobian diagonal?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-chain-rule-for-the-full-jacobian">Step 4: Chain rule for the full Jacobian</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-concrete-examples-of-phi-a-t">Step 5: Concrete examples of <span class="math notranslate nohighlight">\( \phi'(a_t) \)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-tanh">If <span class="math notranslate nohighlight">\( \phi = \tanh \)</span>:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-sigmoid">If <span class="math notranslate nohighlight">\( \phi = \text{sigmoid} \)</span>:</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-phi-text-relu">If <span class="math notranslate nohighlight">\( \phi = \text{ReLU} \)</span>:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-key-interpretation">Step 6: Key interpretation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-why-this-matters-for-gradients">Step 7: Why this matters for gradients</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation-backpropagation-through-time">6. BPTT derivation (Backpropagation Through Time)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-the-local-error-signal">Step 1: Define the local error signal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-gradient-with-respect-to-w-h">Step 2: Gradient with respect to <span class="math notranslate nohighlight">\(W_h\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#shape-check">Shape check:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-gradient-with-respect-to-w-x">Step 3: Gradient with respect to <span class="math notranslate nohighlight">\(W_x\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Shape check:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-gradient-with-respect-to-b-h">Step 4: Gradient with respect to <span class="math notranslate nohighlight">\(b_h\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-backward-recurrence-for-hidden-state-gradients">Step 5: Backward recurrence for hidden-state gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-backward-recurrence-for-delta-t">Step 6: Backward recurrence for <span class="math notranslate nohighlight">\(\delta_t\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-key-interpretation">Step 7: Key interpretation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-why-gradients-can-vanish-or-explode">Step 8: Why gradients can vanish or explode</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-note-on-conventions">Step 9: Note on conventions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#final-takeaway">Final takeaway</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
@@ -2442,7 +2673,7 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-gate">Update gate</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-gate">Reset gate</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-hidden-state">Candidate hidden state</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Hidden-state update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Hidden-state update</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-diagram">20. GRU diagram</a></li>
