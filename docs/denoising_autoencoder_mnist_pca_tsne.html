@@ -695,61 +695,145 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2781 | test loss: 0.2376
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2776 | test loss: 0.2378
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2037 | test loss: 0.1732
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2108 | test loss: 0.1793
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1633 | test loss: 0.1545
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1682 | test loss: 0.1582
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.35</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="n">train_loss</span> <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">test_loss</span>  <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span>  <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2"> | train loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | test loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
+Traceback (most recent call last):
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
+    exitcode = _main(fd, parent_sentinel)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
+    self = reduction.pickle.load(from_parent)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2161, in &lt;module&gt;
+    self = reduction.pickle.load(from_parent)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2161, in &lt;module&gt;
+    from torch import _VF as _VF, functional as functional  # usort: skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/functional.py&quot;, line 8, in &lt;module&gt;
+    from torch import _VF as _VF, functional as functional  # usort: skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/functional.py&quot;, line 8, in &lt;module&gt;
+    import torch.nn.functional as F
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/__init__.py&quot;, line 8, in &lt;module&gt;
+    import torch.nn.functional as F
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/__init__.py&quot;, line 8, in &lt;module&gt;
+    from torch.nn.modules import *  # usort: skip # noqa: F403
+    from torch.nn.modules import *  # usort: skip # noqa: F403
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 2, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/__init__.py&quot;, line 2, in &lt;module&gt;
+    from .linear import Bilinear, Identity, LazyLinear, Linear  # usort: skip
+    from .linear import Bilinear, Identity, LazyLinear, Linear  # usort: skip
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/linear.py&quot;, line 7, in &lt;module&gt;
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/linear.py&quot;, line 7, in &lt;module&gt;
+    from torch.nn import functional as F, init
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/functional.py&quot;, line 4368, in &lt;module&gt;
+    from torch.nn import functional as F, init
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/functional.py&quot;, line 11, in &lt;module&gt;
+    from torch._jit_internal import (
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 45, in &lt;module&gt;
+    def upsample(  # noqa: F811
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 1028, in _overload
+    import torch.package._mangling as package_mangling
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/__init__.py&quot;, line 1, in &lt;module&gt;
+    from .analyze.is_from_package import is_from_package
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/analyze/__init__.py&quot;, line 1, in &lt;module&gt;
+    _check_overload_body(func)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_jit_internal.py&quot;, line 997, in _check_overload_body
+    from .find_first_use_of_broken_modules import find_first_use_of_broken_modules
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/analyze/find_first_use_of_broken_modules.py&quot;, line 1, in &lt;module&gt;
+    parsed_def = parse_def(func)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_sources.py&quot;, line 121, in parse_def
+    from torch.package.package_exporter import PackagingError
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/package/package_exporter.py&quot;, line 27, in &lt;module&gt;
+    sourcelines, file_lineno, filename = get_source_lines_and_file(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/_sources.py&quot;, line 24, in get_source_lines_and_file
+    from ._stdlib import is_stdlib_module
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1027, in _find_and_load
+    sourcelines, file_lineno = inspect.getsourcelines(obj)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 1121, in getsourcelines
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 1006, in _find_and_load_unlocked
+  File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 688, in _load_unlocked
+  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 879, in exec_module
+  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 1012, in get_code
+  File &quot;&lt;frozen importlib._bootstrap_external&gt;&quot;, line 672, in _compile_bytecode
+KeyboardInterrupt
+    lines, lnum = findsource(object)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/inspect.py&quot;, line 954, in findsource
+    lines = linecache.getlines(file, module.__dict__)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/linecache.py&quot;, line 46, in getlines
+    return updatecache(filename, module_globals)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/linecache.py&quot;, line 137, in updatecache
+    lines = fp.readlines()
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/codecs.py&quot;, line 319, in decode
+    def decode(self, input, final=False):
+KeyboardInterrupt
+Traceback (most recent call last):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
+    exec(code_obj, self.user_global_ns, self.user_ns)
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_97671/2208291953.py&quot;, line 6, in &lt;module&gt;
+    test_loss  = run_epoch(model, test_loader,  train=False, sigma=sigma)
+  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_97671/489305300.py&quot;, line 8, in run_epoch
+    for x, _ in loader:
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
+    data = self._next_data()
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1482, in _next_data
+    idx, data = self._get_data()
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1444, in _get_data
+    success, data = self._try_get_data()
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1275, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/queues.py&quot;, line 113, in get
+    if not self._poll(timeout):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 257, in poll
+    return self._poll(timeout)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 424, in _poll
+    r = wait([self], timeout)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 931, in wait
+    ready = selector.select(timeout)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/selectors.py&quot;, line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
 
-<span class="nn">Cell In[5], line 17,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">set_grad_enabled</span><span class="p">(</span><span class="n">train</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">x_hat</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_noisy</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">17</span>     <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">x_hat</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+During handling of the above exception, another exception occurred:
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1775,</span> in <span class="ni">Module._wrapped_call_impl</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1773</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compiled_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore[misc]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1774</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1775</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_impl</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/module.py:1786,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1781</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
-<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="c1"># this function, and just call forward.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
-<span class="g g-Whitespace">   </span><span class="mi">1784</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
-<span class="g g-Whitespace">   </span><span class="mi">1785</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1786</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1788</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1789</span> <span class="n">called_always_called_hooks</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/modules/loss.py:727,</span> in <span class="ni">BCELoss.forward</span><span class="nt">(self, input, target)</span>
-<span class="g g-Whitespace">    </span><span class="mi">723</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">724</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">725</span><span class="sd">     Runs the forward pass.</span>
-<span class="g g-Whitespace">    </span><span class="mi">726</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">727</span>     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">binary_cross_entropy</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">728</span>         <span class="nb">input</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reduction</span>
-<span class="g g-Whitespace">    </span><span class="mi">729</span>     <span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/nn/functional.py:3526,</span> in <span class="ni">binary_cross_entropy</span><span class="nt">(input, target, weight, size_average, reduce, reduction)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3523</span>     <span class="n">new_size</span> <span class="o">=</span> <span class="n">_infer_size</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">weight</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
-<span class="g g-Whitespace">   </span><span class="mi">3524</span>     <span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">new_size</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">3526</span> <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_nn</span><span class="o">.</span><span class="n">binary_cross_entropy</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">reduction_enum</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+Traceback (most recent call last):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 2168, in showtraceback
+    stb = self.InteractiveTB.structured_traceback(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1457, in structured_traceback
+    return FormattedTB.structured_traceback(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1348, in structured_traceback
+    return VerboseTB.structured_traceback(
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1195, in structured_traceback
+    formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1085, in format_exception_as_a_whole
+    self.get_records(etb, number_of_lines_of_context, tb_offset) if etb else []
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1138, in get_records
+    formatter = Terminal256Formatter(style=style)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 147, in __init__
+    self._setup_styles()  # convert selected style&#39;s colors to term. colors
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 231, in _setup_styles
+    escape.fg = self._color_index(ndef[&#39;color&#39;])
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 220, in _color_index
+    index = self._closest_color(r, g, b)
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 200, in _closest_color
+    if d &lt; distance:
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 70, in handler
+    def handler(signum, frame):
+  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
+    _error_if_any_worker_fails()
+RuntimeError: DataLoader worker (pid 97694) is killed by signal: Terminated: 15. 
 </pre></div>
 </div>
 </div>

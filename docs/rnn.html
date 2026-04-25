@@ -483,12 +483,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-are-different">1. Why sequence models are different</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-dynamical-system">Discrete dynamical system</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-linear-layer-to-recurrence">2. From a linear layer to recurrence</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shapes">Parameter shapes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-dynamical-system">Discrete dynamical system</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
@@ -662,11 +662,75 @@ y_t = f_\theta(x_1, x_2, \ldots, x_t).
 h_t = \text{summary of } (x_1, \ldots, x_t).
 \]</div>
 <p>This hidden state is updated sequentially, which gives the model an inductive bias for temporal structure.</p>
+</section>
+<section id="from-a-linear-layer-to-recurrence">
+<h2>2. From a linear layer to recurrence<a class="headerlink" href="#from-a-linear-layer-to-recurrence" title="Permalink to this heading">#</a></h2>
+<p>A standard linear layer is</p>
+<div class="math notranslate nohighlight">
+\[
+z = Wx + b.
+\]</div>
+<p>A one-hidden-layer neural network is</p>
+<div class="math notranslate nohighlight">
+\[
+h = \phi(Wx + b),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi\)</span> is a nonlinearity such as <span class="math notranslate nohighlight">\(\tanh\)</span>, ReLU, or sigmoid.</p>
+<p>For sequences, we want the hidden representation at time <span class="math notranslate nohighlight">\(t\)</span> to depend on:</p>
+<ol class="arabic simple">
+<li><p>the current input <span class="math notranslate nohighlight">\(x_t\)</span>,</p></li>
+<li><p>the previous hidden state <span class="math notranslate nohighlight">\(h_{t-1}\)</span>.</p></li>
+</ol>
+<p>So the simplest recurrent update is</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_x x_t + W_h h_{t-1} + b_h,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(a_t).
+\]</div>
+<p>The output is often computed as</p>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_y h_t + b_y,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(o_t),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> may be softmax for classification or identity for regression.</p>
+<section id="parameter-shapes">
+<h3>Parameter shapes<a class="headerlink" href="#parameter-shapes" title="Permalink to this heading">#</a></h3>
+<p>Let:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_t \in \mathbb{R}^{d_x}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(h_t \in \mathbb{R}^{d_h}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_t \in \mathbb{R}^{d_y}\)</span>.</p></li>
+</ul>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[
+W_x \in \mathbb{R}^{d_h \times d_x}, \qquad
+W_h \in \mathbb{R}^{d_h \times d_h}, \qquad
+W_y \in \mathbb{R}^{d_y \times d_h}.
+\]</div>
+<p>The important conceptual point is that <span class="math notranslate nohighlight">\(W_x\)</span>, <span class="math notranslate nohighlight">\(W_h\)</span>, and <span class="math notranslate nohighlight">\(W_y\)</span> are shared across all time steps. This parameter sharing is what makes the model recurrent rather than merely deep.</p>
+</section>
+</section>
+<section id="rnn-computation-graph">
+<h2>3. RNN computation graph<a class="headerlink" href="#rnn-computation-graph" title="Permalink to this heading">#</a></h2>
+<p>The same cell is reused at every time step.</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<img alt="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" src="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" /></div>
+</div>
 <div class="cell tag_remove-input docutils container">
 <div class="cell_output docutils container">
 <img alt="../_images/8e63c348331a439c11d643247ff7a276e213a5f1e8b9712172907bb603a09584.png" src="../_images/8e63c348331a439c11d643247ff7a276e213a5f1e8b9712172907bb603a09584.png" />
 </div>
 </div>
+<p>The horizontal arrows carry hidden states. The vertical arrows inject inputs and produce outputs.</p>
 </section>
 <section id="discrete-dynamical-system">
 <h2>Discrete dynamical system<a class="headerlink" href="#discrete-dynamical-system" title="Permalink to this heading">#</a></h2>
@@ -739,70 +803,6 @@ h_t = f_\theta(h_{t-1}, x_t)
 <p>If these repeated Jacobian products shrink, gradients vanish.<br />
 If they grow, gradients explode.</p>
 <p>Thus, the vanishing/exploding gradient problem in RNNs is directly connected to the stability of discrete dynamical systems.</p>
-</section>
-<section id="from-a-linear-layer-to-recurrence">
-<h2>2. From a linear layer to recurrence<a class="headerlink" href="#from-a-linear-layer-to-recurrence" title="Permalink to this heading">#</a></h2>
-<p>A standard linear layer is</p>
-<div class="math notranslate nohighlight">
-\[
-z = Wx + b.
-\]</div>
-<p>A one-hidden-layer neural network is</p>
-<div class="math notranslate nohighlight">
-\[
-h = \phi(Wx + b),
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(\phi\)</span> is a nonlinearity such as <span class="math notranslate nohighlight">\(\tanh\)</span>, ReLU, or sigmoid.</p>
-<p>For sequences, we want the hidden representation at time <span class="math notranslate nohighlight">\(t\)</span> to depend on:</p>
-<ol class="arabic simple">
-<li><p>the current input <span class="math notranslate nohighlight">\(x_t\)</span>,</p></li>
-<li><p>the previous hidden state <span class="math notranslate nohighlight">\(h_{t-1}\)</span>.</p></li>
-</ol>
-<p>So the simplest recurrent update is</p>
-<div class="math notranslate nohighlight">
-\[
-a_t = W_x x_t + W_h h_{t-1} + b_h,
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-h_t = \phi(a_t).
-\]</div>
-<p>The output is often computed as</p>
-<div class="math notranslate nohighlight">
-\[
-o_t = W_y h_t + b_y,
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-y_t = g(o_t),
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(g\)</span> may be softmax for classification or identity for regression.</p>
-<section id="parameter-shapes">
-<h3>Parameter shapes<a class="headerlink" href="#parameter-shapes" title="Permalink to this heading">#</a></h3>
-<p>Let:</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(x_t \in \mathbb{R}^{d_x}\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(h_t \in \mathbb{R}^{d_h}\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(y_t \in \mathbb{R}^{d_y}\)</span>.</p></li>
-</ul>
-<p>Then:</p>
-<div class="math notranslate nohighlight">
-\[
-W_x \in \mathbb{R}^{d_h \times d_x}, \qquad
-W_h \in \mathbb{R}^{d_h \times d_h}, \qquad
-W_y \in \mathbb{R}^{d_y \times d_h}.
-\]</div>
-<p>The important conceptual point is that <span class="math notranslate nohighlight">\(W_x\)</span>, <span class="math notranslate nohighlight">\(W_h\)</span>, and <span class="math notranslate nohighlight">\(W_y\)</span> are shared across all time steps. This parameter sharing is what makes the model recurrent rather than merely deep.</p>
-</section>
-</section>
-<section id="rnn-computation-graph">
-<h2>3. RNN computation graph<a class="headerlink" href="#rnn-computation-graph" title="Permalink to this heading">#</a></h2>
-<p>The same cell is reused at every time step.</p>
-<div class="cell tag_remove-input docutils container">
-<div class="cell_output docutils container">
-<img alt="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" src="../_images/3e4eb1c9f6044699f7b82eb85871f0223bb30222e21d8359f5fec6551b08c4fc.svg" /></div>
-</div>
-<p>The horizontal arrows carry hidden states. The vertical arrows inject inputs and produce outputs.</p>
 </section>
 <section id="sequence-loss-and-sequence-to-sequence-mapping-types">
 <h2>4. Sequence loss and sequence-to-sequence mapping types<a class="headerlink" href="#sequence-loss-and-sequence-to-sequence-mapping-types" title="Permalink to this heading">#</a></h2>
@@ -2031,7 +2031,7 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.525437355041504
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4575822353363037
 </pre></div>
 </div>
 </div>
@@ -2661,12 +2661,12 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-are-different">1. Why sequence models are different</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-dynamical-system">Discrete dynamical system</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-linear-layer-to-recurrence">2. From a linear layer to recurrence</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shapes">Parameter shapes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discrete-dynamical-system">Discrete dynamical system</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
