@@ -695,13 +695,13 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2799 | test loss: 0.2364
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2783 | test loss: 0.2394
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2031 | test loss: 0.1739
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2109 | test loss: 0.1790
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1654 | test loss: 0.1566
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1646 | test loss: 0.1558
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -713,89 +713,98 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
 <span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">test_loss</span>  <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span>  <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2"> | train loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | test loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="nn">Cell In[5], line 8,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="k">if</span> <span class="n">train</span> <span class="k">else</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">total_loss</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span>
-<span class="ne">----&gt; </span><span class="mi">8</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">x_noisy</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+<span class="nn">Cell In[5], line 20,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">20</span>         <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">n</span> <span class="o">+=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:732,</span> in <span class="ni">_BaseDataLoaderIter.__next__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">729</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">730</span>     <span class="c1"># TODO(https://github.com/pytorch/pytorch/issues/76750)</span>
-<span class="g g-Whitespace">    </span><span class="mi">731</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>  <span class="c1"># type: ignore[call-arg]</span>
-<span class="ne">--&gt; </span><span class="mi">732</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_data</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">733</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_yielded</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">    </span><span class="mi">734</span> <span class="k">if</span> <span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">735</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span>
-<span class="g g-Whitespace">    </span><span class="mi">736</span>     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">737</span>     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_yielded</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span>
-<span class="g g-Whitespace">    </span><span class="mi">738</span> <span class="p">):</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/optimizer.py:517,</span> in <span class="ni">Optimizer.profile_hook_step.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">512</span>         <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">513</span>             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">514</span>                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="si">}</span><span class="s2"> must return None or a tuple of (new_args, new_kwargs), but got </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">515</span>             <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">517</span> <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">518</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer_step_code</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">520</span> <span class="c1"># call optimizer step post hooks</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1482,</span> in <span class="ni">_MultiProcessingDataLoaderIter._next_data</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1479</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1481</span> <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_outstanding</span> <span class="o">&gt;</span> <span class="mi">0</span>
-<span class="ne">-&gt; </span><span class="mi">1482</span> <span class="n">idx</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1483</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_outstanding</span> <span class="o">-=</span> <span class="mi">1</span>
-<span class="g g-Whitespace">   </span><span class="mi">1484</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1485</span>     <span class="c1"># Check for _IterableDatasetStopIteration</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/optimizer.py:82,</span> in <span class="ni">_use_grad_for_differentiable.&lt;locals&gt;._use_grad</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">80</span>     <span class="n">torch</span><span class="o">.</span><span class="n">set_grad_enabled</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;differentiable&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">     </span><span class="mi">81</span>     <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
+<span class="ne">---&gt; </span><span class="mi">82</span>     <span class="n">ret</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">83</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">84</span>     <span class="n">torch</span><span class="o">.</span><span class="n">_dynamo</span><span class="o">.</span><span class="n">graph_break</span><span class="p">()</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1444,</span> in <span class="ni">_MultiProcessingDataLoaderIter._get_data</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1440</span>     <span class="c1"># In this case, `self._data_queue` is a `queue.Queue`,. But we don&#39;t</span>
-<span class="g g-Whitespace">   </span><span class="mi">1441</span>     <span class="c1"># need to call `.task_done()` because we don&#39;t use `.join()`.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1442</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1443</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1444</span>         <span class="n">success</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_try_get_data</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1445</span>         <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1446</span>             <span class="k">return</span> <span class="n">data</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1275,</span> in <span class="ni">_MultiProcessingDataLoaderIter._try_get_data</span><span class="nt">(self, timeout)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1262</span> <span class="k">def</span><span class="w"> </span><span class="nf">_try_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">_utils</span><span class="o">.</span><span class="n">MP_STATUS_CHECK_INTERVAL</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1263</span>     <span class="c1"># Tries to fetch data from `self._data_queue` once for a given timeout.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1264</span>     <span class="c1"># This can also be used as inner loop of fetching without timeout, with</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/adam.py:247,</span> in <span class="ni">Adam.step</span><span class="nt">(self, closure)</span>
+<span class="g g-Whitespace">    </span><span class="mi">235</span>     <span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s2">&quot;betas&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">237</span>     <span class="n">has_complex</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_group</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">238</span>         <span class="n">group</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">239</span>         <span class="n">params_with_grad</span><span class="p">,</span>
    <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1272</span>     <span class="c1"># Returns a 2-tuple:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1273</span>     <span class="c1">#   (bool: whether successfully get data, any: data if successful else None)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1274</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1275</span>         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1276</span>         <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1277</span>     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1278</span>         <span class="c1"># At timeout and error, we manually check whether any worker has</span>
-<span class="g g-Whitespace">   </span><span class="mi">1279</span>         <span class="c1"># failed. Note that this is the only mechanism for Windows to detect</span>
-<span class="g g-Whitespace">   </span><span class="mi">1280</span>         <span class="c1"># worker failures.</span>
+<span class="g g-Whitespace">    </span><span class="mi">244</span>         <span class="n">state_steps</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">245</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">247</span>     <span class="n">adam</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span>         <span class="n">params_with_grad</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>         <span class="n">grads</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span>         <span class="n">exp_avgs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">251</span>         <span class="n">exp_avg_sqs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">252</span>         <span class="n">max_exp_avg_sqs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">253</span>         <span class="n">state_steps</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">254</span>         <span class="n">amsgrad</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;amsgrad&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span>         <span class="n">has_complex</span><span class="o">=</span><span class="n">has_complex</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">256</span>         <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span>         <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>         <span class="n">lr</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;lr&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>         <span class="n">weight_decay</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;weight_decay&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>         <span class="n">eps</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;eps&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>         <span class="n">maximize</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;maximize&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span>         <span class="n">foreach</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;foreach&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>         <span class="n">capturable</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;capturable&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span>         <span class="n">differentiable</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;differentiable&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span>         <span class="n">fused</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;fused&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span>         <span class="n">grad_scale</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;grad_scale&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span>         <span class="n">found_inf</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;found_inf&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span>         <span class="n">decoupled_weight_decay</span><span class="o">=</span><span class="n">group</span><span class="p">[</span><span class="s2">&quot;decoupled_weight_decay&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">269</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">271</span> <span class="k">return</span> <span class="n">loss</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/queues.py:113,</span> in <span class="ni">Queue.get</span><span class="nt">(self, block, timeout)</span>
-<span class="g g-Whitespace">    </span><span class="mi">111</span> <span class="k">if</span> <span class="n">block</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="n">timeout</span> <span class="o">=</span> <span class="n">deadline</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
-<span class="ne">--&gt; </span><span class="mi">113</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">(</span><span class="n">timeout</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">114</span>         <span class="k">raise</span> <span class="n">Empty</span>
-<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">():</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/optimizer.py:150,</span> in <span class="ni">_disable_dynamo_if_unsupported.&lt;locals&gt;.wrapper.&lt;locals&gt;.maybe_fallback</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>     <span class="k">return</span> <span class="n">disabled_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">150</span>     <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:257,</span> in <span class="ni">_ConnectionBase.poll</span><span class="nt">(self, timeout)</span>
-<span class="g g-Whitespace">    </span><span class="mi">255</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_closed</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">256</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_readable</span><span class="p">()</span>
-<span class="ne">--&gt; </span><span class="mi">257</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/adam.py:953,</span> in <span class="ni">adam</span><span class="nt">(params, grads, exp_avgs, exp_avg_sqs, max_exp_avg_sqs, state_steps, foreach, capturable, differentiable, fused, grad_scale, found_inf, has_complex, decoupled_weight_decay, amsgrad, beta1, beta2, lr, weight_decay, eps, maximize)</span>
+<span class="g g-Whitespace">    </span><span class="mi">950</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">951</span>     <span class="n">func</span> <span class="o">=</span> <span class="n">_single_tensor_adam</span>
+<span class="ne">--&gt; </span><span class="mi">953</span> <span class="n">func</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">954</span>     <span class="n">params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">955</span>     <span class="n">grads</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">956</span>     <span class="n">exp_avgs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">957</span>     <span class="n">exp_avg_sqs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">958</span>     <span class="n">max_exp_avg_sqs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">959</span>     <span class="n">state_steps</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">960</span>     <span class="n">amsgrad</span><span class="o">=</span><span class="n">amsgrad</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">961</span>     <span class="n">has_complex</span><span class="o">=</span><span class="n">has_complex</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">962</span>     <span class="n">beta1</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">963</span>     <span class="n">beta2</span><span class="o">=</span><span class="n">beta2</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">964</span>     <span class="n">lr</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">965</span>     <span class="n">weight_decay</span><span class="o">=</span><span class="n">weight_decay</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">966</span>     <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">967</span>     <span class="n">maximize</span><span class="o">=</span><span class="n">maximize</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span>     <span class="n">capturable</span><span class="o">=</span><span class="n">capturable</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">969</span>     <span class="n">differentiable</span><span class="o">=</span><span class="n">differentiable</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">970</span>     <span class="n">grad_scale</span><span class="o">=</span><span class="n">grad_scale</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span>     <span class="n">found_inf</span><span class="o">=</span><span class="n">found_inf</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">972</span>     <span class="n">decoupled_weight_decay</span><span class="o">=</span><span class="n">decoupled_weight_decay</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">973</span> <span class="p">)</span>
 
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:424,</span> in <span class="ni">Connection._poll</span><span class="nt">(self, timeout)</span>
-<span class="g g-Whitespace">    </span><span class="mi">423</span> <span class="k">def</span><span class="w"> </span><span class="nf">_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">424</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">wait</span><span class="p">([</span><span class="bp">self</span><span class="p">],</span> <span class="n">timeout</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">425</span>     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:923,</span> in <span class="ni">wait</span><span class="nt">(object_list, timeout)</span>
-<span class="g g-Whitespace">    </span><span class="mi">917</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="n">object_list</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">918</span><span class="w">     </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">919</span><span class="sd">     Wait till an object in object_list is ready/readable.</span>
-<span class="g g-Whitespace">    </span><span class="mi">920</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">921</span><span class="sd">     Returns list of those objects in object_list which are ready/readable.</span>
-<span class="g g-Whitespace">    </span><span class="mi">922</span><span class="sd">     &#39;&#39;&#39;</span>
-<span class="ne">--&gt; </span><span class="mi">923</span>     <span class="k">with</span> <span class="n">_WaitSelector</span><span class="p">()</span> <span class="k">as</span> <span class="n">selector</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">924</span>         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">object_list</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">925</span>             <span class="n">selector</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">)</span>
-
-<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/selectors.py:349,</span> in <span class="ni">_PollLikeSelector.__init__</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_selector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_selector_cls</span><span class="p">()</span>
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/optim/adam.py:447,</span> in <span class="ni">_single_tensor_adam</span><span class="nt">(params, grads, exp_avgs, exp_avg_sqs, max_exp_avg_sqs, state_steps, grad_scale, found_inf, amsgrad, has_complex, beta1, beta2, lr, weight_decay, eps, maximize, capturable, differentiable, decoupled_weight_decay)</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span>     <span class="n">device_beta1</span> <span class="o">=</span> <span class="n">beta1</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span> <span class="c1"># Decay the first and second moment running average coefficient</span>
+<span class="ne">--&gt; </span><span class="mi">447</span> <span class="n">exp_avg</span><span class="o">.</span><span class="n">lerp_</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">device_beta1</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">449</span> <span class="c1"># Nested if is necessary to bypass jitscript rules</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span> <span class="k">if</span> <span class="n">differentiable</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta2</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>

@@ -1,0 +1,2563 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Recurrent Neural Networks — Textbook-Level Course Notes &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/rnn_textbook_level_sequence_loss_corrected';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="eigenvalue_vector.html">Eigenvalues, Eigenvectors, SVD, PCA, Optimization, and Low-Rank Structure for Machine Learning</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">RNN: Recurrent Neural Networks</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="gnn_molecules.html">Graph Neural Networks on Molecules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/rnn_textbook_level_sequence_loss_corrected.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/rnn_textbook_level_sequence_loss_corrected.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/rnn_textbook_level_sequence_loss_corrected.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Recurrent Neural Networks — Textbook-Level Course Notes</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks — Textbook-Level Course Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning goals</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-are-different">1. Why sequence models are different</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-linear-layer-to-recurrence">2. From a linear layer to recurrence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shapes">Parameter shapes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-prediction">4.3 One-to-many prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-unaligned-sequence-to-sequence">4.4 Many-to-many, unaligned sequence-to-sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction">4.5 Many-to-many with delay: language modeling and next-step prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention">4.6 Encoder–decoder with attention: the bridge to modern attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-the-loss-determines-the-supervision-pattern">4.7 Summary: the loss determines the supervision pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norm-based-proof-of-exponential-decay-or-growth">8. Norm-based proof of exponential decay or growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-radius-view">9. Spectral-radius view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram">10. Gradient-flow diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tanh-and-sigmoid-saturate">11. Why tanh and sigmoid saturate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-remedies">12. Practical remedies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">12.1 Gradient clipping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-initialization">12.2 Orthogonal initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncated-bptt">12.3 Truncated BPTT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gated-recurrent-units">12.4 Gated recurrent units</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-implementing-vanilla-rnns">Part III — Implementing Vanilla RNNs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-pytorch-rnn-layer">13. Built-in PyTorch RNN layer</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iv-lstm">Part IV — LSTM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-lstm">14. Motivation for LSTM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-equations">15. LSTM equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forget-gate">Forget gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-gate">Input gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-memory">Candidate memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-state-update">Cell-state update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-gate">Output gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-state-update">Hidden-state update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-cell-diagram">16. LSTM cell diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-lstm-helps-gradients-the-key-proof">17. Why LSTM helps gradients: the key proof</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-v-gru">Part V — GRU</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-motivation">18. GRU motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-equations">19. GRU equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-gate">Update gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-gate">Reset gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-hidden-state">Candidate hidden state</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Hidden-state update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-diagram">20. GRU diagram</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-vi-jax-implementation-sketch">Part VI — JAX implementation sketch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-vii-attention-as-the-next-step-after-rnns">Part VII — Attention as the next step after RNNs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-attention-emerged">21. Why attention emerged</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-w-x-w-h-w-y-to-w-q-w-k-w-v">22. From <span class="math notranslate nohighlight">\(W_x, W_h, W_y\)</span> to <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-clarification">Important clarification</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-diagram">23. Attention diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-attention-helps-with-gradient-flow">24. Why attention helps with gradient flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnns-are-still-useful">25. RNNs are still useful</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="recurrent-neural-networks-textbook-level-course-notes">
+<h1>Recurrent Neural Networks — Textbook-Level Course Notes<a class="headerlink" href="#recurrent-neural-networks-textbook-level-course-notes" title="Permalink to this heading">#</a></h1>
+<section id="gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">
+<h2>Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention<a class="headerlink" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention" title="Permalink to this heading">#</a></h2>
+<p>This notebook is written as a self-contained lecture sequence. It starts from linear layers and dynamical systems, derives recurrent neural networks mathematically, proves why vanishing and exploding gradients occur, explains LSTM/GRU as structural remedies, and ends by connecting recurrence to attention mechanisms.</p>
+<section id="learning-goals">
+<h3>Learning goals<a class="headerlink" href="#learning-goals" title="Permalink to this heading">#</a></h3>
+<p>By the end, you should be able to:</p>
+<ol class="arabic simple">
+<li><p>Derive a vanilla RNN from affine transformations and shared parameters.</p></li>
+<li><p>Interpret an RNN as both an unrolled deep network and a nonlinear dynamical system.</p></li>
+<li><p>Derive Backpropagation Through Time (BPTT) using Jacobian products.</p></li>
+<li><p>Prove exponential vanishing/explosion using norm bounds and spectral radius arguments.</p></li>
+<li><p>Explain why tanh/sigmoid saturation worsens gradient decay.</p></li>
+<li><p>Implement RNNs manually and using <code class="docutils literal notranslate"><span class="pre">torch.nn.RNN</span></code>.</p></li>
+<li><p>Derive LSTM and GRU update equations step by step.</p></li>
+<li><p>Explain the LSTM cell-state gradient path mathematically.</p></li>
+<li><p>Use gradient clipping, orthogonal initialization, and truncated BPTT.</p></li>
+<li><p>Understand attention as direct memory access and a conceptual successor to recurrence.</p></li>
+</ol>
+<p>Throughout the notebook, display mathematics uses <code class="docutils literal notranslate"><span class="pre">$$</span> <span class="pre">...</span> <span class="pre">$$</span></code> and inline mathematics uses <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">...</span> <span class="pre">$</span></code>.</p>
+</section>
+</section>
+<section id="why-sequence-models-are-different">
+<h2>1. Why sequence models are different<a class="headerlink" href="#why-sequence-models-are-different" title="Permalink to this heading">#</a></h2>
+<p>Many machine-learning problems are sequential:</p>
+<ul class="simple">
+<li><p>language modeling,</p></li>
+<li><p>speech recognition,</p></li>
+<li><p>machine translation,</p></li>
+<li><p>time-series forecasting,</p></li>
+<li><p>video analysis,</p></li>
+<li><p>control systems,</p></li>
+<li><p>event streams,</p></li>
+<li><p>biological sequences.</p></li>
+</ul>
+<p>A feedforward model maps an input <span class="math notranslate nohighlight">\(x\)</span> to an output <span class="math notranslate nohighlight">\(y\)</span> independently:</p>
+<div class="math notranslate nohighlight">
+\[
+y = f_\theta(x).
+\]</div>
+<p>A sequence model receives ordered inputs:</p>
+<div class="math notranslate nohighlight">
+\[
+x_1, x_2, \ldots, x_T.
+\]</div>
+<p>The output at time <span class="math notranslate nohighlight">\(t\)</span> may depend not only on <span class="math notranslate nohighlight">\(x_t\)</span>, but on the entire past:</p>
+<div class="math notranslate nohighlight">
+\[
+y_t = f_\theta(x_1, x_2, \ldots, x_t).
+\]</div>
+<p>The central challenge is therefore <strong>memory</strong>. A recurrent model introduces a hidden state <span class="math notranslate nohighlight">\(h_t\)</span> that summarizes past information:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \text{summary of } (x_1, \ldots, x_t).
+\]</div>
+<p>This hidden state is updated sequentially, which gives the model an inductive bias for temporal structure.</p>
+</section>
+<section id="from-a-linear-layer-to-recurrence">
+<h2>2. From a linear layer to recurrence<a class="headerlink" href="#from-a-linear-layer-to-recurrence" title="Permalink to this heading">#</a></h2>
+<p>A standard linear layer is</p>
+<div class="math notranslate nohighlight">
+\[
+z = Wx + b.
+\]</div>
+<p>A one-hidden-layer neural network is</p>
+<div class="math notranslate nohighlight">
+\[
+h = \phi(Wx + b),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\phi\)</span> is a nonlinearity such as <span class="math notranslate nohighlight">\(\tanh\)</span>, ReLU, or sigmoid.</p>
+<p>For sequences, we want the hidden representation at time <span class="math notranslate nohighlight">\(t\)</span> to depend on:</p>
+<ol class="arabic simple">
+<li><p>the current input <span class="math notranslate nohighlight">\(x_t\)</span>,</p></li>
+<li><p>the previous hidden state <span class="math notranslate nohighlight">\(h_{t-1}\)</span>.</p></li>
+</ol>
+<p>So the simplest recurrent update is</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_x x_t + W_h h_{t-1} + b_h,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(a_t).
+\]</div>
+<p>The output is often computed as</p>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_y h_t + b_y,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(o_t),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(g\)</span> may be softmax for classification or identity for regression.</p>
+<section id="parameter-shapes">
+<h3>Parameter shapes<a class="headerlink" href="#parameter-shapes" title="Permalink to this heading">#</a></h3>
+<p>Let:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x_t \in \mathbb{R}^{d_x}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(h_t \in \mathbb{R}^{d_h}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_t \in \mathbb{R}^{d_y}\)</span>.</p></li>
+</ul>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[
+W_x \in \mathbb{R}^{d_h \times d_x}, \qquad
+W_h \in \mathbb{R}^{d_h \times d_h}, \qquad
+W_y \in \mathbb{R}^{d_y \times d_h}.
+\]</div>
+<p>The important conceptual point is that <span class="math notranslate nohighlight">\(W_x\)</span>, <span class="math notranslate nohighlight">\(W_h\)</span>, and <span class="math notranslate nohighlight">\(W_y\)</span> are shared across all time steps. This parameter sharing is what makes the model recurrent rather than merely deep.</p>
+</section>
+</section>
+<section id="rnn-computation-graph">
+<h2>3. RNN computation graph<a class="headerlink" href="#rnn-computation-graph" title="Permalink to this heading">#</a></h2>
+<p>The same cell is reused at every time step.</p>
+<p>The diagram below is rendered by Python so it works reliably in Jupyter, VS Code, and Colab.</p>
+<div style="text-align:center; margin: 1.2em 0;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAwIiBoZWlnaHQ9IjI3MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxtYXJrZXIgaWQ9ImFycm93IiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjciIHJlZlk9IjMiIG9yaWVudD0iYXV0byIgbWFya2VyVW5pdHM9InN0cm9rZVdpZHRoIj4KICAgICAgPHBhdGggZD0iTTAsMCBMMCw2IEw5LDMgeiIgZmlsbD0iYmxhY2siIC8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHN0eWxlPgogICAgLmJveCB7IGZpbGw6IHdoaXRlOyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDI7IHJ4OiAxMjsgfQogICAgLnR4dCB7IGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxOHB4OyB0ZXh0LWFuY2hvcjogbWlkZGxlOyB9CiAgICAuc21hbGwgeyBmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsgdGV4dC1hbmNob3I6IG1pZGRsZTsgfQogICAgLmxpbmUgeyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDI7IG1hcmtlci1lbmQ6IHVybCgjYXJyb3cpOyBmaWxsOiBub25lOyB9CiAgPC9zdHlsZT4KICA8cmVjdCB4PSI3MCIgeT0iOTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNzAiIGNsYXNzPSJib3giIC8+CiAgPHRleHQgeD0iMTMwIiB5PSIxMzAiIGNsYXNzPSJ0eHQiPlJOTiBjZWxsPC90ZXh0PgogIDx0ZXh0IHg9IjEzMCIgeT0iMTUyIiBjbGFzcz0ic21hbGwiPnNoYXJlZCDOuDwvdGV4dD4KCiAgPHJlY3QgeD0iMzAwIiB5PSI5MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI3MCIgY2xhc3M9ImJveCIgLz4KICA8dGV4dCB4PSIzNjAiIHk9IjEzMCIgY2xhc3M9InR4dCI+Uk5OIGNlbGw8L3RleHQ+CiAgPHRleHQgeD0iMzYwIiB5PSIxNTIiIGNsYXNzPSJzbWFsbCI+c2hhcmVkIM64PC90ZXh0PgoKICA8cmVjdCB4PSI1MzAiIHk9IjkwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjcwIiBjbGFzcz0iYm94IiAvPgogIDx0ZXh0IHg9IjU5MCIgeT0iMTMwIiBjbGFzcz0idHh0Ij5STk4gY2VsbDwvdGV4dD4KICA8dGV4dCB4PSI1OTAiIHk9IjE1MiIgY2xhc3M9InNtYWxsIj5zaGFyZWQgzrg8L3RleHQ+CgogIDxyZWN0IHg9Ijc2MCIgeT0iOTAiIHdpZHRoPSIxMjAiIGhlaWdodD0iNzAiIGNsYXNzPSJib3giIC8+CiAgPHRleHQgeD0iODIwIiB5PSIxMzAiIGNsYXNzPSJ0eHQiPlJOTiBjZWxsPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMTUyIiBjbGFzcz0ic21hbGwiPnNoYXJlZCDOuDwvdGV4dD4KCiAgPHBhdGggZD0iTTE5MCAxMjUgTDMwMCAxMjUiIGNsYXNzPSJsaW5lIiAvPgogIDxwYXRoIGQ9Ik00MjAgMTI1IEw1MzAgMTI1IiBjbGFzcz0ibGluZSIgLz4KICA8cGF0aCBkPSJNNjUwIDEyNSBMNzYwIDEyNSIgY2xhc3M9ImxpbmUiIC8+CgogIDxwYXRoIGQ9Ik0xMzAgMjIwIEwxMzAgMTYwIiBjbGFzcz0ibGluZSIgLz4KICA8cGF0aCBkPSJNMzYwIDIyMCBMMzYwIDE2MCIgY2xhc3M9ImxpbmUiIC8+CiAgPHBhdGggZD0iTTU5MCAyMjAgTDU5MCAxNjAiIGNsYXNzPSJsaW5lIiAvPgogIDxwYXRoIGQ9Ik04MjAgMjIwIEw4MjAgMTYwIiBjbGFzcz0ibGluZSIgLz4KCiAgPHRleHQgeD0iMTMwIiB5PSIyNDUiIGNsYXNzPSJ0eHQiPnjigoE8L3RleHQ+CiAgPHRleHQgeD0iMzYwIiB5PSIyNDUiIGNsYXNzPSJ0eHQiPnjigoI8L3RleHQ+CiAgPHRleHQgeD0iNTkwIiB5PSIyNDUiIGNsYXNzPSJ0eHQiPnjigoM8L3RleHQ+CiAgPHRleHQgeD0iODIwIiB5PSIyNDUiIGNsYXNzPSJ0eHQiPnjigoQ8L3RleHQ+CgogIDxwYXRoIGQ9Ik0xMzAgOTAgTDEzMCA0MCIgY2xhc3M9ImxpbmUiIC8+CiAgPHBhdGggZD0iTTM2MCA5MCBMMzYwIDQwIiBjbGFzcz0ibGluZSIgLz4KICA8cGF0aCBkPSJNNTkwIDkwIEw1OTAgNDAiIGNsYXNzPSJsaW5lIiAvPgogIDxwYXRoIGQ9Ik04MjAgOTAgTDgyMCA0MCIgY2xhc3M9ImxpbmUiIC8+CgogIDx0ZXh0IHg9IjEzMCIgeT0iMjgiIGNsYXNzPSJ0eHQiPnnigoE8L3RleHQ+CiAgPHRleHQgeD0iMzYwIiB5PSIyOCIgY2xhc3M9InR4dCI+eeKCgjwvdGV4dD4KICA8dGV4dCB4PSI1OTAiIHk9IjI4IiBjbGFzcz0idHh0Ij554oKDPC90ZXh0PgogIDx0ZXh0IHg9IjgyMCIgeT0iMjgiIGNsYXNzPSJ0eHQiPnnigoQ8L3RleHQ+CgogIDx0ZXh0IHg9IjI0NSIgeT0iMTEwIiBjbGFzcz0ic21hbGwiPmjigoE8L3RleHQ+CiAgPHRleHQgeD0iNDc1IiB5PSIxMTAiIGNsYXNzPSJzbWFsbCI+aOKCgjwvdGV4dD4KICA8dGV4dCB4PSI3MDUiIHk9IjExMCIgY2xhc3M9InNtYWxsIj5o4oKDPC90ZXh0Pgo8L3N2Zz4=" style="max-width:100%; height:auto;" />
+</div>
+<p>The horizontal arrows carry hidden states. The vertical arrows inject inputs and produce outputs.</p>
+</section>
+<section id="sequence-loss-and-sequence-to-sequence-mapping-types">
+<h2>4. Sequence loss and sequence-to-sequence mapping types<a class="headerlink" href="#sequence-loss-and-sequence-to-sequence-mapping-types" title="Permalink to this heading">#</a></h2>
+<p>A recurrent model can be used in several different input/output configurations. The recurrence itself is usually the same:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_	heta(h_{t-1}, x_t),
+\]</div>
+<p>but the <strong>loss function changes depending on which hidden states are connected to supervised outputs</strong>.</p>
+<p>A useful general expression is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t \in \mathcal{T}_{\text{loss}}}
+\ell_t(y_t, \hat{y}_t),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathcal{T}_{\text{loss}}\)</span> is the set of time steps at which the model is supervised.</p>
+<section id="many-to-many-aligned-synchronous-prediction">
+<h3>4.1 Many-to-many, aligned / synchronous prediction<a class="headerlink" href="#many-to-many-aligned-synchronous-prediction" title="Permalink to this heading">#</a></h3>
+<p>In aligned many-to-many prediction, the model produces an output at every input time step.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>part-of-speech tagging,</p></li>
+<li><p>named-entity recognition,</p></li>
+<li><p>frame-level speech labeling,</p></li>
+<li><p>time-series forecasting with one prediction per time step,</p></li>
+<li><p>sequence labeling in biological sequences.</p></li>
+</ul>
+<p>The recurrent update is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, x_t),
+\]</div>
+<p>and the output is:</p>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(W_y h_t + b_y).
+\]</div>
+<p>The loss is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T}
+\ell_t(y_t, \hat{y}_t).
+\]</div>
+<p>This is the most direct many-to-many RNN architecture: every hidden state contributes directly to the objective.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">many_to_many_aligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;310&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: aligned / synchronous outputs&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: tagging, frame-level labeling, stepwise forecasting&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;100&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;128&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;122&quot; x2=&quot;260&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;122&quot; x2=&quot;410&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;122&quot; x2=&quot;560&quot; y2=&quot;122&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;82&quot; x2=&quot;150&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;82&quot; x2=&quot;300&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;82&quot; x2=&quot;450&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;83&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;82&quot; x2=&quot;600&quot; y2=&quot;100&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;145&quot; x2=&quot;150&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;132&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;300&quot; y1=&quot;145&quot; x2=&quot;300&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;282&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;450&quot; y1=&quot;145&quot; x2=&quot;450&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;432&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;600&quot; y1=&quot;145&quot; x2=&quot;600&quot; y2=&quot;178&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;582&quot; y=&quot;205&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;125&quot; class=&quot;small&quot;&gt;loss at every step&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;150&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, ŷₜ)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_many_aligned_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" src="../_images/c0dc64accd1141185502058d03e3a1044220a94732256019d77a303f391e5478.svg" /></div>
+</div>
+</section>
+<section id="many-to-one-prediction">
+<h3>4.2 Many-to-one prediction<a class="headerlink" href="#many-to-one-prediction" title="Permalink to this heading">#</a></h3>
+<p>In many-to-one prediction, the input is a sequence but the target is a single label or value.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>sentiment classification,</p></li>
+<li><p>document classification,</p></li>
+<li><p>activity recognition from sensor streams,</p></li>
+<li><p>fraud detection over a transaction window,</p></li>
+<li><p>predicting whether a patient sequence indicates risk.</p></li>
+</ul>
+<p>A common choice is to use the final hidden state:</p>
+<div class="math notranslate nohighlight">
+\[
+y = g(W_y h_T + b_y),
+\]</div>
+<p>with loss:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \ell(y, \hat{y}).
+\]</div>
+<p>Even though the loss is attached only to <span class="math notranslate nohighlight">\(h_T\)</span>, the final state depends on the entire sequence:</p>
+<div class="math notranslate nohighlight">
+\[
+h_T
+=
+F_\theta(
+F_\theta(
+\cdots
+F_\theta(h_0, x_1),
+x_2),
+\ldots,
+x_T).
+\]</div>
+<p>Therefore, learning from early inputs still requires gradients to flow backward through many recurrent transitions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">many_to_one_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;250&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;340&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-One: sequence classification&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: sentiment classification, activity recognition, fraud detection over a window&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;640&quot; y1=&quot;127&quot; x2=&quot;720&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;720&quot; y=&quot;103&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;755&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;y&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;190&quot; class=&quot;math&quot;&gt;L = ℓ(y, ŷ)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">many_to_one_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" src="../_images/4432e2bdd3a4b7cd1778a35c30d7e75238b874b7bbdfabadee3bb19fec5c9b41.svg" /></div>
+</div>
+</section>
+<section id="one-to-many-prediction">
+<h3>4.3 One-to-many prediction<a class="headerlink" href="#one-to-many-prediction" title="Permalink to this heading">#</a></h3>
+<p>In one-to-many prediction, a single conditioning object is used to generate a sequence.</p>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>image captioning, where an image is encoded once and then decoded into a sentence,</p></li>
+<li><p>music generation from a seed or style vector,</p></li>
+<li><p>conditional text generation,</p></li>
+<li><p>sequence generation from a fixed context representation.</p></li>
+</ul>
+<p>The important point is that the conditioning input is not usually fed as the recurrent input at every step. Instead, it defines either an initial hidden state, a context vector, or both.</p>
+<p>Let the conditioning input be <span class="math notranslate nohighlight">\(x\)</span>, and let an encoder produce a context representation:</p>
+<div class="math notranslate nohighlight">
+\[
+c = e_\phi(x).
+\]</div>
+<p>A common initialization is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_0 = W_c c + b_c.
+\]</div>
+<p>The decoder then generates an output sequence autoregressively. Let <span class="math notranslate nohighlight">\(z_t\)</span> denote the token fed into the decoder at time <span class="math notranslate nohighlight">\(t\)</span>. The recurrent update is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, E z_t, c),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(E z_t\)</span> is the embedding of the decoder input token. In many implementations, the context <span class="math notranslate nohighlight">\(c\)</span> is used only to initialize <span class="math notranslate nohighlight">\(h_0\)</span>; in others, <span class="math notranslate nohighlight">\(c\)</span> is also concatenated with the decoder input at every step.</p>
+<p>The decoder produces logits:</p>
+<div class="math notranslate nohighlight">
+\[
+o_t = W_o h_t + b_o,
+\]</div>
+<p>and a predictive distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(y_t \mid z_{\le t}, x)
+=
+\operatorname{softmax}(o_t).
+\]</div>
+<p>For a target output sequence</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{1:T_y}
+=
+(\hat{y}_1, \hat{y}_2, \ldots, \hat{y}_{T_y}),
+\]</div>
+<p>the training objective is usually the negative log-likelihood:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+-\sum_{t=1}^{T_y}
+\log p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x).
+\]</div>
+<p>Equivalently, using cross-entropy at each step:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T_y}
+\operatorname{CE}(p_t, \hat{y}_t),
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+p_t = p_\theta(\cdot \mid \hat{y}_{&lt;t}, x).
+\]</div>
+<p>During training with <strong>teacher forcing</strong>, the decoder input is the previous ground-truth token:</p>
+<div class="math notranslate nohighlight">
+\[
+z_t = \hat{y}_{t-1},
+\]</div>
+<p>with a special start token</p>
+<div class="math notranslate nohighlight">
+\[
+z_1 = \langle \mathrm{BOS} \rangle.
+\]</div>
+<p>During inference, the previous ground-truth token is unavailable, so the model feeds back its own previous prediction:</p>
+<div class="math notranslate nohighlight">
+\[
+z_t = \tilde{y}_{t-1},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{y}_{t-1}
+=
+\arg\max_y p_\theta(y \mid \tilde{y}_{&lt;t-1}, x)
+\]</div>
+<p>for greedy decoding, or is sampled/selected by beam search.</p>
+<p>Thus the training-time factorization is:</p>
+<div class="math notranslate nohighlight">
+\[
+p_\theta(\hat{y}_{1:T_y} \mid x)
+=
+\prod_{t=1}^{T_y}
+p_\theta(\hat{y}_t \mid \hat{y}_{&lt;t}, x),
+\]</div>
+<p>while inference generates recursively from the model’s own previous outputs. This train-test mismatch is known as <strong>exposure bias</strong>, and it is one reason autoregressive generation can accumulate errors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">one_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;One-to-Many: conditional generation&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;80&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: image captioning, music generation from a seed, sequence generation from a context vector&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;75&quot; y=&quot;110&quot; width=&quot;90&quot; height=&quot;50&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;112&quot; y=&quot;140&quot; class=&quot;math&quot;&gt;x&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;165&quot; y1=&quot;135&quot; x2=&quot;245&quot; y2=&quot;135&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;245&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;275&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;395&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;425&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;545&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;575&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;695&quot; y=&quot;110&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;725&quot; y=&quot;138&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;325&quot; y1=&quot;132&quot; x2=&quot;395&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;475&quot; y1=&quot;132&quot; x2=&quot;545&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;625&quot; y1=&quot;132&quot; x2=&quot;695&quot; y2=&quot;132&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;285&quot; y1=&quot;155&quot; x2=&quot;285&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;267&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;435&quot; y1=&quot;155&quot; x2=&quot;435&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;417&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;585&quot; y1=&quot;155&quot; x2=&quot;585&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;567&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;735&quot; y1=&quot;155&quot; x2=&quot;735&quot; y2=&quot;188&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;717&quot; y=&quot;215&quot; class=&quot;math&quot;&gt;y₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;245&quot; y=&quot;85&quot; class=&quot;small&quot;&gt;context initializes the recurrent generator&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">one_to_many_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" src="../_images/44874e06d7509c05b89aaabc50a84dee631d7250a7407a905c0cdbc5cf1fb26f.svg" /></div>
+</div>
+</section>
+<section id="many-to-many-unaligned-sequence-to-sequence">
+<h3>4.4 Many-to-many, unaligned sequence-to-sequence<a class="headerlink" href="#many-to-many-unaligned-sequence-to-sequence" title="Permalink to this heading">#</a></h3>
+<p>In unaligned many-to-many problems, the input and output lengths may differ:</p>
+<div class="math notranslate nohighlight">
+\[
+T_x \neq T_y.
+\]</div>
+<p>Typical examples:</p>
+<ul class="simple">
+<li><p>machine translation,</p></li>
+<li><p>abstractive summarization,</p></li>
+<li><p>speech recognition,</p></li>
+<li><p>question answering with generated text.</p></li>
+</ul>
+<p>A classical recurrent encoder–decoder model has two parts.</p>
+<p>The encoder reads the input:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t^{\text{enc}}
+=
+F_{\theta_e}(h_{t-1}^{\text{enc}}, x_t),
+\qquad t = 1, \ldots, T_x.
+\]</div>
+<p>The decoder generates the output:</p>
+<div class="math notranslate nohighlight">
+\[
+s_t
+=
+F_{\theta_d}(s_{t-1}, u_t, c),
+\qquad t = 1, \ldots, T_y,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(c\)</span> is a context vector, often chosen as the final encoder state:</p>
+<div class="math notranslate nohighlight">
+\[
+c = h_{T_x}^{\text{enc}}.
+\]</div>
+<p>The output distribution is:</p>
+<div class="math notranslate nohighlight">
+\[
+y_t = g(W_y s_t + b_y),
+\]</div>
+<p>and the loss is accumulated over decoder steps:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T_y}
+\ell_t(y_t, \hat{y}_t).
+\]</div>
+<p>The weakness of the basic encoder–decoder architecture is that the entire source sequence must be compressed into one vector <span class="math notranslate nohighlight">\(c\)</span>.
+This creates an information bottleneck, especially for long sequences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">seq2seq_unaligned_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;960&quot; height=&quot;310&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;330&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many: unaligned sequence-to-sequence&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: translation, summarization, speech recognition; input and output lengths may differ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;170&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;100&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;115&quot; y1=&quot;105&quot; x2=&quot;115&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;230&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;245&quot; y1=&quot;105&quot; x2=&quot;245&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;360&quot; y=&quot;105&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;375&quot; y1=&quot;105&quot; x2=&quot;375&quot; y2=&quot;120&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;410&quot; y1=&quot;141&quot; x2=&quot;500&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;500&quot; y=&quot;115&quot; width=&quot;90&quot; height=&quot;55&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;515&quot; y=&quot;148&quot; class=&quot;math&quot;&gt;context&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;590&quot; y1=&quot;141&quot; x2=&quot;660&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;720&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;660&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;685&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;790&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;815&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;s₂&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;141&quot; x2=&quot;790&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;695&quot; y1=&quot;162&quot; x2=&quot;695&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;678&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₁&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;825&quot; y1=&quot;162&quot; x2=&quot;825&quot; y2=&quot;202&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;808&quot; y=&quot;228&quot; class=&quot;math&quot;&gt;y₂&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;270&quot; class=&quot;small&quot;&gt;The loss is usually accumulated over decoder outputs rather than directly over encoder states.&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">seq2seq_unaligned_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" src="../_images/7c5b6040181bb88054523385cf102f27b5aefea82ac8e57cc97b1e1e69065210.svg" /></div>
+</div>
+</section>
+<section id="many-to-many-with-delay-language-modeling-and-next-step-prediction">
+<h3>4.5 Many-to-many with delay: language modeling and next-step prediction<a class="headerlink" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction" title="Permalink to this heading">#</a></h3>
+<p>In language modeling, the target at time <span class="math notranslate nohighlight">\(t\)</span> is often the next token:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_t = x_{t+1}.
+\]</div>
+<p>The RNN reads tokens one by one and predicts the next token distribution:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F_\theta(h_{t-1}, x_t),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+y_t = \operatorname{softmax}(W_y h_t + b_y).
+\]</div>
+<p>The loss is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+\sum_{t=1}^{T-1}
+\ell(y_t, x_{t+1}).
+\]</div>
+<p>For a vocabulary classification problem, this is usually cross-entropy:</p>
+<div class="math notranslate nohighlight">
+\[
+\ell(y_t, x_{t+1})
+=
+-\log p_\theta(x_{t+1} \mid x_{\le t}).
+\]</div>
+<p>Thus the total negative log-likelihood is:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}
+=
+-\sum_{t=1}^{T-1}
+\log p_\theta(x_{t+1} \mid x_1, \ldots, x_t).
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">delayed_many_to_many_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;920&quot; height=&quot;260&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Many-to-Many with delay: next-token prediction&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;75&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;example: language modeling, autoregressive forecasting&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;110&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;140&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;260&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;290&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;410&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;440&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;560&quot; y=&quot;105&quot; width=&quot;80&quot; height=&quot;45&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;590&quot; y=&quot;133&quot; class=&quot;math&quot;&gt;h₄&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;190&quot; y1=&quot;127&quot; x2=&quot;260&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;340&quot; y1=&quot;127&quot; x2=&quot;410&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;490&quot; y1=&quot;127&quot; x2=&quot;560&quot; y2=&quot;127&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;130&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₁&lt;/text&gt;&lt;line x1=&quot;150&quot; y1=&quot;88&quot; x2=&quot;150&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;280&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₂&lt;/text&gt;&lt;line x1=&quot;300&quot; y1=&quot;88&quot; x2=&quot;300&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;430&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₃&lt;/text&gt;&lt;line x1=&quot;450&quot; y1=&quot;88&quot; x2=&quot;450&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;text x=&quot;580&quot; y=&quot;88&quot; class=&quot;math&quot;&gt;x₄&lt;/text&gt;&lt;line x1=&quot;600&quot; y1=&quot;88&quot; x2=&quot;600&quot; y2=&quot;105&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;path d=&quot;M150 150 C190 205, 235 205, 280 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;200&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₂&lt;/text&gt;</span>
+<span class="s1">  &lt;path d=&quot;M300 150 C340 205, 385 205, 430 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;350&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₃&lt;/text&gt;</span>
+<span class="s1">  &lt;path d=&quot;M450 150 C490 205, 535 205, 580 170&quot; class=&quot;dash&quot;/&gt;&lt;text x=&quot;500&quot; y=&quot;218&quot; class=&quot;math&quot;&gt;predict x₄&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;690&quot; y=&quot;130&quot; class=&quot;math&quot;&gt;L = Σₜ ℓ(yₜ, xₜ₊₁)&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">delayed_many_to_many_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" src="../_images/238790700e76c1f7223047698dbbf24fcbd57667eb9687f17bba87034e729978.svg" /></div>
+</div>
+</section>
+<section id="encoderdecoder-with-attention-the-bridge-to-modern-attention">
+<h3>4.6 Encoder–decoder with attention: the bridge to modern attention<a class="headerlink" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention" title="Permalink to this heading">#</a></h3>
+<p>The bottleneck in the basic encoder–decoder model is the single context vector:</p>
+<div class="math notranslate nohighlight">
+\[
+c = h_{T_x}^{\text{enc}}.
+\]</div>
+<p>Attention replaces this single fixed vector with a decoder-dependent context vector:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t
+=
+\sum_{i=1}^{T_x}
+\alpha_{t,i} h_i^{\text{enc}},
+\]</div>
+<p>where the weights satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_{t,i}
+=
+\frac{
+\exp(e_{t,i})
+}{
+\sum_{j=1}^{T_x} \exp(e_{t,j})
+}.
+\]</div>
+<p>The alignment score <span class="math notranslate nohighlight">\(e_{t,i}\)</span> measures how relevant encoder state <span class="math notranslate nohighlight">\(h_i^{\text{enc}}\)</span> is to decoder state <span class="math notranslate nohighlight">\(s_t\)</span>.
+For example, additive attention uses:</p>
+<div class="math notranslate nohighlight">
+\[
+e_{t,i}
+=
+v^T \tanh(W_s s_t + W_h h_i^{\text{enc}}).
+\]</div>
+<p>This is the historical bridge from RNN encoder–decoder models to modern self-attention.
+Instead of relying only on the latest recurrent state, the decoder can directly access all encoder states.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">encoder_decoder_attention_svg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&#39;&#39;&lt;svg width=&quot;980&quot; height=&quot;330&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span>
+
+<span class="s1">  &lt;defs&gt;</span>
+<span class="s1">    &lt;marker id=&quot;arrow&quot; markerWidth=&quot;10&quot; markerHeight=&quot;10&quot; refX=&quot;7&quot; refY=&quot;3&quot; orient=&quot;auto&quot; markerUnits=&quot;strokeWidth&quot;&gt;</span>
+<span class="s1">      &lt;path d=&quot;M0,0 L0,6 L9,3 z&quot; fill=&quot;black&quot;/&gt;</span>
+<span class="s1">    &lt;/marker&gt;</span>
+<span class="s1">  &lt;/defs&gt;</span>
+<span class="s1">  &lt;style&gt;</span>
+<span class="s1">    .box { fill: white; stroke: black; stroke-width: 2; rx: 10; ry: 10; }</span>
+<span class="s1">    .smallbox { fill: white; stroke: black; stroke-width: 1.8; rx: 8; ry: 8; }</span>
+<span class="s1">    .line { stroke: black; stroke-width: 2; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .dash { stroke: black; stroke-width: 2; stroke-dasharray: 6 6; fill: none; marker-end: url(#arrow); }</span>
+<span class="s1">    .txt { font-family: Arial, sans-serif; font-size: 16px; }</span>
+<span class="s1">    .small { font-family: Arial, sans-serif; font-size: 13px; }</span>
+<span class="s1">    .math { font-family: Arial, sans-serif; font-size: 15px; font-style: italic; }</span>
+<span class="s1">    .title { font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }</span>
+<span class="s1">  &lt;/style&gt;</span>
+
+<span class="s1">  &lt;text x=&quot;315&quot; y=&quot;28&quot; class=&quot;title&quot;&gt;Encoder–Decoder with Attention: direct access to encoder states&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;60&quot; class=&quot;small&quot;&gt;The decoder no longer relies on only one final context vector; it computes a weighted sum over encoder states.&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;165&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;encoder states&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;80&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;105&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₁&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;210&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;235&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₂&lt;/text&gt;</span>
+<span class="s1">  &lt;rect x=&quot;340&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;365&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;h₃&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;150&quot; y1=&quot;141&quot; x2=&quot;210&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;280&quot; y1=&quot;141&quot; x2=&quot;340&quot; y2=&quot;141&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;620&quot; y=&quot;120&quot; width=&quot;70&quot; height=&quot;42&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;645&quot; y=&quot;147&quot; class=&quot;math&quot;&gt;sₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;610&quot; y=&quot;92&quot; class=&quot;small&quot;&gt;decoder state/query&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;655&quot; y1=&quot;162&quot; x2=&quot;655&quot; y2=&quot;210&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;585&quot; y=&quot;210&quot; width=&quot;145&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;610&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;softmax scores&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;115&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;230&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;245&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;236&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;375&quot; y1=&quot;162&quot; x2=&quot;585&quot; y2=&quot;242&quot; class=&quot;dash&quot;/&gt;</span>
+<span class="s1">  &lt;line x1=&quot;730&quot; y1=&quot;236&quot; x2=&quot;815&quot; y2=&quot;236&quot; class=&quot;line&quot;/&gt;</span>
+<span class="s1">  &lt;rect x=&quot;815&quot; y=&quot;210&quot; width=&quot;110&quot; height=&quot;52&quot; class=&quot;box&quot;/&gt;&lt;text x=&quot;840&quot; y=&quot;242&quot; class=&quot;math&quot;&gt;context cₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;line x1=&quot;870&quot; y1=&quot;262&quot; x2=&quot;870&quot; y2=&quot;292&quot; class=&quot;line&quot;/&gt;&lt;text x=&quot;850&quot; y=&quot;315&quot; class=&quot;math&quot;&gt;yₜ&lt;/text&gt;</span>
+<span class="s1">  &lt;text x=&quot;70&quot; y=&quot;300&quot; class=&quot;small&quot;&gt;This is the historical bridge from recurrent encoder–decoder models to modern attention mechanisms.&lt;/text&gt;</span>
+<span class="s1">&lt;/svg&gt;&#39;&#39;&#39;</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">encoder_decoder_attention_svg</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" src="../_images/6aa725a348d1e9b61fe9446a65ecf734b2fa63a15a673504fa4c536d5ecf3bdf.svg" /></div>
+</div>
+</section>
+<section id="summary-the-loss-determines-the-supervision-pattern">
+<h3>4.7 Summary: the loss determines the supervision pattern<a class="headerlink" href="#summary-the-loss-determines-the-supervision-pattern" title="Permalink to this heading">#</a></h3>
+<p>The same recurrent transition can support many sequence-learning problems. What changes is the placement of the loss.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mapping type</p></th>
+<th class="head text-right"><p>Input</p></th>
+<th class="head text-right"><p>Output</p></th>
+<th class="head"><p>Typical loss placement</p></th>
+<th class="head"><p>Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>One-to-one</p></td>
+<td class="text-right"><p>single item</p></td>
+<td class="text-right"><p>single item</p></td>
+<td><p>one output</p></td>
+<td><p>ordinary classification/regression</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-one</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>single item</p></td>
+<td><p>final state or pooled states</p></td>
+<td><p>sentiment, activity recognition</p></td>
+</tr>
+<tr class="row-even"><td><p>One-to-many</p></td>
+<td class="text-right"><p>single item</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td><p>every generated step</p></td>
+<td><p>captioning, conditional generation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-many aligned</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>sequence, same alignment</p></td>
+<td><p>every input step</p></td>
+<td><p>tagging, frame labeling</p></td>
+</tr>
+<tr class="row-even"><td><p>Many-to-many delayed</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>shifted sequence</p></td>
+<td><p>next-step targets</p></td>
+<td><p>language modeling</p></td>
+</tr>
+<tr class="row-odd"><td><p>Many-to-many unaligned</p></td>
+<td class="text-right"><p>sequence</p></td>
+<td class="text-right"><p>sequence, different length</p></td>
+<td><p>decoder steps</p></td>
+<td><p>translation, summarization</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The important mathematical point is this:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{where the loss is attached determines how far gradients must travel.}
+\]</div>
+<p>If the loss at a later time depends on information from much earlier inputs, then the gradient must pass through repeated recurrent transitions. This is the central reason that vanishing and exploding gradients arise in RNNs.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-i-backpropagation-through-time">
+<h1>Part I — Backpropagation Through Time<a class="headerlink" href="#part-i-backpropagation-through-time" title="Permalink to this heading">#</a></h1>
+<section id="local-jacobian-of-the-rnn-transition">
+<h2>5. Local Jacobian of the RNN transition<a class="headerlink" href="#local-jacobian-of-the-rnn-transition" title="Permalink to this heading">#</a></h2>
+<p>Consider the vanilla RNN:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + W_x x_t + b_h,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(a_t).
+\]</div>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}(\phi'(a_t)).
+\]</div>
+<p>Then the Jacobian of <span class="math notranslate nohighlight">\(h_t\)</span> with respect to <span class="math notranslate nohighlight">\(h_{t-1}\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = \frac{\partial h_t}{\partial h_{t-1}}
+= D_t W_h.
+\]</div>
+<p>This single matrix <span class="math notranslate nohighlight">\(J_t\)</span> describes how a small perturbation in <span class="math notranslate nohighlight">\(h_{t-1}\)</span> affects <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
+<p>The entire gradient-flow problem in vanilla RNNs is governed by products of these matrices.</p>
+</section>
+<section id="bptt-derivation">
+<h2>6. BPTT derivation<a class="headerlink" href="#bptt-derivation" title="Permalink to this heading">#</a></h2>
+<p>For <span class="math notranslate nohighlight">\(k &lt; t\)</span>, repeated application of the chain rule gives</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+\frac{\partial h_t}{\partial h_{t-1}}
+\frac{\partial h_{t-1}}{\partial h_{t-2}}
+\cdots
+\frac{\partial h_{k+1}}{\partial h_k}.
+\]</div>
+<p>Using <span class="math notranslate nohighlight">\(J_i = D_i W_h\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+\prod_{i=k+1}^{t} J_i
+=
+\prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<p>If the loss depends on all hidden states,</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L} = \sum_{t=1}^{T} \ell_t(h_t),
+\]</div>
+<p>then the gradient with respect to an earlier hidden state <span class="math notranslate nohighlight">\(h_k\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial h_k}
+=
+\sum_{t=k}^{T}
+\frac{\partial \ell_t}{\partial h_t}
+\frac{\partial h_t}{\partial h_k}.
+\]</div>
+<p>Hence every long-range contribution contains a Jacobian product:</p>
+<div class="math notranslate nohighlight">
+\[
+G_{k \to t} = \prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<p>This product can shrink exponentially, grow exponentially, or remain approximately stable depending on the recurrent dynamics.</p>
+</section>
+<section id="parameter-gradient-formulas">
+<h2>7. Parameter-gradient formulas<a class="headerlink" href="#parameter-gradient-formulas" title="Permalink to this heading">#</a></h2>
+<p>Let</p>
+<div class="math notranslate nohighlight">
+\[
+\delta_t = \frac{\partial \mathcal{L}}{\partial a_t}.
+\]</div>
+<p>For the vanilla RNN, the parameter gradients at time <span class="math notranslate nohighlight">\(t\)</span> are</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial W_h}
+= \sum_{t=1}^{T} \delta_t h_{t-1}^{\top},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial W_x}
+= \sum_{t=1}^{T} \delta_t x_t^{\top},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial b_h}
+= \sum_{t=1}^{T} \delta_t.
+\]</div>
+<p>The backward recurrence for hidden-state gradients is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial \mathcal{L}}{\partial h_{t-1}}
+=
+\frac{\partial \mathcal{L}}{\partial h_t} J_t
+=
+\frac{\partial \mathcal{L}}{\partial h_t} D_t W_h.
+\]</div>
+<p>Depending on row-vector or column-vector convention, the transpose may appear. The essential point is unchanged: gradients are repeatedly multiplied by recurrent Jacobians.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-ii-vanishing-and-exploding-gradients">
+<h1>Part II — Vanishing and Exploding Gradients<a class="headerlink" href="#part-ii-vanishing-and-exploding-gradients" title="Permalink to this heading">#</a></h1>
+<section id="norm-based-proof-of-exponential-decay-or-growth">
+<h2>8. Norm-based proof of exponential decay or growth<a class="headerlink" href="#norm-based-proof-of-exponential-decay-or-growth" title="Permalink to this heading">#</a></h2>
+<p>Let <span class="math notranslate nohighlight">\(\|\cdot\|\)</span> be any submultiplicative matrix norm, meaning</p>
+<div class="math notranslate nohighlight">
+\[
+\|AB\| \le \|A\|\|B\|.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+=
+\left\|
+\prod_{i=k+1}^{t} D_i W_h
+\right\|
+\le
+\prod_{i=k+1}^{t} \|D_i\|\,\|W_h\|.
+\]</div>
+<p>Suppose there exists <span class="math notranslate nohighlight">\(\gamma &lt; 1\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\|D_i\|\,\|W_h\| \le \gamma
+\qquad \text{for all } i.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+\le
+\gamma^{t-k}.
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(\gamma^{t-k}\)</span> decays exponentially with distance <span class="math notranslate nohighlight">\(t-k\)</span>, long-range gradients vanish.</p>
+<p>Conversely, if the typical gain satisfies</p>
+<div class="math notranslate nohighlight">
+\[
+\|D_i\|\,\|W_h\| &gt; 1,
+\]</div>
+<p>then Jacobian products may grow exponentially, producing exploding gradients.</p>
+<p>This is not a minor optimization issue. It is a structural consequence of repeatedly composing the same transition function over time.</p>
+</section>
+<section id="spectral-radius-view">
+<h2>9. Spectral-radius view<a class="headerlink" href="#spectral-radius-view" title="Permalink to this heading">#</a></h2>
+<p>The norm proof gives an upper bound. The spectral-radius view gives geometric intuition.</p>
+<p>For a linear RNN without nonlinearity,</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = W_h h_{t-1}.
+\]</div>
+<p>Then</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = W_h^t h_0.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(W_h\)</span> is diagonalizable,</p>
+<div class="math notranslate nohighlight">
+\[
+W_h = P \Lambda P^{-1},
+\]</div>
+<p>so</p>
+<div class="math notranslate nohighlight">
+\[
+W_h^t = P \Lambda^t P^{-1}.
+\]</div>
+<p>The eigenvalues of <span class="math notranslate nohighlight">\(W_h\)</span> are raised to the <span class="math notranslate nohighlight">\(t\)</span>-th power:</p>
+<div class="math notranslate nohighlight">
+\[
+\Lambda^t = \operatorname{diag}(\lambda_1^t, \ldots, \lambda_{d_h}^t).
+\]</div>
+<p>The spectral radius is</p>
+<div class="math notranslate nohighlight">
+\[
+\rho(W_h) = \max_i |\lambda_i|.
+\]</div>
+<p>Therefore:</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\rho(W_h) &lt; 1\)</span>, recurrent signals tend to contract;</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\rho(W_h) &gt; 1\)</span>, recurrent signals may expand;</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\rho(W_h) \approx 1\)</span>, signals may be more stable.</p></li>
+</ul>
+<p>For nonlinear RNNs, the relevant object is not just <span class="math notranslate nohighlight">\(W_h\)</span>, but the local Jacobian</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = D_t W_h.
+\]</div>
+<p>The long-range gradient depends on</p>
+<div class="math notranslate nohighlight">
+\[
+J_t J_{t-1} \cdots J_{k+1}.
+\]</div>
+<p>Thus the effective stability depends on both recurrent weights and activation derivatives.</p>
+</section>
+<section id="gradient-flow-diagram">
+<h2>10. Gradient-flow diagram<a class="headerlink" href="#gradient-flow-diagram" title="Permalink to this heading">#</a></h2>
+<p>A gradient signal traveling through time is repeatedly transformed. The repeated product behaves like an exponential process:</p>
+<div class="math notranslate nohighlight">
+\[
+\left\| \frac{\partial h_t}{\partial h_k} \right\| \lesssim \gamma^{t-k}.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(\gamma &lt; 1\)</span>, the signal decays exponentially; if <span class="math notranslate nohighlight">\(\gamma &gt; 1\)</span>, it grows exponentially.</p>
+<div style="text-align:center; margin: 1.2em 0;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODUwIiBoZWlnaHQ9IjMzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxtYXJrZXIgaWQ9ImFycl9ncmFkIiBtYXJrZXJXaWR0aD0iMTAiIG1hcmtlckhlaWdodD0iMTAiIHJlZlg9IjciIHJlZlk9IjMiIG9yaWVudD0iYXV0byIgbWFya2VyVW5pdHM9InN0cm9rZVdpZHRoIj4KICAgICAgPHBhdGggZD0iTTAsMCBMMCw2IEw5LDMgeiIgZmlsbD0iYmxhY2siIC8+CiAgICA8L21hcmtlcj4KICA8L2RlZnM+CiAgPHN0eWxlPgogICAgLmF4aXMgeyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDI7IH0KICAgIC5saW5lIHsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAzOyBmaWxsOiBub25lOyB9CiAgICAuZGFzaCB7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgc3Ryb2tlLWRhc2hhcnJheTogNiA2OyB9CiAgICAudHh0IHsgZm9udC1mYW1pbHk6IEFyaWFsOyBmb250LXNpemU6IDE3cHg7IH0KICA8L3N0eWxlPgogIDxsaW5lIHgxPSI4MCIgeTE9IjI4MCIgeDI9Ijc4MCIgeTI9IjI4MCIgY2xhc3M9ImF4aXMiIG1hcmtlci1lbmQ9InVybCgjYXJyX2dyYWQpIiAvPgogIDxsaW5lIHgxPSI4MCIgeTE9IjI4MCIgeDI9IjgwIiB5Mj0iNDAiIGNsYXNzPSJheGlzIiBtYXJrZXItZW5kPSJ1cmwoI2Fycl9ncmFkKSIgLz4KICA8dGV4dCB4PSI0MDAiIHk9IjMxNSIgY2xhc3M9InR4dCI+dGVtcG9yYWwgZGlzdGFuY2UgdCDiiJIgazwvdGV4dD4KICA8dGV4dCB4PSIxNSIgeT0iNTUiIGNsYXNzPSJ0eHQiIHRyYW5zZm9ybT0icm90YXRlKC05MCAyMCw4MCkiPmdyYWRpZW50IG5vcm08L3RleHQ+CgogIDxwYXRoIGQ9Ik0xMDAgOTAgQzI0MCAxMjAsIDQyMCAxOTAsIDc0MCAyNzAiIGNsYXNzPSJsaW5lIiAvPgogIDx0ZXh0IHg9IjU2MCIgeT0iMjQ1IiBjbGFzcz0idHh0Ij52YW5pc2hpbmc6IM6zICZsdDsgMTwvdGV4dD4KCiAgPHBhdGggZD0iTTEwMCAyNjAgQzI2MCAyNDUsIDQ1MCAxODAsIDc0MCA1NSIgY2xhc3M9ImxpbmUiIC8+CiAgPHRleHQgeD0iNTIwIiB5PSI4MCIgY2xhc3M9InR4dCI+ZXhwbG9kaW5nOiDOsyAmZ3Q7IDE8L3RleHQ+CgogIDxsaW5lIHgxPSIxMDAiIHkxPSIxNzAiIHgyPSI3NDAiIHkyPSIxNzAiIGNsYXNzPSJkYXNoIiAvPgogIDx0ZXh0IHg9IjU4MCIgeT0iMTYwIiBjbGFzcz0idHh0Ij5zdGFibGUgc2NhbGU8L3RleHQ+Cjwvc3ZnPg==" style="max-width:100%; height:auto;" />
+</div>
+</section>
+<section id="why-tanh-and-sigmoid-saturate">
+<h2>11. Why tanh and sigmoid saturate<a class="headerlink" href="#why-tanh-and-sigmoid-saturate" title="Permalink to this heading">#</a></h2>
+<p>For <span class="math notranslate nohighlight">\(\tanh\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d}{dz}\tanh(z) = 1 - \tanh^2(z).
+\]</div>
+<p>This derivative is close to <span class="math notranslate nohighlight">\(1\)</span> only near <span class="math notranslate nohighlight">\(z=0\)</span>, and approaches <span class="math notranslate nohighlight">\(0\)</span> as <span class="math notranslate nohighlight">\(|z|\)</span> grows.</p>
+<p>For sigmoid,</p>
+<div class="math notranslate nohighlight">
+\[
+\sigma(z) = \frac{1}{1 + e^{-z}},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sigma'(z) = \sigma(z)(1 - \sigma(z)).
+\]</div>
+<p>The maximum derivative is</p>
+<div class="math notranslate nohighlight">
+\[
+\max_z \sigma'(z) = \frac{1}{4}.
+\]</div>
+<p>Therefore, sigmoid gates naturally shrink gradients unless they are used carefully. LSTM and GRU use sigmoids for gates, but they also introduce additive state paths that avoid repeatedly applying a saturating nonlinearity to the memory itself.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Numerical experiment: vanishing and exploding gradients in a simple recurrent product</span>
+<span class="c1"># This cell is educational. It does not train a model; it visualizes powers of a scalar gain.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">T</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">gains</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">gains</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">g</span> <span class="o">**</span> <span class="n">dist</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;gain=</span><span class="si">{</span><span class="n">g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;temporal distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;relative gradient magnitude, log scale&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Repeated multiplication produces exponential decay or growth&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/1daf712b10c5adb86826eef535c4aa4fffd25d135d4712e54edbdcfeec4af5d9.png" src="../_images/1daf712b10c5adb86826eef535c4aa4fffd25d135d4712e54edbdcfeec4af5d9.png" />
+</div>
+</div>
+</section>
+<section id="practical-remedies">
+<h2>12. Practical remedies<a class="headerlink" href="#practical-remedies" title="Permalink to this heading">#</a></h2>
+<section id="gradient-clipping">
+<h3>12.1 Gradient clipping<a class="headerlink" href="#gradient-clipping" title="Permalink to this heading">#</a></h3>
+<p>If the gradient norm exceeds a threshold <span class="math notranslate nohighlight">\(c\)</span>, rescale it:</p>
+<div class="math notranslate nohighlight">
+\[
+g \leftarrow c \frac{g}{\|g\|}
+\qquad \text{if } \|g\| &gt; c.
+\]</div>
+<p>Gradient clipping does not solve vanishing gradients, but it is highly effective against exploding gradients.</p>
+</section>
+<section id="orthogonal-initialization">
+<h3>12.2 Orthogonal initialization<a class="headerlink" href="#orthogonal-initialization" title="Permalink to this heading">#</a></h3>
+<p>If <span class="math notranslate nohighlight">\(W_h\)</span> is orthogonal,</p>
+<div class="math notranslate nohighlight">
+\[
+W_h^\top W_h = I,
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+\|W_h v\|_2 = \|v\|_2.
+\]</div>
+<p>This helps preserve gradient norms in the linear component of recurrence.</p>
+</section>
+<section id="truncated-bptt">
+<h3>12.3 Truncated BPTT<a class="headerlink" href="#truncated-bptt" title="Permalink to this heading">#</a></h3>
+<p>Instead of backpropagating through all <span class="math notranslate nohighlight">\(T\)</span> steps, truncate the computational graph after <span class="math notranslate nohighlight">\(K\)</span> steps. This reduces memory and improves stability, but limits how far gradients can travel.</p>
+</section>
+<section id="gated-recurrent-units">
+<h3>12.4 Gated recurrent units<a class="headerlink" href="#gated-recurrent-units" title="Permalink to this heading">#</a></h3>
+<p>LSTM and GRU introduce gates that regulate information flow. Their key advantage is not merely that they are more complex, but that they create more stable gradient paths.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-iii-implementing-vanilla-rnns">
+<h1>Part III — Implementing Vanilla RNNs<a class="headerlink" href="#part-iii-implementing-vanilla-rnns" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Manual PyTorch implementation of a vanilla RNN cell</span>
+<span class="c1"># Shapes assume batch_first=True: x has shape (batch, time, input_size)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManualRNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_y</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">h0</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">h0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">h0</span>
+
+        <span class="n">hidden_states</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+            <span class="c1"># h_t = tanh(W_x x_t + W_h h_{t-1})</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W_x</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">t</span><span class="p">,</span> <span class="p">:])</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_h</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_y</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">hidden_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Y</span><span class="p">,</span> <span class="n">H</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="built-in-pytorch-rnn-layer">
+<h2>13. Built-in PyTorch RNN layer<a class="headerlink" href="#built-in-pytorch-rnn-layer" title="Permalink to this heading">#</a></h2>
+<p>PyTorch provides <code class="docutils literal notranslate"><span class="pre">torch.nn.RNN</span></code>, which implements the same recurrence more efficiently.</p>
+<p>For one layer and tanh nonlinearity, conceptually it computes</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \tanh(x_t W_{ih}^\top + b_{ih} + h_{t-1} W_{hh}^\top + b_{hh}).
+\]</div>
+<p>This corresponds to our notation as follows:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Mathematical notation</p></th>
+<th class="head"><p>PyTorch parameter name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(W_x\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">weight_ih_l0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(W_h\)</span></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">weight_hh_l0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>input bias</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bias_ih_l0</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>recurrent bias</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bias_hh_l0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Why start from manual code in a course?</p>
+<ul class="simple">
+<li><p>Manual recurrence exposes the mathematical structure.</p></li>
+<li><p>Built-in layers hide the Jacobian products that cause vanishing/exploding gradients.</p></li>
+<li><p>Once the theory is understood, the built-in API is preferred for practical engineering.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Built-in PyTorch RNN</span>
+
+<span class="n">input_size</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">output_size</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">seq_len</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)</span>
+
+<span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="n">input_size</span><span class="p">,</span>
+    <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+    <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">nonlinearity</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+    <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">readout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+
+<span class="n">H</span><span class="p">,</span> <span class="n">h_n</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>      <span class="c1"># H: all hidden states, h_n: final hidden state</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">readout</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>       <span class="c1"># output at every time step</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H shape:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;h_n shape:&quot;</span><span class="p">,</span> <span class="n">h_n</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Y shape:&quot;</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H shape: torch.Size([3, 5, 16])
+h_n shape: torch.Size([1, 3, 16])
+Y shape: torch.Size([3, 5, 4])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gradient clipping in a training loop</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">head</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">parameters</span><span class="p">()),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>          <span class="c1"># batch, time, features</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,))</span> <span class="c1"># many-to-one classification target</span>
+
+<span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="n">H</span><span class="p">,</span> <span class="n">h_n</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">logits</span> <span class="o">=</span> <span class="n">head</span><span class="p">(</span><span class="n">h_n</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>              <span class="c1"># use final hidden state</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">head</span><span class="o">.</span><span class="n">parameters</span><span class="p">()),</span> <span class="n">max_norm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;loss:&quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">detach</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4961354732513428
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-iv-lstm">
+<h1>Part IV — LSTM<a class="headerlink" href="#part-iv-lstm" title="Permalink to this heading">#</a></h1>
+<section id="motivation-for-lstm">
+<h2>14. Motivation for LSTM<a class="headerlink" href="#motivation-for-lstm" title="Permalink to this heading">#</a></h2>
+<p>A vanilla RNN updates memory by repeatedly applying</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_h h_{t-1} + W_x x_t + b).
+\]</div>
+<p>This forces information to pass through a nonlinear transformation at every step. LSTM changes the design by introducing a separate cell state <span class="math notranslate nohighlight">\(c_t\)</span> with an additive update:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t.
+\]</div>
+<p>This is the critical structural difference.</p>
+<p>Instead of replacing memory completely, the LSTM can retain, erase, or add information through gates.</p>
+</section>
+<section id="lstm-equations">
+<h2>15. LSTM equations<a class="headerlink" href="#lstm-equations" title="Permalink to this heading">#</a></h2>
+<p>Given input <span class="math notranslate nohighlight">\(x_t\)</span>, previous hidden state <span class="math notranslate nohighlight">\(h_{t-1}\)</span>, and previous cell state <span class="math notranslate nohighlight">\(c_{t-1}\)</span>:</p>
+<section id="forget-gate">
+<h3>Forget gate<a class="headerlink" href="#forget-gate" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f).
+\]</div>
+<p>This controls how much previous memory is retained.</p>
+</section>
+<section id="input-gate">
+<h3>Input gate<a class="headerlink" href="#input-gate" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i).
+\]</div>
+<p>This controls how much new candidate information enters memory.</p>
+</section>
+<section id="candidate-memory">
+<h3>Candidate memory<a class="headerlink" href="#candidate-memory" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\tilde{c}_t = \tanh(W_c x_t + U_c h_{t-1} + b_c).
+\]</div>
+</section>
+<section id="cell-state-update">
+<h3>Cell-state update<a class="headerlink" href="#cell-state-update" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t.
+\]</div>
+</section>
+<section id="output-gate">
+<h3>Output gate<a class="headerlink" href="#output-gate" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o).
+\]</div>
+</section>
+<section id="hidden-state-update">
+<h3>Hidden-state update<a class="headerlink" href="#hidden-state-update" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+h_t = o_t \odot \tanh(c_t).
+\]</div>
+<p>The hidden state <span class="math notranslate nohighlight">\(h_t\)</span> is exposed to the rest of the network, while <span class="math notranslate nohighlight">\(c_t\)</span> acts as the internal memory highway.</p>
+</section>
+</section>
+<section id="lstm-cell-diagram">
+<h2>16. LSTM cell diagram<a class="headerlink" href="#lstm-cell-diagram" title="Permalink to this heading">#</a></h2>
+<p>The LSTM introduces a separate memory state <span class="math notranslate nohighlight">\(c_t\)</span> and gates that control what is forgotten, written, and exposed:</p>
+<div class="math notranslate nohighlight">
+\[f_t = \sigma(W_f x_t + U_f h_{t-1} + b_f),\]</div>
+<div class="math notranslate nohighlight">
+\[i_t = \sigma(W_i x_t + U_i h_{t-1} + b_i),\]</div>
+<div class="math notranslate nohighlight">
+\[\tilde{c}_t = \tanh(W_c x_t + U_c h_{t-1} + b_c),\]</div>
+<div class="math notranslate nohighlight">
+\[c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t,\]</div>
+<div class="math notranslate nohighlight">
+\[o_t = \sigma(W_o x_t + U_o h_{t-1} + b_o),\]</div>
+<div class="math notranslate nohighlight">
+\[h_t = o_t \odot \tanh(c_t).\]</div>
+<div style="text-align:center; margin: 1.2em 0;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTUwIiBoZWlnaHQ9IjQyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxtYXJrZXIgaWQ9ImFycm93X2xzdG0iIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNyIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEwwLDYgTDksMyB6IiBmaWxsPSJibGFjayIgLz4KICAgIDwvbWFya2VyPgogIDwvZGVmcz4KICA8c3R5bGU+CiAgICAuYm94IHsgZmlsbDogd2hpdGU7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgcng6IDEyOyByeTogMTI7IH0KICAgIC5nYXRlIHsgZmlsbDogd2hpdGU7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgcng6IDg7IHJ5OiA4OyB9CiAgICAub3AgeyBmaWxsOiB3aGl0ZTsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAyOyB9CiAgICAubGluZSB7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgZmlsbDogbm9uZTsgbWFya2VyLWVuZDogdXJsKCNhcnJvd19sc3RtKTsgfQogICAgLnR4dCB7IGZvbnQtZmFtaWx5OiBBcmlhbDsgZm9udC1zaXplOiAxNnB4OyB9CiAgICAuc21hbGwgeyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTNweDsgfQogICAgLm1hdGggeyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTVweDsgZm9udC1zdHlsZTogaXRhbGljOyB9CiAgPC9zdHlsZT4KCiAgPHJlY3QgeD0iMjUwIiB5PSI4MCIgd2lkdGg9IjQ3MCIgaGVpZ2h0PSIyNTAiIGNsYXNzPSJib3giIC8+CiAgPHRleHQgeD0iNDMwIiB5PSIxMTAiIGNsYXNzPSJ0eHQiPkxTVE0gY2VsbDwvdGV4dD4KCiAgPGxpbmUgeDE9IjgwIiB5MT0iMTQ1IiB4Mj0iMjUwIiB5Mj0iMTQ1IiBjbGFzcz0ibGluZSIgLz4KICA8dGV4dCB4PSI4NSIgeT0iMTM1IiBjbGFzcz0ibWF0aCI+aDx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj504oiSMTwvdHNwYW4+PC90ZXh0PgoKICA8bGluZSB4MT0iODAiIHkxPSIyNTUiIHgyPSIyNTAiIHkyPSIyNTUiIGNsYXNzPSJsaW5lIiAvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMjQ1IiBjbGFzcz0ibWF0aCI+eDx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxsaW5lIHgxPSI4MCIgeTE9IjU1IiB4Mj0iODcwIiB5Mj0iNTUiIGNsYXNzPSJsaW5lIiAvPgogIDx0ZXh0IHg9Ijk1IiB5PSI0NSIgY2xhc3M9Im1hdGgiPmM8dHNwYW4gYmFzZWxpbmUtc2hpZnQ9InN1YiI+dOKIkjE8L3RzcGFuPjwvdGV4dD4KCiAgPGNpcmNsZSBjeD0iMzQ1IiBjeT0iNTUiIHI9IjE4IiBjbGFzcz0ib3AiLz4KICA8dGV4dCB4PSIzMzgiIHk9IjYxIiBjbGFzcz0idHh0Ij7DlzwvdGV4dD4KICA8bGluZSB4MT0iMzQ1IiB5MT0iNzMiIHgyPSIzNDUiIHkyPSIxNTAiIGNsYXNzPSJsaW5lIi8+CgogIDxyZWN0IHg9IjMwMCIgeT0iMTUwIiB3aWR0aD0iOTAiIGhlaWdodD0iNDgiIGNsYXNzPSJnYXRlIiAvPgogIDx0ZXh0IHg9IjMyMiIgeT0iMTgwIiBjbGFzcz0ibWF0aCI+Zjx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxyZWN0IHg9IjQzMCIgeT0iMTUwIiB3aWR0aD0iOTAiIGhlaWdodD0iNDgiIGNsYXNzPSJnYXRlIiAvPgogIDx0ZXh0IHg9IjQ1MiIgeT0iMTgwIiBjbGFzcz0ibWF0aCI+aTx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxyZWN0IHg9IjU2MCIgeT0iMTUwIiB3aWR0aD0iMTEwIiBoZWlnaHQ9IjQ4IiBjbGFzcz0iZ2F0ZSIgLz4KICA8dGV4dCB4PSI1ODIiIHk9IjE4MCIgY2xhc3M9Im1hdGgiPmPMgzx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxjaXJjbGUgY3g9IjUwMCIgY3k9IjI0NSIgcj0iMTgiIGNsYXNzPSJvcCIvPgogIDx0ZXh0IHg9IjQ5MyIgeT0iMjUxIiBjbGFzcz0idHh0Ij7DlzwvdGV4dD4KICA8bGluZSB4MT0iNDc1IiB5MT0iMTk4IiB4Mj0iNDkyIiB5Mj0iMjI5IiBjbGFzcz0ibGluZSIvPgogIDxsaW5lIHgxPSI2MTUiIHkxPSIxOTgiIHgyPSI1MTIiIHkyPSIyMjkiIGNsYXNzPSJsaW5lIi8+CgogIDxjaXJjbGUgY3g9IjYyMCIgY3k9IjU1IiByPSIxOCIgY2xhc3M9Im9wIi8+CiAgPHRleHQgeD0iNjEzIiB5PSI2MSIgY2xhc3M9InR4dCI+KzwvdGV4dD4KICA8bGluZSB4MT0iMzYzIiB5MT0iNTUiIHgyPSI2MDIiIHkyPSI1NSIgY2xhc3M9ImxpbmUiLz4KICA8bGluZSB4MT0iNTAwIiB5MT0iMjYzIiB4Mj0iNjEyIiB5Mj0iNzIiIGNsYXNzPSJsaW5lIi8+CgogIDxsaW5lIHgxPSI2MzgiIHkxPSI1NSIgeDI9Ijg3MCIgeTI9IjU1IiBjbGFzcz0ibGluZSIvPgogIDx0ZXh0IHg9IjgyNSIgeT0iNDUiIGNsYXNzPSJtYXRoIj5jPHRzcGFuIGJhc2VsaW5lLXNoaWZ0PSJzdWIiPnQ8L3RzcGFuPjwvdGV4dD4KCiAgPHJlY3QgeD0iNjkwIiB5PSIxNTAiIHdpZHRoPSI5MCIgaGVpZ2h0PSI0OCIgY2xhc3M9ImdhdGUiIC8+CiAgPHRleHQgeD0iNzEzIiB5PSIxODAiIGNsYXNzPSJtYXRoIj5vPHRzcGFuIGJhc2VsaW5lLXNoaWZ0PSJzdWIiPnQ8L3RzcGFuPjwvdGV4dD4KCiAgPGxpbmUgeDE9IjYyMCIgeTE9IjczIiB4Mj0iNzA1IiB5Mj0iMjUwIiBjbGFzcz0ibGluZSIvPgogIDxjaXJjbGUgY3g9IjcyMCIgY3k9IjI2NSIgcj0iMTgiIGNsYXNzPSJvcCIvPgogIDx0ZXh0IHg9IjcxMyIgeT0iMjcxIiBjbGFzcz0idHh0Ij7DlzwvdGV4dD4KICA8bGluZSB4MT0iNzM1IiB5MT0iMTk4IiB4Mj0iNzIzIiB5Mj0iMjQ3IiBjbGFzcz0ibGluZSIvPgoKICA8bGluZSB4MT0iNzM4IiB5MT0iMjY1IiB4Mj0iODcwIiB5Mj0iMjY1IiBjbGFzcz0ibGluZSIvPgogIDx0ZXh0IHg9IjgyNSIgeT0iMjU1IiBjbGFzcz0ibWF0aCI+aDx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDx0ZXh0IHg9IjMwMCIgeT0iMzU1IiBjbGFzcz0ic21hbGwiPmY6IGZvcmdldCBnYXRlPC90ZXh0PgogIDx0ZXh0IHg9IjQzMCIgeT0iMzU1IiBjbGFzcz0ic21hbGwiPmk6IGlucHV0IGdhdGU8L3RleHQ+CiAgPHRleHQgeD0iNTYwIiB5PSIzNTUiIGNsYXNzPSJzbWFsbCI+Y8yDOiBjYW5kaWRhdGUgbWVtb3J5PC90ZXh0PgogIDx0ZXh0IHg9IjY5MCIgeT0iMzU1IiBjbGFzcz0ic21hbGwiPm86IG91dHB1dCBnYXRlPC90ZXh0Pgo8L3N2Zz4=" style="max-width:100%; height:auto;" />
+</div>
+</section>
+<section id="why-lstm-helps-gradients-the-key-proof">
+<h2>17. Why LSTM helps gradients: the key proof<a class="headerlink" href="#why-lstm-helps-gradients-the-key-proof" title="Permalink to this heading">#</a></h2>
+<p>The LSTM cell update is</p>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t.
+\]</div>
+<p>Ignoring indirect dependencies of the gates on <span class="math notranslate nohighlight">\(c_{t-1}\)</span> for the moment, the direct derivative is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_{t-1}} = \operatorname{diag}(f_t).
+\]</div>
+<p>For multiple steps,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_k}
+\approx
+\prod_{i=k+1}^{t} \operatorname{diag}(f_i).
+\]</div>
+<p>If the forget gates learn values near one,</p>
+<div class="math notranslate nohighlight">
+\[
+f_i \approx 1,
+\]</div>
+<p>then</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_k} \approx I.
+\]</div>
+<p>This gives the model an approximate identity path for gradients.</p>
+<section id="interpretation">
+<h3>Interpretation<a class="headerlink" href="#interpretation" title="Permalink to this heading">#</a></h3>
+<p>Vanilla RNN memory is repeatedly overwritten:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(\text{new affine transformation}).
+\]</div>
+<p>LSTM memory is selectively accumulated:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t = \text{retained old memory} + \text{controlled new memory}.
+\]</div>
+<p>The additive structure is the essential mathematical reason LSTMs can learn longer dependencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Manual PyTorch implementation of an LSTM cell</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManualLSTMCell</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">h_prev</span><span class="p">,</span> <span class="n">c_prev</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="n">gates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_proj</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_proj</span><span class="p">(</span><span class="n">h_prev</span><span class="p">)</span>
+        <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">gates</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>       <span class="c1"># forget gate</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>       <span class="c1"># input gate</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>          <span class="c1"># candidate memory</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>       <span class="c1"># output gate</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">c_prev</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">g</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">o</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span><span class="p">,</span> <span class="n">c</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManualLSTM</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell</span> <span class="o">=</span> <span class="n">ManualLSTMCell</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+            <span class="n">h</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">t</span><span class="p">],</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Built-in PyTorch LSTM</span>
+
+<span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+
+<span class="n">H</span><span class="p">,</span> <span class="p">(</span><span class="n">h_n</span><span class="p">,</span> <span class="n">c_n</span><span class="p">)</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All hidden states:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final hidden state:&quot;</span><span class="p">,</span> <span class="n">h_n</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final cell state:&quot;</span><span class="p">,</span> <span class="n">c_n</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All hidden states: torch.Size([4, 10, 16])
+Final hidden state: torch.Size([1, 4, 16])
+Final cell state: torch.Size([1, 4, 16])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-v-gru">
+<h1>Part V — GRU<a class="headerlink" href="#part-v-gru" title="Permalink to this heading">#</a></h1>
+<section id="gru-motivation">
+<h2>18. GRU motivation<a class="headerlink" href="#gru-motivation" title="Permalink to this heading">#</a></h2>
+<p>The Gated Recurrent Unit (GRU) is a simpler gated architecture than LSTM. It has no separate cell state. Instead, it directly updates the hidden state using gates.</p>
+<p>The GRU uses:</p>
+<ul class="simple">
+<li><p>reset gate <span class="math notranslate nohighlight">\(r_t\)</span>,</p></li>
+<li><p>update gate <span class="math notranslate nohighlight">\(z_t\)</span>,</p></li>
+<li><p>candidate hidden state <span class="math notranslate nohighlight">\(\tilde{h}_t\)</span>.</p></li>
+</ul>
+<p>The update gate plays a role similar to interpolation between old memory and new memory.</p>
+</section>
+<section id="gru-equations">
+<h2>19. GRU equations<a class="headerlink" href="#gru-equations" title="Permalink to this heading">#</a></h2>
+<section id="update-gate">
+<h3>Update gate<a class="headerlink" href="#update-gate" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+z_t = \sigma(W_z x_t + U_z h_{t-1} + b_z).
+\]</div>
+</section>
+<section id="reset-gate">
+<h3>Reset gate<a class="headerlink" href="#reset-gate" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+r_t = \sigma(W_r x_t + U_r h_{t-1} + b_r).
+\]</div>
+</section>
+<section id="candidate-hidden-state">
+<h3>Candidate hidden state<a class="headerlink" href="#candidate-hidden-state" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\tilde{h}_t = \tanh(W_h x_t + U_h(r_t \odot h_{t-1}) + b_h).
+\]</div>
+</section>
+<section id="id1">
+<h3>Hidden-state update<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>A common convention is</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(z_t\)</span> is small, the model keeps the old state. If <span class="math notranslate nohighlight">\(z_t\)</span> is large, the model writes new information.</p>
+<p>This additive interpolation again creates a more stable gradient route than a vanilla RNN.</p>
+</section>
+</section>
+<section id="gru-diagram">
+<h2>20. GRU diagram<a class="headerlink" href="#gru-diagram" title="Permalink to this heading">#</a></h2>
+<p>The GRU merges the hidden state and memory state. It uses an update gate <span class="math notranslate nohighlight">\(z_t\)</span> and reset gate <span class="math notranslate nohighlight">\(r_t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[z_t = \sigma(W_z x_t + U_z h_{t-1} + b_z),\]</div>
+<div class="math notranslate nohighlight">
+\[r_t = \sigma(W_r x_t + U_r h_{t-1} + b_r),\]</div>
+<div class="math notranslate nohighlight">
+\[\tilde{h}_t = \tanh(W_h x_t + U_h(r_t \odot h_{t-1}) + b_h),\]</div>
+<div class="math notranslate nohighlight">
+\[h_t = (1-z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t.\]</div>
+<div style="text-align:center; margin: 1.2em 0;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTUwIiBoZWlnaHQ9IjM5MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxtYXJrZXIgaWQ9ImFycm93X2dydSIgbWFya2VyV2lkdGg9IjEwIiBtYXJrZXJIZWlnaHQ9IjEwIiByZWZYPSI3IiByZWZZPSIzIiBvcmllbnQ9ImF1dG8iIG1hcmtlclVuaXRzPSJzdHJva2VXaWR0aCI+CiAgICAgIDxwYXRoIGQ9Ik0wLDAgTDAsNiBMOSwzIHoiIGZpbGw9ImJsYWNrIiAvPgogICAgPC9tYXJrZXI+CiAgPC9kZWZzPgogIDxzdHlsZT4KICAgIC5ib3ggeyBmaWxsOiB3aGl0ZTsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAyOyByeDogMTI7IHJ5OiAxMjsgfQogICAgLmdhdGUgeyBmaWxsOiB3aGl0ZTsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAyOyByeDogODsgcnk6IDg7IH0KICAgIC5vcCB7IGZpbGw6IHdoaXRlOyBzdHJva2U6IGJsYWNrOyBzdHJva2Utd2lkdGg6IDI7IH0KICAgIC5saW5lIHsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAyOyBmaWxsOiBub25lOyBtYXJrZXItZW5kOiB1cmwoI2Fycm93X2dydSk7IH0KICAgIC50eHQgeyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTZweDsgfQogICAgLnNtYWxsIHsgZm9udC1mYW1pbHk6IEFyaWFsOyBmb250LXNpemU6IDEzcHg7IH0KICAgIC5tYXRoIHsgZm9udC1mYW1pbHk6IEFyaWFsOyBmb250LXNpemU6IDE1cHg7IGZvbnQtc3R5bGU6IGl0YWxpYzsgfQogIDwvc3R5bGU+CgogIDxyZWN0IHg9IjIzMCIgeT0iNzAiIHdpZHRoPSI1MDAiIGhlaWdodD0iMjQ1IiBjbGFzcz0iYm94IiAvPgogIDx0ZXh0IHg9IjQ1NSIgeT0iMTAwIiBjbGFzcz0idHh0Ij5HUlUgY2VsbDwvdGV4dD4KCiAgPGxpbmUgeDE9IjgwIiB5MT0iMTQ1IiB4Mj0iMjMwIiB5Mj0iMTQ1IiBjbGFzcz0ibGluZSIgLz4KICA8dGV4dCB4PSI4NSIgeT0iMTM1IiBjbGFzcz0ibWF0aCI+aDx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj504oiSMTwvdHNwYW4+PC90ZXh0PgoKICA8bGluZSB4MT0iODAiIHkxPSIyNDUiIHgyPSIyMzAiIHkyPSIyNDUiIGNsYXNzPSJsaW5lIiAvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMjM1IiBjbGFzcz0ibWF0aCI+eDx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxyZWN0IHg9IjI4NSIgeT0iMTM1IiB3aWR0aD0iOTUiIGhlaWdodD0iNDgiIGNsYXNzPSJnYXRlIiAvPgogIDx0ZXh0IHg9IjMxMCIgeT0iMTY1IiBjbGFzcz0ibWF0aCI+ejx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxyZWN0IHg9IjQyMCIgeT0iMTM1IiB3aWR0aD0iOTUiIGhlaWdodD0iNDgiIGNsYXNzPSJnYXRlIiAvPgogIDx0ZXh0IHg9IjQ0NSIgeT0iMTY1IiBjbGFzcz0ibWF0aCI+cjx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj50PC90c3Bhbj48L3RleHQ+CgogIDxjaXJjbGUgY3g9IjUwMCIgY3k9IjIzMCIgcj0iMTgiIGNsYXNzPSJvcCIvPgogIDx0ZXh0IHg9IjQ5MyIgeT0iMjM2IiBjbGFzcz0idHh0Ij7DlzwvdGV4dD4KICA8bGluZSB4MT0iNDY4IiB5MT0iMTgzIiB4Mj0iNDk2IiB5Mj0iMjEzIiBjbGFzcz0ibGluZSIvPgoKICA8cmVjdCB4PSI1NjAiIHk9IjIwNSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI0OCIgY2xhc3M9ImdhdGUiIC8+CiAgPHRleHQgeD0iNTg1IiB5PSIyMzUiIGNsYXNzPSJtYXRoIj5ozIM8dHNwYW4gYmFzZWxpbmUtc2hpZnQ9InN1YiI+dDwvdHNwYW4+PC90ZXh0PgoKICA8bGluZSB4MT0iNTE4IiB5MT0iMjMwIiB4Mj0iNTYwIiB5Mj0iMjMwIiBjbGFzcz0ibGluZSIvPgogIDxsaW5lIHgxPSIyMzAiIHkxPSIyNDUiIHgyPSI1NjAiIHkyPSIyNDUiIGNsYXNzPSJsaW5lIi8+CgogIDxjaXJjbGUgY3g9IjczNSIgY3k9IjE0NSIgcj0iMTgiIGNsYXNzPSJvcCIvPgogIDx0ZXh0IHg9IjcyOCIgeT0iMTUxIiBjbGFzcz0idHh0Ij4rPC90ZXh0PgoKICA8bGluZSB4MT0iMzgwIiB5MT0iMTU5IiB4Mj0iNzIwIiB5Mj0iMTM1IiBjbGFzcz0ibGluZSIvPgogIDxsaW5lIHgxPSI2NzAiIHkxPSIyMzAiIHgyPSI3MjgiIHkyPSIxNjMiIGNsYXNzPSJsaW5lIi8+CiAgPGxpbmUgeDE9IjIzMCIgeTE9IjE0NSIgeDI9IjcxOCIgeTI9IjE1MCIgY2xhc3M9ImxpbmUiLz4KCiAgPGxpbmUgeDE9Ijc1MyIgeTE9IjE0NSIgeDI9Ijg3MCIgeTI9IjE0NSIgY2xhc3M9ImxpbmUiLz4KICA8dGV4dCB4PSI4MjUiIHk9IjEzNSIgY2xhc3M9Im1hdGgiPmg8dHNwYW4gYmFzZWxpbmUtc2hpZnQ9InN1YiI+dDwvdHNwYW4+PC90ZXh0PgoKICA8dGV4dCB4PSIyODUiIHk9IjM0MCIgY2xhc3M9InNtYWxsIj56OiB1cGRhdGUgZ2F0ZTwvdGV4dD4KICA8dGV4dCB4PSI0MjAiIHk9IjM0MCIgY2xhc3M9InNtYWxsIj5yOiByZXNldCBnYXRlPC90ZXh0PgogIDx0ZXh0IHg9IjU2MCIgeT0iMzQwIiBjbGFzcz0ic21hbGwiPmjMgzogY2FuZGlkYXRlIHN0YXRlPC90ZXh0Pgo8L3N2Zz4=" style="max-width:100%; height:auto;" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Manual PyTorch implementation of a GRU cell</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManualGRUCell</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_z</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_z</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_r</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_r</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h_h</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">h_prev</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_z</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_z</span><span class="p">(</span><span class="n">h_prev</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_r</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_r</span><span class="p">(</span><span class="n">h_prev</span><span class="p">))</span>
+        <span class="n">h_tilde</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_h</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">h_h</span><span class="p">(</span><span class="n">r</span> <span class="o">*</span> <span class="n">h_prev</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">h_prev</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">h_tilde</span>
+        <span class="k">return</span> <span class="n">h</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ManualGRU</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cell</span> <span class="o">=</span> <span class="n">ManualGRUCell</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="n">hidden_size</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_len</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell</span><span class="p">(</span><span class="n">x</span><span class="p">[:,</span> <span class="n">t</span><span class="p">],</span> <span class="n">h</span><span class="p">)</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Built-in PyTorch GRU</span>
+
+<span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">input_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">hidden_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">H</span><span class="p">,</span> <span class="n">h_n</span> <span class="o">=</span> <span class="n">gru</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All hidden states:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Final hidden state:&quot;</span><span class="p">,</span> <span class="n">h_n</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All hidden states: torch.Size([4, 10, 16])
+Final hidden state: torch.Size([1, 4, 16])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-vi-jax-implementation-sketch">
+<h1>Part VI — JAX implementation sketch<a class="headerlink" href="#part-vi-jax-implementation-sketch" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># JAX-style vanilla RNN cell</span>
+<span class="c1"># This cell is a compact implementation sketch. It requires jax to be installed.</span>
+
+<span class="c1"># import jax</span>
+<span class="c1"># import jax.numpy as jnp</span>
+<span class="c1"># from jax import random</span>
+<span class="c1">#</span>
+<span class="c1"># def rnn_step(params, h_prev, x_t):</span>
+<span class="c1">#     W_x, W_h, b = params[&quot;W_x&quot;], params[&quot;W_h&quot;], params[&quot;b&quot;]</span>
+<span class="c1">#     h = jnp.tanh(x_t @ W_x.T + h_prev @ W_h.T + b)</span>
+<span class="c1">#     return h, h</span>
+<span class="c1">#</span>
+<span class="c1"># def rnn_forward(params, x, h0):</span>
+<span class="c1">#     # x shape: (time, input_size)</span>
+<span class="c1">#     h_final, H = jax.lax.scan(lambda h, x_t: rnn_step(params, h, x_t), h0, x)</span>
+<span class="c1">#     return H, h_final</span>
+<span class="c1">#</span>
+<span class="c1"># # The key JAX idea is that recurrence is represented as a scan.</span>
+<span class="c1"># # This mirrors the mathematical recursion while remaining compilable and differentiable.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-vii-attention-as-the-next-step-after-rnns">
+<h1>Part VII — Attention as the next step after RNNs<a class="headerlink" href="#part-vii-attention-as-the-next-step-after-rnns" title="Permalink to this heading">#</a></h1>
+<section id="why-attention-emerged">
+<h2>21. Why attention emerged<a class="headerlink" href="#why-attention-emerged" title="Permalink to this heading">#</a></h2>
+<p>RNNs compress the past into one hidden vector:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = F(h_{t-1}, x_t).
+\]</div>
+<p>This creates a bottleneck. If information from <span class="math notranslate nohighlight">\(x_1\)</span> is needed at time <span class="math notranslate nohighlight">\(T\)</span>, it must survive through many transitions:</p>
+<div class="math notranslate nohighlight">
+\[
+x_1 \to h_1 \to h_2 \to \cdots \to h_T.
+\]</div>
+<p>Attention changes the design. Instead of forcing all information through a single sequential state, it allows direct access to all representations:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t \leftarrow \{h_1, h_2, \ldots, h_T\}.
+\]</div>
+<p>The conceptual shift is:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>RNN</p></th>
+<th class="head"><p>Attention</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>sequential state propagation</p></td>
+<td><p>direct memory access</p></td>
+</tr>
+<tr class="row-odd"><td><p>fixed recurrent transition</p></td>
+<td><p>data-dependent interactions</p></td>
+</tr>
+<tr class="row-even"><td><p>path length grows with distance</p></td>
+<td><p>path length can be one</p></td>
+</tr>
+<tr class="row-odd"><td><p>hard long-range gradients</p></td>
+<td><p>direct pairwise connections</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="from-w-x-w-h-w-y-to-w-q-w-k-w-v">
+<h2>22. From <span class="math notranslate nohighlight">\(W_x, W_h, W_y\)</span> to <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span><a class="headerlink" href="#from-w-x-w-h-w-y-to-w-q-w-k-w-v" title="Permalink to this heading">#</a></h2>
+<p>In a vanilla RNN, the key matrices are:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(W_x\)</span>: transforms current input into hidden space,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_h\)</span>: transforms previous hidden state into current hidden space,</p></li>
+<li><p><span class="math notranslate nohighlight">\(W_y\)</span>: transforms hidden state into output space.</p></li>
+</ul>
+<p>Attention uses a different decomposition. Given token representations collected in a matrix</p>
+<div class="math notranslate nohighlight">
+\[
+X \in \mathbb{R}^{T \times d},
+\]</div>
+<p>self-attention forms</p>
+<div class="math notranslate nohighlight">
+\[
+Q = XW_Q,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+K = XW_K,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+V = XW_V.
+\]</div>
+<p>These have different roles:</p>
+<ul class="simple">
+<li><p>Query <span class="math notranslate nohighlight">\(Q\)</span>: what the current position is looking for.</p></li>
+<li><p>Key <span class="math notranslate nohighlight">\(K\)</span>: what each position offers as an address.</p></li>
+<li><p>Value <span class="math notranslate nohighlight">\(V\)</span>: the information retrieved if a position is attended to.</p></li>
+</ul>
+<p>The attention output is</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Attention}(Q,K,V)
+=
+\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V.
+\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\(QK^\top\)</span> computes pairwise compatibility scores. The multiplication by <span class="math notranslate nohighlight">\(V\)</span> retrieves and mixes information.</p>
+<section id="important-clarification">
+<h3>Important clarification<a class="headerlink" href="#important-clarification" title="Permalink to this heading">#</a></h3>
+<p><span class="math notranslate nohighlight">\(W_Q\)</span>, <span class="math notranslate nohighlight">\(W_K\)</span>, and <span class="math notranslate nohighlight">\(W_V\)</span> are not a direct one-to-one replacement for <span class="math notranslate nohighlight">\(W_x\)</span>, <span class="math notranslate nohighlight">\(W_h\)</span>, and <span class="math notranslate nohighlight">\(W_y\)</span>. Instead, they solve a different problem:</p>
+<ul class="simple">
+<li><p>RNN weights define how memory is updated sequentially.</p></li>
+<li><p>Attention weights define how tokens read from each other directly.</p></li>
+</ul>
+<p>So attention is not merely an RNN with different matrix names. It is a different memory-access mechanism.</p>
+</section>
+</section>
+<section id="attention-diagram">
+<h2>23. Attention diagram<a class="headerlink" href="#attention-diagram" title="Permalink to this heading">#</a></h2>
+<p>Attention replaces purely sequential state propagation with direct, content-dependent memory access:</p>
+<div class="math notranslate nohighlight">
+\[Q = XW_Q, \qquad K = XW_K, \qquad V = XW_V,\]</div>
+<div class="math notranslate nohighlight">
+\[\operatorname{Attention}(Q,K,V) = \operatorname{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V.\]</div>
+<p>The matrices <span class="math notranslate nohighlight">\(W_Q\)</span>, <span class="math notranslate nohighlight">\(W_K\)</span>, and <span class="math notranslate nohighlight">\(W_V\)</span> are learned projections that separate three roles: querying, matching, and retrieving.</p>
+<div style="text-align:center; margin: 1.2em 0;">
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTgwIiBoZWlnaHQ9IjQzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxtYXJrZXIgaWQ9ImFycm93X2F0dG4iIG1hcmtlcldpZHRoPSIxMCIgbWFya2VySGVpZ2h0PSIxMCIgcmVmWD0iNyIgcmVmWT0iMyIgb3JpZW50PSJhdXRvIiBtYXJrZXJVbml0cz0ic3Ryb2tlV2lkdGgiPgogICAgICA8cGF0aCBkPSJNMCwwIEwwLDYgTDksMyB6IiBmaWxsPSJibGFjayIgLz4KICAgIDwvbWFya2VyPgogIDwvZGVmcz4KICA8c3R5bGU+CiAgICAuYm94IHsgZmlsbDogd2hpdGU7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgcng6IDEwOyByeTogMTA7IH0KICAgIC5tYXQgeyBmaWxsOiB3aGl0ZTsgc3Ryb2tlOiBibGFjazsgc3Ryb2tlLXdpZHRoOiAyOyB9CiAgICAubGluZSB7IHN0cm9rZTogYmxhY2s7IHN0cm9rZS13aWR0aDogMjsgZmlsbDogbm9uZTsgbWFya2VyLWVuZDogdXJsKCNhcnJvd19hdHRuKTsgfQogICAgLnR4dCB7IGZvbnQtZmFtaWx5OiBBcmlhbDsgZm9udC1zaXplOiAxNnB4OyB9CiAgICAuc21hbGwgeyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTNweDsgfQogICAgLm1hdGggeyBmb250LWZhbWlseTogQXJpYWw7IGZvbnQtc2l6ZTogMTVweDsgZm9udC1zdHlsZTogaXRhbGljOyB9CiAgPC9zdHlsZT4KCiAgPHJlY3QgeD0iNjAiIHk9IjE3NSIgd2lkdGg9IjExMCIgaGVpZ2h0PSI1NSIgY2xhc3M9ImJveCIvPgogIDx0ZXh0IHg9IjEwMyIgeT0iMjA4IiBjbGFzcz0ibWF0aCI+WDwvdGV4dD4KCiAgPGxpbmUgeDE9IjE3MCIgeTE9IjIwMiIgeDI9IjI2MCIgeTI9Ijk1IiBjbGFzcz0ibGluZSIvPgogIDxsaW5lIHgxPSIxNzAiIHkxPSIyMDIiIHgyPSIyNjAiIHkyPSIyMDIiIGNsYXNzPSJsaW5lIi8+CiAgPGxpbmUgeDE9IjE3MCIgeTE9IjIwMiIgeDI9IjI2MCIgeTI9IjMxMCIgY2xhc3M9ImxpbmUiLz4KCiAgPHJlY3QgeD0iMjYwIiB5PSI3MCIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI1MCIgY2xhc3M9ImJveCIvPgogIDx0ZXh0IHg9IjI5MiIgeT0iMTAwIiBjbGFzcz0ibWF0aCI+Vzx0c3BhbiBiYXNlbGluZS1zaGlmdD0ic3ViIj5RPC90c3Bhbj48L3RleHQ+CgogIDxyZWN0IHg9IjI2MCIgeT0iMTc3IiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjUwIiBjbGFzcz0iYm94Ii8+CiAgPHRleHQgeD0iMjkyIiB5PSIyMDciIGNsYXNzPSJtYXRoIj5XPHRzcGFuIGJhc2VsaW5lLXNoaWZ0PSJzdWIiPks8L3RzcGFuPjwvdGV4dD4KCiAgPHJlY3QgeD0iMjYwIiB5PSIyODUiIHdpZHRoPSIxMjAiIGhlaWdodD0iNTAiIGNsYXNzPSJib3giLz4KICA8dGV4dCB4PSIyOTIiIHk9IjMxNSIgY2xhc3M9Im1hdGgiPlc8dHNwYW4gYmFzZWxpbmUtc2hpZnQ9InN1YiI+VjwvdHNwYW4+PC90ZXh0PgoKICA8bGluZSB4MT0iMzgwIiB5MT0iOTUiIHgyPSI0NzAiIHkyPSI5NSIgY2xhc3M9ImxpbmUiLz4KICA8bGluZSB4MT0iMzgwIiB5MT0iMjAyIiB4Mj0iNDcwIiB5Mj0iMjAyIiBjbGFzcz0ibGluZSIvPgogIDxsaW5lIHgxPSIzODAiIHkxPSIzMTAiIHgyPSI3MjAiIHkyPSIzMTAiIGNsYXNzPSJsaW5lIi8+CgogIDxyZWN0IHg9IjQ3MCIgeT0iNzAiIHdpZHRoPSIxMDAiIGhlaWdodD0iNTAiIGNsYXNzPSJtYXQiLz4KICA8dGV4dCB4PSI1MTIiIHk9IjEwMCIgY2xhc3M9Im1hdGgiPlE8L3RleHQ+CgogIDxyZWN0IHg9IjQ3MCIgeT0iMTc3IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjUwIiBjbGFzcz0ibWF0Ii8+CiAgPHRleHQgeD0iNTEyIiB5PSIyMDciIGNsYXNzPSJtYXRoIj5LPC90ZXh0PgoKICA8bGluZSB4MT0iNTcwIiB5MT0iOTUiIHgyPSI2NDUiIHkyPSIxNTAiIGNsYXNzPSJsaW5lIi8+CiAgPGxpbmUgeDE9IjU3MCIgeTE9IjIwMiIgeDI9IjY0NSIgeTI9IjE3NSIgY2xhc3M9ImxpbmUiLz4KCiAgPHJlY3QgeD0iNjQ1IiB5PSIxMzUiIHdpZHRoPSIxNTAiIGhlaWdodD0iNjUiIGNsYXNzPSJib3giLz4KICA8dGV4dCB4PSI2NzIiIHk9IjE2MiIgY2xhc3M9Im1hdGgiPlFLPHRzcGFuIGJhc2VsaW5lLXNoaWZ0PSJzdXBlciI+VDwvdHNwYW4+IC8g4oiaZDwvdGV4dD4KICA8dGV4dCB4PSI2ODIiIHk9IjE4NSIgY2xhc3M9InNtYWxsIj5zaW1pbGFyaXR5IHNjb3JlczwvdGV4dD4KCiAgPGxpbmUgeDE9Ijc5NSIgeTE9IjE2NyIgeDI9Ijg0MCIgeTI9IjE2NyIgY2xhc3M9ImxpbmUiLz4KICA8cmVjdCB4PSI4NDAiIHk9IjE0MiIgd2lkdGg9IjEwMCIgaGVpZ2h0PSI1MCIgY2xhc3M9ImJveCIvPgogIDx0ZXh0IHg9Ijg1NyIgeT0iMTcyIiBjbGFzcz0ibWF0aCI+c29mdG1heDwvdGV4dD4KCiAgPGxpbmUgeDE9Ijg5MCIgeTE9IjE5MiIgeDI9Ijg5MCIgeTI9IjI1MCIgY2xhc3M9ImxpbmUiLz4KICA8bGluZSB4MT0iNzIwIiB5MT0iMzEwIiB4Mj0iODcwIiB5Mj0iMzEwIiBjbGFzcz0ibGluZSIvPgoKICA8cmVjdCB4PSI4MDAiIHk9IjI1MCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSI4MCIgY2xhc3M9ImJveCIvPgogIDx0ZXh0IHg9IjgyNyIgeT0iMjgyIiBjbGFzcz0ibWF0aCI+QSBWPC90ZXh0PgogIDx0ZXh0IHg9IjgxOCIgeT0iMzA1IiBjbGFzcz0ic21hbGwiPndlaWdodGVkIHJldHJpZXZhbDwvdGV4dD4KCiAgPGxpbmUgeDE9IjkzMCIgeTE9IjI5MCIgeDI9Ijk2NSIgeTI9IjI5MCIgY2xhc3M9ImxpbmUiLz4KICA8dGV4dCB4PSI5MDAiIHk9IjM3MCIgY2xhc3M9Im1hdGgiPkF0dGVudGlvbihRLEssVik8L3RleHQ+CgogIDx0ZXh0IHg9IjYwIiB5PSI2NSIgY2xhc3M9InR4dCI+U2VsZi1hdHRlbnRpb24gY29tcHV0ZXMgY29udGVudC1kZXBlbmRlbnQgY29ubmVjdGlvbnMuPC90ZXh0PgogIDx0ZXh0IHg9IjYwIiB5PSIzOTAiIGNsYXNzPSJzbWFsbCI+USBhc2tzIHdoYXQgZWFjaCBwb3NpdGlvbiBzZWVrczsgSyBkZXNjcmliZXMgd2hhdCBlYWNoIHBvc2l0aW9uIG9mZmVyczsgViBzdG9yZXMgdGhlIGluZm9ybWF0aW9uIHRvIHJldHJpZXZlLjwvdGV4dD4KPC9zdmc+" style="max-width:100%; height:auto;" />
+</div>
+</section>
+<section id="why-attention-helps-with-gradient-flow">
+<h2>24. Why attention helps with gradient flow<a class="headerlink" href="#why-attention-helps-with-gradient-flow" title="Permalink to this heading">#</a></h2>
+<p>In an RNN, information from position <span class="math notranslate nohighlight">\(i\)</span> reaches position <span class="math notranslate nohighlight">\(j\)</span> through <span class="math notranslate nohighlight">\(j-i\)</span> recurrent transitions:</p>
+<div class="math notranslate nohighlight">
+\[
+h_i \to h_{i+1} \to \cdots \to h_j.
+\]</div>
+<p>The gradient contains a product of many Jacobians:</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_{t=i+1}^{j} J_t.
+\]</div>
+<p>In self-attention, position <span class="math notranslate nohighlight">\(j\)</span> can directly attend to position <span class="math notranslate nohighlight">\(i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+z_j = \sum_{i=1}^{T} \alpha_{j,i} v_i.
+\]</div>
+<p>The path from <span class="math notranslate nohighlight">\(v_i\)</span> to <span class="math notranslate nohighlight">\(z_j\)</span> is direct. This does not mean transformers have no optimization difficulties, but it removes the recurrent temporal chain as the main route for information flow.</p>
+<p>This is why attention became dominant for large-scale language modeling.</p>
+</section>
+<section id="rnns-are-still-useful">
+<h2>25. RNNs are still useful<a class="headerlink" href="#rnns-are-still-useful" title="Permalink to this heading">#</a></h2>
+<p>Despite the dominance of attention, RNNs and LSTMs remain useful when:</p>
+<ol class="arabic simple">
+<li><p>inference must be streaming and low-latency,</p></li>
+<li><p>memory is severely constrained,</p></li>
+<li><p>sequences are very long but local dynamics are sufficient,</p></li>
+<li><p>data is limited and temporal inductive bias helps,</p></li>
+<li><p>the problem resembles a dynamical system,</p></li>
+<li><p>the model is deployed on edge devices.</p></li>
+</ol>
+<p>Modern research also revisits recurrence through state-space models and linear recurrent architectures. The field did not simply discard recurrence; it reinterpreted it.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="summary">
+<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h1>
+<p>The central mathematical story is:</p>
+<ol class="arabic simple">
+<li><p>A vanilla RNN is a shared nonlinear transition:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_h h_{t-1} + W_x x_t + b).
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>BPTT produces products of Jacobians:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+\prod_{i=k+1}^{t} D_i W_h.
+\]</div>
+<ol class="arabic simple" start="3">
+<li><p>Repeated products lead to exponential decay or growth:</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\left\|
+\frac{\partial h_t}{\partial h_k}
+\right\|
+\le
+\prod_{i=k+1}^{t} \|D_i\|\,\|W_h\|.
+\]</div>
+<ol class="arabic simple" start="4">
+<li><p>LSTM and GRU introduce additive gated updates that create more stable gradient paths.</p></li>
+<li><p>Attention removes the sequential memory bottleneck by letting each position directly access other positions.</p></li>
+</ol>
+<p>The progression is therefore:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{linear layers}
+\to
+\text{vanilla RNN}
+\to
+\text{BPTT and gradient instability}
+\to
+\text{LSTM/GRU}
+\to
+\text{attention and transformers}.
+\]</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="suggested-exercises">
+<h1>Suggested exercises<a class="headerlink" href="#suggested-exercises" title="Permalink to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>Derive <span class="math notranslate nohighlight">\(\partial \mathcal{L} / \partial W_h\)</span> for a vanilla RNN from first principles.</p></li>
+<li><p>Show that if <span class="math notranslate nohighlight">\(\|D_i W_h\| \le \gamma &lt; 1\)</span>, gradients vanish exponentially.</p></li>
+<li><p>Construct a two-dimensional <span class="math notranslate nohighlight">\(W_h\)</span> with eigenvalues <span class="math notranslate nohighlight">\(0.5\)</span> and <span class="math notranslate nohighlight">\(1.2\)</span>. Explain which directions vanish and which explode.</p></li>
+<li><p>Implement a manual RNN and compare its parameter count to <code class="docutils literal notranslate"><span class="pre">torch.nn.RNN</span></code>.</p></li>
+<li><p>Train a vanilla RNN and an LSTM on a synthetic copy task. Compare performance as sequence length increases.</p></li>
+<li><p>Show numerically how gradient clipping changes the gradient norm but not its direction.</p></li>
+<li><p>Derive the approximate LSTM memory gradient <span class="math notranslate nohighlight">\(\partial c_t / \partial c_k\)</span>.</p></li>
+<li><p>Explain why <span class="math notranslate nohighlight">\(W_Q\)</span>, <span class="math notranslate nohighlight">\(W_K\)</span>, and <span class="math notranslate nohighlight">\(W_V\)</span> separate similarity search from information retrieval.</p></li>
+</ol>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Recurrent Neural Networks — Textbook-Level Course Notes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-dynamics-bptt-lstm-gru-pytorch-jax-implementations-and-the-bridge-to-attention">Gradient Dynamics, BPTT, LSTM, GRU, PyTorch/JAX Implementations, and the Bridge to Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-goals">Learning goals</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-sequence-models-are-different">1. Why sequence models are different</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-a-linear-layer-to-recurrence">2. From a linear layer to recurrence</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shapes">Parameter shapes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnn-computation-graph">3. RNN computation graph</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sequence-loss-and-sequence-to-sequence-mapping-types">4. Sequence loss and sequence-to-sequence mapping types</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-aligned-synchronous-prediction">4.1 Many-to-many, aligned / synchronous prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-one-prediction">4.2 Many-to-one prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-to-many-prediction">4.3 One-to-many prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-unaligned-sequence-to-sequence">4.4 Many-to-many, unaligned sequence-to-sequence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-to-many-with-delay-language-modeling-and-next-step-prediction">4.5 Many-to-many with delay: language modeling and next-step prediction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#encoderdecoder-with-attention-the-bridge-to-modern-attention">4.6 Encoder–decoder with attention: the bridge to modern attention</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-the-loss-determines-the-supervision-pattern">4.7 Summary: the loss determines the supervision pattern</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-i-backpropagation-through-time">Part I — Backpropagation Through Time</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-jacobian-of-the-rnn-transition">5. Local Jacobian of the RNN transition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bptt-derivation">6. BPTT derivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-gradient-formulas">7. Parameter-gradient formulas</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norm-based-proof-of-exponential-decay-or-growth">8. Norm-based proof of exponential decay or growth</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-radius-view">9. Spectral-radius view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram">10. Gradient-flow diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-tanh-and-sigmoid-saturate">11. Why tanh and sigmoid saturate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#practical-remedies">12. Practical remedies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-clipping">12.1 Gradient clipping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#orthogonal-initialization">12.2 Orthogonal initialization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#truncated-bptt">12.3 Truncated BPTT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gated-recurrent-units">12.4 Gated recurrent units</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-implementing-vanilla-rnns">Part III — Implementing Vanilla RNNs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-pytorch-rnn-layer">13. Built-in PyTorch RNN layer</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iv-lstm">Part IV — LSTM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation-for-lstm">14. Motivation for LSTM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-equations">15. LSTM equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forget-gate">Forget gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-gate">Input gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-memory">Candidate memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cell-state-update">Cell-state update</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-gate">Output gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hidden-state-update">Hidden-state update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-cell-diagram">16. LSTM cell diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-lstm-helps-gradients-the-key-proof">17. Why LSTM helps gradients: the key proof</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-v-gru">Part V — GRU</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-motivation">18. GRU motivation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-equations">19. GRU equations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-gate">Update gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reset-gate">Reset gate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#candidate-hidden-state">Candidate hidden state</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Hidden-state update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-diagram">20. GRU diagram</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-vi-jax-implementation-sketch">Part VI — JAX implementation sketch</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-vii-attention-as-the-next-step-after-rnns">Part VII — Attention as the next step after RNNs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-attention-emerged">21. Why attention emerged</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-w-x-w-h-w-y-to-w-q-w-k-w-v">22. From <span class="math notranslate nohighlight">\(W_x, W_h, W_y\)</span> to <span class="math notranslate nohighlight">\(W_Q, W_K, W_V\)</span></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-clarification">Important clarification</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-diagram">23. Attention diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-attention-helps-with-gradient-flow">24. Why attention helps with gradient flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rnns-are-still-useful">25. RNNs are still useful</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
