@@ -695,125 +695,109 @@ It also visualizes the <strong>latent space</strong> (encoder output) using <str
   warnings.warn(warn_msg)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2802 | test loss: 0.2372
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 01 | train loss: 0.2799 | test loss: 0.2364
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2096 | test loss: 0.1802
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 02 | train loss: 0.2031 | test loss: 0.1739
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1688 | test loss: 0.1587
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 03 | train loss: 0.1654 | test loss: 0.1566
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 04 | train loss: 0.1534 | test loss: 0.1471
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 05 | train loss: 0.1451 | test loss: 0.1411
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Unexpected exception formatting exception. Falling back to standard exception
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
-Traceback (most recent call last):
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 116, in spawn_main
-    exitcode = _main(fd, parent_sentinel)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
-    exitcode = _main(fd, parent_sentinel)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/spawn.py&quot;, line 126, in _main
-    self = reduction.pickle.load(from_parent)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2276, in &lt;module&gt;
-    self = reduction.pickle.load(from_parent)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/__init__.py&quot;, line 2276, in &lt;module&gt;
-    from torch import quantization as quantization  # usort: skip
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/quantization/__init__.py&quot;, line 2, in &lt;module&gt;
-    from torch import quantization as quantization  # usort: skip
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/quantization/__init__.py&quot;, line 2, in &lt;module&gt;
-    from .fake_quantize import *  # noqa: F403
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/quantization/fake_quantize.py&quot;, line 10, in &lt;module&gt;
-    from .fake_quantize import *  # noqa: F403
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/quantization/fake_quantize.py&quot;, line 10, in &lt;module&gt;
-    from torch.ao.quantization.fake_quantize import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/__init__.py&quot;, line 13, in &lt;module&gt;
-    from torch.ao.quantization.fake_quantize import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/__init__.py&quot;, line 13, in &lt;module&gt;
-    from .pt2e._numeric_debugger import (  # noqa: F401
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/pt2e/_numeric_debugger.py&quot;, line 9, in &lt;module&gt;
-    from .pt2e._numeric_debugger import (  # noqa: F401
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/pt2e/_numeric_debugger.py&quot;, line 9, in &lt;module&gt;
-    from torch.ao.quantization.pt2e.graph_utils import bfs_trace_with_node_process
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/pt2e/graph_utils.py&quot;, line 9, in &lt;module&gt;
-    from torch.ao.quantization.pt2e.graph_utils import bfs_trace_with_node_process
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/ao/quantization/pt2e/graph_utils.py&quot;, line 9, in &lt;module&gt;
-    from torch.export import ExportedProgram
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/export/__init__.py&quot;, line 11, in &lt;module&gt;
-    from torch.export import ExportedProgram
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/export/__init__.py&quot;, line 11, in &lt;module&gt;
-    from torch.fx.passes.infra.pass_base import PassResult
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/passes/__init__.py&quot;, line 1, in &lt;module&gt;
-    from torch.fx.passes.infra.pass_base import PassResult
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/passes/__init__.py&quot;, line 1, in &lt;module&gt;
-    from . import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/passes/splitter_base.py&quot;, line 161, in &lt;module&gt;
-    from . import (
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/fx/passes/splitter_base.py&quot;, line 161, in &lt;module&gt;
-    class NodeEventTracker:
-KeyboardInterrupt
-    class NodeEventTracker:
-KeyboardInterrupt
-Traceback (most recent call last):
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 3577, in run_code
-    exec(code_obj, self.user_global_ns, self.user_ns)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_18966/2208291953.py&quot;, line 5, in &lt;module&gt;
-    train_loss = run_epoch(model, train_loader, train=True, sigma=sigma)
-  File &quot;/var/folders/2y/7k4lmpb96ls_d714_z5n2594bry8kf/T/ipykernel_18966/489305300.py&quot;, line 8, in run_epoch
-    for x, _ in loader:
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 732, in __next__
-    data = self._next_data()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1482, in _next_data
-    idx, data = self._get_data()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1444, in _get_data
-    success, data = self._try_get_data()
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py&quot;, line 1275, in _try_get_data
-    data = self._data_queue.get(timeout=timeout)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/queues.py&quot;, line 113, in get
-    if not self._poll(timeout):
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 257, in poll
-    return self._poll(timeout)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 424, in _poll
-    r = wait([self], timeout)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py&quot;, line 931, in wait
-    ready = selector.select(timeout)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/selectors.py&quot;, line 416, in select
-    fd_event_list = self._selector.poll(timeout)
-KeyboardInterrupt
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="n">train_loss</span> <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">test_loss</span>  <span class="o">=</span> <span class="n">run_epoch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">test_loader</span><span class="p">,</span>  <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2"> | train loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | test loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-During handling of the above exception, another exception occurred:
+<span class="nn">Cell In[5], line 8,</span> in <span class="ni">run_epoch</span><span class="nt">(model, loader, train, sigma)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="k">if</span> <span class="n">train</span> <span class="k">else</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">total_loss</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">x_noisy</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
 
-Traceback (most recent call last):
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/interactiveshell.py&quot;, line 2168, in showtraceback
-    stb = self.InteractiveTB.structured_traceback(
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1457, in structured_traceback
-    return FormattedTB.structured_traceback(
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1348, in structured_traceback
-    return VerboseTB.structured_traceback(
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1195, in structured_traceback
-    formatted_exception = self.format_exception_as_a_whole(etype, evalue, etb, number_of_lines_of_context,
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1085, in format_exception_as_a_whole
-    self.get_records(etb, number_of_lines_of_context, tb_offset) if etb else []
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/IPython/core/ultratb.py&quot;, line 1138, in get_records
-    formatter = Terminal256Formatter(style=style)
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 147, in __init__
-    self._setup_styles()  # convert selected style&#39;s colors to term. colors
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 242, in _setup_styles
-    self.style_string[str(ttype)] = (escape.color_string(),
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/pygments/formatters/terminal256.py&quot;, line 62, in color_string
-    attrs.append(str(int(esc[2:4])+10))
-  File &quot;/Users/mehdimir/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/_utils/signal_handling.py&quot;, line 73, in handler
-    _error_if_any_worker_fails()
-RuntimeError: DataLoader worker (pid 18997) is killed by signal: Terminated: 15. 
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:732,</span> in <span class="ni">_BaseDataLoaderIter.__next__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">729</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sampler_iter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">730</span>     <span class="c1"># TODO(https://github.com/pytorch/pytorch/issues/76750)</span>
+<span class="g g-Whitespace">    </span><span class="mi">731</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>  <span class="c1"># type: ignore[call-arg]</span>
+<span class="ne">--&gt; </span><span class="mi">732</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_next_data</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">733</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_yielded</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">734</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span>
+<span class="g g-Whitespace">    </span><span class="mi">736</span>     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">737</span>     <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_yielded</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IterableDataset_len_called</span>
+<span class="g g-Whitespace">    </span><span class="mi">738</span> <span class="p">):</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1482,</span> in <span class="ni">_MultiProcessingDataLoaderIter._next_data</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1479</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1481</span> <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_outstanding</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="ne">-&gt; </span><span class="mi">1482</span> <span class="n">idx</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_data</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1483</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tasks_outstanding</span> <span class="o">-=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">   </span><span class="mi">1484</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataset_kind</span> <span class="o">==</span> <span class="n">_DatasetKind</span><span class="o">.</span><span class="n">Iterable</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1485</span>     <span class="c1"># Check for _IterableDatasetStopIteration</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1444,</span> in <span class="ni">_MultiProcessingDataLoaderIter._get_data</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1440</span>     <span class="c1"># In this case, `self._data_queue` is a `queue.Queue`,. But we don&#39;t</span>
+<span class="g g-Whitespace">   </span><span class="mi">1441</span>     <span class="c1"># need to call `.task_done()` because we don&#39;t use `.join()`.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1442</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1443</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1444</span>         <span class="n">success</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_try_get_data</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1445</span>         <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1446</span>             <span class="k">return</span> <span class="n">data</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/site-packages/torch/utils/data/dataloader.py:1275,</span> in <span class="ni">_MultiProcessingDataLoaderIter._try_get_data</span><span class="nt">(self, timeout)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1262</span> <span class="k">def</span><span class="w"> </span><span class="nf">_try_get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">_utils</span><span class="o">.</span><span class="n">MP_STATUS_CHECK_INTERVAL</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1263</span>     <span class="c1"># Tries to fetch data from `self._data_queue` once for a given timeout.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1264</span>     <span class="c1"># This can also be used as inner loop of fetching without timeout, with</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1272</span>     <span class="c1"># Returns a 2-tuple:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1273</span>     <span class="c1">#   (bool: whether successfully get data, any: data if successful else None)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1274</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1275</span>         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1276</span>         <span class="k">return</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1277</span>     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1278</span>         <span class="c1"># At timeout and error, we manually check whether any worker has</span>
+<span class="g g-Whitespace">   </span><span class="mi">1279</span>         <span class="c1"># failed. Note that this is the only mechanism for Windows to detect</span>
+<span class="g g-Whitespace">   </span><span class="mi">1280</span>         <span class="c1"># worker failures.</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/queues.py:113,</span> in <span class="ni">Queue.get</span><span class="nt">(self, block, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">111</span> <span class="k">if</span> <span class="n">block</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>     <span class="n">timeout</span> <span class="o">=</span> <span class="n">deadline</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">monotonic</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">113</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">(</span><span class="n">timeout</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span>         <span class="k">raise</span> <span class="n">Empty</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span> <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">():</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:257,</span> in <span class="ni">_ConnectionBase.poll</span><span class="nt">(self, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_closed</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">256</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_readable</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">257</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:424,</span> in <span class="ni">Connection._poll</span><span class="nt">(self, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">423</span> <span class="k">def</span><span class="w"> </span><span class="nf">_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">424</span>     <span class="n">r</span> <span class="o">=</span> <span class="n">wait</span><span class="p">([</span><span class="bp">self</span><span class="p">],</span> <span class="n">timeout</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">425</span>     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/multiprocessing/connection.py:923,</span> in <span class="ni">wait</span><span class="nt">(object_list, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">917</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait</span><span class="p">(</span><span class="n">object_list</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">918</span><span class="w">     </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">919</span><span class="sd">     Wait till an object in object_list is ready/readable.</span>
+<span class="g g-Whitespace">    </span><span class="mi">920</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">921</span><span class="sd">     Returns list of those objects in object_list which are ready/readable.</span>
+<span class="g g-Whitespace">    </span><span class="mi">922</span><span class="sd">     &#39;&#39;&#39;</span>
+<span class="ne">--&gt; </span><span class="mi">923</span>     <span class="k">with</span> <span class="n">_WaitSelector</span><span class="p">()</span> <span class="k">as</span> <span class="n">selector</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">924</span>         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">object_list</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">925</span>             <span class="n">selector</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">selectors</span><span class="o">.</span><span class="n">EVENT_READ</span><span class="p">)</span>
+
+<span class="nn">File ~/miniforge3/envs/jupyterbook/lib/python3.10/selectors.py:349,</span> in <span class="ni">_PollLikeSelector.__init__</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">349</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_selector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_selector_cls</span><span class="p">()</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
