@@ -532,6 +532,9 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobians-eigenvectors-and-vanishing-exploding-gradients">Jacobians, Eigenvectors, and Vanishing/Exploding Gradients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-rnn-gradient-flow">Connection to RNN Gradient Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-to-an-arbitrary-gradient-vector">What happens to an arbitrary gradient vector?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norm-based-proof-of-exponential-decay-or-growth">8. Norm-based proof of exponential decay or growth</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-radius-view">9. Spectral-radius view</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram">10. Gradient-flow diagram</a></li>
@@ -547,6 +550,9 @@ document.write(`
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-implementing-vanilla-rnns">Part III — Implementing Vanilla RNNs</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-pytorch-rnn-layer">13. Built-in PyTorch RNN layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnns-and-residual-recurrence">Leaky RNNs and Residual Recurrence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobian-of-a-leaky-rnn">Jacobian of a Leaky RNN</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-helps-gradient-flow">Why this helps gradient flow</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iv-lstm">Part IV — LSTM</a><ul class="visible nav section-nav flex-column">
@@ -565,6 +571,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-the-lstm-gradient-path">Important Note on the LSTM Gradient Path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-norm-experiment-vanilla-rnn-vs-lstm">Gradient norm experiment: Vanilla RNN vs LSTM</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-v-gru">Part V — GRU</a><ul class="visible nav section-nav flex-column">
@@ -592,7 +600,19 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concept-map-vanilla-rnn-leaky-rnn-gru-lstm-and-attention">Concept Map: Vanilla RNN, Leaky RNN, GRU, LSTM, and Attention</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#progression-of-ideas">Progression of ideas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-rnn-recurrence">1. Vanilla RNN: recurrence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnn-residual-memory">2. Leaky RNN: residual memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-learned-residual-memory">3. GRU: learned residual memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-explicit-memory-cell">4. LSTM: explicit memory cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-direct-memory-access">5. Attention: direct memory access</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-picture">Big picture</a></li>
+</ul>
+</li>
 </ul>
 
             </nav>
@@ -1683,6 +1703,161 @@ which depends on repeated multiplication by <span class="math notranslate nohigh
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="part-ii-vanishing-and-exploding-gradients">
 <h1>Part II — Vanishing and Exploding Gradients<a class="headerlink" href="#part-ii-vanishing-and-exploding-gradients" title="Permalink to this heading">#</a></h1>
+<section id="jacobians-eigenvectors-and-vanishing-exploding-gradients">
+<h2>Jacobians, Eigenvectors, and Vanishing/Exploding Gradients<a class="headerlink" href="#jacobians-eigenvectors-and-vanishing-exploding-gradients" title="Permalink to this heading">#</a></h2>
+<p>A key linear algebra fact is:</p>
+<div class="math notranslate nohighlight">
+\[
+A v = \lambda v
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(A\)</span> is a matrix,</p></li>
+<li><p><span class="math notranslate nohighlight">\(v\)</span> is an eigenvector,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lambda\)</span> is the corresponding eigenvalue.</p></li>
+</ul>
+<p>This means that applying <span class="math notranslate nohighlight">\(A\)</span> to <span class="math notranslate nohighlight">\(v\)</span> does <strong>not change the direction</strong> of <span class="math notranslate nohighlight">\(v\)</span>; it only scales it by <span class="math notranslate nohighlight">\(\lambda\)</span>.</p>
+<p>If we apply <span class="math notranslate nohighlight">\(A\)</span> repeatedly:</p>
+<div class="math notranslate nohighlight">
+\[
+A^2 v = A(Av) = A(\lambda v) = \lambda Av = \lambda^2 v
+\]</div>
+<p>and in general:</p>
+<div class="math notranslate nohighlight">
+\[
+A^k v = \lambda^k v.
+\]</div>
+<p>Therefore:</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(|\lambda| &lt; 1\)</span>, then <span class="math notranslate nohighlight">\(\lambda^k \to 0\)</span> and the vector shrinks,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(|\lambda| &gt; 1\)</span>, then <span class="math notranslate nohighlight">\(|\lambda|^k \to \infty\)</span> and the vector grows,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(|\lambda| = 1\)</span>, then the vector norm is approximately preserved.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="connection-to-rnn-gradient-flow">
+<h2>Connection to RNN Gradient Flow<a class="headerlink" href="#connection-to-rnn-gradient-flow" title="Permalink to this heading">#</a></h2>
+<p>For a vanilla RNN,</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_h h_{t-1} + W_x x_t + b_h),
+\]</div>
+<p>the local Jacobian is:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = \frac{\partial h_t}{\partial h_{t-1}} = D_t W_h,
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}(\phi'(a_t)).
+\]</div>
+<p>The gradient from time <span class="math notranslate nohighlight">\(t\)</span> back to time <span class="math notranslate nohighlight">\(k\)</span> contains a product:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+=
+J_t J_{t-1} \cdots J_{k+1}.
+\]</div>
+<p>To understand the main idea, suppose for a moment that the Jacobian is approximately constant:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t \approx J.
+\]</div>
+<p>Then:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_k}
+\approx J^{t-k}.
+\]</div>
+<p>If <span class="math notranslate nohighlight">\(v_i\)</span> is an eigenvector of <span class="math notranslate nohighlight">\(J\)</span> with eigenvalue <span class="math notranslate nohighlight">\(\lambda_i\)</span>, then:</p>
+<div class="math notranslate nohighlight">
+\[
+J^{t-k} v_i = \lambda_i^{t-k} v_i.
+\]</div>
+<p>So along the eigenvector direction <span class="math notranslate nohighlight">\(v_i\)</span>, the gradient behaves like:</p>
+<div class="math notranslate nohighlight">
+\[
+\lambda_i^{t-k}.
+\]</div>
+<p>This is the mathematical source of vanishing and exploding gradients.</p>
+</section>
+<hr class="docutils" />
+<section id="what-happens-to-an-arbitrary-gradient-vector">
+<h2>What happens to an arbitrary gradient vector?<a class="headerlink" href="#what-happens-to-an-arbitrary-gradient-vector" title="Permalink to this heading">#</a></h2>
+<p>Any gradient vector <span class="math notranslate nohighlight">\(g\)</span> can be written as a linear combination of eigenvectors:</p>
+<div class="math notranslate nohighlight">
+\[
+g = c_1 v_1 + c_2 v_2 + \cdots + c_d v_d.
+\]</div>
+<p>Applying <span class="math notranslate nohighlight">\(J^k\)</span> gives:</p>
+<div class="math notranslate nohighlight">
+\[
+J^k g
+=
+J^k(c_1 v_1 + c_2 v_2 + \cdots + c_d v_d).
+\]</div>
+<p>By linearity:</p>
+<div class="math notranslate nohighlight">
+\[
+J^k g
+=
+c_1 J^k v_1 + c_2 J^k v_2 + \cdots + c_d J^k v_d.
+\]</div>
+<p>Using the eigenvector relation:</p>
+<div class="math notranslate nohighlight">
+\[
+J^k g
+=
+c_1 \lambda_1^k v_1
++
+c_2 \lambda_2^k v_2
++
+\cdots
++
+c_d \lambda_d^k v_d.
+\]</div>
+<p>Therefore, each component of the gradient evolves independently along each eigenvector direction.</p>
+<ul class="simple">
+<li><p>Components with <span class="math notranslate nohighlight">\(|\lambda_i| &lt; 1\)</span> vanish.</p></li>
+<li><p>Components with <span class="math notranslate nohighlight">\(|\lambda_i| &gt; 1\)</span> explode.</p></li>
+<li><p>Components with <span class="math notranslate nohighlight">\(|\lambda_i| \approx 1\)</span> are preserved.</p></li>
+</ul>
+<p>The largest absolute eigenvalue,</p>
+<div class="math notranslate nohighlight">
+\[
+\rho(J) = \max_i |\lambda_i|,
+\]</div>
+<p>is called the <strong>spectral radius</strong>.</p>
+<p>It largely controls the long-term behavior:</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\rho(J) &lt; 1\)</span>, gradients tend to vanish,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\rho(J) &gt; 1\)</span>, gradients may explode,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\rho(J) \approx 1\)</span>, gradients are more stable.</p></li>
+</ul>
+<p>In a real RNN, the Jacobian changes over time:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = D_t W_h.
+\]</div>
+<p>So the true object is not just <span class="math notranslate nohighlight">\(J^k\)</span>, but:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t J_{t-1} \cdots J_{k+1}.
+\]</div>
+<p>Still, the same intuition applies: repeated Jacobian multiplication stretches or shrinks gradients along different directions.</p>
+<p>The activation derivative matrix <span class="math notranslate nohighlight">\(D_t\)</span> usually makes vanishing worse because for <span class="math notranslate nohighlight">\(\tanh\)</span> and sigmoid many entries satisfy:</p>
+<div class="math notranslate nohighlight">
+\[
+|\phi'(a_t^{(i)})| &lt; 1.
+\]</div>
+<p>So even if <span class="math notranslate nohighlight">\(W_h\)</span> is not strongly shrinking, the effective Jacobian</p>
+<div class="math notranslate nohighlight">
+\[
+D_t W_h
+\]</div>
+<p>can still shrink gradients over many time steps.</p>
+</section>
 <section id="norm-based-proof-of-exponential-decay-or-growth">
 <h2>8. Norm-based proof of exponential decay or growth<a class="headerlink" href="#norm-based-proof-of-exponential-decay-or-growth" title="Permalink to this heading">#</a></h2>
 <p>Let <span class="math notranslate nohighlight">\(\|\cdot\|\)</span> be any submultiplicative matrix norm, meaning</p>
@@ -2025,11 +2200,104 @@ Y shape: torch.Size([3, 5, 4])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4068492650985718
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loss: 1.4488972425460815
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="leaky-rnns-and-residual-recurrence">
+<h2>Leaky RNNs and Residual Recurrence<a class="headerlink" href="#leaky-rnns-and-residual-recurrence" title="Permalink to this heading">#</a></h2>
+<p>A vanilla RNN updates its hidden state as:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_h h_{t-1} + W_x x_t + b_h).
+\]</div>
+<p>This fully replaces the old hidden state <span class="math notranslate nohighlight">\(h_{t-1}\)</span> with a new nonlinear transformation.</p>
+<p>A <strong>leaky RNN</strong> modifies this by mixing the previous hidden state with the new candidate state:</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{h}_t = \phi(W_h h_{t-1} + W_x x_t + b_h),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-\alpha)h_{t-1} + \alpha \tilde{h}_t,
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+0 &lt; \alpha \le 1.
+\]</div>
+<p>The parameter <span class="math notranslate nohighlight">\(\alpha\)</span> controls how quickly the hidden state changes.</p>
+<ul class="simple">
+<li><p>If <span class="math notranslate nohighlight">\(\alpha = 1\)</span>, we recover the vanilla RNN.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\alpha\)</span> is small, the hidden state changes slowly.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\alpha\)</span> is close to <span class="math notranslate nohighlight">\(0\)</span>, the model preserves memory for longer.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="jacobian-of-a-leaky-rnn">
+<h2>Jacobian of a Leaky RNN<a class="headerlink" href="#jacobian-of-a-leaky-rnn" title="Permalink to this heading">#</a></h2>
+<p>The leaky update is:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-\alpha)h_{t-1} + \alpha \phi(a_t),
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+a_t = W_h h_{t-1} + W_x x_t + b_h.
+\]</div>
+<p>Taking the derivative with respect to <span class="math notranslate nohighlight">\(h_{t-1}\)</span> gives:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h_t}{\partial h_{t-1}}
+=
+(1-\alpha)I + \alpha D_t W_h,
+\]</div>
+<p>where:</p>
+<div class="math notranslate nohighlight">
+\[
+D_t = \operatorname{diag}(\phi'(a_t)).
+\]</div>
+<p>Compare this with the vanilla RNN Jacobian:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t^{\text{vanilla}} = D_t W_h.
+\]</div>
+<p>For the leaky RNN:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t^{\text{leaky}} = (1-\alpha)I + \alpha D_t W_h.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="why-this-helps-gradient-flow">
+<h2>Why this helps gradient flow<a class="headerlink" href="#why-this-helps-gradient-flow" title="Permalink to this heading">#</a></h2>
+<p>The term</p>
+<div class="math notranslate nohighlight">
+\[
+(1-\alpha)I
+\]</div>
+<p>creates a direct residual path from <span class="math notranslate nohighlight">\(h_{t-1}\)</span> to <span class="math notranslate nohighlight">\(h_t\)</span>.</p>
+<p>This means the gradient does not have to pass only through the nonlinear transformation <span class="math notranslate nohighlight">\(D_t W_h\)</span>.</p>
+<p>Instead, part of the gradient can flow through an identity-like path:</p>
+<div class="math notranslate nohighlight">
+\[
+h_{t-1} \longrightarrow h_t.
+\]</div>
+<p>This is similar in spirit to residual connections in deep networks.</p>
+<p>The leaky RNN therefore interpolates between:</p>
+<ul class="simple">
+<li><p>memory preservation through <span class="math notranslate nohighlight">\((1-\alpha)h_{t-1}\)</span>,</p></li>
+<li><p>nonlinear state update through <span class="math notranslate nohighlight">\(\alpha \tilde{h}_t\)</span>.</p></li>
+</ul>
+<p>This idea is also closely related to the GRU update equation:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde{h}_t.
+\]</div>
+<p>The main difference is that in a leaky RNN, <span class="math notranslate nohighlight">\(\alpha\)</span> is usually fixed, while in a GRU the update gate <span class="math notranslate nohighlight">\(z_t\)</span> is learned and data-dependent.</p>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="part-iv-lstm">
@@ -2229,6 +2497,143 @@ Final cell state: torch.Size([1, 4, 16])
 </div>
 </div>
 </section>
+</section>
+<section id="important-note-on-the-lstm-gradient-path">
+<h2>Important Note on the LSTM Gradient Path<a class="headerlink" href="#important-note-on-the-lstm-gradient-path" title="Permalink to this heading">#</a></h2>
+<p>In the LSTM, the cell state update is:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t.
+\]</div>
+<p>The most important gradient path is the direct path from <span class="math notranslate nohighlight">\(c_{t-1}\)</span> to <span class="math notranslate nohighlight">\(c_t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_{t-1}}
+=
+\operatorname{diag}(f_t).
+\]</div>
+<p>This shows why LSTMs help with long-term dependencies.</p>
+<p>If the forget gate satisfies:</p>
+<div class="math notranslate nohighlight">
+\[
+f_t \approx 1,
+\]</div>
+<p>then:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_{t-1}} \approx I.
+\]</div>
+<p>So gradients can flow backward through the cell state without being repeatedly squashed by a nonlinear activation derivative like <span class="math notranslate nohighlight">\(\tanh'(a_t)\)</span>.</p>
+<p>However, this gradient proof isolates the <strong>direct memory path</strong> through the cell state.</p>
+<p>The full LSTM Jacobian also contains additional terms because the gates</p>
+<div class="math notranslate nohighlight">
+\[
+f_t, i_t, o_t
+\]</div>
+<p>depend on <span class="math notranslate nohighlight">\(h_{t-1}\)</span> and <span class="math notranslate nohighlight">\(x_t\)</span>.</p>
+<p>Still, the crucial advantage of the LSTM is that it provides a nearly linear additive route:</p>
+<div class="math notranslate nohighlight">
+\[
+c_{t-1} \longrightarrow c_t \longrightarrow c_{t+1} \longrightarrow \cdots
+\]</div>
+<p>This path allows information and gradients to persist over long time intervals more effectively than in a vanilla RNN.</p>
+</section>
+<section id="gradient-norm-experiment-vanilla-rnn-vs-lstm">
+<h2>Gradient norm experiment: Vanilla RNN vs LSTM<a class="headerlink" href="#gradient-norm-experiment-vanilla-rnn-vs-lstm" title="Permalink to this heading">#</a></h2>
+<p>This experiment measures how the gradient with respect to the initial hidden state
+changes as sequence length increases.</p>
+<p>The goal is to show that vanilla RNN gradients often shrink or explode more easily,
+while LSTM gradients tend to be more stable because of the cell-state pathway.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">input_size</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="n">sequence_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+
+<span class="n">vanilla_grad_norms</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">lstm_grad_norms</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">sequence_lengths</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">input_size</span><span class="p">)</span>
+
+    <span class="c1"># -------------------------</span>
+    <span class="c1"># Vanilla RNN</span>
+    <span class="c1"># -------------------------</span>
+    <span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span>
+        <span class="n">input_size</span><span class="o">=</span><span class="n">input_size</span><span class="p">,</span>
+        <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+        <span class="n">nonlinearity</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+        <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">h0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">output</span><span class="p">,</span> <span class="n">hT</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">h0</span><span class="p">)</span>
+
+    <span class="c1"># Simple loss depending on final hidden state</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">hT</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="n">vanilla_grad_norms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h0</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="c1"># -------------------------</span>
+    <span class="c1"># LSTM</span>
+    <span class="c1"># -------------------------</span>
+    <span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span>
+        <span class="n">input_size</span><span class="o">=</span><span class="n">input_size</span><span class="p">,</span>
+        <span class="n">hidden_size</span><span class="o">=</span><span class="n">hidden_size</span><span class="p">,</span>
+        <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="n">h0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="n">hT</span><span class="p">,</span> <span class="n">cT</span><span class="p">)</span> <span class="o">=</span> <span class="n">lstm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">h0</span><span class="p">,</span> <span class="n">c0</span><span class="p">))</span>
+
+    <span class="c1"># Simple loss depending on final hidden state</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">hT</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+    <span class="c1"># We measure gradient with respect to initial cell state,</span>
+    <span class="c1"># because the LSTM&#39;s long-term memory is carried mainly by c_t.</span>
+    <span class="n">lstm_grad_norms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c0</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sequence_lengths</span><span class="p">,</span> <span class="n">vanilla_grad_norms</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Vanilla RNN: ||dL/dh0||&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sequence_lengths</span><span class="p">,</span> <span class="n">lstm_grad_norms</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;LSTM: ||dL/dc0||&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sequence length T&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Gradient norm (log scale)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Gradient norm vs sequence length&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sequence lengths:&quot;</span><span class="p">,</span> <span class="n">sequence_lengths</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Vanilla RNN gradient norms:&quot;</span><span class="p">,</span> <span class="n">vanilla_grad_norms</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LSTM gradient norms:&quot;</span><span class="p">,</span> <span class="n">lstm_grad_norms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/4e784dfb7b0980a8fb308f50577b81586a41f1d77c747ab8d5f05c7cc2476e4d.png" src="../_images/4e784dfb7b0980a8fb308f50577b81586a41f1d77c747ab8d5f05c7cc2476e4d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sequence lengths: [5, 10, 20, 30, 50, 75, 100]
+Vanilla RNN gradient norms: [0.001235905452631414, 8.859116496751085e-05, 3.2984122100288005e-08, 8.546966086264707e-12, 8.89301148636821e-17, 0.0, 0.0]
+LSTM gradient norms: [0.00021355981880333275, 2.077857789117843e-05, 2.3383952907352068e-07, 2.45972642254344e-09, 2.558600304281705e-13, 9.681558132103581e-17, 6.483745598763743e-23]
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="part-v-gru">
@@ -2583,6 +2988,169 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 <li><p>Derive the approximate LSTM memory gradient <span class="math notranslate nohighlight">\(\partial c_t / \partial c_k\)</span>.</p></li>
 <li><p>Explain why <span class="math notranslate nohighlight">\(W_Q\)</span>, <span class="math notranslate nohighlight">\(W_K\)</span>, and <span class="math notranslate nohighlight">\(W_V\)</span> separate similarity search from information retrieval.</p></li>
 </ol>
+<section id="concept-map-vanilla-rnn-leaky-rnn-gru-lstm-and-attention">
+<h2>Concept Map: Vanilla RNN, Leaky RNN, GRU, LSTM, and Attention<a class="headerlink" href="#concept-map-vanilla-rnn-leaky-rnn-gru-lstm-and-attention" title="Permalink to this heading">#</a></h2>
+<p>The models we have studied can be understood as a sequence of increasingly powerful mechanisms for memory and gradient flow.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Main update idea</p></th>
+<th class="head"><p>Memory mechanism</p></th>
+<th class="head"><p>Gradient behavior</p></th>
+<th class="head"><p>Key limitation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vanilla RNN</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_t = \phi(W_hh_{t-1}+W_xx_t+b)\)</span></p></td>
+<td><p>Hidden state only</p></td>
+<td><p>Repeated <span class="math notranslate nohighlight">\(D_tW_h\)</span> products can vanish/explode</p></td>
+<td><p>Poor long-range memory</p></td>
+</tr>
+<tr class="row-odd"><td><p>Leaky RNN</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_t=(1-\alpha)h_{t-1}+\alpha \tilde h_t\)</span></p></td>
+<td><p>Residual mixing with previous state</p></td>
+<td><p>Identity path improves stability</p></td>
+<td><p>Fixed memory rate</p></td>
+</tr>
+<tr class="row-even"><td><p>GRU</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_t=(1-z_t)\odot h_{t-1}+z_t\odot \tilde h_t\)</span></p></td>
+<td><p>Learned update/reset gates</p></td>
+<td><p>Adaptive residual pathway</p></td>
+<td><p>Less explicit memory than LSTM</p></td>
+</tr>
+<tr class="row-odd"><td><p>LSTM</p></td>
+<td><p><span class="math notranslate nohighlight">\(c_t=f_t\odot c_{t-1}+i_t\odot \tilde c_t\)</span></p></td>
+<td><p>Separate cell state</p></td>
+<td><p>Direct cell path helps preserve gradients</p></td>
+<td><p>More parameters and complexity</p></td>
+</tr>
+<tr class="row-even"><td><p>Attention</p></td>
+<td><p><span class="math notranslate nohighlight">\(h_t=\sum_i \alpha_{t,i}V_i\)</span></p></td>
+<td><p>Direct access to all states/tokens</p></td>
+<td><p>Avoids long sequential gradient chains</p></td>
+<td><p>Quadratic cost in sequence length for full attention</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="progression-of-ideas">
+<h2>Progression of ideas<a class="headerlink" href="#progression-of-ideas" title="Permalink to this heading">#</a></h2>
+<section id="vanilla-rnn-recurrence">
+<h3>1. Vanilla RNN: recurrence<a class="headerlink" href="#vanilla-rnn-recurrence" title="Permalink to this heading">#</a></h3>
+<p>The vanilla RNN uses a single hidden state:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \phi(W_hh_{t-1}+W_xx_t+b).
+\]</div>
+<p>It is a learned discrete dynamical system:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = f_\theta(h_{t-1}, x_t).
+\]</div>
+<p>Its main weakness is that gradients require repeated Jacobian products:</p>
+<div class="math notranslate nohighlight">
+\[
+\prod_i D_iW_h.
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="leaky-rnn-residual-memory">
+<h3>2. Leaky RNN: residual memory<a class="headerlink" href="#leaky-rnn-residual-memory" title="Permalink to this heading">#</a></h3>
+<p>The leaky RNN adds a residual path:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-\alpha)h_{t-1}+\alpha \tilde h_t.
+\]</div>
+<p>This gives the Jacobian:</p>
+<div class="math notranslate nohighlight">
+\[
+J_t = (1-\alpha)I+\alpha D_tW_h.
+\]</div>
+<p>The identity component helps preserve gradients.</p>
+</section>
+<hr class="docutils" />
+<section id="gru-learned-residual-memory">
+<h3>3. GRU: learned residual memory<a class="headerlink" href="#gru-learned-residual-memory" title="Permalink to this heading">#</a></h3>
+<p>The GRU generalizes the leaky RNN by replacing the fixed leak rate <span class="math notranslate nohighlight">\(\alpha\)</span> with a learned gate <span class="math notranslate nohighlight">\(z_t\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = (1-z_t)\odot h_{t-1}+z_t\odot \tilde h_t.
+\]</div>
+<p>So the model learns when to preserve memory and when to update it.</p>
+</section>
+<hr class="docutils" />
+<section id="lstm-explicit-memory-cell">
+<h3>4. LSTM: explicit memory cell<a class="headerlink" href="#lstm-explicit-memory-cell" title="Permalink to this heading">#</a></h3>
+<p>The LSTM introduces a separate cell state:</p>
+<div class="math notranslate nohighlight">
+\[
+c_t=f_t\odot c_{t-1}+i_t\odot \tilde c_t.
+\]</div>
+<p>The direct cell path gives:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial c_t}{\partial c_{t-1}}
+=
+\operatorname{diag}(f_t).
+\]</div>
+<p>When <span class="math notranslate nohighlight">\(f_t\approx 1\)</span>, gradients can flow through time with little decay.</p>
+</section>
+<hr class="docutils" />
+<section id="attention-direct-memory-access">
+<h3>5. Attention: direct memory access<a class="headerlink" href="#attention-direct-memory-access" title="Permalink to this heading">#</a></h3>
+<p>Attention changes the paradigm.</p>
+<p>Instead of compressing the past into a recurrent hidden state, attention directly accesses all token representations:</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{Attention}(Q,K,V)
+=
+\operatorname{softmax}
+\left(
+\frac{QK^\top}{\sqrt{d_k}}
+\right)V.
+\]</div>
+<p>The matrices have different roles:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(Q\)</span>: what the current token is looking for,</p></li>
+<li><p><span class="math notranslate nohighlight">\(K\)</span>: what each token offers for matching,</p></li>
+<li><p><span class="math notranslate nohighlight">\(V\)</span>: what information each token carries.</p></li>
+</ul>
+<p>This removes the need for information to pass through many recurrent transitions.</p>
+<p>In an RNN, information from position <span class="math notranslate nohighlight">\(i\)</span> to position <span class="math notranslate nohighlight">\(t\)</span> must travel through many steps:</p>
+<div class="math notranslate nohighlight">
+\[
+h_i \rightarrow h_{i+1} \rightarrow \cdots \rightarrow h_t.
+\]</div>
+<p>In attention, token <span class="math notranslate nohighlight">\(t\)</span> can directly attend to token <span class="math notranslate nohighlight">\(i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+h_t = \sum_i \alpha_{t,i}V_i.
+\]</div>
+<p>Thus, attention replaces sequential memory propagation with direct content-based memory access.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="big-picture">
+<h2>Big picture<a class="headerlink" href="#big-picture" title="Permalink to this heading">#</a></h2>
+<p>The historical development can be summarized as:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Vanilla RNN}
+\rightarrow
+\text{Leaky RNN}
+\rightarrow
+\text{GRU/LSTM}
+\rightarrow
+\text{Attention}.
+\]</div>
+<p>Each step tries to solve the same fundamental problem:</p>
+<blockquote>
+<div><p>How can a model preserve and use information across long sequences without losing gradients?</p>
+</div></blockquote>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -2704,6 +3272,9 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-ii-vanishing-and-exploding-gradients">Part II — Vanishing and Exploding Gradients</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobians-eigenvectors-and-vanishing-exploding-gradients">Jacobians, Eigenvectors, and Vanishing/Exploding Gradients</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connection-to-rnn-gradient-flow">Connection to RNN Gradient Flow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-to-an-arbitrary-gradient-vector">What happens to an arbitrary gradient vector?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norm-based-proof-of-exponential-decay-or-growth">8. Norm-based proof of exponential decay or growth</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spectral-radius-view">9. Spectral-radius view</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-flow-diagram">10. Gradient-flow diagram</a></li>
@@ -2719,6 +3290,9 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iii-implementing-vanilla-rnns">Part III — Implementing Vanilla RNNs</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-pytorch-rnn-layer">13. Built-in PyTorch RNN layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnns-and-residual-recurrence">Leaky RNNs and Residual Recurrence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobian-of-a-leaky-rnn">Jacobian of a Leaky RNN</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-this-helps-gradient-flow">Why this helps gradient flow</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-iv-lstm">Part IV — LSTM</a><ul class="visible nav section-nav flex-column">
@@ -2737,6 +3311,8 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretation">Interpretation</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-note-on-the-lstm-gradient-path">Important Note on the LSTM Gradient Path</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-norm-experiment-vanilla-rnn-vs-lstm">Gradient norm experiment: Vanilla RNN vs LSTM</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-v-gru">Part V — GRU</a><ul class="visible nav section-nav flex-column">
@@ -2764,7 +3340,19 @@ h_t = \phi(W_h h_{t-1} + W_x x_t + b).
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#suggested-exercises">Suggested exercises</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#concept-map-vanilla-rnn-leaky-rnn-gru-lstm-and-attention">Concept Map: Vanilla RNN, Leaky RNN, GRU, LSTM, and Attention</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#progression-of-ideas">Progression of ideas</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanilla-rnn-recurrence">1. Vanilla RNN: recurrence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#leaky-rnn-residual-memory">2. Leaky RNN: residual memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gru-learned-residual-memory">3. GRU: learned residual memory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lstm-explicit-memory-cell">4. LSTM: explicit memory cell</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attention-direct-memory-access">5. Attention: direct memory access</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#big-picture">Big picture</a></li>
+</ul>
+</li>
 </ul>
 
   </nav></div>
