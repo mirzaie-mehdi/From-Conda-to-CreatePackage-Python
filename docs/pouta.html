@@ -1,0 +1,1487 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Create Virtual Machine: CSC Pouta &#8212; From Conda to Create Package in Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/pouta';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Jupyter Book Tutorial" href="jupyter_book_tut.html" />
+    <link rel="prev" title="Working with Virtual Machines, SSH and Remote MLflow Infrastructure" href="Deployment_Infrastructure.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="home.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">From Conda to Create Package in Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="home.html">
+                    Python Installation and Implementation
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Conda Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="SSH.html">SSH Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_github.html">Git and GitHub</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="class.html">Class and Objects</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="References_and_Copies_Beginner_Guide.html">References and Copies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numpy.html">NumPy</a></li>
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="tensors_vs_numpy.html">Tensors in PyTorch: What Changes Compared to the From-Scratch Implementation?</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pandas.html">Pandas: Working with Structured Data in Python</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="eigenvalue_vector.html">Eigenvalues, Eigenvectors, SVD, PCA, Optimization, and Low-Rank Structure for Machine Learning</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="KLdivergence.html">KL divergence and Cross Entropy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="MLP_from_scratch.html">Multilayer Perceptron (MLP) From Scratch</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="pytorch_example.html">Pytorch: An in troduction</a></li>
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="mlp_pytorch_mnist.html">Multilayer Perceptron (MLP) with PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rnn.html">RNN: Recurrent Neural Networks</a></li>
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="GNN.html">Graph Neural Network- GNN</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="gnn_molecules.html">Graph Neural Networks on Molecules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Deployment_Infrastructure.html">Virtual Machine, Deployment and Infrastructure</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Create Virtual Machine: CSC Pouta</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="jupyter_book_tut.html">Jupyter Book Tutorial</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/blob/main/docs/docs/pouta.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/mirzaie-mehdi/From-Conda-to-CreatePackage-Python/issues/new?title=Issue%20on%20page%20%2Fdocs/pouta.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/docs/pouta.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Create Virtual Machine: CSC Pouta</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create Virtual Machine: CSC Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-cloud-vm-iaas-and-openstack">Part 1 — Cloud, VM, IaaS, and OpenStack</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vm">VM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud">Cloud</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iaas">IaaS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openstack">OpenStack</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-concept-check">Exercise 1 — Concept Check</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-pouta-rahti-and-hpc">Part 2 — Pouta, Rahti, and HPC</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pouta">Pouta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rahti">Rahti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-puhti-mahti-lumi">HPC: Puhti, Mahti, LUMI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">Decision Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-choose-the-right-platform">Exercise 2 — Choose the Right Platform</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-creating-and-connecting-to-a-pouta-vm">Part 3 — Creating and Connecting to a Pouta VM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-or-check-ssh-key-pair">Step 1 — Create or Check SSH Key Pair</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-launch-vm-in-horizon">Step 2 — Launch VM in Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-security-group-for-ssh">Step 3 — Security Group for SSH</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-floating-ip">Step 4 — Floating IP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-ssh-into-the-vm">Step 5 — SSH into the VM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-ssh-troubleshooting">Exercise 3 — SSH Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-networking-in-pouta">Part 4 — Networking in Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-concepts">Main Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-pouta-network-topology">Typical Pouta Network Topology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-design-a-secure-network">Exercise 4 — Design a Secure Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-storage-in-pouta">Part 5 — Storage in Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-storage-vs-object-storage">File Storage vs Object Storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-rule">Important Rule</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-working-with-persistent-volumes">Part 6 — Working with Persistent Volumes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-volume-planning">Exercise 5 — Volume Planning</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-working-with-allas">Part 7 — Working with Allas</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ml-workflow-with-10-gb-dataset">Example ML Workflow with 10 GB Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-4-tb-dataset-scenario">Exercise 6 — 4 TB Dataset Scenario</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-machine-learning-setup-on-vm">Part 8 — Machine Learning Setup on VM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example-python-ml-cell">Simple Example Python ML Cell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-ml-pipeline-design">Exercise 7 — ML Pipeline Design</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-9-snapshots">Part 9 — Snapshots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vm-snapshot-via-horizon">VM Snapshot via Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-snapshot-via-horizon">Volume Snapshot via Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-backup-strategy">Exercise 8 — Backup Strategy</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-10-openstack-cli">Part 10 — OpenStack CLI</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-cli-practice">Exercise 9 — CLI Practice</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-11-common-ssh-problems">Part 11 — Common SSH Problems</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#final-assignment-build-a-full-pouta-ml-workflow">Final Assignment — Build a Full Pouta ML Workflow</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverable">Deliverable</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">Final Summary</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="create-virtual-machine-csc-pouta">
+<h1>Create Virtual Machine: CSC Pouta<a class="headerlink" href="#create-virtual-machine-csc-pouta" title="Permalink to this heading">#</a></h1>
+<p>This notebook is a step-by-step  lab guide to explain the concepts in creating virtual machine in pouta service and includes hands-on exercises.</p>
+<blockquote>
+<div><p>Note: Some commands require access to CSC Pouta, Horizon, OpenStack CLI, Allas, and a real VM. Run those cells only in the correct environment.</p>
+</div></blockquote>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permalink to this heading">#</a></h2>
+<p>By the end of this course, students should be able to:</p>
+<ol class="arabic simple">
+<li><p>Explain IaaS, cloud, VM, OpenStack, Pouta, Rahti, and HPC systems.</p></li>
+<li><p>Create and connect to a VM in Pouta.</p></li>
+<li><p>Understand private/public networks, routers, floating IPs, and security groups.</p></li>
+<li><p>Use persistent volumes and Allas object storage correctly.</p></li>
+<li><p>Design a workflow for machine learning using VM + volume + Allas.</p></li>
+<li><p>Take snapshots of VM and volumes.</p></li>
+<li><p>Use OpenStack CLI for basic operations.</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-1-cloud-vm-iaas-and-openstack">
+<h1>Part 1 — Cloud, VM, IaaS, and OpenStack<a class="headerlink" href="#part-1-cloud-vm-iaas-and-openstack" title="Permalink to this heading">#</a></h1>
+<section id="vm">
+<h2>VM<a class="headerlink" href="#vm" title="Permalink to this heading">#</a></h2>
+<p>A virtual machine is a remote Linux computer running on physical hardware in a data center.</p>
+</section>
+<section id="cloud">
+<h2>Cloud<a class="headerlink" href="#cloud" title="Permalink to this heading">#</a></h2>
+<p>Cloud means a pool of remote resources such as CPU, RAM, storage, and network that users can request on demand.</p>
+</section>
+<section id="iaas">
+<h2>IaaS<a class="headerlink" href="#iaas" title="Permalink to this heading">#</a></h2>
+<p>Infrastructure as a Service gives you low-level infrastructure:</p>
+<ul class="simple">
+<li><p>VM</p></li>
+<li><p>Storage</p></li>
+<li><p>Network</p></li>
+<li><p>IP addresses</p></li>
+</ul>
+<p>Examples:</p>
+<ul class="simple">
+<li><p>CSC Pouta</p></li>
+<li><p>AWS EC2</p></li>
+<li><p>Azure Virtual Machines</p></li>
+<li><p>Google Compute Engine</p></li>
+</ul>
+</section>
+<section id="openstack">
+<h2>OpenStack<a class="headerlink" href="#openstack" title="Permalink to this heading">#</a></h2>
+<p>OpenStack is software that manages cloud infrastructure. It allows users to create VMs, networks, routers, volumes, and floating IPs.</p>
+</section>
+<section id="exercise-1-concept-check">
+<h2>Exercise 1 — Concept Check<a class="headerlink" href="#exercise-1-concept-check" title="Permalink to this heading">#</a></h2>
+<p>Answer in your own words:</p>
+<ol class="arabic simple">
+<li><p>What is the difference between a VM and a physical server?</p></li>
+<li><p>Why is Pouta considered IaaS?</p></li>
+<li><p>What does OpenStack manage?</p></li>
+<li><p>Why is a cloud more flexible than using a single local PC?</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-2-pouta-rahti-and-hpc">
+<h1>Part 2 — Pouta, Rahti, and HPC<a class="headerlink" href="#part-2-pouta-rahti-and-hpc" title="Permalink to this heading">#</a></h1>
+<section id="pouta">
+<h2>Pouta<a class="headerlink" href="#pouta" title="Permalink to this heading">#</a></h2>
+<p>Pouta is an OpenStack-based cloud service where you create VMs and manage them yourself. You usually have <code class="docutils literal notranslate"><span class="pre">sudo</span></code>/root-level control.</p>
+</section>
+<section id="rahti">
+<h2>Rahti<a class="headerlink" href="#rahti" title="Permalink to this heading">#</a></h2>
+<p>Rahti is a container platform based on Kubernetes/OpenShift. You deploy containerized applications but usually do not have root access.</p>
+</section>
+<section id="hpc-puhti-mahti-lumi">
+<h2>HPC: Puhti, Mahti, LUMI<a class="headerlink" href="#hpc-puhti-mahti-lumi" title="Permalink to this heading">#</a></h2>
+<p>HPC systems are for batch jobs and large-scale computations.</p>
+<p>Typical usage:</p>
+<ul class="simple">
+<li><p>Puhti: general CPU and bioinformatics workflows</p></li>
+<li><p>Mahti: large CPU-parallel workloads</p></li>
+<li><p>LUMI: large GPU/HPC workloads</p></li>
+</ul>
+</section>
+<section id="decision-table">
+<h2>Decision Table<a class="headerlink" href="#decision-table" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Need</p></th>
+<th class="head"><p>Best choice</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>VM with root access</p></td>
+<td><p>Pouta</p></td>
+</tr>
+<tr class="row-odd"><td><p>Deploy containerized web app/API</p></td>
+<td><p>Rahti</p></td>
+</tr>
+<tr class="row-even"><td><p>CPU-parallel batch job</p></td>
+<td><p>Puhti or Mahti</p></td>
+</tr>
+<tr class="row-odd"><td><p>Large GPU deep learning</p></td>
+<td><p>LUMI</p></td>
+</tr>
+<tr class="row-even"><td><p>Persistent database/app service</p></td>
+<td><p>Pouta or DBaaS</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="exercise-2-choose-the-right-platform">
+<h2>Exercise 2 — Choose the Right Platform<a class="headerlink" href="#exercise-2-choose-the-right-platform" title="Permalink to this heading">#</a></h2>
+<p>Choose Pouta, Rahti, Puhti/Mahti, or LUMI:</p>
+<ol class="arabic simple">
+<li><p>You want to host a FastAPI model inference API.</p></li>
+<li><p>You want to train a large deep learning model on GPUs.</p></li>
+<li><p>You want a VM where you can install any Linux package.</p></li>
+<li><p>You want to run a CPU-parallel simulation.</p></li>
+<li><p>You want to deploy a Dockerized app without managing a VM.</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-3-creating-and-connecting-to-a-pouta-vm">
+<h1>Part 3 — Creating and Connecting to a Pouta VM<a class="headerlink" href="#part-3-creating-and-connecting-to-a-pouta-vm" title="Permalink to this heading">#</a></h1>
+<p>General workflow:</p>
+<ol class="arabic simple">
+<li><p>Create a CSC account.</p></li>
+<li><p>Create a CSC project.</p></li>
+<li><p>Activate cPouta service.</p></li>
+<li><p>Create or import SSH key pair.</p></li>
+<li><p>Create a VM.</p></li>
+<li><p>Open SSH in security group.</p></li>
+<li><p>Attach floating IP.</p></li>
+<li><p>Connect with SSH.</p></li>
+</ol>
+<section id="step-1-create-or-check-ssh-key-pair">
+<h2>Step 1 — Create or Check SSH Key Pair<a class="headerlink" href="#step-1-create-or-check-ssh-key-pair" title="Permalink to this heading">#</a></h2>
+<p>Run locally on your laptop, not inside the VM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Check whether you already have SSH keys</span>
+<span class="o">!</span>ls<span class="w"> </span>-la<span class="w"> </span>~/.ssh
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>total 88
+drwx------  14 mehdimir  984178727   448 Apr 14 16:52 <span class=" -Color -Color-Blue">.</span>
+drwxr-x---+ 88 mehdimir  984178727  2816 Apr 28 12:45 <span class=" -Color -Color-Blue">..</span>
+drwx------   3 mehdimir  984178727    96 Apr 14 10:24 <span class=" -Color -Color-Blue">agent</span>
+-rw-r--r--@  1 mehdimir  984178727   294 Dec  3 13:28 config
+-r--------@  1 mehdimir  984178727  1856 Apr  8  2025 cpouta_training.pem
+-rw-------   1 mehdimir  984178727   464 Jun  4  2025 id_ed25519
+-rw-r--r--   1 mehdimir  984178727   110 Jun  4  2025 id_ed25519.pub
+-rw-------   1 mehdimir  984178727  2635 Dec 15  2023 id_rsa
+-rw-r--r--   1 mehdimir  984178727   596 Dec 15  2023 id_rsa.pub
+-rw-------   1 mehdimir  984178727  3519 Apr  8  2025 id_rsa_cpouta
+-rw-r--r--   1 mehdimir  984178727   804 Apr  8  2025 id_rsa_cpouta.pub
+-rw-------   1 mehdimir  984178727  3730 Apr 14 16:52 known_hosts
+-rw-------   1 mehdimir  984178727  3337 Dec 10 12:59 known_hosts.old
+-rw-------@  1 mehdimir  984178727   411 Dec  3 13:26 mlops_key
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new SSH key if needed</span>
+<span class="c1"># Uncomment and run in a terminal, not necessarily inside Jupyter:</span>
+<span class="c1"># ssh-keygen -t ed25519 -f ~/.ssh/pouta_key</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-launch-vm-in-horizon">
+<h2>Step 2 — Launch VM in Horizon<a class="headerlink" href="#step-2-launch-vm-in-horizon" title="Permalink to this heading">#</a></h2>
+<p>In Horizon:</p>
+<ol class="arabic simple">
+<li><p>Go to <strong>Compute → Instances</strong>.</p></li>
+<li><p>Click <strong>Launch Instance</strong>.</p></li>
+<li><p>Choose:</p>
+<ul class="simple">
+<li><p>Name</p></li>
+<li><p>Image: Ubuntu / Rocky / AlmaLinux</p></li>
+<li><p>Flavor: VM size</p></li>
+<li><p>Network</p></li>
+<li><p>Key pair</p></li>
+</ul>
+</li>
+<li><p>Launch the instance.</p></li>
+</ol>
+</section>
+<section id="step-3-security-group-for-ssh">
+<h2>Step 3 — Security Group for SSH<a class="headerlink" href="#step-3-security-group-for-ssh" title="Permalink to this heading">#</a></h2>
+<p>Open port 22:</p>
+<ul class="simple">
+<li><p>Protocol: TCP</p></li>
+<li><p>Port: 22</p></li>
+<li><p>Source: your IP or <code class="docutils literal notranslate"><span class="pre">0.0.0.0/0</span></code> for testing only</p></li>
+</ul>
+<p>Better security: restrict SSH to your own IP.</p>
+</section>
+<section id="step-4-floating-ip">
+<h2>Step 4 — Floating IP<a class="headerlink" href="#step-4-floating-ip" title="Permalink to this heading">#</a></h2>
+<p>A VM normally has a private IP. To connect from outside, attach a floating IP.</p>
+<p>Private IP example:
+<code class="docutils literal notranslate"><span class="pre">192.168.0.5</span></code></p>
+<p>Public/Floating IP example:
+<code class="docutils literal notranslate"><span class="pre">86.50.x.x</span></code></p>
+</section>
+<section id="step-5-ssh-into-the-vm">
+<h2>Step 5 — SSH into the VM<a class="headerlink" href="#step-5-ssh-into-the-vm" title="Permalink to this heading">#</a></h2>
+<p>Use the correct username for the image:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Image</p></th>
+<th class="head"><p>Username</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ubuntu</p></td>
+<td><p>ubuntu</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rocky Linux</p></td>
+<td><p>rocky</p></td>
+</tr>
+<tr class="row-even"><td><p>CentOS</p></td>
+<td><p>centos</p></td>
+</tr>
+<tr class="row-odd"><td><p>Debian</p></td>
+<td><p>debian</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example SSH command</span>
+<span class="c1"># Replace key path, username, and IP:</span>
+<span class="c1"># ssh -i ~/.ssh/pouta_key rocky@PUBLIC_IP</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-3-ssh-troubleshooting">
+<h2>Exercise 3 — SSH Troubleshooting<a class="headerlink" href="#exercise-3-ssh-troubleshooting" title="Permalink to this heading">#</a></h2>
+<p>For each case, write the likely cause:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Permission</span> <span class="pre">denied</span> <span class="pre">(publickey)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">timed</span> <span class="pre">out</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Too</span> <span class="pre">many</span> <span class="pre">authentication</span> <span class="pre">failures</span></code></p></li>
+<li><p>You used <code class="docutils literal notranslate"><span class="pre">root&#64;PUBLIC_IP</span></code> and login failed</p></li>
+<li><p>SSH worked yesterday but not today after reassigning floating IP</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-4-networking-in-pouta">
+<h1>Part 4 — Networking in Pouta<a class="headerlink" href="#part-4-networking-in-pouta" title="Permalink to this heading">#</a></h1>
+<section id="main-concepts">
+<h2>Main Concepts<a class="headerlink" href="#main-concepts" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Internal/private network:</strong> network where VMs communicate using private IPs.</p></li>
+<li><p><strong>External/public network:</strong> network connected to the internet.</p></li>
+<li><p><strong>Router:</strong> connects internal network to external network.</p></li>
+<li><p><strong>Floating IP:</strong> public IP mapped to a VM.</p></li>
+<li><p><strong>Security group:</strong> firewall rules.</p></li>
+</ul>
+</section>
+<section id="typical-pouta-network-topology">
+<h2>Typical Pouta Network Topology<a class="headerlink" href="#typical-pouta-network-topology" title="Permalink to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Laptop
+  ↓
+Internet
+  ↓
+Floating IP
+  ↓
+Virtual Router
+  ↓
+Private Network
+  ↓
+VM
+</pre></div>
+</div>
+<p>VMs can talk to each other through private IPs, but inbound internet access requires floating IP and firewall rules.</p>
+</section>
+<section id="exercise-4-design-a-secure-network">
+<h2>Exercise 4 — Design a Secure Network<a class="headerlink" href="#exercise-4-design-a-secure-network" title="Permalink to this heading">#</a></h2>
+<p>Design a setup with:</p>
+<ul class="simple">
+<li><p>VM1 = API server, public</p></li>
+<li><p>VM2 = database server, private</p></li>
+</ul>
+<p>Questions:</p>
+<ol class="arabic simple">
+<li><p>Which VM gets a floating IP?</p></li>
+<li><p>Which VM should expose port 22?</p></li>
+<li><p>Should the database expose port 5432 to the internet?</p></li>
+<li><p>How should VM1 reach VM2?</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-5-storage-in-pouta">
+<h1>Part 5 — Storage in Pouta<a class="headerlink" href="#part-5-storage-in-pouta" title="Permalink to this heading">#</a></h1>
+<p>Pouta storage types:</p>
+<ol class="arabic simple">
+<li><p><strong>Root disk</strong></p>
+<ul class="simple">
+<li><p>Contains OS</p></li>
+<li><p>Deleted when VM is deleted</p></li>
+</ul>
+</li>
+<li><p><strong>Ephemeral storage</strong></p>
+<ul class="simple">
+<li><p>Temporary</p></li>
+<li><p>Fast but unreliable</p></li>
+<li><p>Not included in VM snapshot</p></li>
+</ul>
+</li>
+<li><p><strong>Persistent volume</strong></p>
+<ul class="simple">
+<li><p>Separate disk</p></li>
+<li><p>Survives VM deletion</p></li>
+<li><p>Attach to one VM at a time</p></li>
+</ul>
+</li>
+<li><p><strong>Allas object storage</strong></p>
+<ul class="simple">
+<li><p>Large object storage</p></li>
+<li><p>API-based</p></li>
+<li><p>Not a normal filesystem</p></li>
+</ul>
+</li>
+</ol>
+<section id="file-storage-vs-object-storage">
+<h2>File Storage vs Object Storage<a class="headerlink" href="#file-storage-vs-object-storage" title="Permalink to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Persistent Volume</p></th>
+<th class="head"><p>Allas Object Storage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Looks like disk</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>Direct edit</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>Access method</p></td>
+<td><p>OS filesystem</p></td>
+<td><p>API / a-commands</p></td>
+</tr>
+<tr class="row-odd"><td><p>Good for ML training</p></td>
+<td><p>Yes</p></td>
+<td><p>Not directly</p></td>
+</tr>
+<tr class="row-even"><td><p>Good for backup/archive</p></td>
+<td><p>Yes, smaller scale</p></td>
+<td><p>Yes, large scale</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="important-rule">
+<h2>Important Rule<a class="headerlink" href="#important-rule" title="Permalink to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Allas = warehouse
+Volume = workspace
+VM = compute
+</pre></div>
+</div>
+<p>For ML:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Allas → download → Volume → train → upload results → Allas
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-6-working-with-persistent-volumes">
+<h1>Part 6 — Working with Persistent Volumes<a class="headerlink" href="#part-6-working-with-persistent-volumes" title="Permalink to this heading">#</a></h1>
+<p>After creating a volume in Horizon and attaching it to a VM, it appears as a new block device.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run inside VM to inspect disks</span>
+<span class="c1"># lsblk</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: format and mount a new volume</span>
+<span class="c1"># WARNING: mkfs erases data on the device. Use only on a new empty volume.</span>
+<span class="c1"># sudo mkfs.ext4 /dev/vdb</span>
+<span class="c1"># sudo mkdir -p /data</span>
+<span class="c1"># sudo mount /dev/vdb /data</span>
+<span class="c1"># df -h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="exercise-5-volume-planning">
+<h2>Exercise 5 — Volume Planning<a class="headerlink" href="#exercise-5-volume-planning" title="Permalink to this heading">#</a></h2>
+<p>You have:</p>
+<ul class="simple">
+<li><p>10 GB dataset</p></li>
+<li><p>20 GB intermediate files</p></li>
+<li><p>5 GB model outputs</p></li>
+</ul>
+<p>Questions:</p>
+<ol class="arabic simple">
+<li><p>What volume size would you create?</p></li>
+<li><p>Why should you not store everything on root disk?</p></li>
+<li><p>What should be uploaded back to Allas?</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-7-working-with-allas">
+<h1>Part 7 — Working with Allas<a class="headerlink" href="#part-7-working-with-allas" title="Permalink to this heading">#</a></h1>
+<p>Allas is object storage. You cannot directly edit files inside Allas like a normal disk.</p>
+<p>Workflow:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>download → modify → upload
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example Allas commands</span>
+<span class="c1"># a-list</span>
+<span class="c1"># a-get bucket-name/dataset.csv</span>
+<span class="c1"># a-put results.csv</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="example-ml-workflow-with-10-gb-dataset">
+<h2>Example ML Workflow with 10 GB Dataset<a class="headerlink" href="#example-ml-workflow-with-10-gb-dataset" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Create VM.</p></li>
+<li><p>Attach 50–100 GB persistent volume.</p></li>
+<li><p>Download dataset from Allas to <code class="docutils literal notranslate"><span class="pre">/data</span></code>.</p></li>
+<li><p>Train model using files under <code class="docutils literal notranslate"><span class="pre">/data</span></code>.</p></li>
+<li><p>Save model and results.</p></li>
+<li><p>Upload model/results to Allas.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example directory structure</span>
+<span class="c1"># mkdir -p /data/project/{raw,processed,models,results}</span>
+<span class="c1"># cd /data/project</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example Python loading from volume</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="s2">&quot;/data/project/raw&quot;</span>
+<span class="n">model_path</span> <span class="o">=</span> <span class="s2">&quot;/data/project/models/model.pt&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data path:&quot;</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model output path:&quot;</span><span class="p">,</span> <span class="n">model_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data path: /data/project/raw
+Model output path: /data/project/models/model.pt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-6-4-tb-dataset-scenario">
+<h2>Exercise 6 — 4 TB Dataset Scenario<a class="headerlink" href="#exercise-6-4-tb-dataset-scenario" title="Permalink to this heading">#</a></h2>
+<p>Your database is 4 TB in Allas, but your volume quota is 1 TB.</p>
+<p>Design a strategy using one of:</p>
+<ol class="arabic simple">
+<li><p>Subset selection</p></li>
+<li><p>Chunking</p></li>
+<li><p>Streaming</p></li>
+<li><p>Request more quota</p></li>
+<li><p>Move computation to suitable HPC/storage environment</p></li>
+</ol>
+<p>Write your proposed workflow.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-8-machine-learning-setup-on-vm">
+<h1>Part 8 — Machine Learning Setup on VM<a class="headerlink" href="#part-8-machine-learning-setup-on-vm" title="Permalink to this heading">#</a></h1>
+<p>Use the VM like a normal Linux server.</p>
+<p>For Ubuntu:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>python3-venv<span class="w"> </span>git
+</pre></div>
+</div>
+<p>For Rocky/CentOS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>python3<span class="w"> </span>git
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example Python virtual environment commands</span>
+<span class="c1"># python3 -m venv ~/venvs/ml</span>
+<span class="c1"># source ~/venvs/ml/bin/activate</span>
+<span class="c1"># pip install --upgrade pip</span>
+<span class="c1"># pip install numpy pandas scikit-learn torch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="simple-example-python-ml-cell">
+<h2>Simple Example Python ML Cell<a class="headerlink" href="#simple-example-python-ml-cell" title="Permalink to this heading">#</a></h2>
+<p>This cell is executable anywhere and shows the idea of loading data and training a simple model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">pred</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 1.0
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exercise-7-ml-pipeline-design">
+<h2>Exercise 7 — ML Pipeline Design<a class="headerlink" href="#exercise-7-ml-pipeline-design" title="Permalink to this heading">#</a></h2>
+<p>For a cell-line dataset:</p>
+<ol class="arabic simple">
+<li><p>Where do you store raw data?</p></li>
+<li><p>Where do you store temporary processed data?</p></li>
+<li><p>Where do you train the model?</p></li>
+<li><p>Where do you save final model files?</p></li>
+<li><p>What should be backed up?</p></li>
+</ol>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-9-snapshots">
+<h1>Part 9 — Snapshots<a class="headerlink" href="#part-9-snapshots" title="Permalink to this heading">#</a></h1>
+<p>Snapshot = saved state of a VM or volume.</p>
+<p>Important:</p>
+<ul class="simple">
+<li><p>VM snapshot does not include ephemeral storage.</p></li>
+<li><p>If data is on a volume, take a volume snapshot separately.</p></li>
+<li><p>Best practice: power off VM before snapshot.</p></li>
+</ul>
+<section id="vm-snapshot-via-horizon">
+<h2>VM Snapshot via Horizon<a class="headerlink" href="#vm-snapshot-via-horizon" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Go to <strong>Compute → Instances</strong>.</p></li>
+<li><p>Stop the VM.</p></li>
+<li><p>Click <strong>Actions → Create Snapshot</strong>.</p></li>
+<li><p>Name it clearly.</p></li>
+<li><p>Find it under <strong>Compute → Images</strong>.</p></li>
+</ol>
+</section>
+<section id="volume-snapshot-via-horizon">
+<h2>Volume Snapshot via Horizon<a class="headerlink" href="#volume-snapshot-via-horizon" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Go to <strong>Volumes → Volumes</strong>.</p></li>
+<li><p>Select the volume.</p></li>
+<li><p>Create snapshot.</p></li>
+<li><p>Find it under <strong>Volumes → Snapshots</strong>.</p></li>
+</ol>
+</section>
+<section id="exercise-8-backup-strategy">
+<h2>Exercise 8 — Backup Strategy<a class="headerlink" href="#exercise-8-backup-strategy" title="Permalink to this heading">#</a></h2>
+<p>You have:</p>
+<ul class="simple">
+<li><p>VM with Python environment</p></li>
+<li><p>Persistent volume with data</p></li>
+<li><p>Results uploaded to Allas</p></li>
+</ul>
+<p>What snapshots/backups do you need before starting a risky software update?</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-10-openstack-cli">
+<h1>Part 10 — OpenStack CLI<a class="headerlink" href="#part-10-openstack-cli" title="Permalink to this heading">#</a></h1>
+<p>CLI lets you manage Pouta from terminal.</p>
+<p>Setup:</p>
+<ol class="arabic simple">
+<li><p>Install Python.</p></li>
+<li><p>Install OpenStack client.</p></li>
+<li><p>Download project RC file from Horizon.</p></li>
+<li><p>Source the RC file.</p></li>
+<li><p>Run OpenStack commands.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install client</span>
+<span class="c1"># pip install --user python-openstackclient</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source RC file</span>
+<span class="c1"># source project-openrc.sh</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Useful commands</span>
+<span class="c1"># openstack server list</span>
+<span class="c1"># openstack volume list</span>
+<span class="c1"># openstack floating ip list</span>
+<span class="c1"># openstack network list</span>
+<span class="c1"># openstack security group list</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="exercise-9-cli-practice">
+<h2>Exercise 9 — CLI Practice<a class="headerlink" href="#exercise-9-cli-practice" title="Permalink to this heading">#</a></h2>
+<p>Run these commands and record the output:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">openstack</span> <span class="pre">server</span> <span class="pre">list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openstack</span> <span class="pre">network</span> <span class="pre">list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openstack</span> <span class="pre">volume</span> <span class="pre">list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">openstack</span> <span class="pre">floating</span> <span class="pre">ip</span> <span class="pre">list</span></code></p></li>
+</ol>
+<p>Then answer:</p>
+<ul class="simple">
+<li><p>How many VMs exist?</p></li>
+<li><p>How many floating IPs are allocated?</p></li>
+<li><p>How many volumes exist?</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="part-11-common-ssh-problems">
+<h1>Part 11 — Common SSH Problems<a class="headerlink" href="#part-11-common-ssh-problems" title="Permalink to this heading">#</a></h1>
+<p>Checklist:</p>
+<ol class="arabic simple">
+<li><p>Is VM running?</p></li>
+<li><p>Is floating IP attached?</p></li>
+<li><p>Is port 22 open in security group?</p></li>
+<li><p>Is username correct?</p></li>
+<li><p>Is private key correct?</p></li>
+<li><p>Are file permissions correct?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fix private key permissions</span>
+<span class="c1"># chmod 600 ~/.ssh/pouta_key</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="final-assignment-build-a-full-pouta-ml-workflow">
+<h1>Final Assignment — Build a Full Pouta ML Workflow<a class="headerlink" href="#final-assignment-build-a-full-pouta-ml-workflow" title="Permalink to this heading">#</a></h1>
+<section id="task">
+<h2>Task<a class="headerlink" href="#task" title="Permalink to this heading">#</a></h2>
+<p>Design and document a full workflow for a 10 GB cell-line dataset stored in Allas.</p>
+<p>Your answer must include:</p>
+<ol class="arabic simple">
+<li><p>VM flavor choice and justification.</p></li>
+<li><p>Network setup.</p></li>
+<li><p>Security group rules.</p></li>
+<li><p>Storage design.</p></li>
+<li><p>Allas download/upload workflow.</p></li>
+<li><p>ML environment setup.</p></li>
+<li><p>Snapshot/backup strategy.</p></li>
+<li><p>What changes if the dataset grows to 4 TB?</p></li>
+</ol>
+</section>
+<section id="deliverable">
+<h2>Deliverable<a class="headerlink" href="#deliverable" title="Permalink to this heading">#</a></h2>
+<p>Submit:</p>
+<ul class="simple">
+<li><p>A diagram</p></li>
+<li><p>Command list</p></li>
+<li><p>Short explanation of each component</p></li>
+</ul>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="final-summary">
+<h1>Final Summary<a class="headerlink" href="#final-summary" title="Permalink to this heading">#</a></h1>
+<p>Key concepts:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Pouta = VM-based cloud
+Rahti = container platform
+LUMI/Puhti/Mahti = HPC systems
+Allas = object storage
+Volume = persistent working disk
+Floating IP = public access to VM
+Security group = firewall
+Snapshot = saved state
+</pre></div>
+</div>
+<p>Golden rule:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Use Allas for storing large datasets.
+Use volumes for active computation.
+Use VMs for running code.
+Use snapshots/backups before risky changes.
+</pre></div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Deployment_Infrastructure.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Working with Virtual Machines, SSH and Remote MLflow Infrastructure</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="jupyter_book_tut.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Jupyter Book Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Create Virtual Machine: CSC Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-1-cloud-vm-iaas-and-openstack">Part 1 — Cloud, VM, IaaS, and OpenStack</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vm">VM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cloud">Cloud</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iaas">IaaS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openstack">OpenStack</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-concept-check">Exercise 1 — Concept Check</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-2-pouta-rahti-and-hpc">Part 2 — Pouta, Rahti, and HPC</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pouta">Pouta</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rahti">Rahti</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-puhti-mahti-lumi">HPC: Puhti, Mahti, LUMI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-table">Decision Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-choose-the-right-platform">Exercise 2 — Choose the Right Platform</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-3-creating-and-connecting-to-a-pouta-vm">Part 3 — Creating and Connecting to a Pouta VM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-create-or-check-ssh-key-pair">Step 1 — Create or Check SSH Key Pair</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-launch-vm-in-horizon">Step 2 — Launch VM in Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-security-group-for-ssh">Step 3 — Security Group for SSH</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-floating-ip">Step 4 — Floating IP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-ssh-into-the-vm">Step 5 — SSH into the VM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-ssh-troubleshooting">Exercise 3 — SSH Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-4-networking-in-pouta">Part 4 — Networking in Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-concepts">Main Concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-pouta-network-topology">Typical Pouta Network Topology</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-design-a-secure-network">Exercise 4 — Design a Secure Network</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-5-storage-in-pouta">Part 5 — Storage in Pouta</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-storage-vs-object-storage">File Storage vs Object Storage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#important-rule">Important Rule</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-6-working-with-persistent-volumes">Part 6 — Working with Persistent Volumes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-volume-planning">Exercise 5 — Volume Planning</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-7-working-with-allas">Part 7 — Working with Allas</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-ml-workflow-with-10-gb-dataset">Example ML Workflow with 10 GB Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-6-4-tb-dataset-scenario">Exercise 6 — 4 TB Dataset Scenario</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-8-machine-learning-setup-on-vm">Part 8 — Machine Learning Setup on VM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example-python-ml-cell">Simple Example Python ML Cell</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-7-ml-pipeline-design">Exercise 7 — ML Pipeline Design</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-9-snapshots">Part 9 — Snapshots</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vm-snapshot-via-horizon">VM Snapshot via Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-snapshot-via-horizon">Volume Snapshot via Horizon</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-8-backup-strategy">Exercise 8 — Backup Strategy</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-10-openstack-cli">Part 10 — OpenStack CLI</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-9-cli-practice">Exercise 9 — CLI Practice</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#part-11-common-ssh-problems">Part 11 — Common SSH Problems</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#final-assignment-build-a-full-pouta-ml-workflow">Final Assignment — Build a Full Pouta ML Workflow</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deliverable">Deliverable</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#final-summary">Final Summary</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mehdi Mirzaie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
